@@ -43,7 +43,7 @@ register.post("/student", (req, res) => {
         res.json({responseJSONFormat});
     });
 
-    databaseConnection.checkUsername(req.body.username, req.body.email);
+    databaseConnection.checkUsernameAndEmail(req.body.username, req.body.email);
 });
 
 // this route can only be accessed by admin

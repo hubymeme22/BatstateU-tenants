@@ -54,4 +54,22 @@ export class AdminMongoDBConnection extends MongoDBConnection {
             access: 'admin'
         });
     }
+
+    // verifies a student account from pending
+    verifyStudent(username) {
+        Pending.findOne({ username: username })
+            .then(userdata => {
+                if (userdata != null) {
+                    const newAccount = new Account({
+                        username: userdata.username,
+                        email: userdata.email,
+                        password: userdata.password,
+                        name: userdata.name
+                    });
+                    return newAccount.save().then(this.acceptCallback).catch(this.rejectCallback);
+                }
+
+                this.rejectCallback("alredy_verified");
+            }).catch(this.rejectCallback);
+    }
 }
