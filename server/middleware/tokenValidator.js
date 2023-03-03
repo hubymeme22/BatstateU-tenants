@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import paramChecker from "../modules/paramchecker";
+import paramChecker from "../modules/paramchecker.js";
 
 let initialJSONFormat = {};
 let secretKey = process.env.SECRET_KEY;
