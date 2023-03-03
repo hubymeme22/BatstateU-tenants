@@ -22,6 +22,13 @@ export class MongoDBConnection {
             .catch(this.rejectCallback);
     }
 
+    // tries to login the account
+    login(username, password) {
+        Account.findOne({ username: username, password: password })
+            .then(this.acceptCallback)
+            .catch(this.rejectCallback);
+    }
+
     // registers a student account
     registerStudent(username, email, password, nameJSON) {
         const pendingAccount = new Pending({
