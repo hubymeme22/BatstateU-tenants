@@ -23,9 +23,10 @@ export class MongoDBConnection {
     }
 
     // registers a student account
-    registerStudent(username, password, nameJSON) {
+    registerStudent(username, email, password, nameJSON) {
         const pendingAccount = new Pending({
             username: username,
+            email: email,
             password: password,
             name: nameJSON
         });
@@ -64,9 +65,12 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                         username: userdata.username,
                         email: userdata.email,
                         password: userdata.password,
-                        name: userdata.name
+                        name: userdata.name,
+                        access: 'student'
                     });
-                    return newAccount.save().then(this.acceptCallback).catch(this.rejectCallback);
+                    Pending.deleteOne({ username: username }).then(userdata => {
+                        return newAccount.save().then(this.acceptCallback).catch(this.rejectCallback);
+                    }).catch(this.rejectCallback);
                 }
 
                 this.rejectCallback("alredy_verified");

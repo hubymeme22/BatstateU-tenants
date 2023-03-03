@@ -40,7 +40,7 @@ register.post("/student", (req, res) => {
 
     databaseConnection.setRejectCallback((error) => {
         responseJSONFormat['error'] = error;
-        res.json({responseJSONFormat});
+        res.json(responseJSONFormat);
     });
 
     databaseConnection.checkUsernameAndEmail(req.body.username, req.body.email);

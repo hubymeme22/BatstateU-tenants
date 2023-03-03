@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# server testing purposes route
+server/api/routes/sample.js
