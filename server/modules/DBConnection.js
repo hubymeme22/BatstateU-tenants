@@ -51,16 +51,19 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     }
 
     // registers an admin account
-    registerAdmin(username, password, nameJSON) {
+    registerAdmin(username, email, password, nameJSON) {
         if (this.userTokenData.access != 'admin')
             return this.rejectCallback('InsufficientPermission');
 
         const adminAccount = new Account({
             username: username,
+            email: email,
             password: password,
             name: nameJSON,
             access: 'admin'
         });
+
+        adminAccount.save(this.acceptCallback).catch(this.rejectCallback);
     }
 
     // verifies a student account from pending
