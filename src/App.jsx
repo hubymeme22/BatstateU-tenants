@@ -1,7 +1,15 @@
-import React from "react";
+import React from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { userRoutes, adminRoutes, errorRoute } from './utils/routes';
+
+const router = createBrowserRouter([...userRoutes, ...adminRoutes, errorRoute]);
 
 function App() {
-  return <h1>Project</h1>
+  return (
+    <>
+      <RouterProvider router={router} />
+    </>
+  );
 }
 
-export default App
+export default App;
