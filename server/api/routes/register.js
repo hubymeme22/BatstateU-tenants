@@ -1,5 +1,5 @@
 import { Router } from "express";
-// import { postRequestPermission, setJSONPacketFormat } from "../../middleware/tokenValidator.js";
+import { postRequestPermission, setJSONPacketFormat } from "../../middleware/tokenValidator.js";
 import { AdminMongoDBConnection, MongoDBConnection } from "../../modules/DBConnection.js";
 import paramChecker from "../../modules/paramchecker.js";
 

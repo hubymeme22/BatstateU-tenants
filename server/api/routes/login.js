@@ -16,7 +16,7 @@ login.post('/', (req, res) => {
     const dbConnection = new MongoDBConnection();
     dbConnection.setAcceptCallback(userdata => {
         if (userdata != null) {
-            delete userdata['password'];
+            userdata['password'] = 'oh no, why u lookin?';
             responseFormat.token = jwt.sign({userdata}, process.env.SECRET_KEY);
             responseFormat.isLoggedIn = true
             return res.json(responseFormat);
