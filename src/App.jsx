@@ -1,13 +1,10 @@
 import React from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { userRoutes, adminRoutes, errorRoute } from './utils/routes';
-
-const router = createBrowserRouter([...userRoutes, ...adminRoutes, errorRoute]);
+import RoutingSystem from './routes/_routing';
 
 function App() {
   return (
     <>
-      <RouterProvider router={router} />
+      <RoutingSystem />
     </>
   );
 }
