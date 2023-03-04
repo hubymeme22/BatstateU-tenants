@@ -1,3 +1,4 @@
+import './styles/reset.css';
 import React from 'react';
 import RoutingSystem from './routes/_routing';
 
