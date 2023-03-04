@@ -1,11 +1,29 @@
 import mongoose from "mongoose";
 
-const canteenSchema = new mongoose.Schema({
+// slot: unit code (label)
+// user: registered user
+const room = new mongoose.Schema({
     slot: {
         type: String,
+        unique: true,
         required: true
     },
-
+    users: {
+        type: [String],
+        default: ''
+    },
+    bills: {
+        type: Array,
+        required: true
+    },
+    max_slot: {
+        type: Number,
+        required: true
+    },
+    available_slot: {
+        type: Number,
+        required: true
+    },
     status: {
         type: String,
         required: true,
@@ -13,16 +31,4 @@ const canteenSchema = new mongoose.Schema({
     }
 });
 
-const dormSchema = new mongoose.Schema({
-    tennantsUser: {
-        type: Array[String],
-        required: true
-    },
-    max_slot: {
-        type: Int,
-        required: true
-    }
-});
-
-export const CanteenRoom = mongoose.model('canteen', canteenSchema);
-export const DormRoom = mongoose.model('dorm', dormSchema);
+export const Room = mongoose.model('room', room);
