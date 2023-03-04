@@ -112,6 +112,9 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
     // gets units with specified filter
     getUnit(filterQuery) {
+        if (this.userTokenData.access != 'admin')
+            return this.rejectCallback('InsufficientPermission');
+
         Room.find(filterQuery).then(this.acceptCallback).catch(err => {
             console.log(err);
             this.rejectCallback(err)
@@ -120,6 +123,21 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
     // gets the units with available slots
     getAvailableUnits() {
+        if (this.userTokenData.access != 'admin')
+            return this.rejectCallback('InsufficientPermission');
+
         Room.find().where('availablme_slot').gt(0).then(this.acceptCallback).catch(this.rejectCallback);
+    }
+
+    // for adding a new bill for a specific room
+    addRoomBill(unitID, date, rate, currentKWH) {
+        if (this.userTokenData.access != 'admin')
+            return this.rejectCallback('InsufficientPermission');
+
+        const findQuery = {slot: unitID};
+        const updateQuery = { '$push': {bills: { date: date, rate: rate, currentKWH: currentKWH}}};
+        Room.findOneAndUpdate(findQuery, updateQuery, {upsert: true})
+            .then(this.acceptCallback)
+            .catch(this.rejectCallback);
     }
 }
