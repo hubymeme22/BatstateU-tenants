@@ -1,4 +1,6 @@
 import { Account, Pending } from "../models/accounts.js";
+import { Room } from "../models/rooms.js";
+import './paramchecker.js'
 
 export class MongoDBConnection {
     constructor() {
@@ -44,6 +46,7 @@ export class MongoDBConnection {
     }
 }
 
+// database operations that only admin can execute
 export class AdminMongoDBConnection extends MongoDBConnection {
     constructor(userTokenData) {
         super();
@@ -68,6 +71,9 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
     // verifies a student account from pending
     verifyStudent(username) {
+        if (this.userTokenData.access != 'admin')
+            return this.rejectCallback('InsufficientPermission');
+
         Pending.findOne({ username: username })
             .then(userdata => {
                 if (userdata != null) {
@@ -85,5 +91,32 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
                 this.rejectCallback("alredy_verified");
             }).catch(this.rejectCallback);
+    }
+
+    // add room details
+    addUnit(slotName, maxTennants) {
+        if (this.userTokenData.access != 'admin')
+            return this.rejectCallback('InsufficientPermission');
+
+        const newRoom = new Room({
+            'slot': slotName,
+            'max_slot': maxTennants,
+            'available_slot': maxTennants,
+            'users': [],
+            'bills': [],
+            'status': 'not occupied'
+        });
+
+        newRoom.save().then(this.acceptCallback).catch(this.rejectCallback);
+    }
+
+    // gets units with specified filter
+    getUnit(filterQuery) {
+        Room.find(filterQuery).then(this.acceptCallback).catch(this.rejectCallback);
+    }
+
+    // gets the units with available slots
+    getAvailableUnits() {
+        Room.find().where('availablme_slot').gt(0).then(this.acceptCallback).catch(this.rejectCallback);
     }
 }
