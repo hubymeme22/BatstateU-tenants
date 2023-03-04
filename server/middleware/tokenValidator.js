@@ -17,7 +17,7 @@ export function getRequestPermission(req, res, next) {
     if (missedParams.length() == 0) {
         try {
             const userData = jwt.verify(req.cookies.token, secretKey).userData;
-            req.allowedData = userData;
+            req.allowedData = userData.userdata;
             next();
 
         } catch (error) {
@@ -35,10 +35,10 @@ export function getRequestPermission(req, res, next) {
 export function postRequestPermission(req, res, next) {
     const missedParams = paramChecker(["token"], req.body);
 
-    if (missedParams.length() == 0) {
+    if (missedParams.length == 0) {
         try {
-            const userData = jwt.verify(req.body.token, secretKey).userData;
-            req.allowedData = userData;
+            const userData = jwt.verify(req.body.token, secretKey);
+            req.allowedData = userData.userdata;
             next();
 
         } catch (error) {
