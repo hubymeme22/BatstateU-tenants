@@ -19,7 +19,7 @@ getUnits.get('/', getRequestPermission, (req, res) => {
         res.json(responseFormat);
     });
 
-    adminDatabase.setAcceptCallback(error => {
+    adminDatabase.setRejectCallback(error => {
         responseFormat.error = error;
         res.json(responseFormat);
     });
@@ -42,7 +42,7 @@ getUnits.get('/available', getRequestPermission, (req, res) => {
         res.json(responseFormat);
     });
 
-    adminDatabase.setAcceptCallback(error => {
+    adminDatabase.setRejectCallback(error => {
         responseFormat.error = error;
         res.json(responseFormat);
     });

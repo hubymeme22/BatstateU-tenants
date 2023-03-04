@@ -14,9 +14,9 @@ export function setJSONPacketFormat(jsonFormat) {
 export function getRequestPermission(req, res, next) {
     const missedParams = paramChecker(["token"], req.cookies);
 
-    if (missedParams.length() == 0) {
+    if (missedParams.length == 0) {
         try {
-            const userData = jwt.verify(req.cookies.token, secretKey).userData;
+            const userData = jwt.verify(req.cookies.token, secretKey);
             req.allowedData = userData.userdata;
             next();
 

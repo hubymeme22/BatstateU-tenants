@@ -12,7 +12,7 @@ api.use("/register", register);
 api.use("/verify", verify);
 api.use("/login", login);
 
-// api.use("/units", getUnits);
+api.use("/units", getUnits);
 api.use("/units", addUnit);
 
 export default api;

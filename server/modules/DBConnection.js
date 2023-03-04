@@ -112,7 +112,10 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
     // gets units with specified filter
     getUnit(filterQuery) {
-        Room.find(filterQuery).then(this.acceptCallback).catch(this.rejectCallback);
+        Room.find(filterQuery).then(this.acceptCallback).catch(err => {
+            console.log(err);
+            this.rejectCallback(err)
+        });
     }
 
     // gets the units with available slots
