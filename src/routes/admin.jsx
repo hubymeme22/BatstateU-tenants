@@ -1,4 +1,6 @@
 import Dashboard from '../pages/admin/dashboard';
+import Tenants from '../pages/admin/tenants';
+import Users from '../pages/admin/users';
 
 export const adminRoutes = [
   {
@@ -6,15 +8,15 @@ export const adminRoutes = [
     element: <>Admin Login Page</>,
   },
   {
-    path: '/admin',
+    path: '/admin/',
     element: <Dashboard />,
   },
   {
     path: '/admin/tenants',
-    element: <>Admin Tenants Page</>,
+    element: <Tenants />,
   },
   {
     path: '/admin/users',
-    element: <>Admin Users Page</>,
+    element: <Users />,
   },
 ];
