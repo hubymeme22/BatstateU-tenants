@@ -134,9 +134,23 @@ export class AdminMongoDBConnection extends MongoDBConnection {
         if (this.userTokenData.access != 'admin')
             return this.rejectCallback('InsufficientPermission');
 
-        const findQuery = {slot: unitID};
-        const updateQuery = { '$push': {bills: { date: date, rate: rate, currentKWH: currentKWH}}};
-        Room.findOneAndUpdate(findQuery, updateQuery, {upsert: true})
+        // to make sure that the unitID does exist
+        Room.findOne({slot: unitID})
+            .then(userdata => {
+                if (userdata == null)
+                    return this.rejectCallback('NonexistentUnitID');
+
+                const findQuery = {slot: unitID};
+                const updateQuery = { '$push': {bills: { date: date, rate: rate, currentKWH: currentKWH, paid: false}}};
+                Room.findOneAndUpdate(findQuery, updateQuery, {upsert: true})
+                    .then(this.acceptCallback)
+                    .catch(this.rejectCallback);
+            }).catch(this.rejectCallback);
+    }
+
+    // gets all the room billing
+    getAllRoomBills() {
+        Room.find().select('slot users bills')
             .then(this.acceptCallback)
             .catch(this.rejectCallback);
     }
