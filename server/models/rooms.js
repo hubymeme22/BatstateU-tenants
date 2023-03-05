@@ -12,10 +12,6 @@ const room = new mongoose.Schema({
         type: [String],
         default: ''
     },
-    bills: {
-        type: Array,
-        required: true
-    },
     max_slot: {
         type: Number,
         required: true
