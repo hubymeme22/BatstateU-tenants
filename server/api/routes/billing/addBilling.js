@@ -1,14 +1,14 @@
 import { Router } from "express";
 import { postRequestPermission, setJSONPacketFormat } from "../../../middleware/tokenValidator.js";
-import { AdminMongoDBConnection } from "../../../modules/DBConnection.js";
+import { AdminMongoDBConnection } from "../../../modules/AdminDBConnection.js";
 import paramChecker from "../../../modules/paramchecker.js";
 import utcDateParser from "../../../modules/UTCDateParser.js";
 
 const addBilling = Router();
 
 setJSONPacketFormat({error: '', added: false});
-addBilling.post('/room/:slot', postRequestPermission, (req, res) => {
-    const missedParams = paramChecker(['date', 'rate', 'current_kwh'], req.body);
+addBilling.post('/:slot/:username', postRequestPermission, (req, res) => {
+    const missedParams = paramChecker(['date', 'rate', 'current_kwh', 'days_present'], req.body);
     if (missedParams.length > 0)
         return res.json({ error: `missed_params=${missedParams}`, added: false});
 
@@ -32,7 +32,14 @@ addBilling.post('/room/:slot', postRequestPermission, (req, res) => {
     // case: date - must be in UTC string format
     // format: YYYY-MM-DDThh:mm:ss
     const dateAssigned = utcDateParser(req.body.date);
-    adminDatabase.addRoomBill(req.params.slot, dateAssigned, req.body.rate, req.body.current_kwh);
+    const costDetails = {
+        rate: req.body.rate,
+        currentKWH: req.body.current_kwh,
+        due: dateAssigned,
+        days_present: req.body.days_present
+    };
+
+    adminDatabase.addUserBill(req.params.slot, req.params.username, costDetails);
 });
 
 export default addBilling;
