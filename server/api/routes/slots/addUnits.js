@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { setJSONPacketFormat, postRequestPermission } from '../../../middleware/tokenValidator.js';
-import { AdminMongoDBConnection } from '../../../modules/DBConnection.js';
+import { AdminMongoDBConnection } from '../../../modules/AdminDBConnection.js';
 import paramChecker from '../../../modules/paramchecker.js';
 
 const addUnit = Router();

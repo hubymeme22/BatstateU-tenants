@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { postRequestPermission, setJSONPacketFormat } from "../../middleware/tokenValidator.js";
-import { AdminMongoDBConnection, MongoDBConnection } from "../../modules/DBConnection.js";
+import { MongoDBConnection } from "../../modules/DBConnection.js";
+import { AdminMongoDBConnection } from "../../modules/AdminDBConnection.js";
 import paramChecker from "../../modules/paramchecker.js";
 
 const register = Router();
