@@ -1,4 +1,4 @@
-import { Account, Pending } from "../models/accounts.js";
+import { Student } from "../models/accounts.js";
 import './paramchecker.js'
 
 export class MongoDBConnection {
@@ -17,30 +17,36 @@ export class MongoDBConnection {
     setRejectCallback(callback=this.rjFormat) { this.rejectCallback = callback; }
 
     // checks the existence of student username
-    checkUsernameAndEmail(username, email) {
-        Account.findOne({ username: username, email: email })
-            .then(this.acceptCallback)
-            .catch(this.rejectCallback);
+    checkStudentUserAndEmail(username, email) {
+        Student.find({'$or': [{username: username}, {email: email}]})
+            .then(this.acceptCallback).catch(this.rejectCallback);
     }
 
     // tries to login the account
     login(username, password) {
-        Account.findOne({ username: username, password: password })
-            .then(this.acceptCallback)
+        Student.findOne({'$or': [{username: username}, {email: email}]})
+            .then(userdata => {
+                if (userdata == null)
+                    return this.rejectCallback('NonExistentEmail');
+                if (userdata.password == password)
+                    return this.acceptCallback(userdata);
+                this.rejectCallback('InvalidCredentials');
+            })
             .catch(this.rejectCallback);
     }
 
     // registers a student account
-    registerStudent(username, email, password, nameJSON) {
-        const pendingAccount = new Pending({
+    registerStudent(username, email, password, contact, nameJSON) {
+        const newStudentAccount = new Student({
             username: username,
             email: email,
             password: password,
-            name: nameJSON
+            contact: contact,
+            access: 'student',
+            details: {
+                name: nameJSON
+            }
         });
-
-        pendingAccount.save()
-            .then(this.acceptCallback)
-            .catch(this.rejectCallback);
+        newStudentAccount.save().then(this.acceptCallback).catch(this.rejectCallback);
     }
 }
