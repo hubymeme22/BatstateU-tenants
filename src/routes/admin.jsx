@@ -1,5 +1,6 @@
 import Main from '../layouts/Main';
 
+import AdminLogin from '../pages/admin/login';
 import Dashboard from '../pages/admin/dashboard';
 import Tenants from '../pages/admin/tenants';
 import Users from '../pages/admin/users';
@@ -14,10 +15,6 @@ export const adminRoutes = [
         element: <Dashboard />,
       },
       {
-        path: 'login',
-        element: <>Admin Login Page</>,
-      },
-      {
         path: 'tenants',
         element: <Tenants />,
       },
@@ -26,5 +23,9 @@ export const adminRoutes = [
         element: <Users />,
       },
     ],
+  },
+  {
+    path: '/admin/login',
+    element: <AdminLogin />,
   },
 ];

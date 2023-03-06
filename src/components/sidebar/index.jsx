@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { StyledSidebar, Title, LineBreak } from './styled';
 import { Nav, NavLink, Button } from './styled';
@@ -7,6 +8,12 @@ import { MdDashboard } from 'react-icons/md';
 import { FaUsers } from 'react-icons/fa';
 
 function Sidebar() {
+  const navigate = useNavigate();
+
+  const logoutUser = () => {
+    navigate('/admin/login');
+  };
+
   return (
     <StyledSidebar>
       <div>
@@ -32,7 +39,7 @@ function Sidebar() {
         </Nav>
       </div>
 
-      <Button> Logout </Button>
+      <Button onClick={logoutUser}> Logout </Button>
     </StyledSidebar>
   );
 }
