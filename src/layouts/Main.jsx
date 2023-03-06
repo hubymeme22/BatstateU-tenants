@@ -1,19 +1,23 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import Sidebar from './sidebar';
 
-function Layout({ children }) {
+import Sidebar from '../components/sidebar';
+
+function Main() {
   return (
-    <StyledLayout>
+    <MainContainer>
       <Sidebar />
-      <Content>{children}</Content>
-    </StyledLayout>
+      <Content>
+        <Outlet />
+      </Content>
+    </MainContainer>
   );
 }
 
-export default Layout;
+export default Main;
 
-const StyledLayout = styled.div`
+const MainContainer = styled.div`
   background-color: #333;
   padding: 1em;
   min-height: 100vh;

@@ -15,7 +15,7 @@ function Sidebar() {
         <LineBreak />
 
         <Nav>
-          <NavLink to="/admin/">
+          <NavLink to="/admin" end>
             <MdDashboard />
             Dashboard
           </NavLink>

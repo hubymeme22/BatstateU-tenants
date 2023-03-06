@@ -1,8 +1,7 @@
 import React from 'react';
-import Layout from '../../../components/layout';
 
 function Tenants() {
-  return <Layout>Tenants Page</Layout>;
+  return <>Tenants Page</>;
 }
 
 export default Tenants;
