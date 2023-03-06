@@ -9,7 +9,7 @@ const room = new mongoose.Schema({
         required: true
     },
     users: {
-        type: [String],
+        type: [mongoose.Types.ObjectId],
         default: ''
     },
     max_slot: {
@@ -24,6 +24,10 @@ const room = new mongoose.Schema({
         type: String,
         required: true,
         enum: ['occupied', 'not occupied']
+    },
+    bills: {
+        type: [mongoose.Schema.Types.ObjectId],
+        required: true
     }
 });
 

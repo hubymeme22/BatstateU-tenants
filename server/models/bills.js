@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
 
-// will represent as stack of bills (paid or unpaid)
-// for individuals
-const bills = new mongoose.Schema({
-    username: {
+// must make individual bills before room bills
+const roomBills = new mongoose.Schema({
+    slot: {
         type: String,
         required: true
     },
@@ -11,26 +10,55 @@ const bills = new mongoose.Schema({
         type: Number,
         required: true
     },
+    previousKWH: {
+        type: Number,
+        required: true
+    },
     currentKWH: {
         type: Number,
         required: true
     },
-    paid: {
+    fullyPaid: {
         type: mongoose.Schema.Types.Boolean,
         required: true
     },
-    slot: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
-    },
-    due: {
-        type: Date,
-        required: true
-    },
-    numOfDaysPresent: {
+    currentPayment: {
         type: Number,
         required: true
-    }
+    },
+    dueDate: {
+        month: {
+            type: Number,
+            required: true
+        },
+        day: {
+            type: Number,
+            required: true
+        },
+        year: {
+            type: Number,
+            required: true
+        }
+    },
+    users: [{
+        username: {
+            type: String,
+            unique: true,
+            required: true
+        },
+        paid: {
+            type: mongoose.Schema.Types.Boolean,
+            required: true
+        },
+        cost: {
+            type: Number,
+            required: true
+        },
+        daysPresent: {
+            type: Number,
+            required: true
+        }
+    }]
 });
 
-export const Bills = mongoose.model('bills', bills);
+export const Bills = mongoose.model('bills', roomBills);

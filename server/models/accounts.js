@@ -1,89 +1,86 @@
 import mongoose from "mongoose";
 
-const accountSchema = new mongoose.Schema({
-    "name": {
-        "firstname": {
-            type: String,
-            required: true,
-            unique: true
-        },
-
-        "middlename": {
-            type: String,
-            required: true,
-            unique: true
-        },
-
-        "lastname": {
-            type: String,
-            required: true,
-            unique: true
-        }
-    },
-
-    // this one can be set as sr-code
-    "username": {
+const adminAccountSchema = mongoose.Schema({
+    email: {
         type: String,
-        required: true,
-        unique: true
+        unique: true,
+        required: true
     },
-
-    "email": {
-        type: String,
-        required: true,
-        unique: true
-    },
-
-    "password": {
+    password: {
         type: String,
         required: true
     },
-
-    "access": {
+    contact: {
         type: String,
-        required: true,
-        enum: ["admin", "student"]
+        required: true
+    },
+    access: {
+        type: String,
+        required: true
+    },
+    name: {
+        first: {
+            type: String,
+            required: true
+        },
+        middle: {
+            type: String,
+            required: true
+        },
+        last: {
+            type: String,
+            required: true
+        }
     }
 });
 
-const pendingSchema = new mongoose.Schema({
-    "name": {
-        "firstname": {
-            type: String,
-            required: true,
-            unique: true
-        },
-
-        "middlename": {
-            type: String,
-            required: true,
-            unique: true
-        },
-
-        "lastname": {
-            type: String,
-            required: true,
-            unique: true
-        }
-    },
-
-    "username": {
+const studentAccountSchema = mongoose.Schema({
+    username: {
         type: String,
-        required: true,
-        unique: true
+        unique: true,
+        required: true
     },
-
-    "email": {
+    email: {
         type: String,
-        required: true,
-        unique: true
+        unique: true,
+        required: true
     },
-
-    "password": {
+    password: {
         type: String,
         required: true
     },
+    contact: {
+        type: String,
+        required: true
+    },
+    access: {
+        type: String,
+        required: true
+    },
+    verified: {
+        type: mongoose.Schema.Types.Boolean,
+        required: true
+    },
+    details: {
+        name: {
+            first: {
+                type: String,
+                required: true
+            },
+            middle: {
+                type: String,
+                required: true
+            },
+            last: {
+                type: String,
+                required: true
+            }
+        },
+        room: {
+            type: mongoose.Schema.Types.ObjectId,
+        }
+    }
 });
 
-export const Account = mongoose.model('accounts', accountSchema);
-export const Pending = mongoose.model('pending', pendingSchema);
+export const Admin = mongoose.model('admin_accounts', adminAccountSchema);
+export const Student = mongoose.model('student_accounts', studentAccountSchema);
