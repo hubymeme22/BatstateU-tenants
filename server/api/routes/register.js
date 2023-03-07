@@ -6,7 +6,7 @@ import paramChecker from "../../modules/paramchecker.js";
 
 const register = Router();
 register.post("/student", (req, res) => {
-    const missedParams = paramChecker(['username', 'email', 'password', 'name'], req.body);
+    const missedParams = paramChecker(['username', 'email', 'contact', 'password', 'name'], req.body);
     const responseJSONFormat = {
         'created': false,
         'error': ''
@@ -20,7 +20,7 @@ register.post("/student", (req, res) => {
     // check if the email is already registered
     const databaseConnection = new MongoDBConnection();
     databaseConnection.setAcceptCallback((userdata) => {
-        if (userdata != null) {
+        if (userdata.length > 0) {
             responseJSONFormat['error'] = 'existing_email';
             return res.json(responseJSONFormat);
         }
@@ -32,11 +32,13 @@ register.post("/student", (req, res) => {
         });
 
         databaseConnection.setRejectCallback((error) => {
+            console.log(error);
+
             responseJSONFormat['error'] = error;
             res.json(responseJSONFormat);
         });
 
-        databaseConnection.registerStudent(req.body.username, req.body.email, req.body.password, req.body.name);
+        databaseConnection.registerStudent(req.body.username, req.body.email, req.body.password, req.body.contact, req.body.name);
     });
 
     databaseConnection.setRejectCallback((error) => {
@@ -44,13 +46,13 @@ register.post("/student", (req, res) => {
         res.json(responseJSONFormat);
     });
 
-    databaseConnection.checkUsernameAndEmail(req.body.username, req.body.email);
+    databaseConnection.checkStudentUserAndEmail(req.body.username, req.body.email);
 });
 
 // this route can only be accessed by admin
 setJSONPacketFormat({'existing': false, 'created': false, 'error': ''});
 register.post("/admin", postRequestPermission, (req, res) => {
-    const missedParams = paramChecker(['username', 'email', 'password', 'name'], req.body);
+    const missedParams = paramChecker(['username', 'email', 'contact', 'password', 'name'], req.body);
     const responseJSONFormat = {
         'created': false,
         'error': ''
@@ -88,7 +90,7 @@ register.post("/admin", postRequestPermission, (req, res) => {
         res.json(responseJSONFormat);
     });
 
-    databaseConnection.checkUsernameAndEmail(req.body.username, req.body.email);
+    databaseConnection.checkStudentUserAndEmail(req.body.username, req.body.email);
 });
 
 export default register;

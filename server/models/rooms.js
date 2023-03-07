@@ -9,7 +9,7 @@ const room = new mongoose.Schema({
         required: true
     },
     users: {
-        type: [mongoose.Types.ObjectId],
+        type: [String],
         default: ''
     },
     max_slot: {

@@ -76,6 +76,40 @@ export class AdminMongoDBConnection extends MongoDBConnection {
         newRoom.save().then(this.acceptCallback).catch(this.rejectCallback);
     }
 
+    // adds a new student in the room
+    addStudentRoom(slotName, username) {
+        Room.findOne({slot: slotName})
+            .then(roomdata => {
+                if (roomdata == null)
+                    return this.rejectCallback('NonexistentRoomID');
+
+                // verify if the user is already in the room
+                if (roomdata.users.find(user => user == username))
+                    return this.rejectCallback('UserAlreadyExists');
+
+                // remove the user on the other room if there is
+                Room.findOne({users: username})
+                    .then(existingroomdata => {
+                        if (existingroomdata != null)
+                            existingroomdata.users.pop(username);
+
+                        // verify if this username does exist
+                        Student.findOne({ username: username, verified: true })
+                            .then(userdata => {
+                                if (userdata == null)
+                                    return this.rejectCallback('NonexistentUsername');
+
+                                // append this user to the room
+                                roomdata.users.push(username);
+                                roomdata.save().then(this.acceptCallback).catch(this.rejectCallback);
+
+                            }).catch(this.rejectCallback);
+
+                    }).catch(this.rejectCallback);
+
+            }).catch(this.rejectCallback);
+    }
+
     // gets units with specified filter
     getAllUnits() {
         if (this.userTokenData.access != 'admin')

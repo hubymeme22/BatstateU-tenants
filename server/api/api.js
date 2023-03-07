@@ -7,6 +7,7 @@ import addUnit from "./routes/slots/addUnits.js";
 import addBilling from "./routes/billing/addBilling.js";
 import verify from "./routes/students/verify.js";
 import getBillings from "./routes/billing/getBilling.js";
+import addStudentRoom from "./routes/students/addRoom.js";
 
 const api = Router();
 api.use("/register", register);
@@ -22,5 +23,6 @@ api.use("/bill", getBillings);
 
 // students crud operations
 api.use("/students", verify);
+api.use("/students/room", addStudentRoom);
 
 export default api;
