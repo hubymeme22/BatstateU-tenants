@@ -24,10 +24,6 @@ const room = new mongoose.Schema({
         type: String,
         required: true,
         enum: ['occupied', 'not occupied']
-    },
-    bills: {
-        type: [mongoose.Schema.Types.ObjectId],
-        required: true
     }
 });
 

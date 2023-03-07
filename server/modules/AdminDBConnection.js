@@ -1,5 +1,5 @@
 import { MongoDBConnection } from "./DBConnection.js";
-import { Pending, Account } from "../models/accounts.js";
+import { Admin, Student } from "../models/accounts.js";
 import { Bills } from "../models/bills.js";
 import { Room } from "../models/rooms.js";
 import paramChecker from "./paramchecker.js";
@@ -12,15 +12,20 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     }
 
     // registers an admin account
-    registerAdmin(username, email, password, nameJSON) {
+    registerAdmin(username, email, contact, password, nameJSON) {
         if (this.userTokenData.access != 'admin')
             return this.rejectCallback('InsufficientPermission');
+        
+        const missedParams = paramChecker(['first', 'middle', 'last'], nameJSON);
+        if (missedParams.length > 0)
+            return this.rejectCallback(`missed_params=${missedParams}`);
 
-        const adminAccount = new Account({
+        const adminAccount = new Admin({
             username: username,
             email: email,
             password: password,
             name: nameJSON,
+            contact: contact,
             access: 'admin'
         });
 
@@ -32,23 +37,24 @@ export class AdminMongoDBConnection extends MongoDBConnection {
         if (this.userTokenData.access != 'admin')
             return this.rejectCallback('InsufficientPermission');
 
-        Pending.findOne({ username: username })
+        Student.findOne({username: username})
             .then(userdata => {
-                if (userdata != null) {
-                    const newAccount = new Account({
-                        username: userdata.username,
-                        email: userdata.email,
-                        password: userdata.password,
-                        name: userdata.name,
-                        access: 'student'
-                    });
-                    Pending.deleteOne({ username: username }).then(userdata => {
-                        return newAccount.save().then(this.acceptCallback).catch(this.rejectCallback);
-                    }).catch(this.rejectCallback);
-                }
+                if (userdata.verified)
+                    return this.rejectCallback('StudentAlreadyVerified');
 
-                this.rejectCallback("alredy_verified");
-            }).catch(this.rejectCallback);
+                // verify the student
+                Student.findOneAndUpdate({username: username}, {verified: true}, {upsert: true})
+                    .then(this.acceptCallback)
+                    .catch(this.rejectCallback);
+            })
+            .catch(this.rejectCallback);
+    }
+
+    ////////////////////////
+    //  HELPER FUNCTIONS  //
+    ////////////////////////
+    calculateBill(previouskwh, currentkwh, rate) {
+        return (currentkwh - previouskwh) * rate;
     }
 
     //////////////////
@@ -71,14 +77,11 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     }
 
     // gets units with specified filter
-    getUnit(filterQuery) {
+    getAllUnits() {
         if (this.userTokenData.access != 'admin')
             return this.rejectCallback('InsufficientPermission');
 
-        Room.find(filterQuery).then(this.acceptCallback).catch(err => {
-            console.log(err);
-            this.rejectCallback(err)
-        });
+        Room.find().then(this.acceptCallback).catch(this.rejectCallback);
     }
 
     // gets the units with available slots
@@ -86,7 +89,15 @@ export class AdminMongoDBConnection extends MongoDBConnection {
         if (this.userTokenData.access != 'admin')
             return this.rejectCallback('InsufficientPermission');
 
-        Room.find().where('availablme_slot').gt(0).then(this.acceptCallback).catch(this.rejectCallback);
+        Room.find().where('available_slot').gt(0).then(this.acceptCallback).catch(this.rejectCallback);
+    }
+
+    // gets units with n number of available spaces
+    getUnitsWithSpace(n) {
+        if (this.userTokenData.access != 'admin')
+            return this.rejectCallback('InsufficientPermission');
+
+        Room.find().where('available_slot').equals(n).then(this.acceptCallback).catch(this.rejectCallback);
     }
 
 
@@ -94,31 +105,76 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     //  BILLINGS PART  //
     /////////////////////
     // for adding a new bill for a specific user
-    addUserBill(unitID, username, costDetails) {
+    // TODO: make sure that the username added does really exist
+    addUserBill(unitID, username, details) {
         if (this.userTokenData.access != 'admin')
             return this.rejectCallback('InsufficientPermission');
 
-        const missedParams = paramChecker(['rate', 'currentKWH', 'due', 'days_present'], costDetails);
+        const missedParams = paramChecker([
+            'previous_kwh', 'current_kwh', 'rate',
+            'month', 'day', 'year', 'days_present'], details);
         if (missedParams.length > 0)
-            return this.rejectCallback(`missed_params=costDetails->${missedParams}`);
+            return this.rejectCallback(`missed_params=${missedParams}`);
 
-        // to make sure that the unitID does exist
+        // check if the room does exist
         Room.findOne({slot: unitID})
-            .then(userdata => {
-                if (userdata == null)
-                    return this.rejectCallback('NonexistentUnitID');
+            .then(roomdata => {
+                if (roomdata == null)
+                    return this.rejectCallback('NonexistentRoomID');
 
-                const newBill = new Bills({
-                    username: username,
-                    rate: costDetails.rate,
-                    currentKWH: costDetails.currentKWH,
-                    due: costDetails.due,
-                    slot: userdata._id,
-                    numOfDaysPresent: costDetails.days_present,
-                    paid: false
-                });
+                // find if there exist a bill that has the same details
+                Bills.findOne({slot: unitID, 'dueDate.month': details.month, 'dueDate.day': details.day, 'dueDate.year': details.year})
+                    .then(billdata => {
+                        // data calculation
+                        const monthPayment = this.calculateBill(details.previous_kwh, details.current_kwh, details.rate);
 
-                newBill.save().then(this.acceptCallback).catch(this.rejectCallback);
+                        // generate a new bill
+                        if (billdata == null) {
+                            const newBill = new Bills({
+                                slot: unitID,
+                                rate: details.rate,
+                                previousKWH: details.previous_kwh,
+                                currentKWH: details.current_kwh,
+                                fullyPaid: false,
+                                currentPayment: monthPayment,
+                                dueDate: {
+                                    month: details.month,
+                                    day: details.day,
+                                    year: details.year
+                                },
+                                users: [{
+                                    username: username,
+                                    paid: false,
+                                    cost: monthPayment,
+                                    daysPresent: details.days_present
+                                }]
+                            });
+
+                            newBill.save().then(billdata => {
+                                this.acceptCallback(billdata);
+                            }).catch(this.rejectCallback);
+                            return;
+                        }
+
+                        // adjust the current billings
+                        const userbills = billdata.users;
+                        userbills.push({
+                            username: username,
+                            paid: false,
+                            cost: 0,
+                            daysPresent: details.days_present
+                        });
+
+                        let sumDays = 0;
+                        userbills.forEach(userdetails => { sumDays += details.days_present });
+                        userbills.forEach(userdetails => {
+                            userdetails.cost = monthPayment * (userdetails.daysPresent / sumDays);
+                        });
+
+                        billdata.users = userbills;
+                        billdata.save().then(this.acceptCallback).catch(this.rejectCallback);
+
+                    }).catch(this.rejectCallback);
             }).catch(this.rejectCallback);
     }
 
@@ -134,9 +190,10 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
     // get the specific indiv billing
     getIndivBilling(username) {
-        Bills.find({ username: username })
+        Bills.find({ username: username }).then(this.acceptCallback).catch(this.rejectCallback);
     }
 
     getIndivUnpaidBilling(username) {
+        Bills.find({ username: username, paid: false }).then(this.acceptCallback).catch(this.rejectCallback);
     }
 }
