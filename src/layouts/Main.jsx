@@ -18,7 +18,7 @@ function Main() {
 export default Main;
 
 const MainContainer = styled.div`
-  background-color: #333;
+  background-color: ${({ theme }) => theme.darkGray};
   padding: 1em;
   min-height: 100vh;
   display: flex;
