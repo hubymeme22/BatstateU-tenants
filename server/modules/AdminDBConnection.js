@@ -156,6 +156,11 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                             return;
                         }
 
+                        // additional check if the user already exist
+                        if (billdata.users.find((el) => (el.username == username))) {
+                            return this.rejectCallback('UserAlreadyOnBill');
+                        }
+
                         // adjust the current billings
                         const userbills = billdata.users;
                         userbills.push({
