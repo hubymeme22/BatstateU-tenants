@@ -1,4 +1,4 @@
-import { Student } from "../models/accounts.js";
+import { Admin, Student } from "../models/accounts.js";
 import './paramchecker.js'
 
 export class MongoDBConnection {
@@ -33,6 +33,19 @@ export class MongoDBConnection {
                 this.rejectCallback('InvalidCredentials');
             })
             .catch(this.rejectCallback);
+    }
+
+    // logs in an admin account
+    loginAdmin(email, password) {
+        Admin.find({email: email})
+            .then(userdata => {
+                if (userdata == null)
+                    return this.rejectCallback('NonExistentEmail');
+
+                if (userdata.password == password)
+                    return this.acceptCallback(userdata);
+                this.rejectCallback('InvaildCredentials');
+            })
     }
 
     // registers a student account
