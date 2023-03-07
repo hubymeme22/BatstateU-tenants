@@ -24,7 +24,7 @@ export const StyledSidebar = styled.aside`
 `;
 
 export const Title = styled.h1`
-  font-family: Staatliches, Poppins, sans-serif;
+  font-family: 'Staatliches';
   font-size: clamp(0.8rem, 7.5vw, 1.35rem);
   text-align: center;
 `;
