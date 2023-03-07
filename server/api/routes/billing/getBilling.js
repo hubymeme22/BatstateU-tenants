@@ -1,25 +1,23 @@
-import { Router } from "express";
+import { response, Router } from "express";
 import { getRequestPermission, setJSONPacketFormat } from "../../../middleware/tokenValidator.js";
 import { AdminMongoDBConnection } from "../../../modules/AdminDBConnection.js";
 
 const getBillings = Router();
-setJSONPacketFormat({ error: '', billings: ''});
+setJSONPacketFormat({ error: '', billings: []});
 
 // gets all the billings
 getBillings.get('/', getRequestPermission, (req, res) => {
+    const responseFormat = {billings: [], error: ''};
     const adminDatabase = new AdminMongoDBConnection(req.allowedData);
+
     adminDatabase.setAcceptCallback(userdata => {
-        res.json({
-            error: '',
-            billings: userdata
-        });
+        responseFormat.billings = userdata;
+        res.json(responseFormat);
     });
 
     adminDatabase.setRejectCallback(error => {
-        res.json({
-            error: error,
-            billings: ''
-        });
+        responseFormat.error = error;
+        res.json(error);
     });
 
     adminDatabase.getAllBills();
@@ -27,19 +25,17 @@ getBillings.get('/', getRequestPermission, (req, res) => {
 
 // gets all the specified user's billings
 getBillings.get('/:username', getRequestPermission, (req, res) => {
+    const responseFormat = {billings: [], error: ''};
     const adminDatabase = new AdminMongoDBConnection(req.allowedData);
+
     adminDatabase.setAcceptCallback(userdata => {
-        res.json({
-            error: '',
-            billings: userdata
-        });
+        responseFormat.billings = userdata;
+        res.json(responseFormat);
     });
 
     adminDatabase.setRejectCallback(error => {
-        res.json({
-            error: error,
-            billings: ''
-        });
+        responseFormat.error = error;
+        res.json(responseFormat);
     });
 
     adminDatabase.getIndivBilling(req.params.username);
@@ -47,19 +43,17 @@ getBillings.get('/:username', getRequestPermission, (req, res) => {
 
 // gets all the billings that are not fully paid
 getBillings.get('/unpaid', getRequestPermission, (req, res) => {
+    const responseFormat = {billings: [], error: ''};
     const adminDatabase = new AdminMongoDBConnection(req.allowedData);
+
     adminDatabase.setAcceptCallback(userdata => {
-        res.json({
-            error: '',
-            billings: userdata
-        });
+        responseFormat.billings = userdata;
+        res.json(responseFormat);
     });
 
     adminDatabase.setRejectCallback(error => {
-        res.json({
-            error: error,
-            billings: ''
-        });
+        responseFormat.error = error;
+        res.json(responseFormat);
     });
 
     adminDatabase.getAllUnpaidBills();
@@ -67,19 +61,17 @@ getBillings.get('/unpaid', getRequestPermission, (req, res) => {
 
 // gets all the specified user's billings
 getBillings.get('/unpaid/:username', getRequestPermission, (req, res) => {
+    const responseFormat = {billings: [], error: ''};
     const adminDatabase = new AdminMongoDBConnection(req.allowedData);
+
     adminDatabase.setAcceptCallback(userdata => {
-        res.json({
-            error: '',
-            billings: userdata
-        });
+        responseFormat.billings = userdata;
+        res.json(responseFormat);
     });
 
     adminDatabase.setRejectCallback(error => {
-        res.json({
-            error: error,
-            billings: ''
-        });
+        responseFormat.error = error;
+        res.json(responseFormat);
     });
 
     adminDatabase.getIndivUnpaidBilling(req.params.username);

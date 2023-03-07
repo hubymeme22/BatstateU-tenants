@@ -11,20 +11,17 @@ addBilling.post('/:slot/:username', postRequestPermission, (req, res) => {
     if (missedParams.length > 0)
         return res.json({ error: `missed_params=${missedParams}`, added: false});
 
+    const responseFormat = { added: [], error: '' };
     const adminDatabase = new AdminMongoDBConnection(req.allowedData);
+
     adminDatabase.setAcceptCallback(userdata => {
-        res.json({
-            error: '',
-            added: true
-        })
+        responseFormat.added = userdata;
+        res.json(responseFormat);
     });
 
     adminDatabase.setRejectCallback(error => {
-        console.log(error);
-        res.json({
-            error: error,
-            added: false
-        })
+        responseFormat.error = error;
+        res.json(responseFormat);
     });
 
     // simple date parser, i know this sounds crazy... given

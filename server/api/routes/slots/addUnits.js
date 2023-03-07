@@ -15,19 +15,17 @@ addUnit.post('/new', postRequestPermission, (req, res) => {
         });
     }
 
+    const responseFormat = { added: [], error: '' };
     const adminDatabase = new AdminMongoDBConnection(req.allowedData);
+
     adminDatabase.setAcceptCallback(userdata => {
-        res.json({
-            added: true,
-            error: ''
-        });
+        responseFormat.added = userdata;
+        res.json(responseFormat);
     });
 
     adminDatabase.setRejectCallback(error => {
-        res.json({
-            added: false,
-            error: error
-        }).status(400);
+        responseFormat.error = error;
+        res.json(responseFormat);
     });
 
     adminDatabase.addUnit(req.body.slot_id, req.body.max_slot);
