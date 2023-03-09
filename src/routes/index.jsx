@@ -5,7 +5,12 @@ import { userRoutes } from './users';
 import { errorRoute } from './error';
 
 function RoutingSystem() {
-  const routes = useRoutes([...adminRoutes, ...userRoutes, errorRoute]);
+  const routes = useRoutes([
+    ...adminRoutes,
+    ...userRoutes,
+    ...userRoutes,
+    errorRoute,
+  ]);
   return routes;
 }
 
