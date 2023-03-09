@@ -24,7 +24,7 @@ export class MongoDBConnection {
 
     // tries to login the account
     login(username, password) {
-        Student.findOne({'$or': [{username: username}, {email: email}]})
+        Student.findOne({'$or': [{username: username}, {email: username}]})
             .then(userdata => {
                 if (userdata == null)
                     return this.rejectCallback('NonExistentEmail');
@@ -37,13 +37,14 @@ export class MongoDBConnection {
 
     // logs in an admin account
     loginAdmin(email, password) {
-        Admin.find({email: email})
+        Admin.findOne({'email': email})
             .then(userdata => {
                 if (userdata == null)
                     return this.rejectCallback('NonExistentEmail');
 
-                if (userdata.password == password)
+                if (userdata.password == password) {
                     return this.acceptCallback(userdata);
+                }
                 this.rejectCallback('InvaildCredentials');
             })
     }

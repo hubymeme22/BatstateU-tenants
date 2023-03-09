@@ -60,7 +60,7 @@ login.post('/admin', (req, res) => {
         res.json(responseFormat);
     });
 
-    dbConnection.loginAdmin(req.body.username, req.body.password);
+    dbConnection.loginAdmin(req.body.email, req.body.password);
 });
 
 export default login;
