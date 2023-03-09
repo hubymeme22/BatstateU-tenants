@@ -1,14 +1,17 @@
+import Login from '../pages/user/login/Login';
+import UserPage from '../pages/user/userPage/UserPage';
+import UserBills from '../pages/user/userBills/UserBills';
 export const userRoutes = [
   {
     path: '/login',
-    element: <>User Login Page</>,
+    element: <Login />,
   },
   {
     path: '/',
-    element: <>User Page</>,
+    element: <UserPage />,
   },
   {
     path: '/bills',
-    element: <>User Bills</>,
+    element: <UserBills />,
   },
 ];
