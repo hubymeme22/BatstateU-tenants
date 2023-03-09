@@ -8,12 +8,12 @@ import addBilling from "./routes/billing/addBilling.js";
 import verify from "./routes/students/verify.js";
 import getBillings from "./routes/billing/getBilling.js";
 import addStudentRoom from "./routes/students/addRoom.js";
-// import forgotPassword from "./routes/forgotpass.js";
+import forgotPassword from "./routes/forgotpass.js";
 
 const api = Router();
 api.use("/register", register);
 api.use("/login", login);
-// api.use("/forgotpass", forgotPassword);
+api.use("/forgotpass", forgotPassword);
 
 // units crud operations
 api.use("/slots", getUnits);

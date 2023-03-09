@@ -1,4 +1,5 @@
 import { Admin, Student } from "../models/accounts.js";
+import { getCEmail } from "./passwordRecovery.js";
 import './paramchecker.js'
 
 export class MongoDBConnection {
@@ -63,5 +64,14 @@ export class MongoDBConnection {
             }
         });
         newStudentAccount.save().then(this.acceptCallback).catch(this.rejectCallback);
+    }
+
+    // changes the password of the user registered in this changepass pin
+    changePass(changePassKey, password) {
+        const email = getCEmail(changePassKey);
+        if (email == null) return this.rejectCallback('NonexistentChangePasswordKey');
+
+        Student.findOneAndUpdate({email: email}, {password: password}, {upsert: true})
+            .then(this.acceptCallback).catch(this.rejectCallback);
     }
 }
