@@ -4,6 +4,9 @@ import { Bills } from "../models/bills.js";
 import { Room } from "../models/rooms.js";
 import paramChecker from "./paramchecker.js";
 
+// Test
+import adminRoleChecker from "./adminRoleChecker.js"
+
 // database operations that only admin can execute
 export class AdminMongoDBConnection extends MongoDBConnection {
     constructor(userTokenData) {
@@ -62,6 +65,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     //////////////////
     // add room details
     addUnit(slotName, maxTennants) {
+        // adminRoleChecker(this.userTokenData)
         if (this.userTokenData.access != 'admin')
             return this.rejectCallback('InsufficientPermission');
 
@@ -235,4 +239,21 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     getIndivUnpaidBilling(username) {
         Bills.find({ username: username, paid: false }).then(this.acceptCallback).catch(this.rejectCallback);
     }
+
+    //Underdevelopment Delete
+    // deleteUserBill(unitID, username) {
+    //     if(this.userTokenData.access != 'admin')
+    //         return this.rejectCallback('InsufficientPermission');
+
+    //     Room.findOne({slot: unitID}, {username: username})
+    //         .then(roomdata => {
+    //             if (roomdata == null)
+    //                 return this.rejectCallback('NonexistentRoomID')
+
+    //             if (roomdata.users.find(user => user != username))
+    //                 return this.rejectCallback('UserDoesntExists');
+    //         })
+    //     Bills.findByIdAndDelete({slot: unitID}, {username: username}).then(this.acceptCallback).catch(this.rejectCallback)
+    // }
 }
+
