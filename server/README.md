@@ -12,7 +12,7 @@ Following are the list of POST request routes from the server:
 /api/forgotpass/change/:key
 /api/billing/:slot/:username -- (admin)
 /api/slots/new  -- (admin)
-/api/students/
+/api/students/verify -- (admin)
 /api/students/room -- (admin)
 ```
 

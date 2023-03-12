@@ -27,6 +27,6 @@ api.use("/billing", deleteBilling);
 
 // students crud operations
 api.use("/students", verify);
-api.use("/students/room", addStudentRoom);
+api.use("/students", addStudentRoom);
 
 export default api;

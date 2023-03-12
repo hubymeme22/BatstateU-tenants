@@ -6,7 +6,7 @@ import paramChecker from "../../../modules/paramchecker.js";
 const verify = Router();
 
 setJSONPacketFormat({ error: '', verified: false });
-verify.post("/", postRequestPermission, (req, res) => {
+verify.post("/verify", postRequestPermission, (req, res) => {
     const missedParams = paramChecker(['username'], req.body);
     const responseFormat = { error: '', verified: false };
 
