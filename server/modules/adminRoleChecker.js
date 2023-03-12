@@ -4,4 +4,4 @@ export default function adminRoleChecker(userTokenData) {
     return userTokenData.access === 'admin' ? Promise.resolve('Access granted') : Promise.reject("InssuficientPermission")
 }
 
-module.exports = adminRoleChecker;
+// module.exports = adminRoleChecker;
