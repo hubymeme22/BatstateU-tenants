@@ -5,7 +5,7 @@ import { Room } from "../models/rooms.js";
 import paramChecker from "./paramchecker.js";
 
 // Test
-// import adminRoleChecker from "./adminRoleChecker.js"
+import adminRoleChecker from "./adminRoleChecker.js"
 
 // database operations that only admin can execute
 export class AdminMongoDBConnection extends MongoDBConnection {
@@ -64,20 +64,37 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     //  UNITS PART  //
     //////////////////
     // add room details
+    // addUnit(slotName, maxTennants) {
+    //     // adminRoleChecker(this.userTokenData)
+    //     if (this.userTokenData.access != 'admin')
+    //         return this.rejectCallback('InsufficientPermission');
+
+    //     const newRoom = new Room({
+    //         'slot': slotName,
+    //         'max_slot': maxTennants,
+    //         'available_slot': maxTennants,
+    //         'users': [],
+    //         'status': 'not occupied'
+    //     });
+
+    //     newRoom.save().then(this.acceptCallback).catch(this.rejectCallback);
+    // }
     addUnit(slotName, maxTennants) {
-        // adminRoleChecker(this.userTokenData)
-        if (this.userTokenData.access != 'admin')
-            return this.rejectCallback('InsufficientPermission');
-
-        const newRoom = new Room({
-            'slot': slotName,
-            'max_slot': maxTennants,
-            'available_slot': maxTennants,
-            'users': [],
-            'status': 'not occupied'
-        });
-
-        newRoom.save().then(this.acceptCallback).catch(this.rejectCallback);
+        adminRoleChecker(this.userTokenData)
+            .then(() => {
+                const newRoom = new Room({
+                    'slot': slotName,
+                    'max_slot': maxTennants,
+                    'available_slot': maxTennants,
+                    'users': [],
+                    'status': 'not occupied'
+                });
+    
+                newRoom.save().then(this.acceptCallback).catch(this.rejectCallback);
+            })
+            .catch(error => {
+                this.rejectCallback(error);
+            });
     }
 
     // adds a new student in the room
@@ -136,6 +153,12 @@ export class AdminMongoDBConnection extends MongoDBConnection {
             return this.rejectCallback('InsufficientPermission');
 
         Room.find().where('available_slot').equals(n).then(this.acceptCallback).catch(this.rejectCallback);
+    }
+
+    // Underdevelopmen Delete class
+    deleteStudentRoom(slotName, username){
+        
+
     }
 
 
