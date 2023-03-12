@@ -9,6 +9,7 @@ import verify from "./routes/students/verify.js";
 import getBillings from "./routes/billing/getBilling.js";
 import addStudentRoom from "./routes/students/addRoom.js";
 import forgotPassword from "./routes/forgotpass.js";
+import deleteBilling from "./routes/billing/deleteBilling.js";
 
 const api = Router();
 api.use("/register", register);
@@ -22,6 +23,7 @@ api.use("/slots", addUnit);
 // bill crud operations
 api.use("/billing", addBilling);
 api.use("/billing", getBillings);
+api.use("/billing", deleteBilling);
 
 // students crud operations
 api.use("/students", verify);

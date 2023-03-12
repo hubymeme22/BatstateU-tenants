@@ -50,27 +50,3 @@ export function postRequestPermission(req, res, next) {
         res.json(initialJSONFormat);
     }
 }
-
-//underdevelopment
-export function deleteRequestPermission(req, res, next) {
-    const missedParams = paramChecker(["token"], req.body);
-  
-    if (missedParams.length == 0) {
-      try {
-        const userData = jwt.verify(req.body.token, secretKey);
-        req.allowedData = userData.userdata;
-        next();
-      } catch (error) {
-        initialJSONFormat["error"] = "invalid_token";
-        res.json(initialJSONFormat);
-      }
-    } else {
-      initialJSONFormat["error"] = `missed_params=${missedParams}`;
-      res.json(initialJSONFormat);
-    }
-  }
-
-  
-  
-  
-  

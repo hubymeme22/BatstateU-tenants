@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { deleteRequestPermission, setJSONPacketFormat } from "../../../middleware/tokenValidator.js";
+import { getRequestPermission, setJSONPacketFormat } from "../../../middleware/tokenValidator.js";
 import { AdminMongoDBConnection } from "../../../modules/AdminDBConnection.js";
-// import paramChecker from "../../../modules/paramchecker.js";
 
 const deleteBilling = Router();
 
+// this a billing to a room specific username
 setJSONPacketFormat({error: '', deleted: false});
-deleteBilling.delete('/:slot/:username', deleteRequestPermission, (req, res) => {
+deleteBilling.delete('/:slot/:username', getRequestPermission, (req, res) => {
     const responseFormat = { deleted: [], error: '' };
     const adminDatabase = new AdminMongoDBConnection(req.allowedData);
 
@@ -16,6 +16,8 @@ deleteBilling.delete('/:slot/:username', deleteRequestPermission, (req, res) => 
     });
 
     adminDatabase.setRejectCallback(error => {
+        console.log(error);
+
         responseFormat.error = error;
         res.json(responseFormat);
     });

@@ -5,7 +5,7 @@ import { Room } from "../models/rooms.js";
 import paramChecker from "./paramchecker.js";
 
 // Test
-import adminRoleChecker from "./adminRoleChecker.js"
+// import adminRoleChecker from "./adminRoleChecker.js"
 
 // database operations that only admin can execute
 export class AdminMongoDBConnection extends MongoDBConnection {
@@ -240,20 +240,37 @@ export class AdminMongoDBConnection extends MongoDBConnection {
         Bills.find({ username: username, paid: false }).then(this.acceptCallback).catch(this.rejectCallback);
     }
 
-    //Underdevelopment Delete
-    // deleteUserBill(unitID, username) {
-    //     if(this.userTokenData.access != 'admin')
-    //         return this.rejectCallback('InsufficientPermission');
+    // deletes a user from a bill
+    deleteUserBill(unitID, username) {
+        if(this.userTokenData.access != 'admin')
+            return this.rejectCallback('InsufficientPermission');
 
-    //     Room.findOne({slot: unitID}, {username: username})
-    //         .then(roomdata => {
-    //             if (roomdata == null)
-    //                 return this.rejectCallback('NonexistentRoomID')
+        // checks if the room w/username does really exist
+        Room.findOne({slot: unitID, username: username})
+            .then(roomdata => {
+                if (roomdata == null)
+                    return this.rejectCallback('NonexistentRoomID');
 
-    //             if (roomdata.users.find(user => user != username))
-    //                 return this.rejectCallback('UserDoesntExists');
-    //         })
-    //     Bills.findByIdAndDelete({slot: unitID}, {username: username}).then(this.acceptCallback).catch(this.rejectCallback)
-    // }
+                // only updates the bill, since it only does apply to individual
+                // pops the username out of the list, and manually compute everyone's
+                // new billings
+                Bills.findOneAndUpdate({slot: unitID}, {'$pull': { 'users': {username: username} }}, {upsert: true, new: true})
+                    .then(billdata => {
+                        const payment = billdata.currentPayment;
+                        const userInfoCopy = billdata.users;
+                        let daysSum = 0;
+
+                        // calculate the adjustment payments for the remaining tennatns
+                        userInfoCopy.forEach(elem => { daysSum += elem.daysPresent; });
+                        userInfoCopy.forEach(elem => {
+                            elem.cost = payment * (elem.daysPresent / daysSum);
+                        });
+
+                        // update the billdata
+                        billdata.users = userInfoCopy;
+                        billdata.save().then(this.acceptCallback).catch(this.rejectCallback);
+                    }).catch(this.rejectCallback)
+            });
+    }
 }
 
