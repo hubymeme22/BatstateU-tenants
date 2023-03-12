@@ -209,7 +209,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                         });
 
                         let sumDays = 0;
-                        userbills.forEach(userdetails => { sumDays += details.days_present });
+                        userbills.forEach(userdetails => { sumDays += userdetails.daysPresent });
                         userbills.forEach(userdetails => {
                             userdetails.cost = monthPayment * (userdetails.daysPresent / sumDays);
                         });
