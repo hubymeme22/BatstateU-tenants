@@ -1,51 +1,36 @@
 # API Server for BSU-tennants web application
 ## POST requests
-The following are the routes for server's POST request. These are mostly CreateUpdateDelete operation on the database.
-
-### `/api/login` **authority: none**
-Logs in the credentials provided, and checks if the credentials provided is a valid credential
-
-**request format:** `{"username": <username/email>, "password": <password>}`
-
-**response format:** `{loggedin: <true/false>, error: <error>}`
-
-
-
-### `/api/register/student` **authority: none**
-Registers an *unverified* student account, for verification, an **admin** must verify it first.
-
-**request format:**
+Following are the list of POST request routes from the server:
 
 ```
-{
-    "username": <username>,
-    "password": <password>,
-    "email": <email>,
-    "contact": <contact no.>,
-    "name": {
-        "first": <firstname>,
-        "last": <lastname>,
-        "middle": <middlename>
-    }
-}
+/api/login
+/api/login/admin  -- (admin)
+/api/register/admin  -- (admin)
+/api/register/student
+/api/forgotpass/
+/api/forgotpass/pin/:key
+/api/forgotpass/change/:key
+/api/billing/:slot/:username -- (admin)
+/api/slots/new  -- (admin)
+/api/students/
+/api/students/room -- (admin)
 ```
 
-**response format:** `{"created": <true/false>, error: <error>}`
-
-### `/api/register/admin` **authority: admin**
-Registers an admin account. ONLY admin can use this route
-
-**request format:**
-
+## GET requests
+Following are the list of GET request routes from the server
 ```
-{
-    "password": <password>,
-    "email": <email>,
-    "contact": <contact no.>,
-    "name": {
-        "first": <firstname>,
-        "last": <lastname>,
-        "middle": <middlename>
-    }
-}
+/api/billing/ -- (admin)
+/api/billing/unpaid -- (admin)
+/api/billing/unpaid/:username -- (admin)
+/api/slots/ -- (admin)
+/api/slots/available -- admin()
+/api/slots/available/:space
 ```
+
+## DELETE requests
+Following are the list of DELETE request routes from the server
+```
+/api/billing/:slot/:username
+```
+
+Purposes, parameters, and other route details will be added here soon...
