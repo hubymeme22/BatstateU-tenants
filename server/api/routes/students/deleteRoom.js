@@ -4,7 +4,7 @@ import { AdminMongoDBConnection } from "../../../modules/AdminDBConnection.js";
 
 const deleteStudentRoom = Router();
 
-// to delete a student in a specific room
+// to delete a student in a specific room and update the array of users(tenants occupying the ro)
 setJSONPacketFormat({error: '', deleted: false});
 deleteStudentRoom.delete('/:slot/:username', getRequestPermission, (req, res) => {
     const responseFormat = { deleted: [], error: '' };
