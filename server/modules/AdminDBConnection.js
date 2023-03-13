@@ -131,6 +131,8 @@ export class AdminMongoDBConnection extends MongoDBConnection {
             }).catch(this.rejectCallback);
     }
 
+    
+
     // gets units with specified filter
     getAllUnits() {
         if (this.userTokenData.access != 'admin')
@@ -155,11 +157,27 @@ export class AdminMongoDBConnection extends MongoDBConnection {
         Room.find().where('available_slot').equals(n).then(this.acceptCallback).catch(this.rejectCallback);
     }
 
-    // Underdevelopmen Delete class
-    deleteStudentRoom(slotName, username){
-        
-
+    // Underdevelop Delete a student in room
+    deleteStudentRoom(slotID, username){
+        adminRoleChecker(this.userTokenData)
+            .then(()=> {
+                Room.findOne({slot: slotID, username: username})
+                    .then(roomdata => {
+                        if (roomdata == null)
+                            return this.rejectCallback('NonexistentRoomID');
+                        
+                        if (roomdata.users.find(user => user !== username))
+                            return this.rejectCallback('UserDoesntExists');
+                        Student.findOneAndDelete({slot : slotID, username : username}, roomdata.users.pull(username))
+                            // roomdata.users.pull(username)
+                            roomdata.save().then(this.acceptCallback).catch(this.rejectCallback);
+                    });
+            }).catch(this.rejectCallback)
     }
+
+    /////////////////////
+    //Testing area
+    /////////////////////
 
 
     /////////////////////
