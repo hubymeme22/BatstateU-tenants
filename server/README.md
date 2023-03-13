@@ -32,7 +32,7 @@ Following are the list of DELETE request routes from the server
 /api/billing/:slot/:username -- (admin)
 ```
 
-## PUT requests =
+## PUT requests
 Followng are the list of PUT request routes from the server
 ```
 /api/students/verify -- (admin)
