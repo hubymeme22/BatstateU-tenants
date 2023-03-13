@@ -26,7 +26,6 @@ api.use("/forgotpass", forgotPassword);
 // units crud operations
 api.use("/slots", getUnits);
 api.use("/slots", addUnit);
-api.use("/slots", deleteUnits)
 
 // bill crud operations
 api.use("/billing", addBilling);
@@ -36,6 +35,6 @@ api.use("/billing", deleteBilling);
 // students crud operations
 api.use("/students", verify);
 api.use("/students", addStudentRoom);
-api.use("/student", deleteStudentRoom);
+api.use("/students", deleteStudentRoom);
 
 export default api;

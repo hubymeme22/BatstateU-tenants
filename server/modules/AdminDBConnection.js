@@ -42,6 +42,9 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
         Student.findOne({username: username})
             .then(userdata => {
+                if (userdata == null)
+                    return this.rejectCallback('NonexistentUsername');
+
                 if (userdata.verified)
                     return this.rejectCallback('StudentAlreadyVerified');
 
@@ -158,62 +161,20 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     }
 
     // Underdevelop Delete a student in room
-    // deleteStudentRoom(slotID, username){
-    //     adminRoleChecker(this.userTokenData)
-    //         .then(()=> {
-    //             Room.findOneAndUpdate({slot: slotID, users: username})
-    //                 .then(roomdata => {
-    //                     if (roomdata == null)
-    //                         return this.rejectCallback('NonexistentRoomID');
-
-    //                     // Student.findOneAndUpdate({slot : slotID, username : username}, roomdata.users.pop(username))
-    //                     //     // roomdata.users.pull(username)
-    //                         roomdata.users.pop(username)
-    //                         roomdata.save().then(this.acceptCallback).catch(this.rejectCallback);
-    //                 });
-    //         }).catch(this.rejectCallback)
-    // }
-
-    // deleteStudentRoom(slotID, username){
-    //     adminRoleChecker(this.userTokenData)
-    //         .then(()=> {
-    //             Room.findOneAndUpdate({slot: slotID, users: username})
-    //                 .then(roomdata => {
-    //                     if (roomdata == null)
-    //                         return this.rejectCallback('NonexistentRoomID');
-    //                     // TO DO:
-    //                     // check if theres a matched room that contains the student
-                        
-
-    //                     // roomdata = (data inside the room)
-
-    //                     // remove the student from that room stored in the roomdata
-    //                     roomdata.users.pop(username)
-    //                     roomdata.save().then(this.acceptCallback).catch(this.rejectCallback);
-    //                 });
-    //         }).catch(this.rejectCallback)
-    // }
-
     deleteStudentRoom(slotID, username) {
         adminRoleChecker(this.userTokenData)
           .then(() => {
-            Room.findOneAndUpdate(
-            //filter
-              { slot: slotID, users: username },
-            //update, should pull/remove the username in users array
-              { $pull: { users: { username: username } } }
-            )
-              .then((roomdata) => {
-                if (roomdata == null) return this.rejectCallback('NonexistentRoomID');
-                this.acceptCallback(roomdata);
-              })
-              .catch(this.rejectCallback);
-          })
-          .catch(this.rejectCallback);
+            Room.findOneAndUpdate({ slot: slotID, users: username })
+                .then((roomdata) => {
+                    if (roomdata == null) return this.rejectCallback('NonexistentRoomID');
+
+                    // manual deleting of user from the room
+                    roomdata.users.pop(username);
+                    roomdata.save().then(this.acceptCallback).catch(this.rejectCallback);
+
+                }).catch(this.rejectCallback);
+          }).catch(this.rejectCallback);
       }
-    /////////////////////
-    //Testing area
-    /////////////////////
 
 
     /////////////////////
