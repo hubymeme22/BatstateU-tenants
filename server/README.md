@@ -12,7 +12,6 @@ Following are the list of POST request routes from the server:
 /api/forgotpass/change/:key
 /api/billing/:slot/:username -- (admin)
 /api/slots/new  -- (admin)
-/api/students/verify -- (admin)
 /api/students/room -- (admin)
 ```
 
@@ -30,7 +29,13 @@ Following are the list of GET request routes from the server
 ## DELETE requests
 Following are the list of DELETE request routes from the server
 ```
-/api/billing/:slot/:username
+/api/billing/:slot/:username -- (admin)
+```
+
+## PUT requests =
+Followng are the list of PUT request routes from the server
+```
+/api/students/verify -- (admin)
 ```
 
 Purposes, parameters, and other route details will be added here soon...

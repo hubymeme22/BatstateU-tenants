@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { postRequestPermission, setJSONPacketFormat } from "../../../middleware/tokenValidator.js";
+import { getRequestPermission, setJSONPacketFormat } from "../../../middleware/tokenValidator.js";
 import { AdminMongoDBConnection } from "../../../modules/AdminDBConnection.js";
 import paramChecker from "../../../modules/paramchecker.js";
 
 const verify = Router();
 
 setJSONPacketFormat({ error: '', verified: false });
-verify.post("/verify", postRequestPermission, (req, res) => {
-    const missedParams = paramChecker(['username'], req.body);
+verify.put("/verify/:username", getRequestPermission, (req, res) => {
+    const missedParams = paramChecker(['username'], req.params);
     const responseFormat = { error: '', verified: false };
 
     if (missedParams.length > 0) {
@@ -22,11 +22,13 @@ verify.post("/verify", postRequestPermission, (req, res) => {
     });
 
     dbConnection.setRejectCallback(error => {
+        console.log(error);
+
         responseFormat.error = error;
         res.json(responseFormat);
     });
 
-    dbConnection.verifyStudent(req.body.username);
+    dbConnection.verifyStudent(req.params.username);
 });
 
 export default verify;
