@@ -16,8 +16,6 @@ deleteStudentRoom.delete('/room/:slot/:username', getRequestPermission, (req, re
     });
 
     adminDatabase.setRejectCallback(error => {
-        console.log(error);
-
         responseFormat.error = error;
         res.json(responseFormat);
     });
