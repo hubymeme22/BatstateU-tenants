@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
+import cors from 'cors';
 import "dotenv/config"
 
 import api from "./api/api.js";
@@ -12,6 +13,7 @@ const mongodbURI = process.env.MONGODB_URI;
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors());
 app.use("/api", api);
 
 console.log("[*] Connecting to database...");
