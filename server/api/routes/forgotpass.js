@@ -22,14 +22,14 @@ forgotPassword.post('/', (req, res) => {
         const generatedID = pr.generatePinID(generatedPin, generatedPassID);
 
         // emails the user
-        pr.passwordRecoveryEmail(userdata.email, generatedPin,
+        pr.passwordRecoveryEmail(req.body.email, generatedPin,
             function() {
                 responseFormat.code = generatedID;
                 res.json(responseFormat);        
             },
             function (err) {
                 responseFormat.error = 'SMTPServerError';
-                res.json(responseFormat);        
+                res.json(responseFormat);
             });
     });
 
@@ -38,12 +38,12 @@ forgotPassword.post('/', (req, res) => {
         return res.json(responseFormat);
     });
 
-    mongodbAccounts.checkStudentUserAndEmail('', req.body.email);
+    mongodbAccounts.checkStudentUser(req.body.email);
 });
 
 // route for checking if the pin is correct
 forgotPassword.post('/pin/:id', (req, res) => {
-    const missedParams = paramChecker(['pin', req.body]);
+    const missedParams = paramChecker(['pin'], req.body);
     const responseFormat = {error: '', confirmed: false, key: ''};
 
     if (missedParams.length > 0) {
@@ -51,7 +51,9 @@ forgotPassword.post('/pin/:id', (req, res) => {
         return res.json(responseFormat);
     }
 
-    if (confirmPin(req.body.pin)) {
+    console.log(req.params.id);
+
+    if (pr.recoveryMap[req.params.id].pin == req.body.pin) {
         responseFormat.key = pr.getPinKey(req.params.id);
         responseFormat.confirmed = true;
         pr.remove(req.params.id);
@@ -64,7 +66,7 @@ forgotPassword.post('/pin/:id', (req, res) => {
 
 // route for actual changing of password
 forgotPassword.post('/change/:id', (req, res) => {
-    const missedParams = paramChecker(['password', req.body]);
+    const missedParams = paramChecker(['password'], req.body);
     const responseFormat = {error: '', changed: false};
 
     if (missedParams.length > 0) {

@@ -1,7 +1,7 @@
 import { sendMail } from "./Mailer.js";
 
-const recoveryMap = {};
-const passmap = {};
+export const recoveryMap = {};
+export const passmap = {};
 
 // for generating ID (from stackoverflow:
 // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript?page=1&tab=scoredesc#tab-top)
@@ -34,12 +34,15 @@ export function generatePinID(pin, passid) {
     return generated;
 }
 
-// confirms if the pin is the valid pin
-export function confirmPin(id, pin) {
-    if (recoveryMap[id] == null)
-        return null
-    return (recoveryMap[id].pin == pin);
-}
+// // confirms if the pin is the valid pin
+// export function confirmPin(id, pin) {
+//     console.log(recoveryMap);
+//     if (recoveryMap[id] == null)
+//         return null
+
+//     console.log(recoveryMap[id].pin);
+//     return (recoveryMap[id].pin == pin);
+// }
 
 // gets the mapped passid on pin
 export function getPinKey(id) {

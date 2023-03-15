@@ -17,9 +17,15 @@ export class MongoDBConnection {
     // sets the template for the reject callback
     setRejectCallback(callback=this.rjFormat) { this.rejectCallback = callback; }
 
-    // checks the existence of student username
+    // checks the existence of student username and email
     checkStudentUserAndEmail(username, email) {
         Student.find({'$or': [{username: username}, {email: email}]})
+            .then(this.acceptCallback).catch(this.rejectCallback);
+    }
+
+    // checks the existence of student username
+    checkStudentUser(username) {
+        Student.find({username: username})
             .then(this.acceptCallback).catch(this.rejectCallback);
     }
 
