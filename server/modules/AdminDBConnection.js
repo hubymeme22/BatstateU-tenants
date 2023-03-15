@@ -56,6 +56,27 @@ export class AdminMongoDBConnection extends MongoDBConnection {
             .catch(this.rejectCallback);
     }
 
+    // unverifies a verified student account
+    unverifyStudent(username) {
+        if (this.userTokenData.access != 'admin')
+            return this.rejectCallback('InsufficientPermission');
+
+        Student.findOne({username: username})
+            .then(userdata => {
+                if (userdata == null)
+                    return this.rejectCallback('NonexistentUsername');
+
+                if (!userdata.verified)
+                    return this.rejectCallback('StudentAlreadyUnverified');
+
+                // verify the student
+                Student.findOneAndUpdate({username: username}, {verified: false}, {upsert: true})
+                    .then(this.acceptCallback)
+                    .catch(this.rejectCallback);
+            })
+            .catch(this.rejectCallback);
+    }
+
     ////////////////////////
     //  HELPER FUNCTIONS  //
     ////////////////////////
@@ -114,8 +135,10 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                 // remove the user on the other room if there is
                 Room.findOne({users: username})
                     .then(existingroomdata => {
-                        if (existingroomdata != null)
+                        if (existingroomdata != null) {
                             existingroomdata.users.pop(username);
+                            existingroomdata.save();
+                        }
 
                         // verify if this username does exist
                         Student.findOne({ username: username, verified: true })
@@ -203,6 +226,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                     .then(billdata => {
                         // data calculation
                         const monthPayment = this.calculateBill(details.previous_kwh, details.current_kwh, details.rate);
+                        console.log(billdata);
 
                         // generate a new bill
                         if (billdata == null) {

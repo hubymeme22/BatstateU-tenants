@@ -29,6 +29,10 @@ export class MongoDBConnection {
             .then(userdata => {
                 if (userdata == null)
                     return this.rejectCallback('NonExistentEmail');
+
+                if (!userdata.verified)
+                    return this.rejectCallback('UnverifiedAccount');
+
                 if (userdata.password == password)
                     return this.acceptCallback(userdata);
                 this.rejectCallback('InvalidCredentials');

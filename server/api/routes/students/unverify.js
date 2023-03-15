@@ -3,12 +3,12 @@ import { getRequestPermission, setJSONPacketFormat } from "../../../middleware/t
 import { AdminMongoDBConnection } from "../../../modules/AdminDBConnection.js";
 import paramChecker from "../../../modules/paramchecker.js";
 
-const verify = Router();
+const unverify = Router();
 
 setJSONPacketFormat({ error: '', verified: false });
-verify.put("/verify/:username", getRequestPermission, (req, res) => {
+unverify.put("/unverify/:username", getRequestPermission, (req, res) => {
     const missedParams = paramChecker(['username'], req.params);
-    const responseFormat = { error: '', verified: false };
+    const responseFormat = { error: '', unverified: false };
 
     if (missedParams.length > 0) {
         responseFormat['error'] = `missed_params=${missedParams}`;
@@ -17,7 +17,7 @@ verify.put("/verify/:username", getRequestPermission, (req, res) => {
 
     const dbConnection = new AdminMongoDBConnection(req.allowedData);
     dbConnection.setAcceptCallback(userdata => {
-        responseFormat.verified = true;
+        responseFormat.unverified = true;
         res.json(responseFormat);
     });
 
@@ -26,7 +26,7 @@ verify.put("/verify/:username", getRequestPermission, (req, res) => {
         res.json(responseFormat);
     });
 
-    dbConnection.verifyStudent(req.params.username);
+    dbConnection.unverifyStudent(req.params.username);
 });
 
-export default verify;
+export default unverify;
