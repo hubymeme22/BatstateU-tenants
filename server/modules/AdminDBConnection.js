@@ -88,21 +88,6 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     //  UNITS PART  //
     //////////////////
     // add room details
-    // addUnit(slotName, maxTennants) {
-    //     // adminRoleChecker(this.userTokenData)
-    //     if (this.userTokenData.access != 'admin')
-    //         return this.rejectCallback('InsufficientPermission');
-
-    //     const newRoom = new Room({
-    //         'slot': slotName,
-    //         'max_slot': maxTennants,
-    //         'available_slot': maxTennants,
-    //         'users': [],
-    //         'status': 'not occupied'
-    //     });
-
-    //     newRoom.save().then(this.acceptCallback).catch(this.rejectCallback);
-    // }
     addUnit(slotName, maxTennants) {
         adminRoleChecker(this.userTokenData)
             .then(() => {
@@ -221,12 +206,15 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                 if (roomdata == null)
                     return this.rejectCallback('NonexistentRoomID');
 
+                // check if user is registered to this room
+                if (!roomdata.users.find(user => (user == username)))
+                    return this.rejectCallback('UserNotRegisteredInRoom');
+
                 // find if there exist a bill that has the same details
                 Bills.findOne({slot: unitID, 'dueDate.month': details.month, 'dueDate.day': details.day, 'dueDate.year': details.year})
                     .then(billdata => {
                         // data calculation
                         const monthPayment = this.calculateBill(details.previous_kwh, details.current_kwh, details.rate);
-                        console.log(billdata);
 
                         // generate a new bill
                         if (billdata == null) {

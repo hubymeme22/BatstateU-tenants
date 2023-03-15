@@ -43,7 +43,6 @@ const roomBills = new mongoose.Schema({
     users: [{
         username: {
             type: String,
-            unique: true,
             required: true
         },
         paid: {

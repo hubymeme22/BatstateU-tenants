@@ -10,7 +10,6 @@ const room = new mongoose.Schema({
     },
     users: {
         type: [String],
-        default: ''
     },
     max_slot: {
         type: Number,
