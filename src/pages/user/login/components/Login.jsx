@@ -1,20 +1,45 @@
 import React from 'react';
-import { ComponentContainer } from './Styled';
+import {
+  ComponentContainer,
+  Title,
+  Field,
+  Label,
+  Input,
+  UserIcon,
+  KeyIcon,
+  Link,
+  Button,
+  Form,
+  SignInButton,
+} from './Styled';
 function Login({ handle }) {
   return (
     <ComponentContainer>
-      <form className='login-form'>
-        <h2>Login</h2>
-        <input type='text' placeholder='Username' /> <br></br>
-        <input type='password' placeholder='Password' />
-        <button type='submit'>LOGIN</button>
-        <br></br>
-        wala kaba account?
-        <button type='button' onClick={handle}>
-          {' '}
+      <Form>
+        <Title> Login</Title>
+        <Field>
+          <Label>Username</Label>
+
+          <div>
+            <Input type='text' id='sr-code' placeholder='Username' />
+            <UserIcon />
+          </div>
+        </Field>
+        <Field>
+          <Label>Password</Label>
+
+          <div>
+            <Input type='password' id='password' placeholder='Password' />
+            <KeyIcon />
+          </div>
+        </Field>
+        <Link>Forget Password?</Link>
+        <Button> LOGIN </Button>
+        <Link>Dont Have An Account?</Link>
+        <SignInButton type='button' onClick={handle}>
           Sign in
-        </button>
-      </form>
+        </SignInButton>
+      </Form>
     </ComponentContainer>
   );
 }
