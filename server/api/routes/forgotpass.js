@@ -38,7 +38,7 @@ forgotPassword.post('/', (req, res) => {
         return res.json(responseFormat);
     });
 
-    mongodbAccounts.checkStudentUser(req.body.email);
+    mongodbAccounts.checkStudentEmail(req.body.email);
 });
 
 // route for checking if the pin is correct
@@ -50,8 +50,6 @@ forgotPassword.post('/pin/:id', (req, res) => {
         responseFormat.error = `missed_params=${missedParams}`;
         return res.json(responseFormat);
     }
-
-    console.log(req.params.id);
 
     if (pr.recoveryMap[req.params.id].pin == req.body.pin) {
         responseFormat.key = pr.getPinKey(req.params.id);

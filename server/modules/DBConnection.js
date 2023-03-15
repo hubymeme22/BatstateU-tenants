@@ -29,6 +29,13 @@ export class MongoDBConnection {
             .then(this.acceptCallback).catch(this.rejectCallback);
     }
 
+    // checks the existence of student username
+    checkStudentEmail(email) {
+        Student.find({email: email})
+            .then(this.acceptCallback).catch(this.rejectCallback);
+    }
+    
+
     // tries to login the account
     login(username, password) {
         Student.findOne({'$or': [{username: username}, {email: username}]})

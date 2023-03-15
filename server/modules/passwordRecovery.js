@@ -34,16 +34,6 @@ export function generatePinID(pin, passid) {
     return generated;
 }
 
-// // confirms if the pin is the valid pin
-// export function confirmPin(id, pin) {
-//     console.log(recoveryMap);
-//     if (recoveryMap[id] == null)
-//         return null
-
-//     console.log(recoveryMap[id].pin);
-//     return (recoveryMap[id].pin == pin);
-// }
-
 // gets the mapped passid on pin
 export function getPinKey(id) {
     if (recoveryMap[id] == null)
