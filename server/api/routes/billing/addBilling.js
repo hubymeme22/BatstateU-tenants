@@ -20,6 +20,7 @@ addBilling.post('/:slot/:username', postRequestPermission, (req, res) => {
     });
 
     adminDatabase.setRejectCallback(error => {
+        console.log(error);
         responseFormat.error = error;
         res.json(responseFormat);
     });
