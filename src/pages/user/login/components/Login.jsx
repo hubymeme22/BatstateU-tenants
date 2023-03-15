@@ -11,6 +11,7 @@ import {
   Button,
   Form,
   SignInButton,
+  ButtonContainer,
 } from './Styled';
 function Login({ handle }) {
   return (
@@ -33,12 +34,18 @@ function Login({ handle }) {
             <KeyIcon />
           </div>
         </Field>
-        <Link>Forget Password?</Link>
-        <Button> LOGIN </Button>
-        <Link>Dont Have An Account?</Link>
-        <SignInButton type='button' onClick={handle}>
-          Sign in
-        </SignInButton>
+        <ButtonContainer>
+          <div>
+            <Link variant='underline'>Forget Password?</Link>
+            <Button> LOGIN </Button>
+          </div>
+          <div>
+            <Link>Dont Have An Account?</Link>
+            <SignInButton type='button' onClick={handle}>
+              Sign in
+            </SignInButton>
+          </div>
+        </ButtonContainer>
       </Form>
     </ComponentContainer>
   );

@@ -17,21 +17,24 @@ export const ContentContainer = styled.div`
   border-radius: 25px;
   height: 550px;
   width: 800px;
-  background-color: white;
+  background-color: #651b1b;
   display: flex;
 `;
 export const Wrapper = styled.div`
   transition: all 0.6s ease-in-out;
-  border-radius: 25px;
   width: 50%;
   height: 100%;
   background-color: #651b1b;
-  z-index: 5;
+  border-radius: 25px;
+
+  z-index: 1;
   ${(props) =>
     props.switch !== true
       ? `
     transform: translateX(100%);
     opacity: 1;
+    
+   
   `
       : null}
 `;
@@ -49,6 +52,7 @@ export const Title = styled.h1`
   color: white;
   font-size: 2rem;
   text-align: center;
+  padding: 5px;
 `;
 
 export const Field = styled.div`
@@ -90,7 +94,7 @@ export const KeyIcon = styled(BsKey)`
 export const Button = styled.button`
   background-color: ${({ theme }) => theme.lightRed};
   color: white;
-  padding: 0.3rem;
+  padding: 0.45rem;
   border: 0;
   border-radius: 5px;
   cursor: pointer;
@@ -98,7 +102,7 @@ export const Button = styled.button`
 export const SignInButton = styled.button`
   background-color: white;
   color: red;
-  padding: 0.3rem;
+  padding: 0.45rem;
   border: 0;
   border-radius: 5px;
   cursor: pointer;
@@ -106,12 +110,25 @@ export const SignInButton = styled.button`
 export const Link = styled(LinkTag)`
   font-size: 0.9rem;
   color: white;
-  text-decoration: underline;
+  text-decoration: ${(props) =>
+    props.variant === 'underline' ? 'underline' : 'none'};
 `;
+
 export const Form = styled.form`
   display: flex;
   justify-content: center;
   flex-direction: column;
   padding: 5px;
   gap: 20px;
+`;
+export const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  gap: 45px;
+  div {
+    display: flex;
+    flex-direction: column;
+  }
 `;

@@ -12,13 +12,16 @@ function Bsu({ toggle }) {
 export default Bsu;
 
 const BSUContainer = styled.div`
+  border-radius: 25px;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 30px;
-  z-index: 1;
+  z-index: 5;
   transition: all 0.6s ease-in-out;
   width: 50%;
+  background-color: white;
+
   transform: ${(props) =>
     props.switch ? 'translateX(0)' : 'translateX(-100%)'};
 `;
