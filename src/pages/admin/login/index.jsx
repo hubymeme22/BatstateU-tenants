@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
 import useInput from '../../../hooks/useInput';
+import { checkToken, saveToken } from '../../../utils/tokenHandler';
 
 import {
   LoginContainer,
@@ -16,18 +18,40 @@ import {
 } from './styled';
 
 function AdminLogin() {
-  const [SRCode, SRCodeHandler, resetSRCode] = useInput('');
+  const [username, usernameHandler, resetUsername] = useInput('');
   const [password, passwordHandler, resetPassword] = useInput('');
 
   const auth = useAuth();
+  const navigate = useNavigate();
 
-  const submitForm = (e) => {
+  // Check if user is already loggedIn
+  useEffect(() => {
+    const token = checkToken();
+    if (token) {
+      navigate('/admin');
+    }
+  }, []);
+
+  const submitForm = async (e) => {
     e.preventDefault();
 
-    // if valid, login
-    //    auth.login();
-    // else
-    //    show error popup modal
+    if (!username || !password) {
+      console.log('All fields are required');
+      return;
+    }
+
+    const credential = await auth.login(username, password);
+
+    // Destruct credential object
+    const { isLoggedIn, error, token } = await credential;
+
+    // Display error if there is one
+
+    // Go to admin panel / dashboard if credential is correct
+    if (isLoggedIn && token) {
+      saveToken(token);
+      navigate('/admin');
+    }
   };
 
   return (
@@ -36,16 +60,14 @@ function AdminLogin() {
         <Title>ADMIN LOG IN</Title>
 
         <Field>
-          <Label htmlFor="sr-code" component={'adfdsf'}>
-            Username
-          </Label>
+          <Label htmlFor="username">Username</Label>
 
           <div>
             <Input
               type="text"
-              id="sr-code"
+              id="username"
               placeholder="Username"
-              {...SRCodeHandler}
+              {...usernameHandler}
             />
             <UserIcon />
           </div>
