@@ -15,7 +15,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     }
 
     // registers an admin account
-    registerAdmin(username, email, contact, password, nameJSON) {
+    registerAdmin(email, contact, password, nameJSON) {
         if (this.userTokenData.access != 'admin')
             return this.rejectCallback('InsufficientPermission');
         
@@ -24,7 +24,6 @@ export class AdminMongoDBConnection extends MongoDBConnection {
             return this.rejectCallback(`missed_params=${missedParams}`);
 
         const adminAccount = new Admin({
-            username: username,
             email: email,
             password: password,
             name: nameJSON,

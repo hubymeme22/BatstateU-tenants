@@ -52,7 +52,7 @@ register.post("/student", (req, res) => {
 // this route can only be accessed by admin
 setJSONPacketFormat({'existing': false, 'created': false, 'error': ''});
 register.post("/admin", postRequestPermission, (req, res) => {
-    const missedParams = paramChecker(['username', 'email', 'contact', 'password', 'name'], req.body);
+    const missedParams = paramChecker(['email', 'contact', 'password', 'name'], req.body);
     const responseJSONFormat = {
         'created': false,
         'error': ''
