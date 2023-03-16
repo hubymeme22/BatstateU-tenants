@@ -22,6 +22,7 @@ export const ContentContainer = styled.div`
 `;
 export const Wrapper = styled.div`
   transition: all 0.6s ease-in-out;
+
   width: 50%;
   height: 100%;
   background-color: #651b1b;
@@ -33,7 +34,6 @@ export const Wrapper = styled.div`
       ? `
     transform: translateX(100%);
     opacity: 1;
-    
    
   `
       : null}
@@ -72,7 +72,15 @@ export const Field = styled.div`
     }
   }
 `;
-
+export const Checkbox = styled.div`
+  display: flex;
+  gap: 5px;
+  font-size: 13px;
+`;
+export const Namess = styled.div`
+  display: flex;
+  gap: 5px;
+`;
 export const Label = styled.label`
   color: white;
 `;
@@ -131,4 +139,9 @@ export const ButtonContainer = styled.div`
     display: flex;
     flex-direction: column;
   }
+`;
+export const Register = styled.div`
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
 `;
