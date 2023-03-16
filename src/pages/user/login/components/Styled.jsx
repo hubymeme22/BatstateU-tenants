@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { FaUserCircle } from 'react-icons/fa';
 import { BsKey } from 'react-icons/bs';
+import { AiOutlineMail } from 'react-icons/ai';
 import { Link as LinkTag } from 'react-router-dom';
 export const Container = styled.div`
   height: 100vh;
@@ -22,7 +23,6 @@ export const ContentContainer = styled.div`
 `;
 export const Wrapper = styled.div`
   transition: all 0.6s ease-in-out;
-
   width: 50%;
   height: 100%;
   background-color: #651b1b;
@@ -35,11 +35,13 @@ export const Wrapper = styled.div`
     transform: translateX(100%);
     opacity: 1;
    
+   
   `
       : null}
 `;
 
 export const ComponentContainer = styled.div`
+  transition: all 0.6s ease-in-out;
   margin: 0;
   padding: 30px;
   color: white;
@@ -94,7 +96,7 @@ export const Input = styled.input`
 `;
 
 export const UserIcon = styled(FaUserCircle)``;
-
+export const EmailIcon = styled(AiOutlineMail)``;
 export const KeyIcon = styled(BsKey)`
   transform: rotate(90deg);
 `;
