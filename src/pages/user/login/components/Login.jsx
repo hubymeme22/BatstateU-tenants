@@ -14,23 +14,50 @@ import {
   ButtonContainer,
 } from './Styled';
 function Login({ handle }) {
+  const [value, setValue] = React.useState({
+    username: '',
+    password: '',
+  });
+  function textAdd(event) {
+    setValue(function (prev) {
+      const { name, value, type, checked } = event.target;
+      return {
+        ...prev,
+        [name]: type === 'checkbox' ? checked : value,
+      };
+    });
+  }
+  console.log(value);
   return (
     <ComponentContainer>
       <Form>
         <Title> Login</Title>
         <Field>
-          <Label>Username</Label>
-
+          <Label htmlFor='username'>Username</Label>
           <div>
-            <Input type='text' id='sr-code' placeholder='Username' />
+            <Input
+              type='text'
+              id='username'
+              placeholder='Username'
+              value={value.username}
+              name='username'
+              onChange={textAdd}
+            />
             <UserIcon />
           </div>
         </Field>
         <Field>
-          <Label>Password</Label>
+          <Label htmlFor='password'>Password</Label>
 
           <div>
-            <Input type='password' id='password' placeholder='Password' />
+            <Input
+              type='password'
+              id='password'
+              placeholder='Password'
+              value={value.password}
+              name='password'
+              onChange={textAdd}
+            />
             <KeyIcon />
           </div>
         </Field>
