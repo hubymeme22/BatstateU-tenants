@@ -22,7 +22,6 @@ export const ContentContainer = styled.div`
   display: flex;
 `;
 export const Wrapper = styled.div`
-  transition: all 0.6s ease-in-out;
   width: 50%;
   height: 100%;
   background-color: #651b1b;
