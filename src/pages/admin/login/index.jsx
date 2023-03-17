@@ -1,25 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
 import useInput from '../../../hooks/useInput';
 import { checkToken, saveToken } from '../../../utils/tokenHandler';
 
-import {
-  LoginContainer,
-  Form,
-  Title,
-  Field,
-  Label,
-  Input,
-  Button,
-  Link,
-  UserIcon,
-  KeyIcon,
-} from './styled';
+// Components
+import { LoginContainer, Form, Title, Error } from './styled';
+import { Field, Label, Input } from './styled';
+import { Button, Link, UserIcon, KeyIcon } from './styled';
 
 function AdminLogin() {
   const [username, usernameHandler, resetUsername] = useInput('');
   const [password, passwordHandler, resetPassword] = useInput('');
+
+  const [errorMsg, setErrorMsg] = useState('');
 
   const auth = useAuth();
   const navigate = useNavigate();
@@ -32,11 +26,29 @@ function AdminLogin() {
     }
   }, []);
 
+  const errorPhraser = (error) => {
+    let newErrorMsg = '';
+
+    switch (error) {
+      case 'NonExistentEmail':
+        newErrorMsg = 'Account not found';
+        break;
+      case 'InvaildCredentials':
+        newErrorMsg = 'Incorrect username or password';
+        break;
+      default:
+        newErrorMsg = error;
+        break;
+    }
+
+    return newErrorMsg;
+  };
+
   const submitForm = async (e) => {
     e.preventDefault();
 
     if (!username || !password) {
-      console.log('All fields are required');
+      setErrorMsg('All fields are required');
       return;
     }
 
@@ -45,7 +57,9 @@ function AdminLogin() {
     // Destruct credential object
     const { isLoggedIn, error, token } = await credential;
 
-    // Display error if there is one
+    // Create new error message based on error from server response
+    const newError = errorPhraser(error);
+    setErrorMsg(newError);
 
     // Go to admin panel / dashboard if credential is correct
     if (isLoggedIn && token) {
@@ -88,6 +102,9 @@ function AdminLogin() {
         </Field>
 
         <Link>Forget Password?</Link>
+
+        {/* // Display error if there is one */}
+        {errorMsg ? <Error>{errorMsg}</Error> : null}
 
         <Button onClick={auth.login}> LOGIN </Button>
       </Form>

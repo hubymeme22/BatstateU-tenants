@@ -79,3 +79,9 @@ export const UserIcon = styled(FaUserCircle)``;
 export const KeyIcon = styled(BsKey)`
   transform: rotate(90deg);
 `;
+
+export const Error = styled.p`
+  color: white;
+  text-align: center;
+  font-size: 0.95rem;
+`;
