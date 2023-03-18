@@ -201,6 +201,8 @@ Below are the individual routes, their purposes, usage, authorization, etc.
     - `key` is a random string that will be used for changing password. This key is a one-time use.
     - `error` contains a string/JSON which can be used for debugging.
 
+<br>
+
 - **`/api/forgotpass/change/:key`**
   - Uses the key generated above to change the password by the password provided.
   - **Permission**: Public (Anyone can use this route)
@@ -216,4 +218,32 @@ Below are the individual routes, their purposes, usage, authorization, etc.
     ```
   - This route returns two(2) key responses: `code` and `error`
     - `changed` response can be either true, which indicates that the password has successfuly been changed, or false if not.
+    - `error` contains a string/JSON which can be used for debugging.
+
+<br>
+
+## Adding a new billing
+- **`/api/billing/:slotID/:username`**
+  - Adds a new bill to the room of the specified username.
+  - **Permission**: Admin
+  - **Method**: <b style="color: yellow">POST</b>
+  - **Parameters**: `month`, `day`, `year`, `rate`, `previous_kwh`, `current_kwh`, `days_present`
+  - Sample request:
+    ```json
+    {
+      "month": 3,
+      "day": 13,
+      "year": 2023,
+      "rate": 30,
+      "previous_kwh": 30,
+      "current_kwh": 626,
+      "days_present": 30
+    }
+    ```
+  - Sample Response:
+    ```json
+    { "added": true, "error": "" }
+    ```
+  - This route returns two(2) key responses: `code` and `error`
+    - `added` response can be either `true`, which indicates that the billing has been added to the database, or `false` if not.
     - `error` contains a string/JSON which can be used for debugging.
