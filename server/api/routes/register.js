@@ -66,23 +66,8 @@ register.post("/admin", postRequestPermission, (req, res) => {
     // check if the email is already registered
     const databaseConnection = new AdminMongoDBConnection(req.allowedData);
     databaseConnection.setAcceptCallback((userdata) => {
-        if (userdata != null) {
-            responseJSONFormat['error'] = 'existing_email';
-            return res.json(responseJSONFormat);
-        }
-
-        // reuse database instance to generate new request
-        databaseConnection.setAcceptCallback((userdata) => {
-            responseJSONFormat['created'] = true;
-            res.json(responseJSONFormat);
-        });
-
-        databaseConnection.setRejectCallback((error) => {
-            responseJSONFormat['error'] = error;
-            res.json(responseJSONFormat);
-        });
-
-        databaseConnection.registerAdmin(req.body.username, req.body.email, req.body.password, req.body.name);
+        responseJSONFormat['created'] = true;
+        res.json(responseJSONFormat);
     });
 
     databaseConnection.setRejectCallback((error) => {
@@ -90,7 +75,7 @@ register.post("/admin", postRequestPermission, (req, res) => {
         res.json(responseJSONFormat);
     });
 
-    databaseConnection.checkStudentUserAndEmail(req.body.username, req.body.email);
+    databaseConnection.registerAdmin(req.body.email, req.body.contact, req.body.password, req.body.name);
 });
 
 export default register;
