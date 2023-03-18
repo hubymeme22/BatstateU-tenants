@@ -23,7 +23,15 @@ function Signup({ handle }) {
     confirmPassword: '',
     terms: '',
   });
-
+  const V = {
+    firstName: /^[a-zA-Z]{4,15}$/gi,
+    lastName: /^[a-zA-Z]{4,10}$/gi,
+    srCode: /^([0-9]{2})-[0-9]{5}$/gi,
+    password: /^[\w-]{8,20}$/gi,
+    confirmPassword: /^[\w-]{8,20}$/gi,
+  };
+  let names = 'f';
+  console.log(V.password.test(names));
   function textAdd(event) {
     setValue(function (prev) {
       const { name, value, type, checked } = event.target;
@@ -35,9 +43,14 @@ function Signup({ handle }) {
   }
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(value);
+
+    if (!value.terms) {
+      return alert('All inputs are required!');
+    }
+    alert(
+      'Registration successful! Please wait for the verification from admin.'
+    );
     handle();
-    alert('thankyou please wait');
   }
   return (
     <ComponentContainer>
