@@ -7,7 +7,7 @@ const addUnit = Router();
 
 setJSONPacketFormat({'added': false, 'error': ''});
 addUnit.post('/new', postRequestPermission, (req, res) => {
-    const missedParams = paramChecker(['slot_id', 'max_slot'], req.body);
+    const missedParams = paramChecker(['slot_id', 'max_slot', 'label'], req.body);
     if (missedParams.length > 0) {
         return res.json({
             'added': false,
@@ -28,7 +28,7 @@ addUnit.post('/new', postRequestPermission, (req, res) => {
         res.json(responseFormat);
     });
 
-    adminDatabase.addUnit(req.body.slot_id, req.body.max_slot);
+    adminDatabase.addUnit(req.body.slot_id, req.body.max_slot, req.body.label);
 });
 
 export default addUnit;

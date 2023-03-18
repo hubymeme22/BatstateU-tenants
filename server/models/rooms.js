@@ -22,7 +22,12 @@ const room = new mongoose.Schema({
     status: {
         type: String,
         required: true,
-        enum: ['occupied', 'not occupied']
+        enum: ['occupied', 'not occupied', 'full']
+    },
+    label: {
+        type: String,
+        required: true,
+        enum: ['dorm', 'canteen']
     }
 });
 

@@ -7,11 +7,11 @@ const deleteStudentRoom = Router();
 // to delete a student in a specific room and update the array of users (tenants occupying the room)
 setJSONPacketFormat({error: '', deleted: false});
 deleteStudentRoom.delete('/room/:slot/:username', getRequestPermission, (req, res) => {
-    const responseFormat = { deleted: [], error: '' };
+    const responseFormat = { deleted: false, error: '' };
     const adminDatabase = new AdminMongoDBConnection(req.allowedData);
 
     adminDatabase.setAcceptCallback(userdata => {
-        responseFormat.deleted = userdata;
+        responseFormat.deleted = true;
         res.json(responseFormat);
     });
 

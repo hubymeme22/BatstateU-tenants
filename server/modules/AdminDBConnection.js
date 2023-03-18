@@ -23,15 +23,22 @@ export class AdminMongoDBConnection extends MongoDBConnection {
         if (missedParams.length > 0)
             return this.rejectCallback(`missed_params=${missedParams}`);
 
-        const adminAccount = new Admin({
-            email: email,
-            password: password,
-            name: nameJSON,
-            contact: contact,
-            access: 'admin'
-        });
+        Admin.findOne({email: email})
+            .then(admindata => {
+                if (admindata != null)
+                    return this.rejectCallback('EmailAlreadyExists');
 
-        adminAccount.save(this.acceptCallback).catch(this.rejectCallback);
+                // generates a new admin account
+                const adminAccount = new Admin({
+                    email: email,
+                    password: password,
+                    name: nameJSON,
+                    contact: contact,
+                    access: 'admin'
+                });
+        
+                adminAccount.save().then(this.acceptCallback).catch(this.rejectCallback);
+            }).catch(this.rejectCallback);
     }
 
     // verifies a student account from pending
@@ -87,7 +94,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     //  UNITS PART  //
     //////////////////
     // add room details
-    addUnit(slotName, maxTennants) {
+    addUnit(slotName, maxTennants, label) {
         adminRoleChecker(this.userTokenData)
             .then(() => {
                 const newRoom = new Room({
@@ -95,7 +102,8 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                     'max_slot': maxTennants,
                     'available_slot': maxTennants,
                     'users': [],
-                    'status': 'not occupied'
+                    'status': 'not occupied',
+                    'label': label
                 });
     
                 newRoom.save().then(this.acceptCallback).catch(this.rejectCallback);
@@ -120,6 +128,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                 Room.findOne({users: username})
                     .then(existingroomdata => {
                         if (existingroomdata != null) {
+                            existingroomdata.available_slot++;
                             existingroomdata.users.pop(username);
                             existingroomdata.save();
                         }
@@ -130,8 +139,18 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                                 if (userdata == null)
                                     return this.rejectCallback('NonexistentUsername');
 
+                                // checks if the slot is already full
+                                if (roomdata.available_slot <= 0)
+                                    return this.rejectCallback('SlotAlreadyFull');
+
                                 // append this user to the room
                                 roomdata.users.push(username);
+                                roomdata.available_slot--;
+
+                                // for room status
+                                if (roomdata.available_slot == 0) roomdata.status = 'full'
+                                else roomdata.status = 'occupied';
+
                                 roomdata.save().then(this.acceptCallback).catch(this.rejectCallback);
 
                             }).catch(this.rejectCallback);
@@ -177,6 +196,8 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
                     // manual deleting of user from the room
                     roomdata.users.pop(username);
+                    roomdata.available_slot++;
+                    if (roomdata.users.length <= 0) roomdata.status = 'not occupied';
                     roomdata.save().then(this.acceptCallback).catch(this.rejectCallback);
 
                 }).catch(this.rejectCallback);
