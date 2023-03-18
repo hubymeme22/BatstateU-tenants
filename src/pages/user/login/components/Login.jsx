@@ -1,4 +1,5 @@
 import React from 'react';
+import { useAuth } from '../../../../hooks/useAuth';
 import {
   ComponentContainer,
   Title,
@@ -27,10 +28,12 @@ function Login({ handle }) {
       };
     });
   }
-  console.log(value);
+  function submiButton(event) {
+    event.preventDefault();
+  }
   return (
     <ComponentContainer>
-      <Form>
+      <Form onSubmit={submiButton}>
         <Title> Login</Title>
         <Field>
           <Label htmlFor='username'>Username</Label>

@@ -33,10 +33,15 @@ function Signup({ handle }) {
       };
     });
   }
-  console.log(value);
+  function handleSubmit(event) {
+    event.preventDefault();
+    console.log(value);
+    handle();
+    alert('thankyou please wait');
+  }
   return (
     <ComponentContainer>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Title> Sign up</Title>
         <Field>
           <Namess>
@@ -124,9 +129,7 @@ function Signup({ handle }) {
               I accept the Terms of Use & Privacy Policy
             </label>
           </Checkbox>
-          <SignInButton type='button' onClick={handle}>
-            REGISTER
-          </SignInButton>
+          <SignInButton>REGISTER</SignInButton>
         </Register>
       </Form>
     </ComponentContainer>
