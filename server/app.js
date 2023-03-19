@@ -10,10 +10,11 @@ const app = express();
 const appIP = process.env.IP;
 const appPort = process.env.PORT;
 const mongodbURI = process.env.MONGODB_URI;
+const corsOptions = { origin: process.env.ACCEPTED_URIS, optionsSuccessStatus: 200 };
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use("/api", api);
 
 console.log("[*] Connecting to database...");
