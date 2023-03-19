@@ -222,6 +222,96 @@ Below are the individual routes, their purposes, usage, authorization, etc.
 
 <br>
 
+# Billings
+## Reading the billings
+On getting/reading the billings, different routes are introduced for filtering the needed billings statements.
+
+<br>
+
+- **`/api/billing/`**
+  - Gets all the bills stored in the database.
+  - **Permission**: Admin
+  - **Method**: <b style="color: green">GET</b>
+  - **Note**: Make sure that the token on `cookies` are set.
+  - Sample Response:
+    ```json
+    {
+      "billings": [{
+        "slot": "RM-02",
+        "rate": 20,
+        "previousKWH": 300,
+        "currentKWH": 523,
+        "fullyPaid": false,
+        "currentPayment": 4460,
+        "dueDate": {
+            "month": 4,
+            "day": 15,
+            "year": 2023
+        },
+        "users": [
+            {
+                "username": "20-05845",
+                "paid": false,
+                "cost": 4460,
+                "daysPresent": 30,
+                "_id": "6415df6217381a08b19c8b07"
+            }
+        ],
+        "_id": "6415df6217381a08b19c8b06",
+        "__v": 0
+        }, ...],
+        "error": ""
+      ]
+    }
+    ```
+  - This route returns two(2) key responses: `billings` and `error`
+    - `billings` contains an array containing the collection of **ALL** the billings stored in the database.
+    - `error` contains a string/JSON which can be used for debugging.
+
+<br>
+
+- **`/api/billing/:username`**
+  - Gets all the bills of the specified username.
+  - **Permission**: Admin/Student
+  - **Method**: <b style="color: green">GET</b>
+  - **Note**: Make sure that the token on `cookies` are set.
+  - Sample Response:
+    ```json
+    {
+      "billings": [{
+        "slot": "RM-02",
+        "rate": 20,
+        "previousKWH": 300,
+        "currentKWH": 523,
+        "fullyPaid": false,
+        "currentPayment": 4460,
+        "dueDate": {
+            "month": 4,
+            "day": 15,
+            "year": 2023
+        },
+        "users": [
+            {
+                "username": "username",
+                "paid": false,
+                "cost": 4460,
+                "daysPresent": 30,
+                "_id": "..."
+            }
+        ],
+        "_id": "6415df6217381a08b19c8b06",
+        "__v": 0
+        }, ...],
+        "error": ""
+      ]
+    }
+    ```
+  - This route returns two(2) key responses: `billings` and `error`
+    - `billings` contains an array containing the collection of **ALL** the billings of the specified user.
+    - `error` contains a string/JSON which can be used for debugging.
+
+<br>
+
 ## Adding a new billing
 - **`/api/billing/:slotID/:username`**
   - Adds a new bill to the room of the specified username.
