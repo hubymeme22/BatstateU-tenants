@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { NavLink as NavLinks } from 'react-router-dom';
 
 export const StyledSidebar = styled.aside`

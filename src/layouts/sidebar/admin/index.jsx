@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { StyledSidebar, Title, LineBreak } from './styled';
-import { Nav, NavLink, Button } from './styled';
+import { StyledSidebar, Title, LineBreak } from '../styled';
+import { Nav, NavLink, Button } from '../styled';
 
 import { MdDashboard } from 'react-icons/md';
 import { FaUsers } from 'react-icons/fa';
 
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
-function Sidebar() {
+export function Sidebar() {
   const auth = useAuth();
 
   return (
@@ -38,5 +38,3 @@ function Sidebar() {
     </StyledSidebar>
   );
 }
-
-export default Sidebar;

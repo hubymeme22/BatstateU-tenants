@@ -1,6 +1,8 @@
 import Index from '../pages/user/login/Index';
-import UserPage from '../pages/user/userPage/UserPage';
+
+import Main from '../layouts/main';
 import UserBills from '../pages/user/userBills/UserBills';
+
 export const userRoutes = [
   {
     path: '/login',
@@ -8,7 +10,17 @@ export const userRoutes = [
   },
   {
     path: '/',
-    element: <UserPage />,
+    element: <Main />,
+    children: [
+      {
+        index: true,
+        element: <>Form</>,
+      },
+      {
+        path: 'notification',
+        element: <>Notification</>,
+      },
+    ],
   },
   {
     path: '/bills',
