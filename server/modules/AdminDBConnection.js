@@ -4,9 +4,6 @@ import { Bills } from "../models/bills.js";
 import { Room } from "../models/rooms.js";
 import paramChecker from "./paramchecker.js";
 
-// Test
-import adminRoleChecker from "./adminRoleChecker.js"
-
 // database operations that only admin can execute
 export class AdminMongoDBConnection extends MongoDBConnection {
     constructor(userTokenData) {
@@ -14,11 +11,18 @@ export class AdminMongoDBConnection extends MongoDBConnection {
         this.userTokenData = userTokenData;
     }
 
+    // override the setAcceptCallback for additional permission checking
+    setAcceptCallback(callback=this.acFormat) {
+        if (this.userTokenData.access != 'admin')
+            return super.setAcceptCallback((userdata) => {
+                this.rejectCallback('InsufficientPermission');
+            });
+
+        super.setAcceptCallback(callback);
+    }
+
     // registers an admin account
     registerAdmin(email, contact, password, nameJSON) {
-        if (this.userTokenData.access != 'admin')
-            return this.rejectCallback('InsufficientPermission');
-        
         const missedParams = paramChecker(['first', 'middle', 'last'], nameJSON);
         if (missedParams.length > 0)
             return this.rejectCallback(`missed_params=${missedParams}`);
@@ -43,9 +47,6 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
     // verifies a student account from pending
     verifyStudent(username) {
-        if (this.userTokenData.access != 'admin')
-            return this.rejectCallback('InsufficientPermission');
-
         Student.findOne({username: username})
             .then(userdata => {
                 if (userdata == null)
@@ -64,9 +65,6 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
     // unverifies a verified student account
     unverifyStudent(username) {
-        if (this.userTokenData.access != 'admin')
-            return this.rejectCallback('InsufficientPermission');
-
         Student.findOne({username: username})
             .then(userdata => {
                 if (userdata == null)
@@ -95,22 +93,16 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     //////////////////
     // add room details
     addUnit(slotName, maxTennants, label) {
-        adminRoleChecker(this.userTokenData)
-            .then(() => {
-                const newRoom = new Room({
-                    'slot': slotName,
-                    'max_slot': maxTennants,
-                    'available_slot': maxTennants,
-                    'users': [],
-                    'status': 'not occupied',
-                    'label': label
-                });
-    
-                newRoom.save().then(this.acceptCallback).catch(this.rejectCallback);
-            })
-            .catch(error => {
-                this.rejectCallback(error);
-            });
+        const newRoom = new Room({
+            'slot': slotName,
+            'max_slot': maxTennants,
+            'available_slot': maxTennants,
+            'users': [],
+            'status': 'not occupied',
+            'label': label
+        });
+
+        newRoom.save().then(this.acceptCallback).catch(this.rejectCallback);
     }
 
     // adds a new student in the room
@@ -203,20 +195,17 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
     // Underdevelop Delete a student in room
     deleteStudentRoom(slotID, username) {
-        adminRoleChecker(this.userTokenData)
-          .then(() => {
-            Room.findOneAndUpdate({ slot: slotID, users: username })
-                .then((roomdata) => {
-                    if (roomdata == null) return this.rejectCallback('NonexistentRoomID');
+        Room.findOneAndUpdate({ slot: slotID, users: username })
+            .then((roomdata) => {
+                if (roomdata == null) return this.rejectCallback('NonexistentRoomID');
 
-                    // manual deleting of user from the room
-                    roomdata.users.pop(username);
-                    roomdata.available_slot++;
-                    if (roomdata.users.length <= 0) roomdata.status = 'not occupied';
-                    roomdata.save().then(this.acceptCallback).catch(this.rejectCallback);
+                // manual deleting of user from the room
+                roomdata.users.pop(username);
+                roomdata.available_slot++;
+                if (roomdata.users.length <= 0) roomdata.status = 'not occupied';
+                roomdata.save().then(this.acceptCallback).catch(this.rejectCallback);
 
-                }).catch(this.rejectCallback);
-          }).catch(this.rejectCallback);
+            }).catch(this.rejectCallback);
       }
 
 
