@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { StyledSidebar, Title, LineBreak } from '../styled';
-import { UserDetails, Nav, NavLink, Button } from '../styled';
+import { Nav, NavLink, Button } from '../styled';
 
 import { BsEnvelopePaperFill } from 'react-icons/bs';
 import { IoNotificationsSharp } from 'react-icons/io5';
