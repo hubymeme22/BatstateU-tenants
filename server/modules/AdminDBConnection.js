@@ -158,9 +158,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                     }).catch(this.rejectCallback);
 
             }).catch(this.rejectCallback);
-    }
-
-    
+    }    
 
     // gets units with specified filter
     getAllUnits() {
@@ -169,6 +167,23 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
         Room.find().then(this.acceptCallback).catch(this.rejectCallback);
     }
+
+    // gets all the dorm unit info
+    getAllDormUnits() {
+        if (this.userTokenData.access != 'admin')
+            return this.rejectCallback('InsufficientPermission');
+
+        Room.find({label: 'dorm'}).then(this.acceptCallback).catch(this.rejectCallback);
+    }
+
+    // gets all the canteen unit info
+    getAllCanteenUnits() {
+        if (this.userTokenData.access != 'admin')
+            return this.rejectCallback('InsufficientPermission');
+
+        Room.find({label: 'canteen'}).then(this.acceptCallback).catch(this.rejectCallback);
+    }
+    
 
     // gets the units with available slots
     getAvailableUnits() {
