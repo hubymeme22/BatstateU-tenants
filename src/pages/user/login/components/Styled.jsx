@@ -158,3 +158,9 @@ export const Register = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
+export const Message = styled.p`
+  font-size: 16px;
+  text-align: center;
+  color: red;
+`;

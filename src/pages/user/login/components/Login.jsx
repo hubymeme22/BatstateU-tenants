@@ -40,42 +40,44 @@ function Login({ handle }) {
       <Form onSubmit={submiButton}>
         <Title> Login</Title>
         <Field>
-          <Label htmlFor="username">Username</Label>
+          <Label htmlFor='username'>Username</Label>
           <div>
             <Input
-              type="text"
-              id="username"
-              placeholder="Username"
+              type='text'
+              id='username'
+              placeholder='Username'
               value={value.username}
-              name="username"
+              name='username'
               onChange={textAdd}
+              required
             />
             <UserIcon />
           </div>
         </Field>
         <Field>
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor='password'>Password</Label>
 
           <div>
             <Input
-              type="password"
-              id="password"
-              placeholder="Password"
+              type='password'
+              id='password'
+              placeholder='Password'
               value={value.password}
-              name="password"
+              name='password'
               onChange={textAdd}
+              required
             />
             <KeyIcon />
           </div>
         </Field>
         <ButtonContainer>
           <div>
-            <Link variant="underline">Forget Password?</Link>
+            <Link variant='underline'>Forget Password?</Link>
             <Button> LOGIN </Button>
           </div>
           <div>
             <Link>Dont Have An Account?</Link>
-            <SignInButton type="button" onClick={handle}>
+            <SignInButton type='button' onClick={handle}>
               Sign in
             </SignInButton>
           </div>

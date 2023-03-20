@@ -12,8 +12,10 @@ import {
   Checkbox,
   Register,
   EmailIcon,
+  Message,
 } from './Styled';
 function Signup({ handle }) {
+  const [message, setMessage] = React.useState('');
   const [value, setValue] = React.useState({
     firstName: '',
     lastName: '',
@@ -23,15 +25,7 @@ function Signup({ handle }) {
     confirmPassword: '',
     terms: '',
   });
-  const V = {
-    firstName: /^[a-zA-Z]{4,15}$/gi,
-    lastName: /^[a-zA-Z]{4,10}$/gi,
-    srCode: /^([0-9]{2})-[0-9]{5}$/gi,
-    password: /^[\w-]{8,20}$/gi,
-    confirmPassword: /^[\w-]{8,20}$/gi,
-  };
-  let names = 'f';
-  console.log(V.password.test(names));
+
   function textAdd(event) {
     setValue(function (prev) {
       const { name, value, type, checked } = event.target;
@@ -43,14 +37,27 @@ function Signup({ handle }) {
   }
   function handleSubmit(event) {
     event.preventDefault();
-
-    if (!value.terms) {
-      return alert('All inputs are required!');
+    const V = {
+      firstName: /^[a-zA-Z]{4,15}$/gi,
+      lastName: /^[a-zA-Z]{4,10}$/gi,
+      srCode: /^([0-9]{2})-[0-9]{5}$/gi,
+      password: /^[\w-]{8,20}$/gi,
+      confirmPassword: /^[\w-]{8,20}$/gi,
+    };
+    if (
+      !V.firstName.test(value.firstName) ||
+      !V.lastName.test(value.lastName) ||
+      !V.srCode.test(value.srCode) ||
+      !V.password.test(value.password) ||
+      !V.confirmPassword.test(value.confirmPassword)
+    ) {
+      setMessage('Inputs must be Valid!');
+    } else if (value.password !== value.confirmPassword) {
+      setMessage("Password Don't Match!");
+    } else {
+      alert('thankyou for filling up please wait for the admin confirmation!');
+      return handle();
     }
-    alert(
-      'Registration successful! Please wait for the verification from admin.'
-    );
-    handle();
   }
   return (
     <ComponentContainer>
@@ -65,6 +72,7 @@ function Signup({ handle }) {
                 value={value.firstName}
                 name='firstName'
                 onChange={textAdd}
+                required
               />
               <UserIcon />
             </div>
@@ -75,6 +83,7 @@ function Signup({ handle }) {
                 value={value.lastName}
                 name='lastName'
                 onChange={textAdd}
+                required
               />
               <UserIcon />
             </div>
@@ -83,11 +92,12 @@ function Signup({ handle }) {
         <Field>
           <div>
             <Input
-              type='text'
+              type='email'
               placeholder='Email'
               value={value.email}
               name='email'
               onChange={textAdd}
+              required
             />
             <EmailIcon />
           </div>
@@ -96,11 +106,11 @@ function Signup({ handle }) {
           <div>
             <Input
               type='text'
-              id='password'
               placeholder='SR-CODE'
               value={value.srCode}
               name='srCode'
               onChange={textAdd}
+              required
             />
             <UserIcon />
           </div>
@@ -113,6 +123,7 @@ function Signup({ handle }) {
               value={value.password}
               name='password'
               onChange={textAdd}
+              required
             />
             <KeyIcon />
           </div>
@@ -125,6 +136,7 @@ function Signup({ handle }) {
               value={value.confirmPassword}
               name='confirmPassword'
               onChange={textAdd}
+              required
             />
             <KeyIcon />
           </div>
@@ -137,11 +149,13 @@ function Signup({ handle }) {
               value={value.terms}
               name='terms'
               onChange={textAdd}
+              required
             />
             <label htmlFor='terms'>
               I accept the Terms of Use & Privacy Policy
             </label>
           </Checkbox>
+          <Message> {message}</Message>
           <SignInButton>REGISTER</SignInButton>
         </Register>
       </Form>
