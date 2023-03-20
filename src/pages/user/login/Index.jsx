@@ -6,14 +6,17 @@ import Bsu from './components/Bsu';
 
 import { Container, ContentContainer, Wrapper } from './components/Styled';
 
+import BackgroundPath from '@/assets/background.png';
+
 function Index() {
   const [toggle, setToggle] = useState(true);
 
   function clickEvent() {
     setToggle(!toggle);
   }
+
   return (
-    <Container>
+    <Container bg={BackgroundPath}>
       <ContentContainer>
         <Wrapper switch={toggle}>
           {toggle ? (

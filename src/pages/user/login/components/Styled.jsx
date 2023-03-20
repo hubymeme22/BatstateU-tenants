@@ -1,19 +1,22 @@
 import styled from 'styled-components';
+
 import { FaUserCircle } from 'react-icons/fa';
 import { BsKey } from 'react-icons/bs';
 import { AiOutlineMail } from 'react-icons/ai';
 import { Link as LinkTag } from 'react-router-dom';
+
 export const Container = styled.div`
   height: 100vh;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('src/pages/user/login/assets/BSUBG.png');
+  background-image: url(${(props) => props.bg});
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 `;
+
 export const ContentContainer = styled.div`
   border-radius: 25px;
   height: 550px;
@@ -21,6 +24,7 @@ export const ContentContainer = styled.div`
   background-color: #651b1b;
   display: flex;
 `;
+
 export const Wrapper = styled.div`
   width: 50%;
   height: 100%;
@@ -33,8 +37,6 @@ export const Wrapper = styled.div`
       ? `
     transform: translateX(100%);
     opacity: 1;
-   
-   
   `
       : null}
 `;
@@ -48,6 +50,7 @@ export const ComponentContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 export const Title = styled.h1`
   font-family: 'Staatliches';
   color: white;
@@ -73,15 +76,18 @@ export const Field = styled.div`
     }
   }
 `;
+
 export const Checkbox = styled.div`
   display: flex;
   gap: 5px;
   font-size: 13px;
 `;
+
 export const Namess = styled.div`
   display: flex;
   gap: 5px;
 `;
+
 export const Label = styled.label`
   color: white;
 `;
@@ -95,7 +101,9 @@ export const Input = styled.input`
 `;
 
 export const UserIcon = styled(FaUserCircle)``;
+
 export const EmailIcon = styled(AiOutlineMail)``;
+
 export const KeyIcon = styled(BsKey)`
   transform: rotate(90deg);
 `;
@@ -108,6 +116,7 @@ export const Button = styled.button`
   border-radius: 5px;
   cursor: pointer;
 `;
+
 export const SignInButton = styled.button`
   background-color: white;
   color: red;
@@ -116,6 +125,7 @@ export const SignInButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
 `;
+
 export const Link = styled(LinkTag)`
   font-size: 0.9rem;
   color: white;
@@ -130,6 +140,7 @@ export const Form = styled.form`
   padding: 5px;
   gap: 20px;
 `;
+
 export const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -141,6 +152,7 @@ export const ButtonContainer = styled.div`
     flex-direction: column;
   }
 `;
+
 export const Register = styled.div`
   gap: 10px;
   display: flex;

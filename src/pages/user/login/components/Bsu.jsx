@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ComponentContainer } from './Styled';
+
+import BSULogo from '@/assets/logo.png';
+
 function Bsu({ toggle }) {
   return (
     <BSUContainer switch={toggle}>
-      <img src='src/pages/user/login/assets/Logo.png' />
+      <img src={BSULogo} />
     </BSUContainer>
   );
 }
