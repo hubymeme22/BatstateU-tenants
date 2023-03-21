@@ -3,6 +3,8 @@ import { createContext, useContext } from 'react';
 import { clearToken } from '../utils/tokenHandler';
 import { useNavigate } from 'react-router-dom';
 
+axios.defaults.withCredentials = true;
+
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
