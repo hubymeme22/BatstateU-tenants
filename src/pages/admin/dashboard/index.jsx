@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-import fetchData from '../../../utils/fetchData';
+import fetchData from '@/utils/fetchData';
+import Loader from '@/components/Loader';
 
 const dashboardLoader = () => {
   return fetchData('slots');
@@ -22,7 +23,28 @@ function Dashboard() {
     console.log(slots);
   }, [slots]);
 
-  return <>Dashboard Page</>;
+  const retrieveBoarders = (id) => {};
+
+  return (
+    <>
+      {slots ? (
+        slots.map((slot, index) => {
+          const id = slot._id;
+          const room = slot.slot;
+          const available = slot.available_slot;
+          const max = slot.max_slot;
+
+          return (
+            <div key={id} onClick={retrieveBoarders}>
+              room - {room} -{'>'} {`${available} / ${max}`}
+            </div>
+          );
+        })
+      ) : (
+        <Loader />
+      )}
+    </>
+  );
 }
 
 export default Dashboard;

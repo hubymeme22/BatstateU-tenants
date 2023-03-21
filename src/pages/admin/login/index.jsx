@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../hooks/useAuth';
-import useInput from '../../../hooks/useInput';
+import { useAuth } from '@/hooks/useAuth';
+import useInput from '@/hooks/useInput';
 
 // Components
 import { LoginContainer, Form, Title, Error } from './styled';
@@ -9,8 +9,8 @@ import { Field, Label, Input } from './styled';
 import { Button, Link, UserIcon, KeyIcon } from './styled';
 
 // Utils
-import errorTranslator from '../../../utils/errorTranslator';
-import { checkToken, saveToken } from '../../../utils/tokenHandler';
+import errorTranslator from '@/utils/errorTranslator';
+import { checkToken, saveToken } from '@/utils/tokenHandler';
 
 function AdminLogin() {
   const [username, usernameHandler, resetUsername] = useInput('');
