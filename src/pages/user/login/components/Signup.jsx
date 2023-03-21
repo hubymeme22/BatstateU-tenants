@@ -1,16 +1,15 @@
 import React from 'react';
+
+import { FaUserCircle } from 'react-icons/fa';
+import { BsKey } from 'react-icons/bs';
+import { AiOutlineMail } from 'react-icons/ai';
+import { Axios } from 'axios';
+import styled from 'styled-components';
 import {
-  ComponentContainer,
-  Title,
   Field,
-  Input,
-  UserIcon,
-  KeyIcon,
   Namess,
-  Form,
   SignInButton,
   Checkbox,
-  Register,
   EmailIcon,
   Message,
 } from './Styled';
@@ -18,8 +17,10 @@ function Signup({ handle }) {
   const [message, setMessage] = React.useState('');
   const [value, setValue] = React.useState({
     firstName: '',
+    middleName: '',
     lastName: '',
     email: '',
+    contact: '',
     srCode: '',
     password: '',
     confirmPassword: '',
@@ -79,6 +80,17 @@ function Signup({ handle }) {
             <div>
               <Input
                 type='text'
+                placeholder='Mid Name'
+                value={value.middleName}
+                name='middleName'
+                onChange={textAdd}
+                required
+              />
+              <UserIcon />
+            </div>
+            <div>
+              <Input
+                type='text'
                 placeholder='Last Name'
                 value={value.lastName}
                 name='lastName'
@@ -105,6 +117,19 @@ function Signup({ handle }) {
         <Field>
           <div>
             <Input
+              type='number'
+              placeholder='Contact Number'
+              value={value.contact}
+              name='contact'
+              onChange={textAdd}
+              required
+            />
+            <KeyIcon />
+          </div>
+        </Field>
+        <Field>
+          <div>
+            <Input
               type='text'
               placeholder='SR-CODE'
               value={value.srCode}
@@ -112,9 +137,10 @@ function Signup({ handle }) {
               onChange={textAdd}
               required
             />
-            <UserIcon />
+            <SrIcon />
           </div>
         </Field>
+
         <Field>
           <div>
             <Input
@@ -164,3 +190,49 @@ function Signup({ handle }) {
 }
 
 export default Signup;
+const ComponentContainer = styled.div`
+  transition: all 0.6s ease-in-out;
+  margin: 0;
+  padding: 15px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const Form = styled.form`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 7px;
+  gap: 15px;
+`;
+const Title = styled.h1`
+  font-family: 'Staatliches';
+  color: white;
+  font-size: 1.9rem;
+  text-align: center;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 13px;
+  border-radius: 5px;
+  border: 0;
+  font-size: 12px;
+  padding-right: 1.7rem;
+`;
+const UserIcon = styled(FaUserCircle)`
+  font-size: 100px;
+  width: 17px; ;
+`;
+const SrIcon = styled(FaUserCircle)`
+  font-size: 100px;
+`;
+const KeyIcon = styled(BsKey)`
+  transform: rotate(90deg);
+`;
+const Register = styled.div`
+  gap: 8px;
+  display: flex;
+  flex-direction: column;
+`;
