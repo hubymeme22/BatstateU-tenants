@@ -1,5 +1,5 @@
 import React from 'react';
-
+import axios from 'axios';
 import { FaUserCircle } from 'react-icons/fa';
 import { BsKey } from 'react-icons/bs';
 import { AiOutlineMail } from 'react-icons/ai';
@@ -16,9 +16,11 @@ import {
 function Signup({ handle }) {
   const [message, setMessage] = React.useState('');
   const [value, setValue] = React.useState({
-    firstName: '',
-    middleName: '',
-    lastName: '',
+    name: {
+      firstName: '',
+      middleName: '',
+      lastName: '',
+    },
     email: '',
     contact: '',
     srCode: '',
@@ -36,19 +38,25 @@ function Signup({ handle }) {
       };
     });
   }
+  //bug, must count spaces
+  //add validation for email
   function handleSubmit(event) {
     event.preventDefault();
     const V = {
       firstName: /^[a-zA-Z]{4,15}$/gi,
+      middleName: /^[a-zA-Z]{4,10}$/gi,
       lastName: /^[a-zA-Z]{4,10}$/gi,
+      contact: /[0-9]+/gi,
       srCode: /^([0-9]{2})-[0-9]{5}$/gi,
-      password: /^[\w-]{8,20}$/gi,
-      confirmPassword: /^[\w-]{8,20}$/gi,
+      password: /^[\w]{8,20}$/gi,
+      confirmPassword: /^[\w]{8,20}$/gi,
     };
     if (
-      !V.firstName.test(value.firstName) ||
-      !V.lastName.test(value.lastName) ||
+      !V.firstName.test(value.name.firstName) ||
+      !V.middleName.test(value.name.middleName) ||
+      !V.lastName.test(value.name.lastName) ||
       !V.srCode.test(value.srCode) ||
+      !V.contact.test(value.contact) ||
       !V.password.test(value.password) ||
       !V.confirmPassword.test(value.confirmPassword)
     ) {
@@ -56,6 +64,10 @@ function Signup({ handle }) {
     } else if (value.password !== value.confirmPassword) {
       setMessage("Password Don't Match!");
     } else {
+      axios
+        .post('/api/register/student', value)
+        .then((response) => console.log(response))
+        .catch((err) => console.log(err));
       alert('thankyou for filling up please wait for the admin confirmation!');
       return handle();
     }
@@ -70,8 +82,8 @@ function Signup({ handle }) {
               <Input
                 type='text'
                 placeholder='First name'
-                value={value.firstName}
-                name='firstName'
+                value={value.name.firstName}
+                name='name'
                 onChange={textAdd}
                 required
               />
@@ -81,8 +93,8 @@ function Signup({ handle }) {
               <Input
                 type='text'
                 placeholder='Mid Name'
-                value={value.middleName}
-                name='middleName'
+                value={value.name.middleName}
+                name='name'
                 onChange={textAdd}
                 required
               />
@@ -92,8 +104,8 @@ function Signup({ handle }) {
               <Input
                 type='text'
                 placeholder='Last Name'
-                value={value.lastName}
-                name='lastName'
+                value={value.name.lastName}
+                name='name'
                 onChange={textAdd}
                 required
               />
