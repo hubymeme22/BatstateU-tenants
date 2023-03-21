@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
-import { MainContainer, Content } from '../styled';
+import { MainContainer, Content } from './styled';
 
 // Sidebars
 import { Sidebar as AdminSidebar } from '../sidebar/admin';
 import { Sidebar as UserSidebar } from '../sidebar/user';
 
-import { checkToken } from '../../utils/tokenHandler';
+import { checkToken } from '@/utils/tokenHandler';
 
 function Main({ type }) {
   const navigate = useNavigate();

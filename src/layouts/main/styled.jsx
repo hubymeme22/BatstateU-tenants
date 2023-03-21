@@ -1,8 +1,3 @@
-/*
-  Contains the styles for the main backgorund
-  and layout for both user and admin page
-*/
-
 import styled from 'styled-components';
 
 export const MainContainer = styled.div`
@@ -15,7 +10,7 @@ export const MainContainer = styled.div`
 
 export const Content = styled.div`
   width: 100%;
-  background-color: ${({ theme }) => theme.gray};
+  background-color: white;
   border-radius: 10px;
   padding: 2rem;
 
