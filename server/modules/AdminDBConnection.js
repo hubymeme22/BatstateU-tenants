@@ -88,6 +88,40 @@ export class AdminMongoDBConnection extends MongoDBConnection {
         return (currentkwh - previouskwh) * rate;
     }
 
+    // returns the summary of the slots in the database
+    getRoomSummaryData() {
+        const temporaryCallback = this.acceptCallback;
+        const roomSummaryData = {
+            'occupiedDorms': 0,
+            'totalSlot': 0,
+            'totalBorders': 0,
+            'totalCanteenTenants': 0
+        };
+
+        // add additional process for the accept callback
+        this.acceptCallback = (roomdata) => {
+            roomdata.forEach(room => {
+                if (room.label == 'dorm') {
+                    if (room.status == 'occupied')
+                        roomSummaryData.occupiedDorms++;
+                    roomSummaryData.totalBorders += room.users.length;
+                } else {
+                    if (room.status == 'occupied')
+                        roomSummaryData.occupiedDorms++;
+                    roomSummaryData.totalCanteenTenants += room.users.length;
+                }
+
+                // add the number to the total dormslots
+                roomSummaryData.totalSlot += room.max_slot;
+            });
+
+            // pass the room data summary to the callback set by the user
+            temporaryCallback(roomSummaryData);
+        };
+
+        this.getAllUnits();
+    }
+
     //////////////////
     //  UNITS PART  //
     //////////////////

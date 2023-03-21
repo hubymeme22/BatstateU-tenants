@@ -124,4 +124,22 @@ getUnits.get('/available/:space', getRequestPermission, (req, res) => {
     }
 });
 
+getUnits.get('/summary', getRequestPermission, (req, res) => {
+    const responseFormat = {'summary': {}, 'error': ''};
+
+    // otherwise, get all the slots
+    const adminDatabase = new AdminMongoDBConnection(req.allowedData);
+    adminDatabase.setAcceptCallback(summary => {
+        responseFormat.summary = summary;
+        res.json(responseFormat);
+    });
+
+    adminDatabase.setRejectCallback(error => {
+        responseFormat.error = error;
+        res.json(responseFormat);
+    });
+
+    adminDatabase.getRoomSummaryData();
+});
+
 export default getUnits;
