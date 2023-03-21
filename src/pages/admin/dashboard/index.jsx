@@ -3,43 +3,48 @@ import React, { useEffect, useState } from 'react';
 import fetchData from '@/utils/fetchData';
 import Loader from '@/components/Loader';
 
-const dashboardLoader = () => {
-  return fetchData('slots');
+// Components
+import Dorm from './components/Dorm';
+import Canteen from './components/Canteen';
+import Summary from './components/Summary';
+
+// Styled-Components
+import { Layout } from './styled';
+
+const dashboardLoader = async () => {
+  const dorm = await fetchData('slots');
+  const canteen = await fetchData('slots/canteen');
+  const summary = await fetchData('slots/summary');
+
+  return { dorm, canteen, summary };
 };
 
 function Dashboard() {
-  const [slots, setSlots] = useState();
+  const [dormSlots, setDormSlots] = useState();
+  const [canteenSlots, setCanteenSlots] = useState();
+  const [summary, setSummary] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await dashboardLoader();
-      setSlots(response.data.slots);
+      setDormSlots(response.dorm.data.slots);
+      setCanteenSlots(response.canteen.data.slots);
+      setSummary(response.summary.data);
     };
 
     fetchData();
   }, []);
 
-  useEffect(() => {
-    console.log(slots);
-  }, [slots]);
-
   const retrieveBoarders = (id) => {};
 
   return (
     <>
-      {slots ? (
-        slots.map((slot, index) => {
-          const id = slot._id;
-          const room = slot.slot;
-          const available = slot.available_slot;
-          const max = slot.max_slot;
-
-          return (
-            <div key={id} onClick={retrieveBoarders}>
-              room - {room} -{'>'} {`${available} / ${max}`}
-            </div>
-          );
-        })
+      {dormSlots ? (
+        <Layout>
+          <Dorm data={dormSlots} />
+          <Canteen data={canteenSlots} />
+          <Summary data={summary} />
+        </Layout>
       ) : (
         <Loader />
       )}
