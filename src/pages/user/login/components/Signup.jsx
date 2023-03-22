@@ -38,8 +38,17 @@ function Signup({ handle }) {
       };
     });
   }
-  //bug, must count spaces
-  //add validation for email
+
+  const nameAdd = (event) => {
+    const { name, value } = event.target;
+    setValue((prevState) => ({
+      ...prevState,
+      name: {
+        ...prevState.name,
+        [name]: value,
+      },
+    }));
+  };
   function handleSubmit(event) {
     event.preventDefault();
     const V = {
@@ -68,14 +77,14 @@ function Signup({ handle }) {
       setMessage("Password Don't Match!");
     } else {
       axios
-        .post('/api/register/student', value)
+        .post('http://localhost:5050/api/register/student', value)
         .then((response) => console.log(response))
         .catch((err) => console.log(err));
       alert('thankyou for filling up please wait for the admin confirmation!');
       return handle();
     }
   }
-
+  console.log(value);
   return (
     <ComponentContainer>
       <Form onSubmit={handleSubmit}>
@@ -87,8 +96,8 @@ function Signup({ handle }) {
                 type='text'
                 placeholder='First name'
                 value={value.name.firstName}
-                name='name'
-                onChange={textAdd}
+                name='firstName'
+                onChange={nameAdd}
                 required
               />
               <UserIcon />
@@ -98,8 +107,8 @@ function Signup({ handle }) {
                 type='text'
                 placeholder='Mid Name'
                 value={value.name.middleName}
-                name='name'
-                onChange={textAdd}
+                name='middleName'
+                onChange={nameAdd}
                 required
               />
               <UserIcon />
@@ -109,8 +118,8 @@ function Signup({ handle }) {
                 type='text'
                 placeholder='Last Name'
                 value={value.name.lastName}
-                name='name'
-                onChange={textAdd}
+                name='lastName'
+                onChange={nameAdd}
                 required
               />
               <UserIcon />
