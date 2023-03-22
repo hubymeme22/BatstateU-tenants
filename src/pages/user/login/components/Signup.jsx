@@ -43,18 +43,21 @@ function Signup({ handle }) {
   function handleSubmit(event) {
     event.preventDefault();
     const V = {
-      firstName: /^[a-zA-Z]{4,15}$/gi,
-      middleName: /^[a-zA-Z]{4,10}$/gi,
-      lastName: /^[a-zA-Z]{4,10}$/gi,
+      firstName: /^[a-zA-Z]{3,10}(?: [a-zA-Z]+)?$/gi,
+      middleName: /^[a-zA-Z]{3,10}(?: [a-zA-Z]+)?$/gi,
+      lastName: /^[a-zA-Z]{3,10}(?: [a-zA-Z]+)?$/gi,
+      email: /^\S+@\S+\.\S+$/gi,
       contact: /[0-9]+/gi,
       srCode: /^([0-9]{2})-[0-9]{5}$/gi,
       password: /^[\w]{8,20}$/gi,
       confirmPassword: /^[\w]{8,20}$/gi,
     };
+
     if (
       !V.firstName.test(value.name.firstName) ||
       !V.middleName.test(value.name.middleName) ||
       !V.lastName.test(value.name.lastName) ||
+      !V.email.test(value.email) ||
       !V.srCode.test(value.srCode) ||
       !V.contact.test(value.contact) ||
       !V.password.test(value.password) ||
@@ -72,6 +75,7 @@ function Signup({ handle }) {
       return handle();
     }
   }
+
   return (
     <ComponentContainer>
       <Form onSubmit={handleSubmit}>
