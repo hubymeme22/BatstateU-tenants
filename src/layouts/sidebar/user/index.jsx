@@ -2,7 +2,7 @@ import React from 'react';
 
 import { StyledSidebar, Title, LineBreak } from '../styled';
 import { Nav, NavLink, Button } from '../styled';
-
+import { FaUsers } from 'react-icons/fa';
 import { BsEnvelopePaperFill } from 'react-icons/bs';
 import { IoNotificationsSharp } from 'react-icons/io5';
 import { useAuth } from '../../../hooks/useAuth';
@@ -17,19 +17,25 @@ export function Sidebar() {
         <LineBreak />
 
         <Nav>
-          <NavLink to="/" end>
+          <NavLink to='/' end>
             <BsEnvelopePaperFill />
             Form
           </NavLink>
 
-          <NavLink to="/notification">
+          <NavLink to='/notification'>
             <IoNotificationsSharp />
             Notification
           </NavLink>
         </Nav>
       </div>
 
-      <Button onClick={auth.logout}> Logout </Button>
+      <div>
+        <NavLink to='/account'>
+          <FaUsers />
+          Account
+        </NavLink>
+        <Button onClick={auth.logout}> Logout </Button>
+      </div>
     </StyledSidebar>
   );
 }

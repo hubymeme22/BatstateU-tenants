@@ -1,8 +1,9 @@
 import Index from '../pages/user/login/Index';
 
 import Main from '../layouts/main';
-import UserBills from '../pages/user/userBills/UserBills';
-
+import Notification from '../pages/user/Notification/Notification';
+import Form from '../pages/user/Form/Form';
+import Account from '../pages/user/Account/Account';
 export const userRoutes = [
   {
     path: '/login',
@@ -14,16 +15,17 @@ export const userRoutes = [
     children: [
       {
         index: true,
-        element: <>Form</>,
+        element: <Form />,
       },
+
       {
         path: 'notification',
-        element: <>Notification</>,
+        element: <Notification />,
+      },
+      {
+        path: 'account',
+        element: <Account />,
       },
     ],
-  },
-  {
-    path: '/bills',
-    element: <UserBills />,
   },
 ];
