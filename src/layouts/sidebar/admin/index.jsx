@@ -34,7 +34,7 @@ export function Sidebar() {
         </Nav>
       </div>
 
-      <Button onClick={auth.logout}> Logout </Button>
+      <Button onClick={() => auth.logout('/admin/login')}> Logout </Button>
     </StyledSidebar>
   );
 }

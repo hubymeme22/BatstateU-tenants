@@ -38,7 +38,7 @@ function AdminLogin() {
       return;
     }
 
-    const credential = await auth.login(username, password);
+    const credential = await auth.login(username, password, 'admin');
 
     // Destruct credential object
     const { isLoggedIn, error, token } = await credential;

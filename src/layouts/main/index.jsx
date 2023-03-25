@@ -11,11 +11,18 @@ import { checkToken } from '@/utils/tokenHandler';
 
 function Main({ type }) {
   const navigate = useNavigate();
-  const token = checkToken();
 
   useEffect(() => {
+    const token = checkToken();
+
     if (!token || token == null) {
-      navigate('/admin/login', { replace: true });
+      if (type === 'admin') {
+        navigate('/admin/login', { replace: true });
+        return;
+      } else {
+        navigate('/login', { replace: true });
+        return;
+      }
     }
   }, []);
 

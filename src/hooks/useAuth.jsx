@@ -10,9 +10,15 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
-  const login = async (username, password) => {
+  const login = async (username, password, type = '') => {
+    let url = 'http://localhost:5050/api/login/';
+
+    if (type === 'admin') {
+      url = url.concat(type);
+    }
+
     const response = await axios
-      .post('http://localhost:5050/api/login/admin', {
+      .post(url, {
         email: username,
         password: password,
       })
@@ -25,9 +31,9 @@ export const AuthProvider = ({ children }) => {
     return await response;
   };
 
-  const logout = () => {
+  const logout = (path) => {
     clearToken();
-    navigate('/admin/login');
+    navigate(path);
   };
 
   return (
