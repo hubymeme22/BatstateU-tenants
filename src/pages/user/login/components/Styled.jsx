@@ -138,7 +138,7 @@ export const Form = styled.form`
   justify-content: center;
   flex-direction: column;
   padding: 5px;
-  gap: 20px;
+  gap: 1.25rem;
 `;
 
 export const ButtonContainer = styled.div`
@@ -146,7 +146,7 @@ export const ButtonContainer = styled.div`
   flex-direction: column;
   height: 100%;
   justify-content: space-between;
-  gap: 45px;
+  gap: 1rem;
   div {
     display: flex;
     flex-direction: column;

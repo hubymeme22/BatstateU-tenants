@@ -13,15 +13,21 @@ export const AuthProvider = ({ children }) => {
   const login = async (username, password, type = '') => {
     let url = 'http://localhost:5050/api/login/';
 
+    let userData = {
+      username,
+      password,
+    };
+
     if (type === 'admin') {
       url = url.concat(type);
+      userData = {
+        email: username,
+        password,
+      };
     }
 
     const response = await axios
-      .post(url, {
-        email: username,
-        password: password,
-      })
+      .post(url, userData)
       .then((response) => {
         const res = response.data;
         return res;
