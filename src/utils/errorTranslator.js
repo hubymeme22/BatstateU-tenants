@@ -5,7 +5,7 @@ const errorTranslator = (error) => {
     case 'NonExistentEmail':
       translatedError = 'Account not found';
       break;
-    case 'InvaildCredentials':
+    case 'InvalidCredentials':
       translatedError = 'Incorrect username or password';
       break;
     default:
