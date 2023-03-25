@@ -10,6 +10,7 @@ import Summary from './components/Summary';
 
 // Styled-Components
 import { Layout } from './styled';
+import Modal from './components/Modal';
 
 const dashboardLoader = async () => {
   const dorm = await fetchData('slots');
@@ -24,6 +25,8 @@ function Dashboard() {
   const [canteenSlots, setCanteenSlots] = useState();
   const [summary, setSummary] = useState();
 
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await dashboardLoader();
@@ -35,19 +38,33 @@ function Dashboard() {
     fetchData();
   }, []);
 
-  const retrieveBoarders = (id) => {};
+  const toggleModal = () => {
+    setModalIsOpen(!modalIsOpen);
+  };
+
+  const openDetails = (users) => {
+    // Open Modal to show details
+    toggleModal();
+
+    // based on id, retrieve the details of the boarders in the room
+    console.log(users);
+  };
 
   return (
     <>
       {dormSlots ? (
         <Layout>
-          <Dorm data={dormSlots} />
+          <Dorm data={dormSlots} openDetails={openDetails} />
           <Canteen data={canteenSlots} />
           <Summary data={summary} />
         </Layout>
       ) : (
         <Loader />
       )}
+
+      <Modal isOpen={modalIsOpen} close={toggleModal}>
+        <button onClick={toggleModal}>Close</button>
+      </Modal>
     </>
   );
 }

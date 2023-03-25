@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { Card, Title, Details } from '../styled';
 
-function Dorm({ data }) {
+function Dorm({ data, openDetails }) {
   return (
     <Card>
       <Title> DORMITORY </Title>
@@ -25,9 +25,10 @@ function Dorm({ data }) {
             const room = slot.slot;
             const available = slot.available_slot;
             const max = slot.max_slot;
+            const users = slot.users;
 
             return (
-              <Room key={id}>
+              <Room key={id} onClick={() => openDetails(users)}>
                 <p>{room}</p>
                 <p>{`${max - available} / ${max}`}</p>
               </Room>
