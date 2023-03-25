@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Styled-components
@@ -33,6 +33,11 @@ function Login({ handle }) {
   const auth = useAuth();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    // Check if user is already logged in
+    // redirect to main page if loggedIn
+  }, []);
+
   const submitForm = async (e) => {
     e.preventDefault();
 
@@ -42,8 +47,6 @@ function Login({ handle }) {
     }
 
     const credential = await auth.login(username, password);
-
-    console.log(credential);
 
     // Destruct credential object
     const { isLoggedIn, error, token } = await credential;
