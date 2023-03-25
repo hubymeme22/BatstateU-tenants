@@ -11,17 +11,15 @@ import { checkToken } from '@/utils/tokenHandler';
 
 function Main({ type }) {
   const navigate = useNavigate();
+  const token = checkToken();
 
+  // Redirect to other pages if the token is not valid
   useEffect(() => {
-    const token = checkToken();
-
     if (!token || token == null) {
       if (type === 'admin') {
         navigate('/admin/login', { replace: true });
-        return;
       } else {
         navigate('/login', { replace: true });
-        return;
       }
     }
   }, []);
@@ -30,7 +28,8 @@ function Main({ type }) {
     <MainContainer>
       {type == 'admin' ? <AdminSidebar /> : <UserSidebar />}
       <Content>
-        <Outlet />
+        {token ? <Outlet /> : null}
+        {/*  */}
       </Content>
     </MainContainer>
   );
