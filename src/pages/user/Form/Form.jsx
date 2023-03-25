@@ -1,6 +1,9 @@
 import React from 'react';
 import Loader from '@/components/Loader';
 import axios from 'axios';
+import FormContent from './components/FormContent';
+import { FormContainer } from './Styled';
+import Download from './components/Download';
 function Form() {
   React.useEffect(() => {
     axios
@@ -13,10 +16,10 @@ function Form() {
       });
   }, []);
   return (
-    <div>
-      Form
-      <Loader />
-    </div>
+    <FormContainer>
+      <FormContent />
+      <Download />
+    </FormContainer>
   );
 }
 
