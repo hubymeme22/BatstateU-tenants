@@ -19,8 +19,6 @@ function Dorm({ data, openDetails }) {
         {/* Display list of Room slots data */}
         <div>
           {data.map((slot, index) => {
-            if (slot.label != 'dorm') return;
-
             const id = slot._id;
             const room = slot.slot;
             const available = slot.available_slot;
@@ -28,7 +26,7 @@ function Dorm({ data, openDetails }) {
             const users = slot.users;
 
             return (
-              <Room key={id} onClick={() => openDetails(users)}>
+              <Room key={id} onClick={() => openDetails(slot)}>
                 <p>{room}</p>
                 <p>{`${max - available} / ${max}`}</p>
               </Room>
@@ -42,4 +40,6 @@ function Dorm({ data, openDetails }) {
 
 export default Dorm;
 
-const Room = styled(Details)``;
+const Room = styled(Details)`
+  cursor: pointer;
+`;

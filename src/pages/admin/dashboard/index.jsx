@@ -13,7 +13,7 @@ import { Layout } from './styled';
 import Modal from './components/Modal';
 
 const dashboardLoader = async () => {
-  const dorm = await fetchData('slots');
+  const dorm = await fetchData('slots/dorm');
   const canteen = await fetchData('slots/canteen');
   const summary = await fetchData('slots/summary');
 
@@ -26,6 +26,7 @@ function Dashboard() {
   const [summary, setSummary] = useState();
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,14 +41,16 @@ function Dashboard() {
 
   const toggleModal = () => {
     setModalIsOpen(!modalIsOpen);
+    setData(null);
   };
 
-  const openDetails = (users) => {
+  const openDetails = (slotData) => {
     // Open Modal to show details
     toggleModal();
 
-    // based on id, retrieve the details of the boarders in the room
-    console.log(users);
+    // fetch user data based on SRCODE / ID
+
+    setData(slotData);
   };
 
   return (
@@ -62,9 +65,7 @@ function Dashboard() {
         <Loader />
       )}
 
-      <Modal isOpen={modalIsOpen} close={toggleModal}>
-        <button onClick={toggleModal}>Close</button>
-      </Modal>
+      <Modal isOpen={modalIsOpen} close={toggleModal} data={data} />
     </>
   );
 }
