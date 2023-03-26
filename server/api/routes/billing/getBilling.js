@@ -1,4 +1,4 @@
-import { response, Router } from "express";
+import { Router } from "express";
 import { getRequestPermission, setJSONPacketFormat } from "../../../middleware/tokenValidator.js";
 import { AdminMongoDBConnection } from "../../../modules/AdminDBConnection.js";
 
