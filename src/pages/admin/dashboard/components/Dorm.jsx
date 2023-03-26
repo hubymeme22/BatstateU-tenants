@@ -26,10 +26,10 @@ function Dorm({ data, openDetails }) {
             const users = slot.users;
 
             return (
-              <Room key={id} onClick={() => openDetails(slot)}>
+              <Details key={id} onClick={() => openDetails(slot)}>
                 <p>{room}</p>
                 <p>{`${max - available} / ${max}`}</p>
-              </Room>
+              </Details>
             );
           })}
         </div>
@@ -39,7 +39,3 @@ function Dorm({ data, openDetails }) {
 }
 
 export default Dorm;
-
-const Room = styled(Details)`
-  cursor: pointer;
-`;

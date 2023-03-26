@@ -25,6 +25,7 @@ export const StyledModal = styled(ReactModal)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  outline: 0;
 `;
 
 export const Header = styled.div`

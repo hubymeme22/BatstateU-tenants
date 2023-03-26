@@ -43,6 +43,7 @@ export const Header = styled.div`
 `;
 
 export const Details = styled(Header)`
+  cursor: pointer;
   &:hover {
     background-color: gray;
   }
