@@ -13,7 +13,6 @@ import deleteStudentRoom from "./routes/students/deleteRoom.js";
 import unverify from "./routes/students/unverify.js";
 import checkToken from "./routes/checkToken.js";
 import getStudentDetails from "./routes/students/details.js";
-import roomUsers from "./routes/slots/roomUsers.js";
 
 
 const api = Router();
@@ -22,7 +21,6 @@ api.use("/login", login);
 api.use("/forgotpass", forgotPassword);
 
 // units crud operations
-api.use("/slots", roomUsers);
 api.use("/slots", getUnits);
 api.use("/slots", addUnit);
 
