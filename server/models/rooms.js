@@ -28,6 +28,10 @@ const room = new mongoose.Schema({
         type: String,
         required: true,
         enum: ['dorm', 'canteen']
+    },
+    bills: {
+        type: [mongoose.Types.ObjectId],
+        required: true
     }
 });
 

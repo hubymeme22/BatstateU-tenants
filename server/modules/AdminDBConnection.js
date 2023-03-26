@@ -133,7 +133,8 @@ export class AdminMongoDBConnection extends MongoDBConnection {
             'available_slot': maxTennants,
             'users': [],
             'status': 'not occupied',
-            'label': label
+            'label': label,
+            'bills': []
         });
 
         newRoom.save().then(this.acceptCallback).catch(this.rejectCallback);
@@ -202,20 +203,6 @@ export class AdminMongoDBConnection extends MongoDBConnection {
         Room.find({label: 'dorm'}).then(this.acceptCallback).catch(this.rejectCallback);
     }
 
-    // retrieves all the users data
-    getUsersData(roomID) {
-        Room.findOne({slot: roomID})
-            .then(roomdata => {
-                Student.find({ username: {'$in': roomdata.users} })
-                    .then(userdata => {
-                        userdata.forEach(user => {
-                            user.password = '';
-                        });
-                        this.acceptCallback(userdata);
-                    }).catch(this.rejectCallback);
-            }).catch(this.rejectCallback);
-    }
-
     // gets all the canteen unit info
     getAllCanteenUnits() {
         if (this.userTokenData.access != 'admin')
@@ -254,8 +241,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                 roomdata.save().then(this.acceptCallback).catch(this.rejectCallback);
 
             }).catch(this.rejectCallback);
-      }
-
+    }
 
     /////////////////////
     //  BILLINGS PART  //
@@ -311,6 +297,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                             });
 
                             newBill.save().then(billdata => {
+                                roomdata.bills.push(billdata._id);
                                 this.acceptCallback(billdata);
                             }).catch(this.rejectCallback);
                             return;
