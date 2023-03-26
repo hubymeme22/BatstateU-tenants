@@ -17,13 +17,13 @@ function Signup({ handle }) {
   const [message, setMessage] = React.useState('');
   const [value, setValue] = React.useState({
     name: {
-      firstName: '',
-      middleName: '',
-      lastName: '',
+      first: '',
+      middle: '',
+      last: '',
     },
     email: '',
     contact: '',
-    srCode: '',
+    username: '',
     password: '',
     confirmPassword: '',
     terms: '',
@@ -52,22 +52,22 @@ function Signup({ handle }) {
   function handleSubmit(event) {
     event.preventDefault();
     const V = {
-      firstName: /^[a-zA-Z]{3,10}(?: [a-zA-Z]+)?$/gi,
-      middleName: /^[a-zA-Z]{3,10}(?: [a-zA-Z]+)?$/gi,
-      lastName: /^[a-zA-Z]{3,10}(?: [a-zA-Z]+)?$/gi,
+      first: /^[a-zA-Z]{2,10}(?: [a-zA-Z]+)?$/gi,
+      middle: /^[a-zA-Z]{2,10}(?: [a-zA-Z]+)?$/gi,
+      last: /^[a-zA-Z]{2,10}(?: [a-zA-Z]+)?$/gi,
       email: /^\S+@\S+\.\S+$/gi,
       contact: /[0-9]+/gi,
-      srCode: /^([0-9]{2})-[0-9]{5}$/gi,
+      username: /^([0-9]{2})-[0-9]{5}$/gi,
       password: /^[\w]{8,20}$/gi,
       confirmPassword: /^[\w]{8,20}$/gi,
     };
 
     if (
-      !V.firstName.test(value.name.firstName) ||
-      !V.middleName.test(value.name.middleName) ||
-      !V.lastName.test(value.name.lastName) ||
+      !V.first.test(value.name.first) ||
+      !V.middle.test(value.name.middle) ||
+      !V.last.test(value.name.last) ||
       !V.email.test(value.email) ||
-      !V.srCode.test(value.srCode) ||
+      !V.username.test(value.username) ||
       !V.contact.test(value.contact) ||
       !V.password.test(value.password) ||
       !V.confirmPassword.test(value.confirmPassword)
@@ -87,6 +87,7 @@ function Signup({ handle }) {
   function Backbutton() {
     return handle();
   }
+  console.log(value);
   return (
     <ComponentContainer>
       <Form onSubmit={handleSubmit}>
@@ -97,8 +98,8 @@ function Signup({ handle }) {
               <Input
                 type='text'
                 placeholder='First name'
-                value={value.name.firstName}
-                name='firstName'
+                value={value.name.first}
+                name='first'
                 onChange={nameAdd}
                 required
               />
@@ -108,8 +109,8 @@ function Signup({ handle }) {
               <Input
                 type='text'
                 placeholder='Mid Name'
-                value={value.name.middleName}
-                name='middleName'
+                value={value.name.middle}
+                name='middle'
                 onChange={nameAdd}
                 required
               />
@@ -119,8 +120,8 @@ function Signup({ handle }) {
               <Input
                 type='text'
                 placeholder='Last Name'
-                value={value.name.lastName}
-                name='lastName'
+                value={value.name.last}
+                name='last'
                 onChange={nameAdd}
                 required
               />
@@ -159,8 +160,8 @@ function Signup({ handle }) {
             <Input
               type='text'
               placeholder='SR-CODE'
-              value={value.srCode}
-              name='srCode'
+              value={value.username}
+              name='username'
               onChange={textAdd}
               required
             />

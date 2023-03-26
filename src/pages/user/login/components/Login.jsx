@@ -67,13 +67,13 @@ function Login({ handle }) {
       <Form onSubmit={submitForm}>
         <Title> Login</Title>
         <Field>
-          <Label htmlFor="username">Username</Label>
+          <Label htmlFor='username'>Username</Label>
           <div>
             <Input
-              type="text"
-              id="username"
-              placeholder="Username"
-              name="username"
+              type='text'
+              id='username'
+              placeholder='Username'
+              name='username'
               {...usernameHandler}
               required
             />
@@ -82,13 +82,13 @@ function Login({ handle }) {
         </Field>
 
         <Field>
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor='password'>Password</Label>
           <div>
             <Input
-              type="password"
-              id="password"
-              placeholder="Password"
-              name="password"
+              type='password'
+              id='password'
+              placeholder='Password'
+              name='password'
               {...passwordHandler}
               required
             />
@@ -98,7 +98,7 @@ function Login({ handle }) {
 
         <ButtonContainer>
           <div>
-            <Link variant="underline">Forget Password?</Link>
+            <Link variant='underline'>Forgot Password?</Link>
             {errorMsg ? <> {errorMsg} </> : null}
             <Button> LOGIN </Button>
           </div>
@@ -106,8 +106,8 @@ function Login({ handle }) {
           <div>
             <Link>Dont Have An Account?</Link>
 
-            <SignInButton type="button" onClick={handle}>
-              Sign in
+            <SignInButton type='button' onClick={handle}>
+              Sign up
             </SignInButton>
           </div>
         </ButtonContainer>
