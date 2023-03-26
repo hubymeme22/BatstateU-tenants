@@ -17,6 +17,7 @@ import addStudentRoom from "./routes/students/addRoom.js";
 import deleteStudentRoom from "./routes/students/deleteRoom.js";
 import unverify from "./routes/students/unverify.js";
 import checkToken from "./routes/checkToken.js";
+import getStudentDetails from "./routes/students/details.js";
 
 
 
@@ -39,6 +40,7 @@ api.use("/students", verify);
 api.use("/students", unverify);
 api.use("/students", addStudentRoom);
 api.use("/students", deleteStudentRoom);
+api.use("/students", getStudentDetails);
 
 // for validating the token
 api.use("/check-token", checkToken);

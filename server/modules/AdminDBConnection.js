@@ -380,5 +380,19 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                     }).catch(this.rejectCallback)
             });
     }
+
+    ////////////////
+    //  Students  //
+    ////////////////
+    // retrieves all the student data (w/password not set)
+    retrieveAllStudentData() {
+        Student.find().then(userdata => {
+            userdata.forEach(user => {
+                user.password = '';
+            });
+
+            this.acceptCallback(userdata);
+        }).catch(this.rejectCallback);
+    }
 }
 
