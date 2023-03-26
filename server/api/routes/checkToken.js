@@ -30,7 +30,7 @@ checkToken.post('/admin', (req, res) => {
 });
 
 // makes sure that the access is student
-checkToken.post('/admin', (req, res) => {
+checkToken.post('/student', (req, res) => {
     const token = req.body.token;
     if (token == null)
         return res.json({valid: false, access: '', error: 'TokenParameterNotSet'});
