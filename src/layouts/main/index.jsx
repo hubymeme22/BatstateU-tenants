@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import { MainContainer, Content } from './styled';
@@ -8,27 +8,43 @@ import { Sidebar as AdminSidebar } from '../sidebar/admin';
 import { Sidebar as UserSidebar } from '../sidebar/user';
 
 import { checkToken } from '@/utils/tokenHandler';
+import { validateToken, clearToken } from '../../utils/tokenHandler';
 
 function Main({ type }) {
+  const [tokenIsValid, setTokenIsValid] = useState(false);
   const navigate = useNavigate();
-  const token = checkToken();
 
-  // Redirect to other pages if the token is not valid
   useEffect(() => {
-    if (!token || token == null) {
-      if (type === 'admin') {
-        navigate('/admin/login', { replace: true });
-      } else {
-        navigate('/login', { replace: true });
+    const checkCredentials = async () => {
+      const token = await checkToken();
+
+      // Check if the token is null, redirect to respective login page
+      if (!token) {
+        clearToken();
+        if (type == 'admin') return navigate('/admin/login');
+        return navigate('/login');
       }
-    }
+
+      // Checks token, if token is not valid, clear token and redirect
+      let credentials = await validateToken(token, type);
+      if (!credentials.valid) {
+        clearToken();
+
+        if (type == 'admin') return navigate('/admin/login');
+        return navigate('/login');
+      } else {
+        setTokenIsValid(true);
+      }
+    };
+
+    checkCredentials();
   }, []);
 
   return (
     <MainContainer>
       {type == 'admin' ? <AdminSidebar /> : <UserSidebar />}
       <Content>
-        {token ? <Outlet /> : null}
+        {tokenIsValid ? <Outlet /> : null}
         {/*  */}
       </Content>
     </MainContainer>
