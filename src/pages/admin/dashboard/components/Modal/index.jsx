@@ -48,6 +48,9 @@ function Modal({ isOpen, close, data }) {
                   <Details>
                     <input type="checkbox" name="" id="" />
                     <p>{user}</p>
+                    <p>Name</p>
+                    <p>Contact</p>
+                    <p>Status</p>
                   </Details>
 
                   <hr />

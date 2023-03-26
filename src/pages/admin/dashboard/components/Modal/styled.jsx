@@ -25,6 +25,7 @@ export const StyledModal = styled(ReactModal)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border-radius: 5px;
   outline: 0;
 `;
 

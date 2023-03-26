@@ -13,59 +13,72 @@ import { Layout } from './styled';
 import Modal from './components/Modal';
 
 const dashboardLoader = async () => {
-  const dorm = await fetchData('slots/dorm');
-  const canteen = await fetchData('slots/canteen');
+  const slots = await fetchData('slots');
   const summary = await fetchData('slots/summary');
 
-  return { dorm, canteen, summary };
+  return { slots, summary };
 };
 
 function Dashboard() {
-  const [dormSlots, setDormSlots] = useState();
-  const [canteenSlots, setCanteenSlots] = useState();
+  const [allRooms, setAllRooms] = useState([]);
+  const [dormData, setDormData] = useState();
+  const [canteenData, setCanteenData] = useState();
+
   const [summary, setSummary] = useState();
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [data, setData] = useState(null);
+  const [modalData, setModalData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await dashboardLoader();
-      setDormSlots(response.dorm.data.slots);
-      setCanteenSlots(response.canteen.data.slots);
+
+      const all = await response.slots.data.slots;
+
+      setAllRooms(all);
       setSummary(response.summary.data);
     };
 
     fetchData();
   }, []);
 
+  // Separate the data after the allRooms are set
+  useEffect(() => {
+    if (allRooms.length <= 0) return;
+
+    const dorm = allRooms.filter((slots) => slots.label === 'dorm');
+    const canteen = allRooms.filter((slots) => slots.label === 'canteen');
+
+    setDormData(dorm);
+    setCanteenData(canteen);
+  }, [allRooms]);
+
   const toggleModal = () => {
     setModalIsOpen(!modalIsOpen);
-    setData(null);
+    setModalData(null);
   };
 
-  const openDetails = (slotData) => {
+  const openDetails = (roomId) => {
     // Open Modal to show details
     toggleModal();
 
-    // fetch user data based on SRCODE / ID
-
-    setData(slotData);
+    const roomDetails = dormData.filter((room) => room._id === roomId);
+    setModalData(roomDetails[0]);
   };
 
   return (
     <>
-      {dormSlots ? (
+      {allRooms && dormData && canteenData && summary ? (
         <Layout>
-          <Dorm data={dormSlots} openDetails={openDetails} />
-          <Canteen data={canteenSlots} />
+          <Dorm data={dormData} openDetails={openDetails} />
+          <Canteen data={canteenData} openDetails={openDetails} />
           <Summary data={summary} />
         </Layout>
       ) : (
         <Loader />
       )}
 
-      <Modal isOpen={modalIsOpen} close={toggleModal} data={data} />
+      <Modal isOpen={modalIsOpen} close={toggleModal} data={modalData} />
     </>
   );
 }

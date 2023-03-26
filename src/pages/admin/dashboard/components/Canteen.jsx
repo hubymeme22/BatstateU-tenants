@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Card, Title, Header, Details } from '../styled';
 
-function Canteen({ data }) {
+function Canteen({ data, openDetails }) {
   return (
     <Card>
       <Title> CANTEEN </Title>
@@ -23,7 +23,12 @@ function Canteen({ data }) {
             const status = slot.status;
 
             return (
-              <Details key={id}>
+              <Details
+                key={id}
+                onClick={() => {
+                  openDetails(id);
+                }}
+              >
                 <p>{room}</p>
                 <p>{status}</p>
               </Details>

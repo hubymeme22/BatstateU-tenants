@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 
 import { Card, Title, Header, Details } from '../styled';
 
@@ -21,14 +20,13 @@ function Dorm({ data, openDetails }) {
           {data.map((slot, index) => {
             const id = slot._id;
             const room = slot.slot;
-            const available = slot.available_slot;
             const max = slot.max_slot;
             const users = slot.users;
 
             return (
-              <Details key={id} onClick={() => openDetails(slot)}>
+              <Details key={id} onClick={() => openDetails(id)}>
                 <p>{room}</p>
-                <p>{`${max - available} / ${max}`}</p>
+                <p>{`${users.length} / ${max}`}</p>
               </Details>
             );
           })}
