@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Card, Title, Details } from '../styled';
+import { Card, Title, Header, Details } from '../styled';
 
 function Canteen({ data }) {
   return (
@@ -8,10 +8,10 @@ function Canteen({ data }) {
       <Title> CANTEEN </Title>
       <hr />
       <div>
-        <Details>
+        <Header>
           <p>SLOT</p>
           <p>STATUS</p>
-        </Details>
+        </Header>
 
         <hr />
 

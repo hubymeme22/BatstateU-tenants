@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Card, Title, Details } from '../styled';
+import { Card, Title, Header, Details } from '../styled';
 
 function Dorm({ data, openDetails }) {
   return (
@@ -9,10 +9,10 @@ function Dorm({ data, openDetails }) {
       <Title> DORMITORY </Title>
       <hr />
       <div>
-        <Details>
+        <Header>
           <p>ROOM NUMBER</p>
           <p>NO. OF OCCUPANTS</p>
-        </Details>
+        </Header>
 
         <hr />
 

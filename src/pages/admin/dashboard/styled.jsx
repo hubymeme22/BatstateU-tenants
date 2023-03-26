@@ -37,9 +37,15 @@ export const Title = styled.h1`
   font-weight: bold;
 `;
 
-export const Details = styled.div`
+export const Header = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
+`;
+
+export const Details = styled(Header)`
+  &:hover {
+    background-color: gray;
+  }
 `;
 
 // Summary
