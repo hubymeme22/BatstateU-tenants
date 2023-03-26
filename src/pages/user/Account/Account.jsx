@@ -1,7 +1,12 @@
 import React from 'react';
-
+import { AccContainer } from './Styled';
+import AccContent from './components/AccContent';
 function Account() {
-  return <div>Account</div>;
+  return (
+    <AccContainer>
+      <AccContent />
+    </AccContainer>
+  );
 }
 
 export default Account;

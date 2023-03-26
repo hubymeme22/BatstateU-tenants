@@ -14,7 +14,7 @@ function DearUser() {
       </Container>
       <Container>
         <Info>
-          SR CODE:<Fetched>Lorem ipsum</Fetched>
+          Sr-Code:<Fetched>Lorem ipsum</Fetched>
         </Info>
         <Info>
           Room No:<Fetched>Lorem ipsum</Fetched>
