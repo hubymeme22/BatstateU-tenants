@@ -84,7 +84,9 @@ function Signup({ handle }) {
       return handle();
     }
   }
-  console.log(value);
+  function Backbutton() {
+    return handle();
+  }
   return (
     <ComponentContainer>
       <Form onSubmit={handleSubmit}>
@@ -207,6 +209,7 @@ function Signup({ handle }) {
             </label>
           </Checkbox>
           <Message> {message}</Message>
+          <HaveAcc onClick={Backbutton}>I already Have an account</HaveAcc>
           <SignInButton>REGISTER</SignInButton>
         </Register>
       </Form>
@@ -229,7 +232,7 @@ const Form = styled.form`
   justify-content: center;
   flex-direction: column;
   padding: 7px;
-  gap: 15px;
+  gap: 12px;
 `;
 const Title = styled.h1`
   font-family: 'Staatliches';
@@ -260,4 +263,10 @@ const Register = styled.div`
   gap: 8px;
   display: flex;
   flex-direction: column;
+`;
+const HaveAcc = styled.p`
+  width: auto;
+  cursor: pointer;
+  font-size: 15px;
+  text-decoration: underline;
 `;
