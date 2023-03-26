@@ -1,7 +1,13 @@
 import React from 'react';
 
+import BillingCard from '../../../components/BillingCard';
+
 function Tenants() {
-  return <>Tenants Page</>;
+  return (
+    <>
+      <BillingCard />
+    </>
+  );
 }
 
 export default Tenants;
