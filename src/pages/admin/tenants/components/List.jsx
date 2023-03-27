@@ -1,11 +1,8 @@
 import React from 'react';
 
-import {
-  Container,
-  ColumnTitles,
-  UsersContainer,
-  UserDetails,
-} from '../styled';
+import { ColumnTitles, UsersContainer, UserDetails } from '../styled';
+
+import Loader from '@/components/Loader';
 
 function List({ data, area, filter }) {
   return (
@@ -22,18 +19,22 @@ function List({ data, area, filter }) {
       <hr />
 
       <UsersContainer>
-        {data.map((student) => {
-          const { first, last } = student.details.name;
-          return (
-            <UserDetails key={student._id}>
-              <p>{student.username}</p>
-              <p>{first}</p>
-              <p>{last}</p>
+        {data.length > 0 ? (
+          data.map((student) => {
+            const { first, last } = student.details.name;
+            return (
+              <UserDetails key={student._id}>
+                <p>{student.username}</p>
+                <p>{first}</p>
+                <p>{last}</p>
 
-              <p>{student.contact}</p>
-            </UserDetails>
-          );
-        })}
+                <p>{student.contact}</p>
+              </UserDetails>
+            );
+          })
+        ) : (
+          <Loader />
+        )}
       </UsersContainer>
     </>
   );

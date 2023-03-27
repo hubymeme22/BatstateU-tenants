@@ -34,6 +34,10 @@ function Tenants() {
     fetchRecords();
   }, []);
 
+  useEffect(() => {
+    console.log(allTenants);
+  }, [allTenants]);
+
   return (
     <Container>
       <Header area={area} changeArea={changeArea} filterBy={filterBy} />
