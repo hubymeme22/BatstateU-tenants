@@ -13,12 +13,22 @@ const tenantsLoader = async () => {
 };
 
 function Tenants() {
-  const [students, setStudents] = useState([]);
+  const [allTenants, setAllTenants] = useState([]);
+  const [area, setArea] = useState('Tenants');
+  const [filter, setFilter] = useState(null);
+
+  const changeArea = (area) => {
+    setArea(area);
+  };
+
+  const filterBy = (status) => {
+    setFilter(status);
+  };
 
   useEffect(() => {
     const fetchRecords = async () => {
       const data = await tenantsLoader();
-      setStudents(data.details);
+      setAllTenants(data.details);
     };
 
     fetchRecords();
@@ -26,9 +36,8 @@ function Tenants() {
 
   return (
     <Container>
-      <Header />
-
-      <List data={students} />
+      <Header area={area} changeArea={changeArea} filterBy={filterBy} />
+      <List data={allTenants} area={area} filter={filter} />
     </Container>
   );
 }

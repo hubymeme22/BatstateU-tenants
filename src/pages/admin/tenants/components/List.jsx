@@ -7,7 +7,7 @@ import {
   UserDetails,
 } from '../styled';
 
-function List({ data }) {
+function List({ data, area, filter }) {
   return (
     <>
       <ColumnTitles>
@@ -23,7 +23,6 @@ function List({ data }) {
 
       <UsersContainer>
         {data.map((student) => {
-          console.log(student);
           const { first, last } = student.details.name;
           return (
             <UserDetails key={student._id}>

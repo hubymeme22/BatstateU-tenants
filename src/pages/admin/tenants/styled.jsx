@@ -2,13 +2,18 @@ import styled from 'styled-components';
 
 export const StyledHeader = styled.header`
   display: flex;
+  justify-content: space-between;
   gap: 1rem;
-  flex-wrap: wrap;
 
   /* Title */
   h1 {
     font-size: 1.5rem;
     font-weight: bold;
+  }
+
+  div {
+    display: flex;
+    gap: 1rem;
   }
 `;
 

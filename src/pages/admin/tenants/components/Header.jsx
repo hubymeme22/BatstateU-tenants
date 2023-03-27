@@ -4,37 +4,40 @@ import { InputContainer, StyledHeader } from '../styled';
 
 import { FiFilter, FiSearch } from 'react-icons/fi';
 
-function Header() {
+function Header({ area, changeArea, filterBy }) {
   return (
     <StyledHeader>
-      <h1>Dormitory</h1>
+      <h1>{area}</h1>
 
-      <InputContainer>
-        <label htmlFor=""> Area: </label>
-        <select name="" id="">
-          <option value="" defaultValue>
-            Dorm
-          </option>
-          <option value="">Canteen</option>
-        </select>
-      </InputContainer>
+      <div>
+        <InputContainer>
+          <label htmlFor=""> Area: </label>
+          <select name="" id="" onChange={(e) => changeArea(e.target.value)}>
+            <option value="Tenants" defaultValue>
+              All
+            </option>
+            <option value="Dormitory">Dorm</option>
+            <option value="Canteen">Canteen</option>
+          </select>
+        </InputContainer>
 
-      <InputContainer>
-        <label htmlFor="">Filter By: </label>
+        <InputContainer>
+          <label htmlFor="">Filter By: </label>
 
-        <select name="" id="" placeholder="filter by">
-          <option value="" defaultValue>
-            None
-          </option>
-          <option value="">Paid</option>
-          <option value="">Unpaid</option>
-        </select>
-      </InputContainer>
+          <select name="" id="" onChange={(e) => filterBy(e.target.value)}>
+            <option value="null" defaultValue>
+              None
+            </option>
+            <option value="paid">Paid</option>
+            <option value="unpaid">Unpaid</option>
+          </select>
+        </InputContainer>
 
-      <InputContainer>
-        <input type="text" placeholder="search" /> {/* Search bar */}
-        <FiSearch />
-      </InputContainer>
+        <InputContainer>
+          <input type="text" placeholder="search" />
+          <FiSearch />
+        </InputContainer>
+      </div>
     </StyledHeader>
   );
 }
