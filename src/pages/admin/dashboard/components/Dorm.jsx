@@ -17,19 +17,20 @@ function Dorm({ data, openDetails }) {
 
         {/* Display list of Room slots data */}
         <div>
-          {data.map((slot, index) => {
-            const id = slot._id;
-            const room = slot.slot;
-            const max = slot.max_slot;
-            const users = slot.users;
+          {data.length > 0 &&
+            data.map((slot, index) => {
+              const id = slot._id;
+              const room = slot.slot;
+              const max = slot.max_slot;
+              const users = slot.users;
 
-            return (
-              <Details key={id} onClick={() => openDetails(id)}>
-                <p>{room}</p>
-                <p>{`${users.length} / ${max}`}</p>
-              </Details>
-            );
-          })}
+              return (
+                <Details key={id} onClick={() => openDetails(id)}>
+                  <p>{room}</p>
+                  <p>{`${users.length} / ${max}`}</p>
+                </Details>
+              );
+            })}
         </div>
       </div>
     </Card>

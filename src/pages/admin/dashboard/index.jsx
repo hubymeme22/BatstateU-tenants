@@ -21,8 +21,8 @@ const dashboardLoader = async () => {
 
 function Dashboard() {
   const [allRooms, setAllRooms] = useState([]);
-  const [dormData, setDormData] = useState();
-  const [canteenData, setCanteenData] = useState();
+  const [dormData, setDormData] = useState([]);
+  const [canteenData, setCanteenData] = useState([]);
 
   const [summary, setSummary] = useState();
 
@@ -68,7 +68,7 @@ function Dashboard() {
 
   return (
     <>
-      {allRooms && dormData && canteenData && summary ? (
+      {allRooms && summary ? (
         <Layout>
           <Dorm data={dormData} openDetails={openDetails} />
           <Canteen data={canteenData} openDetails={openDetails} />
