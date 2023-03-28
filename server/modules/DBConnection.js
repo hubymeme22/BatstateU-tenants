@@ -63,7 +63,7 @@ export class MongoDBConnection {
                 if (userdata.password == password) {
                     return this.acceptCallback(userdata);
                 }
-                this.rejectCallback('InvaildCredentials');
+                this.rejectCallback('InvalidCredentials');
             })
     }
 
