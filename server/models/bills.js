@@ -58,7 +58,7 @@ const roomBills = new mongoose.Schema({
             required: true
         },
         userDetails: {
-            type: [mongoose.Types.ObjectId],
+            type: mongoose.Types.ObjectId,
             required: true,
             ref: 'student_accounts'
         }

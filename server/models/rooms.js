@@ -11,6 +11,9 @@ const room = new mongoose.Schema({
     users: {
         type: [String],
     },
+    userref: {
+        type: [mongoose.Types.ObjectId]
+    },
     max_slot: {
         type: Number,
         required: true

@@ -172,6 +172,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
                                 // append this user to the room
                                 roomdata.users.push(username);
+                                roomdata.userref.push(userdata._id);
                                 roomdata.available_slot--;
 
                                 // for room status
@@ -277,9 +278,11 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                         // generate a new bill
                         if (billdata == null) {
                             // search the username and retrieve the userID
-                            Student.findOne({username: username})
+                            return Student.findOne({username: username})
                                 .then(userdata => {
                                     if (userdata == null) return;
+                                    console.log(userdata);
+
                                     const newBill = new Bills({
                                         slot: unitID,
                                         rate: details.rate,
@@ -296,16 +299,16 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                                             username: username,
                                             paid: false,
                                             cost: monthPayment,
-                                            daysPresent: details.days_present
+                                            daysPresent: details.days_present,
+                                            userDetails: userdata._id
                                         }],
-                                        userDetails: [userdata._id],
                                     });
         
                                     newBill.save().then(billdata => {
                                         roomdata.bills.push(billdata._id);
+                                        roomdata.save();
                                         this.acceptCallback(billdata);
                                     }).catch(this.rejectCallback);
-                                    return;
                                 }).catch(error => {
                                     this.rejectCallback('UsernameSpecifiedDoesNotExist');
                                 })
@@ -336,7 +339,12 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                                 });
 
                                 billdata.users = userbills;
-                                billdata.save().then(this.acceptCallback).catch(this.rejectCallback);
+                                billdata.save().then(bill => {
+                                    roomdata.bills.push(bill._id);
+                                    roomdata.save();
+
+                                    this.acceptCallback(bill);
+                                }).catch(this.rejectCallback);
                             })
                             .catch(err => this.rejectCallback('UsernameSpecifiedDoesNotExist'));
                     }).catch(this.rejectCallback);
@@ -423,34 +431,42 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     //  Summary requests  //
     ////////////////////////
     // summarizes the user information for on a room
-    roomSummary(roomID='') {
-        let queryPromise;
-        if (roomID == '') queryPromise = Room.find().populate('bills').populate('student_accounts');
-        else queryPromise = Room.find({slot: roomID}).populate('bills').populate('student_accounts');
+    roomSummary(roomID) {
+        Room.findOne({slot: roomID})
+            .populate({ path: 'bills', options: { strictPopulate: false } })
+            .then(roomdata => {
+                const summaryData = {};
+                const lastestBill = roomdata.bills[roomdata.bills.length - 1];
+                const userList = roomdata.userref;
 
-        // save the user information from the roomdata retrieved
-        const roomData = {};
-        queryPromise.then(roomdata => {
-            roomdata.forEach(room => {
-                if (room.users.length > 0) {
-                    roomData[room.slot] = {};
+                // retrieve all the account information
+                Student.find({_id: {'$in': userList}})
+                    .then(userdata => {
+                        summaryData['slot'] = roomID;
+                        summaryData['userinfo'] = [];
 
-                    // gets the latest bill data of the user
-                    const roomBill = room.bills[room.bills.length - 1];
-                    roomBill.users.forEach(userBillInfo => {
-                        const userDetails = userBillInfo.userDetails;
-                        roomData[room.slot][userBillInfo.username] = {};
+                        userdata.forEach(userinfo => {
+                            let tmpdata = {
+                                username: userinfo.username,
+                                name: userinfo.details.name,
+                                contact: userinfo.contact,
+                                status: false
+                            };
 
-                        // payment status on users
-                        if (userBillInfo.paid) roomData[room.slot][userBillInfo.username]['status'] = 'paid';
-                        else roomData[room.slot][userBillInfo.username]['status'] = 'unpaid';
+                            // checks if the user is registered in the bill (for status checking)
+                            const userbillIndex = lastestBill.users.find(item => item.username === tmpdata.username);
+                            if (userbillIndex) {
+                                if (userbillIndex.paid) tmpdata.status = 'paid';
+                                else tmpdata.status = 'unpaid';
+                            } else {
+                                tmpdata.status = 'not available';
+                            }
 
-                        // userdetails added
-                        roomData[room.slot][userBillInfo.username]['name'] = userDetails.details.name;
-                        roomData[room.slot][userBillInfo.username]['contact'] = userDetails.contact;
-                    });
-                }
-            });
-        }).catch(this.rejectCallback);
+                            summaryData['userinfo'].push(tmpdata);
+                        });
+
+                        this.acceptCallback(summaryData);
+                    })
+            }).catch(this.rejectCallback);
     }
 }

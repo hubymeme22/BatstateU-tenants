@@ -13,6 +13,7 @@ import deleteStudentRoom from "./routes/students/deleteRoom.js";
 import unverify from "./routes/students/unverify.js";
 import checkToken from "./routes/checkToken.js";
 import getStudentDetails from "./routes/students/details.js";
+import roomSummary from "./routes/summary/room.js";
 
 
 const api = Router();
@@ -38,5 +39,8 @@ api.use("/students", getStudentDetails);
 
 // for validating the token
 api.use("/check-token", checkToken);
+
+// for summarizing data
+api.use("/summary", roomSummary);
 
 export default api;

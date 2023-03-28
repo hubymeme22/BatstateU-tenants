@@ -1,20 +1,21 @@
 import { Router } from "express";
-import { setJSONPacketFormat, getRequestPermission } from "../../../middleware/tokenValidator";
-import { AdminMongoDBConnection } from "../../../modules/AdminDBConnection";
+import { setJSONPacketFormat, getRequestPermission } from "../../../middleware/tokenValidator.js";
+import { AdminMongoDBConnection } from "../../../modules/AdminDBConnection.js";
 
 const roomSummary = Router();
 setJSONPacketFormat({error: '', roomSummary: {}});
 
-roomSummary.get('/:roomID', getRequestPermission, (req, res) => {
+roomSummary.get('/room/:roomID', getRequestPermission, (req, res) => {
     const responseFormat = {error: '', roomSummary: {}};
     const DBConnection = new AdminMongoDBConnection(req.allowedData);
 
     DBConnection.setAcceptCallback(roomsummary => {
-        responseFormat.roomSummary = roomSummary;
+        responseFormat.roomSummary = roomsummary;
         res.json(responseFormat);
     });
 
     DBConnection.setRejectCallback(error => {
+        console.log(error);
         responseFormat.error = error;
         res.json(responseFormat);
     });
