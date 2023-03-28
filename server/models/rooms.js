@@ -31,6 +31,7 @@ const room = new mongoose.Schema({
     },
     bills: {
         type: [mongoose.Types.ObjectId],
+        ref: 'bills',
         required: true
     }
 });

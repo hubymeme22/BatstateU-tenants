@@ -276,31 +276,39 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
                         // generate a new bill
                         if (billdata == null) {
-                            const newBill = new Bills({
-                                slot: unitID,
-                                rate: details.rate,
-                                previousKWH: details.previous_kwh,
-                                currentKWH: details.current_kwh,
-                                fullyPaid: false,
-                                currentPayment: monthPayment,
-                                dueDate: {
-                                    month: details.month,
-                                    day: details.day,
-                                    year: details.year
-                                },
-                                users: [{
-                                    username: username,
-                                    paid: false,
-                                    cost: monthPayment,
-                                    daysPresent: details.days_present
-                                }]
-                            });
-
-                            newBill.save().then(billdata => {
-                                roomdata.bills.push(billdata._id);
-                                this.acceptCallback(billdata);
-                            }).catch(this.rejectCallback);
-                            return;
+                            // search the username and retrieve the userID
+                            Student.findOne({username: username})
+                                .then(userdata => {
+                                    if (userdata == null) return;
+                                    const newBill = new Bills({
+                                        slot: unitID,
+                                        rate: details.rate,
+                                        previousKWH: details.previous_kwh,
+                                        currentKWH: details.current_kwh,
+                                        fullyPaid: false,
+                                        currentPayment: monthPayment,
+                                        dueDate: {
+                                            month: details.month,
+                                            day: details.day,
+                                            year: details.year
+                                        },
+                                        users: [{
+                                            username: username,
+                                            paid: false,
+                                            cost: monthPayment,
+                                            daysPresent: details.days_present
+                                        }],
+                                        userDetails: [userdata._id],
+                                    });
+        
+                                    newBill.save().then(billdata => {
+                                        roomdata.bills.push(billdata._id);
+                                        this.acceptCallback(billdata);
+                                    }).catch(this.rejectCallback);
+                                    return;
+                                }).catch(error => {
+                                    this.rejectCallback('UsernameSpecifiedDoesNotExist');
+                                })
                         }
 
                         // additional check if the user already exist
@@ -308,24 +316,29 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                             return this.rejectCallback('UserAlreadyOnBill');
                         }
 
-                        // adjust the current billings
-                        const userbills = billdata.users;
-                        userbills.push({
-                            username: username,
-                            paid: false,
-                            cost: 0,
-                            daysPresent: details.days_present
-                        });
+                        // search the student from the collection
+                        Student.findOne({username: username})
+                            .then(userdata => {
+                                // adjust the current billings
+                                const userbills = billdata.users;
+                                userbills.push({
+                                    username: username,
+                                    paid: false,
+                                    cost: 0,
+                                    daysPresent: details.days_present,
+                                    userDetails: userdata._id
+                                });
 
-                        let sumDays = 0;
-                        userbills.forEach(userdetails => { sumDays += userdetails.daysPresent });
-                        userbills.forEach(userdetails => {
-                            userdetails.cost = monthPayment * (userdetails.daysPresent / sumDays);
-                        });
+                                let sumDays = 0;
+                                userbills.forEach(userdetails => { sumDays += userdetails.daysPresent });
+                                userbills.forEach(userdetails => {
+                                    userdetails.cost = monthPayment * (userdetails.daysPresent / sumDays);
+                                });
 
-                        billdata.users = userbills;
-                        billdata.save().then(this.acceptCallback).catch(this.rejectCallback);
-
+                                billdata.users = userbills;
+                                billdata.save().then(this.acceptCallback).catch(this.rejectCallback);
+                            })
+                            .catch(err => this.rejectCallback('UsernameSpecifiedDoesNotExist'));
                     }).catch(this.rejectCallback);
             }).catch(this.rejectCallback);
     }
@@ -382,6 +395,16 @@ export class AdminMongoDBConnection extends MongoDBConnection {
             });
     }
 
+    // mark the specified username as paid
+    markAsPaid(username) {
+        // get the last billing statement from this username
+        Bills.find({username: username})
+            .sort('dueDate.year')
+            .sort('dueDate.month')
+            .sort('dueDate.day')
+            .then(this.acceptCallback).catch(this.rejectCallback);
+    }
+
     ////////////////
     //  Students  //
     ////////////////
@@ -395,5 +418,39 @@ export class AdminMongoDBConnection extends MongoDBConnection {
             this.acceptCallback(userdata);
         }).catch(this.rejectCallback);
     }
-}
 
+    ////////////////////////
+    //  Summary requests  //
+    ////////////////////////
+    // summarizes the user information for on a room
+    roomSummary(roomID='') {
+        let queryPromise;
+        if (roomID == '') queryPromise = Room.find().populate('bills').populate('student_accounts');
+        else queryPromise = Room.find({slot: roomID}).populate('bills').populate('student_accounts');
+
+        // save the user information from the roomdata retrieved
+        const roomData = {};
+        queryPromise.then(roomdata => {
+            roomdata.forEach(room => {
+                if (room.users.length > 0) {
+                    roomData[room.slot] = {};
+
+                    // gets the latest bill data of the user
+                    const roomBill = room.bills[room.bills.length - 1];
+                    roomBill.users.forEach(userBillInfo => {
+                        const userDetails = userBillInfo.userDetails;
+                        roomData[room.slot][userBillInfo.username] = {};
+
+                        // payment status on users
+                        if (userBillInfo.paid) roomData[room.slot][userBillInfo.username]['status'] = 'paid';
+                        else roomData[room.slot][userBillInfo.username]['status'] = 'unpaid';
+
+                        // userdetails added
+                        roomData[room.slot][userBillInfo.username]['name'] = userDetails.details.name;
+                        roomData[room.slot][userBillInfo.username]['contact'] = userDetails.contact;
+                    });
+                }
+            });
+        }).catch(this.rejectCallback);
+    }
+}

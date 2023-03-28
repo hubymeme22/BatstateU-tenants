@@ -56,6 +56,11 @@ const roomBills = new mongoose.Schema({
         daysPresent: {
             type: Number,
             required: true
+        },
+        userDetails: {
+            type: [mongoose.Types.ObjectId],
+            required: true,
+            ref: 'student_accounts'
         }
     }]
 });
