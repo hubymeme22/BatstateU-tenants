@@ -57,7 +57,7 @@ export const UserDetails = styled(ColumnTitles)`
   cursor: pointer;
 
   &:hover {
-    background-color: #dadada;
+    background-color: #b5d7ff;
   }
 `;
 
