@@ -97,7 +97,7 @@ function Signup({ handle }) {
             <div>
               <Input
                 type='text'
-                placeholder='First name:'
+                placeholder='FIRST NAME:'
                 value={value.name.first}
                 name='first'
                 onChange={nameAdd}
@@ -108,7 +108,7 @@ function Signup({ handle }) {
             <div>
               <Input
                 type='text'
-                placeholder='Mid Name:'
+                placeholder='MID NAME:'
                 value={value.name.middle}
                 name='middle'
                 onChange={nameAdd}
@@ -119,7 +119,7 @@ function Signup({ handle }) {
             <div>
               <Input
                 type='text'
-                placeholder='Last Name:'
+                placeholder='LAST NAME:'
                 value={value.name.last}
                 name='last'
                 onChange={nameAdd}
@@ -133,7 +133,7 @@ function Signup({ handle }) {
           <div>
             <Input
               type='email'
-              placeholder='Email: eg. juancruz@gmail.com'
+              placeholder='EMAIL: eg. juancruz@gmail.com'
               value={value.email}
               name='email'
               onChange={textAdd}
@@ -146,7 +146,7 @@ function Signup({ handle }) {
           <div>
             <Input
               type='number'
-              placeholder='Contact Number: eg. 09735678935'
+              placeholder='CONTACT NUMBER: eg. 09735678935'
               value={value.contact}
               name='contact'
               onChange={textAdd}
@@ -173,7 +173,7 @@ function Signup({ handle }) {
           <div>
             <Input
               type='password'
-              placeholder='Password: Use 8 characters above'
+              placeholder='PASSWORD: Use 8 characters above'
               value={value.password}
               name='password'
               onChange={textAdd}
@@ -186,7 +186,7 @@ function Signup({ handle }) {
           <div>
             <Input
               type='password'
-              placeholder='Confirm Password: Use 8 characters above'
+              placeholder='CONFIRM PASSWORD: Use 8 characters above'
               value={value.confirmPassword}
               name='confirmPassword'
               onChange={textAdd}

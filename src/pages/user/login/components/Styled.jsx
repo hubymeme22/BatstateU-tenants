@@ -18,6 +18,10 @@ export const Container = styled.div`
 `;
 
 export const ContentContainer = styled.div`
+  @media screen and (max-width: 767px) {
+    width: 85%;
+  }
+
   border-radius: 25px;
   height: 550px;
   width: 800px;
@@ -26,6 +30,19 @@ export const ContentContainer = styled.div`
 `;
 
 export const Wrapper = styled.div`
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    z-index: 1;
+    ${(props) =>
+      props.switch !== true
+        ? `
+    transform: translateX(0%);
+   
+    opacity: 1;
+  `
+        : null}
+  }
+
   width: 50%;
   height: 100%;
   background-color: #651b1b;

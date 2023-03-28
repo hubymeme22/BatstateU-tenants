@@ -14,6 +14,9 @@ function Bsu({ toggle }) {
 export default Bsu;
 
 const BSUContainer = styled.div`
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
   border-radius: 25px;
   display: flex;
   justify-content: center;

@@ -15,10 +15,11 @@ function Form() {
         console.log(err);
       });
   }, []);
+
   return (
     <FormContainer>
       <FormContent />
-      <Download />
+      <Download onClick={print()} />
     </FormContainer>
   );
 }
