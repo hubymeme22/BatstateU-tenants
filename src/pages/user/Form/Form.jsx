@@ -19,7 +19,7 @@ function Form() {
   return (
     <FormContainer>
       <FormContent />
-      <Download onClick={print()} />
+      <Download />
     </FormContainer>
   );
 }

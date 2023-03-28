@@ -31,12 +31,14 @@ export const ContentContainer = styled.div`
 
 export const Wrapper = styled.div`
   @media screen and (max-width: 767px) {
+    transition: all 0.8s ease-in-out;
     width: 100%;
     z-index: 1;
     ${(props) =>
       props.switch !== true
         ? `
-    transform: translateX(0%);
+    transform: rotateY(360deg);
+   
    
     opacity: 1;
   `
@@ -53,6 +55,7 @@ export const Wrapper = styled.div`
     props.switch !== true
       ? `
     transform: translateX(100%);
+  
     opacity: 1;
   `
       : null}
@@ -60,6 +63,7 @@ export const Wrapper = styled.div`
 
 export const ComponentContainer = styled.div`
   transition: all 0.6s ease-in-out;
+
   margin: 0;
   padding: 30px;
   color: white;
