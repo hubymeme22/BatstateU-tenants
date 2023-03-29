@@ -44,11 +44,7 @@ function Modal({ isOpen, close, data }) {
         <>
           <section>
             <Header>
-              {
-                <p>
-                  {data.label}: {data ? data.slot : null}
-                </p>
-              }
+              <p>Room: {data ? data.slot : null}</p>
 
               <p>
                 Number of Tenants:
