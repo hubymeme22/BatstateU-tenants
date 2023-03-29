@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { getRequestPermission, setJSONPacketFormat } from "../../../middleware/tokenValidator.js";
-import { AdminMongoDBConnection } from "../../../modules/AdminDBConnection.js";
-import { StudentDBConnection } from "../../../modules/StudentDBConnection.js";
+import { getRequestPermission, setJSONPacketFormat } from "../../../../middleware/tokenValidator.js";
+import { AdminMongoDBConnection } from "../../../../modules/AdminDBConnection.js";
+import { StudentDBConnection } from "../../../../modules/StudentDBConnection.js";
 
 const getStudentDetails = Router();
 setJSONPacketFormat({ error: '', details: []});

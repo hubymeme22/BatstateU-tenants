@@ -4,38 +4,38 @@ Following are the list of POST request routes from the server:
 
 ```
 /api/login
-/api/login/admin  -- (admin)
+/api/login/admin
 /api/register/admin  -- (admin)
 /api/register/student
 /api/forgotpass/
 /api/forgotpass/pin/:key
 /api/forgotpass/change/:key
-/api/billing/:slot/:username -- (admin)
-/api/slots/new  -- (admin)
-/api/students/room -- (admin)
+/api/admin/billing/:slot/:username -- (admin)
+/api/admin/slots/new  -- (admin)
+/api/admin/students/room -- (admin)
 ```
 
 ## GET requests
 Following are the list of GET request routes from the server
 ```
-/api/billing/ -- (admin)
-/api/billing/unpaid -- (admin)
-/api/billing/unpaid/:username -- (admin)
-/api/slots/ -- (admin)
-/api/slots/available -- admin()
-/api/slots/available/:space
+/api/admin/billing/ -- (admin)
+/api/admin/billing/unpaid -- (admin)
+/api/admin/billing/unpaid/:username -- (admin)
+/api/admin/slots/ -- (admin)
+/api/admin/slots/available -- (admin)
+/api/admin/slots/available/:space
 ```
 
 ## DELETE requests
 Following are the list of DELETE request routes from the server
 ```
-/api/billing/:slot/:username -- (admin)
+/api/admin/billing/:slot/:username -- (admin)
 ```
 
 ## PUT requests
 Followng are the list of PUT request routes from the server
 ```
-/api/students/verify -- (admin)
+/api/admin/students/verify -- (admin)
 ```
 
 <br><br>
@@ -94,7 +94,7 @@ Below are the individual routes, their purposes, usage, authorization, etc.
 <br>
 
 ## Admin Registration
-- **`/api/register/admin`**
+- **`/api/admin/register/admin`**
   - Registers an admin account
   - **Permission**: Admin
   - **Method**: <b style="color: yellow">POST</b>
@@ -228,7 +228,7 @@ On getting/reading the billings, different routes are introduced for filtering t
 
 <br>
 
-- **`/api/billing/`**
+- **`/api/admin/billing/`**
   - Gets all the bills stored in the database.
   - **Permission**: Admin
   - **Method**: <b style="color: green">GET</b>
@@ -270,7 +270,7 @@ On getting/reading the billings, different routes are introduced for filtering t
 
 <br>
 
-- **`/api/billing/:username`**
+- **`/api/admin/billing/:username`**
   - Gets all the bills of the specified username.
   - **Permission**: Admin/Student
   - **Method**: <b style="color: green">GET</b>
@@ -313,7 +313,7 @@ On getting/reading the billings, different routes are introduced for filtering t
 <br>
 
 ## Adding a new billing
-- **`/api/billing/:slotID/:username`**
+- **`/api/admin/billing/:slotID/:username`**
   - Adds a new bill to the room of the specified username.
   - **Permission**: Admin
   - **Method**: <b style="color: yellow">POST</b>

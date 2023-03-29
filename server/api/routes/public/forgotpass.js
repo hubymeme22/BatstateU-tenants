@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { MongoDBConnection } from "../../modules/DBConnection.js";
-import * as pr from "../../modules/passwordRecovery.js";
-import paramChecker from "../../modules/paramchecker.js";
+import { MongoDBConnection } from "../../../modules/DBConnection.js";
+import * as pr from "../../../modules/passwordRecovery.js";
+import paramChecker from "../../../modules/paramchecker.js";
 
 const forgotPassword = Router();
 

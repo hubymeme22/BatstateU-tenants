@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { getRequestPermission, setJSONPacketFormat } from "../../../middleware/tokenValidator.js";
-import { AdminMongoDBConnection } from "../../../modules/AdminDBConnection.js";
+import { getRequestPermission, setJSONPacketFormat } from "../../../../middleware/tokenValidator.js";
+import { AdminMongoDBConnection } from "../../../../modules/AdminDBConnection.js";
 
 const deleteStudentRoom = Router();
 

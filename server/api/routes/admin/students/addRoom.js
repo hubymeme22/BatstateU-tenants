@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { postRequestPermission, setJSONPacketFormat } from "../../../middleware/tokenValidator.js";
-import { AdminMongoDBConnection } from "../../../modules/AdminDBConnection.js";
-import paramChecker from "../../../modules/paramchecker.js";
+import { postRequestPermission, setJSONPacketFormat } from "../../../../middleware/tokenValidator.js";
+import { AdminMongoDBConnection } from "../../../../modules/AdminDBConnection.js";
+import paramChecker from "../../../../modules/paramchecker.js";
 
 const addStudentRoom = Router();
 

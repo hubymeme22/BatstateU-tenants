@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { postRequestPermission, setJSONPacketFormat } from "../../middleware/tokenValidator.js";
-import { MongoDBConnection } from "../../modules/DBConnection.js";
-import { AdminMongoDBConnection } from "../../modules/AdminDBConnection.js";
-import paramChecker from "../../modules/paramchecker.js";
+import { postRequestPermission, setJSONPacketFormat } from "../../../middleware/tokenValidator.js";
+import { MongoDBConnection } from "../../../modules/DBConnection.js";
+import { AdminMongoDBConnection } from "../../../modules/AdminDBConnection.js";
+import paramChecker from "../../../modules/paramchecker.js";
 
 const register = Router();
 register.post("/student", (req, res) => {

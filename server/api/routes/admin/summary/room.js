@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { setJSONPacketFormat, getRequestPermission } from "../../../middleware/tokenValidator.js";
-import { AdminMongoDBConnection } from "../../../modules/AdminDBConnection.js";
+import { setJSONPacketFormat, getRequestPermission } from "../../../../middleware/tokenValidator.js";
+import { AdminMongoDBConnection } from "../../../../modules/AdminDBConnection.js";
 
 const roomSummary = Router();
 setJSONPacketFormat({error: '', roomSummary: {}});

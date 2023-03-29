@@ -1,14 +1,14 @@
 import { Router } from "express";
-import { getRequestPermission, setJSONPacketFormat } from "../../../middleware/tokenValidator.js";
-import { AdminMongoDBConnection } from "../../../modules/AdminDBConnection.js";
-import paramChecker from "../../../modules/paramchecker.js";
+import { getRequestPermission, setJSONPacketFormat } from "../../../../middleware/tokenValidator.js";
+import { AdminMongoDBConnection } from "../../../../modules/AdminDBConnection.js";
+import paramChecker from "../../../../modules/paramchecker.js";
 
-const unverify = Router();
+const verify = Router();
 
 setJSONPacketFormat({ error: '', verified: false });
-unverify.put("/unverify/:username", getRequestPermission, (req, res) => {
+verify.put("/verify/:username", getRequestPermission, (req, res) => {
     const missedParams = paramChecker(['username'], req.params);
-    const responseFormat = { error: '', unverified: false };
+    const responseFormat = { error: '', verified: false };
 
     if (missedParams.length > 0) {
         responseFormat['error'] = `missed_params=${missedParams}`;
@@ -17,7 +17,7 @@ unverify.put("/unverify/:username", getRequestPermission, (req, res) => {
 
     const dbConnection = new AdminMongoDBConnection(req.allowedData);
     dbConnection.setAcceptCallback(userdata => {
-        responseFormat.unverified = true;
+        responseFormat.verified = true;
         res.json(responseFormat);
     });
 
@@ -26,7 +26,7 @@ unverify.put("/unverify/:username", getRequestPermission, (req, res) => {
         res.json(responseFormat);
     });
 
-    dbConnection.unverifyStudent(req.params.username);
+    dbConnection.verifyStudent(req.params.username);
 });
 
-export default unverify;
+export default verify;
