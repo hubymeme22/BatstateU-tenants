@@ -61,6 +61,11 @@ const studentAccountSchema = mongoose.Schema({
         type: mongoose.Schema.Types.Boolean,
         required: true
     },
+    room: {
+        type: mongoose.Types.ObjectId,
+        default: null,
+        ref: 'room'
+    },
     details: {
         name: {
             first: {
@@ -75,9 +80,6 @@ const studentAccountSchema = mongoose.Schema({
                 type: String,
                 required: true
             }
-        },
-        room: {
-            type: mongoose.Schema.Types.ObjectId,
         }
     }
 });

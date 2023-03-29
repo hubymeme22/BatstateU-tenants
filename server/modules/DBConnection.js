@@ -76,6 +76,7 @@ export class MongoDBConnection {
             contact: contact,
             access: 'student',
             verified: false,
+            room: null,
             details: {
                 name: nameJSON
             }

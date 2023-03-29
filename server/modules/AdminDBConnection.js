@@ -179,7 +179,12 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                                 if (roomdata.available_slot == 0) roomdata.status = 'full'
                                 else roomdata.status = 'occupied';
 
-                                roomdata.save().then(this.acceptCallback).catch(this.rejectCallback);
+                                roomdata.save().then(_roomdata => {
+                                    userdata.room = _roomdata._id;
+                                    userdata.save().then(_userdata => {
+                                        this.acceptCallback(_roomdata);
+                                    }).catch(this.rejectCallback);
+                                }).catch(this.rejectCallback);
 
                             }).catch(this.rejectCallback);
 
@@ -417,13 +422,43 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     ////////////////
     // retrieves all the student data (w/password not set)
     retrieveAllStudentData() {
-        Student.find().then(userdata => {
-            userdata.forEach(user => {
-                user.password = '';
-            });
+        Student.find({verified: true})
+            .lean()
+            .populate({
+                path: 'room',
+                populate: {
+                    path: 'bills'
+                },
+                options: {strictPopulate: false}
+            })
+            .then(userdata => {
+                const dataFormat = {};
+                userdata.forEach(user => {
+                    dataFormat[user.username] = {};
+                    dataFormat[user.username]['name'] = user.details.name;
+                    dataFormat[user.username]['contact'] = user.contact;
 
-            this.acceptCallback(userdata);
-        }).catch(this.rejectCallback);
+                    if (!user.room.slot) {
+                        dataFormat[user.username]['roomID'] = 'unavailable';
+                        dataFormat[user.username]['status'] = 'unavailable';
+                    } else {
+                        if (user.room.bills.length <= 0) {
+                            dataFormat[user.username]['status'] = 'unavailable';
+                        } else {
+                            const latestBill = user.room.bills[user.room.bills.length - 1];
+                            const userbill = latestBill.users.find(item => item.username === user.username);
+
+                            if (!userbill)
+                                return dataFormat[user.username]['status'] = 'unavailable';
+
+                            if (userbill.paid) dataFormat[user.username]['status'] = 'paid';
+                            else dataFormat[user.username]['status'] = 'unpaid';
+                        }
+                    }
+                });
+
+                this.acceptCallback(dataFormat);
+            }).catch(this.rejectCallback);
     }
 
     ////////////////////////
