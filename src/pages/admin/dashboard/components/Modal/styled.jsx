@@ -46,6 +46,8 @@ export const Grid = styled.div`
 
 export const Details = styled(Grid)`
   font-weight: normal;
+  font-size: clamp(10px, 1rem, 15px);
+  align-self: center;
 `;
 
 export const Users = styled.div`

@@ -17,9 +17,11 @@ function Canteen({ data, openDetails }) {
 
         {/* Display list of Canteen slots data */}
         <div>
-          {data.length > 0 &&
+          {data &&
+            data.length > 0 &&
             data.map((slot, index) => {
               const id = slot._id;
+              const label = slot.label;
               const room = slot.slot;
               const status = slot.status;
 
@@ -27,7 +29,7 @@ function Canteen({ data, openDetails }) {
                 <Details
                   key={id}
                   onClick={() => {
-                    openDetails(id);
+                    openDetails(room, label);
                   }}
                 >
                   <p>{room}</p>
