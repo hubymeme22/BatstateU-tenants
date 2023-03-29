@@ -60,4 +60,4 @@ getStudentBilling.get('/latest', getRequestPermission, (req, res) => {
 });
 
 
-export default getStudentDetails;
+export default getStudentBilling;
