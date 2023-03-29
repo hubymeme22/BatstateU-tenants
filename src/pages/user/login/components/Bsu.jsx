@@ -15,7 +15,7 @@ export default Bsu;
 
 const BSUContainer = styled.div`
   @media screen and (max-width: 767px) {
-    transition: all 0.9s ease-in-out;
+    transition: all 0.6s ease-in-out;
     display: none;
   }
   border-radius: 25px;

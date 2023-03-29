@@ -1,5 +1,5 @@
 import React from 'react';
-
+import styled from 'styled-components';
 // Styled-components
 import { StyledSidebar, Title, LineBreak } from '../styled';
 import { Nav, NavLink, Button } from '../styled';
@@ -16,18 +16,18 @@ export function Sidebar() {
   const auth = useAuth();
 
   return (
-    <StyledSidebar>
+    <StyledSidebar id='userSidebar'>
       <div>
         <Title>WELCOME SPARTAN</Title>
         <LineBreak />
 
         <Nav>
-          <NavLink to="/" end>
+          <NavLink to='/' end>
             <BsEnvelopePaperFill />
             Form
           </NavLink>
 
-          <NavLink to="/notification">
+          <NavLink to='/notification'>
             <IoNotificationsSharp />
             Notification
           </NavLink>
@@ -35,7 +35,7 @@ export function Sidebar() {
       </div>
 
       <div>
-        <NavLink to="/account">
+        <NavLink to='/account'>
           <FaUsers />
           Account
         </NavLink>

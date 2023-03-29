@@ -34,3 +34,16 @@ video {
   display: block;
   max-width: 100%;
 }
+
+@page {
+  size: A4;
+}
+
+@media print {
+  #userSidebar {
+    display: none;
+  }
+  #downloadButton {
+    display: none;
+  }
+}
