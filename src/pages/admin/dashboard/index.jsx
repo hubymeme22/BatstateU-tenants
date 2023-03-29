@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import fetchData from '@/utils/fetchData';
 import Loader from '@/components/Loader';
 
 // Components
@@ -12,12 +11,9 @@ import Summary from './components/Summary';
 import { Layout } from './styled';
 import Modal from './components/Modal';
 
-const dashboardLoader = async () => {
-  const slots = await fetchData('slots');
-  const summary = await fetchData('slots/summary');
-
-  return { slots, summary };
-};
+// Loader
+import { dashboardLoader } from '../../../services/loaders';
+import { fetchAsAdmin } from '../../../services/adminFetch';
 
 function Dashboard() {
   const [allRooms, setAllRooms] = useState([]);
@@ -58,12 +54,13 @@ function Dashboard() {
     setModalData(null);
   };
 
-  const openDetails = (roomId) => {
+  const openDetails = async (roomName) => {
     // Open Modal to show details
     toggleModal();
 
-    const roomDetails = dormData.filter((room) => room._id === roomId);
-    setModalData(roomDetails[0]);
+    // get room details
+    const roomDetails = await fetchAsAdmin(`/summary/room/${roomName}`);
+    setModalData(roomDetails.data.roomSummary);
   };
 
   return (

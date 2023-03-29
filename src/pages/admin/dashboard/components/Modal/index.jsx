@@ -16,7 +16,9 @@ function Modal({ isOpen, close, data }) {
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   const selectAll = (e) => {};
 
@@ -42,9 +44,7 @@ function Modal({ isOpen, close, data }) {
           <p>Room Number: {data ? data.slot : null}</p>
           <p>
             Number of Tenants:
-            {data ? (
-              <span>{`${data.users.length} / ${data.max_slot}`}</span>
-            ) : null}
+            {data ? <span> {data.userinfo.length} / 4 </span> : null}
           </p>
         </Header>
 
@@ -64,7 +64,13 @@ function Modal({ isOpen, close, data }) {
         {/* Map Users */}
         <Users>
           {data &&
-            data.users.map((user, index) => {
+            data.userinfo.map((user, index) => {
+              //  Destruct detials
+              let name = user.name;
+
+              name = `${name.first} ${name.last}`;
+              console.log(name);
+
               return (
                 <React.Fragment key={index}>
                   <Details>
@@ -74,10 +80,10 @@ function Modal({ isOpen, close, data }) {
                       // checked={}
                       // onChange={(e) => toggleUser(e, user)}
                     />
-                    <p>{user}</p>
-                    <p>Name</p>
-                    <p>Contact</p>
-                    <p>Status</p>
+                    <p>{user.username}</p>
+                    <p>{name}</p>
+                    <p>{user.contact}</p>
+                    <p>{user.status}</p>
                   </Details>
 
                   <hr />

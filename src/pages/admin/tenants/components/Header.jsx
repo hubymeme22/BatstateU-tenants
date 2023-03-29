@@ -12,10 +12,13 @@ function Header({ area, changeArea, filterBy }) {
       <div>
         <InputContainer>
           <label htmlFor=""> Area: </label>
-          <select name="" id="" onChange={(e) => changeArea(e.target.value)}>
-            <option value="Tenants" defaultValue>
-              All
-            </option>
+          <select
+            name=""
+            id=""
+            value={area}
+            onChange={(e) => changeArea(e.target.value)}
+          >
+            <option value="Tenants">All</option>
             <option value="Dormitory">Dorm</option>
             <option value="Canteen">Canteen</option>
           </select>

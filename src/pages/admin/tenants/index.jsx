@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-import fetchData from '../../../utils/fetchData';
+import { tenantsLoader } from '../../../services/loaders';
 
 // components
 import Header from './components/Header';
 import { Container } from './styled';
 import List from './components/List';
-
-const tenantsLoader = async () => {
-  const allRecords = await fetchData('students/details');
-  return allRecords.data;
-};
 
 function Tenants() {
   const [allTenants, setAllTenants] = useState([]);

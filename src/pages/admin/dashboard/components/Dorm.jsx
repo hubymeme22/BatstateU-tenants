@@ -25,7 +25,7 @@ function Dorm({ data, openDetails }) {
               const users = slot.users;
 
               return (
-                <Details key={id} onClick={() => openDetails(id)}>
+                <Details key={id} onClick={() => openDetails(room)}>
                   <p>{room}</p>
                   <p>{`${users.length} / ${max}`}</p>
                 </Details>
