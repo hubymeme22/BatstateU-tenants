@@ -4,7 +4,7 @@ import styled from 'styled-components';
 function Loader() {
   return (
     <Container>
-      <Spinner />;
+      <Spinner />
     </Container>
   );
 }
