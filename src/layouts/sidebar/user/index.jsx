@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 // Styled-components
-import { StyledSidebar, Title, LineBreak } from '../styled';
+import { Title, LineBreak } from '../styled';
 import { Nav, NavLink, Button } from '../styled';
 
 // Icons
@@ -44,3 +44,24 @@ export function Sidebar() {
     </StyledSidebar>
   );
 }
+const StyledSidebar = styled.aside`
+  color: white;
+  width: min(100%, 350px);
+  background-color: ${({ theme }) => theme.primary};
+  border-radius: 10px;
+
+  padding: 2rem 0 4rem 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+  }
+`;

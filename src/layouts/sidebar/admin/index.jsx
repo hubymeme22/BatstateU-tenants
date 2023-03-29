@@ -5,7 +5,7 @@ import { Nav, NavLink, Button } from '../styled';
 
 import { MdDashboard } from 'react-icons/md';
 import { FaUsers } from 'react-icons/fa';
-
+import { FaHouseUser } from 'react-icons/fa';
 import { useAuth } from '@/hooks/useAuth';
 
 export function Sidebar() {
@@ -17,17 +17,17 @@ export function Sidebar() {
         <Title>RESOURCE GENERATION OFFICE</Title>
         <LineBreak />
         <Nav>
-          <NavLink to="/admin" end>
+          <NavLink to='/admin' end>
             <MdDashboard />
             Dashboard
           </NavLink>
 
-          <NavLink to="/admin/tenants">
-            <FaUsers />
+          <NavLink to='/admin/tenants'>
+            <FaHouseUser />
             Tenants
           </NavLink>
 
-          <NavLink to="/admin/users">
+          <NavLink to='/admin/users'>
             <FaUsers />
             Users
           </NavLink>
