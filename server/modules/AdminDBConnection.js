@@ -281,7 +281,6 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                             return Student.findOne({username: username})
                                 .then(userdata => {
                                     if (userdata == null) return;
-                                    console.log(userdata);
 
                                     const newBill = new Bills({
                                         slot: unitID,

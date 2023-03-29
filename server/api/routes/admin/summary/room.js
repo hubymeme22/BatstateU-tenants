@@ -15,7 +15,6 @@ roomSummary.get('/room/:roomID', getRequestPermission, (req, res) => {
     });
 
     DBConnection.setRejectCallback(error => {
-        console.log(error);
         responseFormat.error = error;
         res.json(responseFormat);
     });
