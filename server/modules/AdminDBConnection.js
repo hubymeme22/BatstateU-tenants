@@ -452,6 +452,12 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                                 status: false
                             };
 
+                            // additional checking if no bill on current room is added yet
+                            if (!lastestBill) {
+                                tmpdata.status = 'not available';
+                                return summaryData['userinfo'].push(tmpdata);
+                            }
+
                             // checks if the user is registered in the bill (for status checking)
                             const userbillIndex = lastestBill.users.find(item => item.username === tmpdata.username);
                             if (userbillIndex) {
