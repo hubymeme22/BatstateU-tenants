@@ -11,6 +11,11 @@ export const Container = styled.div`
   border: 1px solid;
 `;
 export const FormContainer = styled.div`
+  @page {
+    size: A 4px;
+    margin: 1em -1.5em;
+  }
+
   gap: 5px;
   height: 100%;
   width: 100%;

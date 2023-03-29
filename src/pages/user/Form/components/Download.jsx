@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 function Download() {
-  function print() {}
   return (
-    <Con>
-      <Button>Download</Button>
+    <Con id='downloadButton'>
+      <Button onClick={() => print()}>Download</Button>
     </Con>
   );
 }
