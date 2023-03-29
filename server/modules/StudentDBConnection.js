@@ -30,6 +30,19 @@ export class StudentDBConnection extends MongoDBConnection {
             .then(this.acceptCallback).catch(this.rejectCallback);
     }
 
+    // gets the latest bill
+    getLatestUserBill() {
+        Bills.find({'users.username': this.userTokenData.username})
+            .sort('dueDate.year')
+            .sort('dueDate.month')
+            .sort('dueDate.day')
+            .then(billdata => {
+                if (billdata.length > 0)
+                    return this.acceptCallback(billdata[billdata.length - 1]);
+                this.acceptCallback(null);
+            }).catch(this.rejectCallback);
+    }
+
     // changes the password of this account
     changePass(newPassword) {
         const srCode = this.userTokenData.username;
