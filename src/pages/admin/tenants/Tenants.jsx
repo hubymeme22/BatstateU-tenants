@@ -30,7 +30,7 @@ function Tenants() {
   }, []);
 
   useEffect(() => {
-    console.log(allTenants);
+    // console.log(allTenants);
   }, [allTenants]);
 
   return (
