@@ -13,6 +13,7 @@ Following are the list of POST request routes from the server:
 /api/admin/billing/:slot/:username -- (admin)
 /api/admin/slots/new  -- (admin)
 /api/admin/students/room -- (admin)
+/api/admin/students/pay/:srCode -- (admin)
 ```
 
 ## GET requests
@@ -21,9 +22,11 @@ Following are the list of GET request routes from the server
 /api/admin/billing/ -- (admin)
 /api/admin/billing/unpaid -- (admin)
 /api/admin/billing/unpaid/:username -- (admin)
+/api/admin/students/details -- (admin)
 /api/admin/slots/ -- (admin)
 /api/admin/slots/available -- (admin)
-/api/admin/slots/available/:space
+/api/admin/slots/available/:space -- (admin)
+/api/admin/summary/room/:roomID -- (admin)
 ```
 
 ## DELETE requests
@@ -36,6 +39,7 @@ Following are the list of DELETE request routes from the server
 Followng are the list of PUT request routes from the server
 ```
 /api/admin/students/verify -- (admin)
+/api/admin/students/unverify -- (admin)
 ```
 
 <br><br>
@@ -272,7 +276,7 @@ On getting/reading the billings, different routes are introduced for filtering t
 
 - **`/api/admin/billing/:username`**
   - Gets all the bills of the specified username.
-  - **Permission**: Admin/Student
+  - **Permission**: Admin
   - **Method**: <b style="color: green">GET</b>
   - **Note**: Make sure that the token on `cookies` are set.
   - Sample Response:
@@ -318,6 +322,7 @@ On getting/reading the billings, different routes are introduced for filtering t
   - **Permission**: Admin
   - **Method**: <b style="color: yellow">POST</b>
   - **Parameters**: `month`, `day`, `year`, `rate`, `previous_kwh`, `current_kwh`, `days_present`
+  - **Note**: `month`, `day`, and `year` are numerical values. `month` can have values 1-12 which represents January-December, and the `day` can have values 1-31 which represents the day in a month. The `days_present` represents the days that a tennant is present in the room, which must be keep track on, so that equal distribution of billing will be applied.
   - Sample request:
     ```json
     {
@@ -334,6 +339,48 @@ On getting/reading the billings, different routes are introduced for filtering t
     ```json
     { "added": true, "error": "" }
     ```
-  - This route returns two(2) key responses: `code` and `error`
+  - This route returns two(2) key responses: `added` and `error`
     - `added` response can be either `true`, which indicates that the billing has been added to the database, or `false` if not.
     - `error` contains a string/JSON which can be used for debugging.
+
+<br>
+
+## Deleting a billing **[WILL BE UNDER CONSTRUCTION]**
+- **`/api/admin/billing/:slot/:username`**
+  - Deletes a tennant from the bill.
+  - **Permission**: Admin
+  - **Method**: <b style="color: orange">DELETE</b>
+  - Sample Response:
+    ```json
+    { "deleted": true, "error": "" }
+    ```
+  - This route returns two(2) key responses: `deleted` and `error`
+    - `deleted` response can be either `true`, which indicates that the billing is already deleted from the database, or `false` if not.
+    - `error` contains a string/JSON which can be used for debugging.
+
+<br>
+
+# Slots
+
+<br>
+
+# Students
+## Verifying a student account
+- **`/api/admin/student/:srCode`**
+  - Verifies a newly registered student account
+  - **Permission**: Admin
+  - **Method**: <b style="color: green">PUT</b>
+  - **Parameter**: `srCode`
+  - Sample Response:
+    ```json
+    { "verified": true, "error": "" }
+    ```
+  - This route returns two(2) key responses: `verified` and `error`
+    - `verified` response can be either `true`, which indicates that the student is verified, and `false` if not, alongside with error which indicates the type of error encoutered in verifying the student account.
+    - `error` contains a string/JSON which can be used for debugging.
+
+<br>
+
+<br>
+
+# Summmary
