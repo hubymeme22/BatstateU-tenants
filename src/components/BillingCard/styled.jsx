@@ -2,8 +2,10 @@ import styled from 'styled-components';
 
 // Bill Container
 export const Bill = styled.div`
+  margin: 0 auto;
   background-color: #d9d9d9;
-  height: 100%;
+  height: 625px;
+  width: 950px;
 
   padding: 1rem;
 
@@ -43,7 +45,6 @@ export const Form = styled.form`
   display: grid;
   grid-template-columns: 30% 70%;
   grid-template-rows: 250px 1fr;
-  /* gap: 0.5rem; */
 
   & > div:nth-child(3) {
     grid-column: 1 / 3;
@@ -86,6 +87,7 @@ export const Summary = styled.div`
     width: 50%;
     align-self: end;
     text-align: end;
+    padding-top: 10px;
   }
 `;
 
