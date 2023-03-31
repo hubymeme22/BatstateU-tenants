@@ -22,7 +22,8 @@ export const InputContainer = styled.div`
   display: flex;
   align-items: center;
 
-  input {
+  input,
+  select {
     padding: 0.25rem;
   }
 
@@ -36,7 +37,7 @@ export const ColumnTitles = styled.div`
   font-weight: bold;
   display: grid;
   grid-template-columns: 150px repeat(5, 1fr);
-  /* justify-items: center; */
+  padding: 0.5rem;
 
   & > p:nth-child(4),
   & > p:nth-child(5),
@@ -53,7 +54,7 @@ export const UsersContainer = styled.div`
 export const UserDetails = styled(ColumnTitles)`
   font-weight: normal;
   border-radius: 5px;
-  padding: 5px;
+  padding: 0.5rem;
   cursor: pointer;
 
   &:hover {

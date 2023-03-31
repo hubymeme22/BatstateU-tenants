@@ -8,6 +8,6 @@ export const dashboardLoader = async () => {
 };
 
 export const tenantsLoader = async () => {
-  const allRecords = await fetchAsAdmin('students/details');
+  const allRecords = await fetchAsAdmin('summary/student');
   return allRecords.data;
 };

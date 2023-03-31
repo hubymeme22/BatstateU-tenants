@@ -8,7 +8,7 @@ import { Container } from './styled';
 import List from './components/List';
 
 function Tenants() {
-  const [allTenants, setAllTenants] = useState([]);
+  const [allTenants, setAllTenants] = useState({});
   const [area, setArea] = useState('Tenants');
   const [filter, setFilter] = useState(null);
 

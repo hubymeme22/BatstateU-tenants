@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import { ColumnTitles, UsersContainer, UserDetails } from '../styled';
 
 import Loader from '@/components/Loader';
 
 function List({ data, area, filter }) {
-  // console.log(data);
-
   return (
     <>
       <ColumnTitles>
@@ -21,7 +19,7 @@ function List({ data, area, filter }) {
       <hr />
 
       <UsersContainer>
-        {data ? (
+        {Object.keys(data).length != 0 ? (
           Object.keys(data).map((username) => {
             // destruct details
             const { first, last } = data[username].name;
