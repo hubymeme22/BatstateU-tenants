@@ -1,16 +1,18 @@
 import React from 'react';
 
-import { Header } from './styled';
+import { StyledHeader, LineBreak } from './styled';
 
-function Title() {
+function Header() {
   return (
-    <Header>
+    <StyledHeader>
       <p>Republic of the Philippines</p>
       <p>BATANGAS STATE UNIVERSITY</p>
       <p>The National Engineering University</p>
       <p>Alangilan Campus</p>
-    </Header>
+
+      <LineBreak />
+    </StyledHeader>
   );
 }
 
-export default Title;
+export default Header;

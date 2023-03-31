@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 
+// Bill Container
 export const Bill = styled.div`
   background-color: #d9d9d9;
   height: 100%;
+
   padding: 1rem;
 
   border: 1px solid black;
@@ -12,7 +14,7 @@ export const Bill = styled.div`
     rgba(0, 0, 0, 0.22) 0px 10px 10px;
 `;
 
-export const Header = styled.header`
+export const StyledHeader = styled.header`
   text-align: center;
   font-size: 0.8rem;
 
@@ -35,6 +37,71 @@ export const Title = styled.h1`
   font-size: 1.25rem;
 `;
 
+export const BillingDetails = styled.div``;
+
+export const Form = styled.form`
+  display: grid;
+  grid-template-columns: 30% 70%;
+  grid-template-rows: 250px 1fr;
+  /* gap: 0.5rem; */
+
+  & > div:nth-child(3) {
+    grid-column: 1 / 3;
+  }
+
+  input {
+    text-align: center;
+    margin: 0 auto;
+    width: 150px;
+
+    padding: 0.25rem;
+    border-radius: 5px;
+    border: 0;
+  }
+`;
+
+export const RentDate = styled.section`
+  display: flex;
+  gap: 1rem;
+
+  fieldset {
+    border: 0;
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+export const Computation = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+export const Summary = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+
+  div {
+    width: 50%;
+    align-self: end;
+    text-align: end;
+  }
+`;
+
+export const Total = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  span {
+    display: inline-block;
+    border-bottom: 1px solid black;
+    text-align: center;
+    width: 150px;
+  }
+`;
+
 export const Table = styled.table`
   text-align: center;
 
@@ -49,35 +116,27 @@ export const Table = styled.table`
     border-width: 1px;
     border-color: black;
     border-style: solid;
-    padding: 3px;
+    width: 1px;
+  }
+
+  td {
+    padding: 10px;
+  }
+
+  input {
+    width: 100%;
   }
 
   p {
     width: 100%;
   }
-
-  input {
-    margin: 0 auto;
-    width: 100px;
-  }
-`;
-export const Upper = styled.section`
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  grid-template-rows: 0.5fr 150px;
 `;
 
-export const Details = styled.div`
-  background-color: blue;
-`;
-
-export const Tenants = styled.div`
-  grid-row: 2;
-  background-color: red;
-  height: 100%;
-`;
-
-export const Form = styled.form`
-  background-color: green;
-  grid-row: 1 / 3;
+export const Button = styled.button`
+  align-self: end;
+  background-color: #66e95f;
+  border: 0;
+  padding: 0.25rem 2rem;
+  border-radius: 5px;
+  cursor: pointer;
 `;
