@@ -33,7 +33,7 @@ announce.post('/', postRequestPermission, (req, res) => {
         res.json(responseFormat);
     });
 
-    DBConnection.retrieveAllStudentData();
+    DBConnection.retrieveAllStudentSummarizedData();
 });
 
 export default announce;
