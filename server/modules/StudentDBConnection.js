@@ -44,18 +44,22 @@ export class StudentDBConnection extends MongoDBConnection {
     }
 
     // changes the password of this account
-    changePass(newPassword) {
-        const srCode = this.userTokenData.username;
-        Student.findOne({username: srCode})
-            .then(userdata => {
-                if (userdata == null)
-                    return this.rejectCallback('NonexistentUser');
+    changeInfo(userDetails) {
+        const username = this.userTokenData.username;
+        Student.findOne({username: username})
+            .then(studentdata => {
 
-                // changes the password
-                userdata.password = newPassword;
-                userdata.save().then(this.acceptCallback).catch(this.rejectCallback);
+                if (studentdata == null)
+                    return this.rejectCallback('NonexistentUsername');
+
+                const { firstname, lastname, contact, password } = userDetails;
+
+                if (firstname != '') studentdata.details.name.first = firstname;
+                if (password != '') studentdata.password = password;
+                if (lastname != '') studentdata.details.last = lastname;
+                if (contact != '') studentdata.contact = contact;
+
+                studentdata.save().then(this.acceptCallback).catch(this.rejectCallback);
             }).catch(this.rejectCallback);
     }
-
-    // update account details
 }
