@@ -19,11 +19,10 @@ function List({ data, area, filter }) {
       <hr />
 
       <UsersContainer>
-        {Object.keys(data).length != 0 ? (
-          Object.keys(data).map((username) => {
-            // destruct details
-            const { first, last } = data[username].name;
-            const { roomID, contact, status } = data[username];
+        {data.length >= 0 ? (
+          data.map((userdata) => {
+            const { username, contact, roomID, status } = userdata;
+            const { first, last } = userdata['name'];
 
             return (
               <UserDetails key={username}>
