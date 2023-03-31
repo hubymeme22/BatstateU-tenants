@@ -508,33 +508,39 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                 options: {strictPopulate: false}
             })
             .then(userdata => {
-                const dataFormat = {};
+                const dataFormat = [];
                 userdata.forEach(user => {
-                    dataFormat[user.username] = {};
-                    dataFormat[user.username]['name'] = user.details.name;
-                    dataFormat[user.username]['contact'] = user.contact;
-                    dataFormat[user.username]['email'] = user.email;
-                    dataFormat[user.username]['room_label'] = user.room.label;
+                    let newDataFormat = {
+                        username: user.username,
+                        name: user.details.name,
+                        contact: user.contact,
+                        email: user.email,
+                        room_label: user.room.label,
+                        roomID: null,
+                        status: 'unavailable'
+                    };
 
                     if (!user.room) {
-                        dataFormat[user.username]['roomID'] = 'unavailable';
-                        dataFormat[user.username]['status'] = 'unavailable';
+                        newDataFormat.roomID = 'unavailable';
+                        newDataFormat.status = 'unavailable';
                     } else {
-                        dataFormat[user.username]['roomID'] = user.room.slot;
+                        newDataFormat.roomID = user.room.slot;
 
                         if (user.room.bills.length <= 0) {
-                            dataFormat[user.username]['status'] = 'unavailable';
+                            newDataFormat = 'unavailable';
                         } else {
                             const latestBill = user.room.bills[user.room.bills.length - 1];
                             const userbill = latestBill.users.find(item => item.username === user.username);
 
                             if (!userbill)
-                                return dataFormat[user.username]['status'] = 'unavailable';
+                                return newDataFormat.status = 'unavailable';
 
-                            if (userbill.paid) dataFormat[user.username]['status'] = 'paid';
-                            else dataFormat[user.username]['status'] = 'unpaid';
+                            if (userbill.paid) newDataFormat.status = 'paid';
+                            else newDataFormat.status = 'unpaid';
                         }
                     }
+
+                    dataFormat.push(newDataFormat);
                 });
 
                 this.acceptCallback(dataFormat);
