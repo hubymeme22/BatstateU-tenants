@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { postRequestPermission, setJSONPacketFormat } from "../../../../middleware/tokenValidator.js";
 import { AdminMongoDBConnection } from "../../../../modules/AdminDBConnection.js";
-import { sendMail } from "../../../../modules/Mailer.js";
+import { setAnnouncement, announceByEmail } from "../../../../modules/announcement.js";
 import paramChecker from "../../../../modules/paramchecker.js";
 
 const announce = Router();
@@ -16,14 +16,16 @@ announce.post('/', postRequestPermission, (req, res) => {
         return res.json(responseFormat);
     }
 
+    setAnnouncement(req.body.subject, req.body.message);
     const DBConnection = new AdminMongoDBConnection(req.allowedData);
+
     DBConnection.setAcceptCallback(userdata => {
         const usernameList = Object.keys(userdata);
-        usernameList.forEach(username => {
-            // email the students here
-        });
+        const emailList = [];
 
-        // updates the announcement database
+        usernameList.forEach(username => { emailList.push(userdata[username].email); });
+        responseFormat.announcedTo = announceByEmail(emailList);
+        res.json(responseFormat);
     });
 
     DBConnection.setRejectCallback(error => {

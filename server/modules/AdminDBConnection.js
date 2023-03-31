@@ -437,6 +437,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                     dataFormat[user.username] = {};
                     dataFormat[user.username]['name'] = user.details.name;
                     dataFormat[user.username]['contact'] = user.contact;
+                    dataFormat[user.username]['email'] = user.email;
 
                     if (!user.room.slot) {
                         dataFormat[user.username]['roomID'] = 'unavailable';

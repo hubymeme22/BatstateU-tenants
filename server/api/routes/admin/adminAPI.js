@@ -11,6 +11,7 @@ import deleteStudentRoom from "./students/deleteRoom.js";
 import unverify from "./students/unverify.js";
 import getStudentDetails from "./students/details.js";
 import roomSummary from "./summary/room.js";
+import announce from "./announcement/announce.js";
 
 const adminPermission = Router();
 
@@ -32,5 +33,8 @@ adminPermission.use("/students", getStudentDetails);
 
 // for summarizing data
 adminPermission.use("/summary", roomSummary);
+
+// for announcement assigning
+adminPermission.use("/announce", announce);
 
 export default adminPermission
