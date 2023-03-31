@@ -3,8 +3,8 @@ import styled from 'styled-components';
 function FromTo() {
   return (
     <Container>
-      <Con>From: Administrator</Con>
-      <Con>To: User</Con>
+      <Title>From: Admin</Title>
+      <Title>Subject:</Title>
     </Container>
   );
 }
@@ -14,7 +14,6 @@ export default FromTo;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 15px;
 `;
-const Con = styled.p`
-  font-size: 15px;
-`;
+const Title = styled.div``;

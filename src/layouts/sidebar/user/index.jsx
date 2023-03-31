@@ -45,6 +45,9 @@ export function Sidebar() {
   );
 }
 const StyledSidebar = styled.aside`
+  @media screen and (max-width: 767px) {
+    padding: 30px 10px 40px 10px;
+  }
   color: white;
   width: min(100%, 350px);
   background-color: ${({ theme }) => theme.primary};
@@ -58,6 +61,9 @@ const StyledSidebar = styled.aside`
   justify-content: space-between;
 
   div {
+    @media screen and (max-width: 767px) {
+      width: 200px;
+    }
     width: 100%;
     display: flex;
     flex-direction: column;

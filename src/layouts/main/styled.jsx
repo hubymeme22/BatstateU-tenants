@@ -6,6 +6,9 @@ export const MainContainer = styled.div`
   min-height: 100vh;
   display: flex;
   gap: 1em;
+  @media screen and (max-width: 768px) {
+    width: 1100px;
+  }
 `;
 
 export const Content = styled.div`
@@ -13,8 +16,4 @@ export const Content = styled.div`
   background-color: white;
   border-radius: 10px;
   padding: 2rem;
-
-  @media screen and (max-width: 768px) {
-    padding: 1rem;
-  }
 `;
