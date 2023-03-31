@@ -12,6 +12,7 @@ import unverify from "./students/unverify.js";
 import getStudentDetails from "./students/details.js";
 import roomSummary from "./summary/room.js";
 import announce from "./announcement/announce.js";
+import studentSummary from "./summary/student.js";
 
 const adminPermission = Router();
 
@@ -33,6 +34,7 @@ adminPermission.use("/students", getStudentDetails);
 
 // for summarizing data
 adminPermission.use("/summary", roomSummary);
+adminPermission.use("/summary", studentSummary);
 
 // for announcement assigning
 adminPermission.use("/announce", announce);

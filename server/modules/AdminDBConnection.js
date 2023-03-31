@@ -420,8 +420,84 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     ////////////////
     //  Students  //
     ////////////////
-    // retrieves all the student data (w/password not set)
+    // retrieves all student account data (verified/unverified)
     retrieveAllStudentData() {
+        Student.find().select('username email contact verified room')
+            .then(this.acceptCallback).catch(this.rejectCallback);
+    }
+
+    // filters all the unverified student accounts
+    retrieveAllUnverifiedAccountData() {
+        Student.find({verified: false}).select('username email contact verified room')
+            .then(this.acceptCallback).catch(this.rejectCallback);
+    }
+
+    // filters all the verified student accounts
+    retrieveAllVerifiedAccountData() {
+        Student.find({verified: true}).select('username email contact verified room')
+            .then(this.acceptCallback).catch(this.rejectCallback);
+    }
+
+    // search the account by matching description
+    studentGeneralSearch(description) {
+        let {area, status, srCode, name} = description;
+        const srCodeRegex = new RegExp(srCode, 'i');
+
+        if (area == '') area = null;
+        if (status == '') status = null;
+
+        Student.find({
+            username: srCodeRegex,
+            verified: true})
+            .populate({
+                path: 'room',
+                match: { 'label': area },
+                populate: {
+                    path: 'bills'
+                },
+                options: {strictPopulate: false}})
+            .then(studentdata => {
+                // match the students that has already paid (status)
+                const filteredData = [];
+                const tmpStorageStatusStorage = [];
+
+                studentdata.forEach(student => {
+                    const studentBill = student.room.bills;
+                    if (studentBill.length > 0) {
+                        const studentLatestBill = studentBill[studentBill.length - 1].users.find(item => item.username === student.username);
+                        if (!studentLatestBill) return;
+                        if (studentLatestBill.paid == ('paid' == status) || status == null) {
+                            filteredData.push(student);
+                            tmpStorageStatusStorage.push(studentLatestBill.paid);
+                        }
+                    }
+                });
+
+                // formatting the necessary info that are needed
+                filteredData.forEach((data, index) => {
+                    let newFormat = {
+                        username: data.username,
+                        email: data.email,
+                        name: data.details.name,
+                        room: data.room.slot,
+                        status: tmpStorageStatusStorage[index]
+                    };
+
+                    if (tmpStorageStatusStorage[index]) newFormat.status = 'paid';
+                    else newFormat.status = 'unpaid';
+
+                    filteredData[index] = newFormat;
+                });
+
+                this.acceptCallback(filteredData);
+            }).catch(this.rejectCallback);
+    }
+
+    ////////////////////////
+    //  Summary requests  //
+    ////////////////////////
+    // retrieves all the student data (w/password not set)
+    retrieveAllStudentSummarizedData() {
         Student.find({verified: true})
             .lean()
             .populate({
@@ -438,6 +514,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                     dataFormat[user.username]['name'] = user.details.name;
                     dataFormat[user.username]['contact'] = user.contact;
                     dataFormat[user.username]['email'] = user.email;
+                    dataFormat[user.username]['room_label'] = user.room.label;
 
                     if (!user.room.slot) {
                         dataFormat[user.username]['roomID'] = 'unavailable';
@@ -462,9 +539,6 @@ export class AdminMongoDBConnection extends MongoDBConnection {
             }).catch(this.rejectCallback);
     }
 
-    ////////////////////////
-    //  Summary requests  //
-    ////////////////////////
     // summarizes the user information for on a room
     roomSummary(roomID) {
         Room.findOne({slot: roomID})
