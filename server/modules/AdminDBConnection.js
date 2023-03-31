@@ -516,10 +516,12 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                     dataFormat[user.username]['email'] = user.email;
                     dataFormat[user.username]['room_label'] = user.room.label;
 
-                    if (!user.room.slot) {
+                    if (!user.room) {
                         dataFormat[user.username]['roomID'] = 'unavailable';
                         dataFormat[user.username]['status'] = 'unavailable';
                     } else {
+                        dataFormat[user.username]['roomID'] = user.room.slot;
+
                         if (user.room.bills.length <= 0) {
                             dataFormat[user.username]['status'] = 'unavailable';
                         } else {
