@@ -231,7 +231,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
         if (this.userTokenData.access != 'admin')
             return this.rejectCallback('InsufficientPermission');
 
-        Room.find().where('available_slot').equals(n).then(this.acceptCallback).catch(this.rejectCallback);
+        Room.find().where('available_slot').gte(n).then(this.acceptCallback).catch(this.rejectCallback);
     }
 
     // Underdevelop Delete a student in room
