@@ -441,51 +441,95 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     // search the account by matching description
     studentGeneralSearch(description) {
         let {area, status, srCode, name} = description;
+
         const srCodeRegex = new RegExp(srCode, 'i');
+        const studentQuery = { verified: true };
+        const roomQuery = {};
 
-        if (area == '') area = null;
-        if (status == '') status = null;
+        if (srCode && srCode != '') studentQuery['username'] = srCodeRegex;
+        if (area && area != '') roomQuery['label'] = area;
 
-        Student.find({
-            username: srCodeRegex,
-            verified: true})
+        console.log(roomQuery);
+
+        // todo: filter the room label for users that rooms are not assigned
+        // todo: room area is bugging when canteen is assigned wtf
+        Student.find(studentQuery)
             .populate({
                 path: 'room',
-                match: { 'label': area },
+                match: roomQuery,
                 populate: {
                     path: 'bills'
                 },
                 options: {strictPopulate: false}})
             .then(studentdata => {
+                console.log(studentdata);
+
                 // match the students that has already paid (status)
                 const filteredData = [];
                 const tmpStorageStatusStorage = [];
 
                 studentdata.forEach(student => {
-                    const studentBill = student.room.bills;
+                    const studentRoom = student.room;
+                    if ((status == 'not available' || status == '') && (studentRoom == null)) {
+                        filteredData.push(student);
+                        tmpStorageStatusStorage.push('not available');
+                        return;
+                    }
+
+                    const studentBill = studentRoom.bills;
                     if (studentBill.length > 0) {
                         const studentLatestBill = studentBill[studentBill.length - 1].users.find(item => item.username === student.username);
-                        if (!studentLatestBill) return;
-                        if (studentLatestBill.paid == ('paid' == status) || status == null) {
-                            filteredData.push(student);
-                            tmpStorageStatusStorage.push(studentLatestBill.paid);
+
+                        // unavailable status
+                        if (!studentLatestBill) {
+                            if (status == 'not available' || status == '') {
+                                filteredData.push(student);
+                                tmpStorageStatusStorage.push('not available')
+                                return;
+                            } else { return; }
                         }
+
+                        // additional conditions for correcting process of
+                        // searching ALL and searching specific paid/unpaid status
+                        if (status == '') {
+                            filteredData.push(student);
+                            if (studentLatestBill.paid) tmpStorageStatusStorage.push('paid');
+                            else tmpStorageStatusStorage.push('unpaid');
+                        } else {
+                            if (studentLatestBill.paid && (status == 'paid')) {
+                                filteredData.push(student);
+                                tmpStorageStatusStorage.push('paid');
+                            } else if (!studentLatestBill.paid && (status == 'unpaid')) {
+                                filteredData.push(student);
+                                tmpStorageStatusStorage.push('unpaid');
+                            }
+                        }
+                    } else {
+                        if (status == 'not available' || status == '') {
+                            filteredData.push(student);
+                            tmpStorageStatusStorage.push('not available')
+                            return;
+                        } else { return; }
                     }
+                });
+
+                // searches for matched student srcode
+                filteredData.forEach(student => {
+                    if (!srCodeRegex.test(student.username, 'i'))
+                        filteredData.pop(student);
                 });
 
                 // formatting the necessary info that are needed
                 filteredData.forEach((data, index) => {
+                    console.log(data);
+
                     let newFormat = {
                         username: data.username,
                         email: data.email,
                         name: data.details.name,
-                        room: data.room.slot,
+                        room: data.room != null ? data.room.slot : null,
                         status: tmpStorageStatusStorage[index]
                     };
-
-                    if (tmpStorageStatusStorage[index]) newFormat.status = 'paid';
-                    else newFormat.status = 'unpaid';
-
                     filteredData[index] = newFormat;
                 });
 
