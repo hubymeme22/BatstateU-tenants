@@ -2,8 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { FaUserCircle } from 'react-icons/fa';
 import { BsKey } from 'react-icons/bs';
-import { AiOutlineMail } from 'react-icons/ai';
-import { Axios } from 'axios';
+
 import styled from 'styled-components';
 import {
   Field,
@@ -62,17 +61,22 @@ function Signup({ handle }) {
       confirmPassword: /^[\w]{8,20}$/gi,
     };
 
-    if (
-      !V.first.test(value.name.first) ||
-      !V.middle.test(value.name.middle) ||
-      !V.last.test(value.name.last) ||
-      !V.email.test(value.email) ||
-      !V.username.test(value.username) ||
-      !V.contact.test(value.contact) ||
-      !V.password.test(value.password) ||
-      !V.confirmPassword.test(value.confirmPassword)
-    ) {
-      setMessage('Inputs must be Valid!');
+    if (!V.first.test(value.name.first)) {
+      setMessage('Invalid First Name');
+    } else if (!V.middle.test(value.name.middle)) {
+      setMessage('Invalid Mid Name');
+    } else if (!V.last.test(value.name.last)) {
+      setMessage('Invalid Last Name');
+    } else if (!V.email.test(value.email)) {
+      setMessage('Invalid Email ');
+    } else if (!V.username.test(value.username)) {
+      setMessage('Invalid SR CODE');
+    } else if (!V.contact.test(value.contact)) {
+      setMessage('Invalid Contact');
+    } else if (!V.password.test(value.password)) {
+      setMessage('Invalid Password');
+    } else if (!V.confirmPassword.test(value.confirmPassword)) {
+      setMessage('Invalid Password');
     } else if (value.password !== value.confirmPassword) {
       setMessage("Password Don't Match!");
     } else {

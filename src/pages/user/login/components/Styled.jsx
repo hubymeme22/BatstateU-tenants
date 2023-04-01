@@ -178,4 +178,5 @@ export const Message = styled.p`
   font-size: 12px;
   text-align: center;
   color: red;
+  font-weight: bold;
 `;
