@@ -56,7 +56,7 @@ export class StudentDBConnection extends MongoDBConnection {
 
                 if (firstname != '') studentdata.details.name.first = firstname;
                 if (password != '') studentdata.password = password;
-                if (lastname != '') studentdata.details.last = lastname;
+                if (lastname != '') studentdata.details.name.last = lastname;
                 if (contact != '') studentdata.contact = contact;
 
                 studentdata.save().then(this.acceptCallback).catch(this.rejectCallback);
