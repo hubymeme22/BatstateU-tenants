@@ -13,7 +13,7 @@ export class StudentDBConnection extends MongoDBConnection {
     getAccountDetails() {
         const srCode = this.userTokenData.username;
         Student.findOne({username: srCode})
-            .select('details.name email contact access')
+            .select('details.name email contact password')
             .then(this.acceptCallback)
             .catch(this.rejectCallback);
     }
