@@ -13,6 +13,7 @@ import getStudentDetails from "./students/details.js";
 import roomSummary from "./summary/room.js";
 import announce from "./announcement/announce.js";
 import studentSummary from "./summary/student.js";
+import studentPayment from "./students/payment.js";
 
 const adminPermission = Router();
 
@@ -31,6 +32,7 @@ adminPermission.use("/students", unverify);
 adminPermission.use("/students", addStudentRoom);
 adminPermission.use("/students", deleteStudentRoom);
 adminPermission.use("/students", getStudentDetails);
+adminPermission.use("/students", studentPayment)
 
 // for summarizing data
 adminPermission.use("/summary", roomSummary);

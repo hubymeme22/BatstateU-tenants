@@ -195,42 +195,29 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
     // gets units with specified filter
     getAllUnits() {
-        if (this.userTokenData.access != 'admin')
-            return this.rejectCallback('InsufficientPermission');
-
-        Room.find().then(this.acceptCallback).catch(this.rejectCallback);
+        Room.find({label: { $ne: 'genesis' }})
+            .then(this.acceptCallback)
+            .catch(this.rejectCallback);
     }
 
     // gets all the dorm unit info
     getAllDormUnits() {
-        if (this.userTokenData.access != 'admin')
-            return this.rejectCallback('InsufficientPermission');
-
         Room.find({label: 'dorm'}).then(this.acceptCallback).catch(this.rejectCallback);
     }
 
     // gets all the canteen unit info
     getAllCanteenUnits() {
-        if (this.userTokenData.access != 'admin')
-            return this.rejectCallback('InsufficientPermission');
-
         Room.find({label: 'canteen'}).then(this.acceptCallback).catch(this.rejectCallback);
     }
     
 
     // gets the units with available slots
     getAvailableUnits() {
-        if (this.userTokenData.access != 'admin')
-            return this.rejectCallback('InsufficientPermission');
-
         Room.find().where('available_slot').gt(0).then(this.acceptCallback).catch(this.rejectCallback);
     }
 
     // gets units with n number of available spaces
     getUnitsWithSpace(n) {
-        if (this.userTokenData.access != 'admin')
-            return this.rejectCallback('InsufficientPermission');
-
         Room.find().where('available_slot').gte(n).then(this.acceptCallback).catch(this.rejectCallback);
     }
 
@@ -255,12 +242,10 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     // for adding a new bill for a specific user
     // TODO: make sure that the username added does really exist
     addUserBill(unitID, username, details) {
-        if (this.userTokenData.access != 'admin')
-            return this.rejectCallback('InsufficientPermission');
-
         const missedParams = paramChecker([
             'previous_kwh', 'current_kwh', 'rate',
-            'month', 'day', 'year', 'days_present'], details);
+            'month', 'day', 'year', 'days_present', 'waterBill'], details);
+
         if (missedParams.length > 0)
             return this.rejectCallback(`missed_params=${missedParams}`);
 
@@ -376,9 +361,6 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
     // deletes a user from a bill
     deleteUserBill(unitID, username) {
-        if(this.userTokenData.access != 'admin')
-            return this.rejectCallback('InsufficientPermission');
-
         // checks if the room w/username does really exist
         Room.findOne({slot: unitID, username: username})
             .then(roomdata => {
@@ -410,11 +392,27 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     // mark the specified username as paid
     markAsPaid(username) {
         // get the last billing statement from this username
-        Bills.find({username: username})
-            .sort('dueDate.year')
-            .sort('dueDate.month')
-            .sort('dueDate.day')
-            .then(this.acceptCallback).catch(this.rejectCallback);
+        Bills.find({'users.username': username, 'users.paid': false})
+            .then(billdata => {
+                billdata.forEach(bills => {
+                    // indicator that one of the bills is not yet paid
+                    let allPaid = true;
+                    bills.users.forEach(userbill => {
+                        if (!userbill.paid) allPaid = false;
+                        if (userbill.username == username)
+                            userbill.paid = true;
+                    });
+
+                    // all of them must have already paid
+                    if (allPaid) {
+                        bills.fullyPaid = true;
+                    }
+
+                    bills.save();
+                });
+
+                this.acceptCallback(billdata);
+            }).catch(this.rejectCallback);
     }
 
     ////////////////
@@ -553,7 +551,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                         name: user.details.name,
                         contact: user.contact,
                         email: user.email,
-                        room_label: user.room.label,
+                        room_label: user.room.label != 'genesis' ? user.room.label : 'unavailable',
                         roomID: null,
                         status: 'unavailable'
                     };
@@ -587,7 +585,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
     // summarizes the user information for on a room
     roomSummary(roomID) {
-        Room.findOne({slot: roomID})
+        Room.findOne({slot: roomID, label: { $ne: "genesis" }})
             .populate({ path: 'bills', options: { strictPopulate: false } })
             .then(roomdata => {
                 const summaryData = {};

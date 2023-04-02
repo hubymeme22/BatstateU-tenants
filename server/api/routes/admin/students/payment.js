@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, response } from "express";
 import { getRequestPermission, setJSONPacketFormat } from "../../../../middleware/tokenValidator.js";
 import { AdminMongoDBConnection } from "../../../../modules/AdminDBConnection.js";
 
@@ -11,12 +11,18 @@ studentPayment.put('/pay/:srCode', getRequestPermission, (req, res) => {
     const DBConnection = new AdminMongoDBConnection(req.allowedData);
 
     DBConnection.setAcceptCallback(userdata => {
-        console.log(userdata);
+        if (userdata.length > 0) responseFormat.paid = true;
+        else responseFormat.error = 'NoBillingsForUser';
+
+        res.json(responseFormat);
     });
 
     DBConnection.setRejectCallback(error => {
-        console.log(error);
+        responseFormat.error = error;
+        res.json(responseFormat);
     })
 
     DBConnection.markAsPaid(req.params.srCode);
 });
+
+export default studentPayment;
