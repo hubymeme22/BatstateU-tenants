@@ -14,7 +14,7 @@ import Loader from '../../../../../components/Loader';
 // theme
 import { theme } from '@/styles/theme';
 
-function Modal({ isOpen, close, data }) {
+function Modal({ isOpen, close, data, includeNames, toggleInvoice }) {
   const [checkboxes, setCheckboxes] = useState({});
   const [tenants, setTenants] = useState([]);
   const [selectedTenants, setSelectedTenants] = useState([]);
@@ -41,6 +41,10 @@ function Modal({ isOpen, close, data }) {
     if (selectedTenants.length <= 0) return;
 
     console.log(selectedTenants);
+
+    includeNames(selectedTenants);
+    close(); //close modal
+    toggleInvoice();
   };
 
   // Set default tenants

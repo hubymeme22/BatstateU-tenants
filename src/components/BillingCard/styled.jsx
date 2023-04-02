@@ -142,3 +142,14 @@ export const Button = styled.button`
   border-radius: 5px;
   cursor: pointer;
 `;
+
+export const Columns = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  font-weight: bold;
+`;
+
+export const TenantDetails = styled(Columns)`
+  font-size: 0.8rem;
+  font-weight: normal;
+`;

@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 
-import Loader from '@/components/Loader';
-
 // Components
 import Dorm from './components/Dorm';
 import Canteen from './components/Canteen';
 import Summary from './components/Summary';
+import BillingCard from '../../../components/BillingCard';
 
 // Styled-Components
 import { Layout } from './styled';
 import Modal from './components/Modal';
 
 // Loader
+import Loader from '@/components/Loader';
 import { dashboardLoader } from '@/services/loaders';
 import { fetchAsAdmin } from '@/services/adminFetch';
 
@@ -24,6 +24,9 @@ function Dashboard() {
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
+
+  const [isCreatingInvoice, setIsCreatingInvoice] = useState(false);
+  const [invoiceNames, setInvoiceNames] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,19 +66,39 @@ function Dashboard() {
     setModalData({ ...roomDetails.data.roomSummary, label });
   };
 
+  const toggleInvoice = () => {
+    setIsCreatingInvoice(!isCreatingInvoice);
+  };
+
+  const addNamesOnInvoice = (list) => {
+    setInvoiceNames(list);
+  };
+
   return (
     <>
       {allRooms && summary ? (
-        <Layout>
-          <Dorm data={dormData} openDetails={openDetails} />
-          <Canteen data={canteenData} openDetails={openDetails} />
-          <Summary data={summary} />
-        </Layout>
+        <>
+          {!isCreatingInvoice ? (
+            <Layout>
+              <Dorm data={dormData} openDetails={openDetails} />
+              <Canteen data={canteenData} openDetails={openDetails} />
+              <Summary data={summary} />
+            </Layout>
+          ) : (
+            <BillingCard tenants={invoiceNames} />
+          )}
+        </>
       ) : (
         <Loader />
       )}
 
-      <Modal isOpen={modalIsOpen} close={toggleModal} data={modalData} />
+      <Modal
+        isOpen={modalIsOpen}
+        close={toggleModal}
+        data={modalData}
+        includeNames={addNamesOnInvoice}
+        toggleInvoice={toggleInvoice}
+      />
     </>
   );
 }

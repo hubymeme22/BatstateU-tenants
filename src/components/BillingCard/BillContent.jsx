@@ -2,7 +2,8 @@ import React from 'react';
 import {
   BillingDetails,
   Table,
-  Title,
+  Columns,
+  TenantDetails,
   Form,
   RentDate,
   Computation,
@@ -11,7 +12,7 @@ import {
   Button,
 } from './styled';
 
-function BillContent() {
+function BillContent({ tenants }) {
   return (
     <Form>
       {/* Billing Details */}
@@ -19,13 +20,26 @@ function BillContent() {
         <div>
           <p>Date: Current Date</p>
           <p>Room Number: Room Number</p>
-          <p>Occupants: 0 / 0</p>
+          <p>Occupants: {tenants.length} / 4</p>
         </div>
 
         {/* Display Users */}
         <div>
-          {/* Grid */}
-          {/* SR-CODE === NAME === STATUS */}
+          <Columns>
+            <p>SR CODE</p>
+            <p>NAME</p>
+          </Columns>
+
+          {tenants.map((tenant) => {
+            return (
+              <TenantDetails key={tenant.username}>
+                <p>{tenant.username}</p>
+                <p>
+                  {tenant.name.first} {tenant.name.last}
+                </p>
+              </TenantDetails>
+            );
+          })}
         </div>
       </BillingDetails>
 
@@ -118,7 +132,9 @@ function BillContent() {
             </tr>
 
             <tr>
-              <td colSpan={3}>Total</td>
+              <td colSpan={3} style={{ textAlign: 'end' }}>
+                Total
+              </td>
               <td>AMOUNT</td>
             </tr>
           </tbody>

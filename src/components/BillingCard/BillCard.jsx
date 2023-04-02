@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Bill, Title } from './styled';
 
@@ -6,14 +6,12 @@ import { Bill, Title } from './styled';
 import Header from './Header';
 import BillContent from './BillContent';
 
-function BillingCard() {
-  const [tenants, setTenants] = useState([]);
-
+function BillingCard({ tenants }) {
   return (
     <Bill>
       <Header />
       <Title>Billing Statement</Title>
-      <BillContent />
+      <BillContent tenants={tenants} />
     </Bill>
   );
 }
