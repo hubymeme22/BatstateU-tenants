@@ -21,8 +21,10 @@ function List({ data, area, filter }) {
       <UsersContainer>
         {data.length > 0 ? (
           data.map((userdata) => {
+            if (userdata == 'unavailable') return;
+
             const { username, contact, roomID, status } = userdata;
-            const { first, last } = userdata['name'];
+            const { first, last } = userdata.name;
 
             return (
               <UserDetails key={username}>
