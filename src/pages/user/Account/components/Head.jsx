@@ -1,14 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import BSULogo from '@/assets/logo.webp';
 
 import { FaUserCog } from 'react-icons/fa';
-function Head() {
+function Head(props) {
   return (
     <Container>
       <Image />
-
-      <Names>FirstName Lastname</Names>
+      <Names>{props.name}</Names>
     </Container>
   );
 }

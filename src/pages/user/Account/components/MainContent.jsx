@@ -88,6 +88,9 @@ function MainContent() {
   }
   return (
     <>
+      <Name>
+        {firstName} {lastName}
+      </Name>
       {!extracted ? (
         <Loader />
       ) : (
@@ -238,4 +241,7 @@ const Divide = styled.div`
   flex-direction: column;
   display: flex;
   border: 1px solid;
+`;
+const Name = styled.h2`
+  font-weight: bold;
 `;
