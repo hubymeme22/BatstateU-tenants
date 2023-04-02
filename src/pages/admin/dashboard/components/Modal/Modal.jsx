@@ -15,26 +15,62 @@ import Loader from '../../../../../components/Loader';
 import { theme } from '@/styles/theme';
 
 function Modal({ isOpen, close, data }) {
-  const [isAllChecked, setIsAllChecked] = useState(false);
-  const [users, setUsers] = useState([]);
-  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [checkboxes, setCheckboxes] = useState({});
+  const [tenants, setTenants] = useState([]);
+  const [selectedTenants, setSelectedTenants] = useState([]);
 
-  const selectAll = (e) => {};
+  const toggleCheckbox = (id) => {
+    setCheckboxes({
+      ...checkboxes,
+      [id]: !checkboxes[id],
+    });
+  };
 
-  const toggleUser = (e, user) => {
-    if (e.target.checked) {
-      // Include User to the selected list
-      setSelectedUsers([...selectedUsers, user]);
-    } else {
-      // Remove user if already checked
-      const filteredUsers = selectedUsers.filter((id) => id != user);
-      setSelectedUsers(filteredUsers);
-    }
+  const selectAll = (e) => {
+    const isChecked = e.target.checked;
+    const newCheckboxes = {};
+
+    Object.keys(checkboxes).forEach((id) => {
+      newCheckboxes[id] = isChecked;
+    });
+
+    setCheckboxes(newCheckboxes);
   };
 
   const createInvoice = () => {
-    console.log(selectedUsers);
+    if (selectedTenants.length <= 0) return;
+
+    console.log(selectedTenants);
   };
+
+  // Set default tenants
+  useEffect(() => {
+    if (!data) return;
+
+    setTenants(data.userinfo);
+
+    // Generate an object for checkbox reference
+    const usernames = data.userinfo.map((data) => data.username);
+
+    const usernameObj = {};
+    usernames.forEach((username) => {
+      usernameObj[username] = false;
+    });
+
+    setCheckboxes(usernameObj);
+  }, [data]);
+
+  useEffect(() => {
+    // Set selected tenants based on the checkboxes
+    const newSelected = tenants
+      .map((tenant) => {
+        if (!checkboxes[tenant.username]) return null;
+        return tenant;
+      })
+      .filter((value) => value !== null);
+
+    setSelectedTenants(newSelected);
+  }, [checkboxes]);
 
   return (
     <StyledModal isOpen={isOpen} onRequestClose={close} style={ModalStyling}>
@@ -56,12 +92,7 @@ function Modal({ isOpen, close, data }) {
 
             {/* COLUMNS */}
             <Grid>
-              <input
-                type="checkbox"
-                name=""
-                id=""
-                onChange={(e) => selectAll(e)}
-              />
+              <input type="checkbox" onChange={(e) => selectAll(e)} />
               <p>SR-CODE</p>
               <p>Name</p>
               <p>Contact Number</p>
@@ -73,24 +104,23 @@ function Modal({ isOpen, close, data }) {
             {/* Map Users */}
             <Users>
               {data &&
-                data.userinfo.map((user, index) => {
-                  //  Destruct name
-                  let name = user.name;
+                data.userinfo.map((user) => {
+                  //  Destruct details
+                  let { username, name, contact, status } = user;
                   name = `${name.first} ${name.last}`;
 
                   return (
-                    <React.Fragment key={index}>
+                    <React.Fragment key={username}>
                       <Details>
                         <input
                           type="checkbox"
-                          name=""
-                          // checked={}
-                          // onChange={(e) => toggleUser(e, user)}
+                          checked={checkboxes[username] || false}
+                          onChange={() => toggleCheckbox(username)}
                         />
-                        <p>{user.username}</p>
+                        <p>{username}</p>
                         <p>{name}</p>
-                        <p>{user.contact}</p>
-                        <p>{user.status}</p>
+                        <p>{contact}</p>
+                        <p>{status}</p>
                       </Details>
 
                       <hr />
