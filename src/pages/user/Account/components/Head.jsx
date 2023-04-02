@@ -1,10 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import BSULogo from '@/assets/logo.webp';
+
+import { FaUserCog } from 'react-icons/fa';
 function Head() {
   return (
     <Container>
-      <Image src={BSULogo}></Image>
+      <Image />
+
       <Names>FirstName Lastname</Names>
     </Container>
   );
@@ -20,7 +23,7 @@ const Container = styled.div`
 
   gap: 10px;
 `;
-const Image = styled.img`
+const Image = styled(FaUserCog)`
   border-radius: 50%;
   height: 90px;
   width: 90px;
