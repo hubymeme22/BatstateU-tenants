@@ -440,101 +440,95 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
     // search the account by matching description
     studentGeneralSearch(description) {
-        let {area, status, srCode, name} = description;
+        Student.aggregate([{
+            $lookup: {
+                from: 'rooms',
+                localField: 'room',
+                foreignField: '_id',
+                as: 'room'
+            }},
+            { $match: {
+                'username': RegExp(description.srCode, 'ig'),
+                'room.label': RegExp(description.area, 'ig'),
+            }},
+            { $addFields: { room: { $arrayElemAt: ['$room', 0] }}},
+            { $lookup: {
+                from: 'bills',
+                localField: 'room.bills',
+                foreignField: '_id',
+                as: 'room.bills'
+            }}])
 
-        const srCodeRegex = new RegExp(srCode, 'i');
-        const studentQuery = { verified: true };
-        const roomQuery = {};
+        .then((studentData) => {
+            const { name, status } = description;
+            const filteredData = [];
 
-        if (srCode && srCode != '') studentQuery['username'] = srCodeRegex;
-        if (area && area != '') roomQuery['label'] = area;
+            // filter the students by name
+            studentData.forEach(student => {
+                const { first, middle, last } = student.details.name;
+                const wholeName = `${first} ${middle} ${last}`;
+                const nameRegex = RegExp(name, 'ig');
 
-        console.log(roomQuery);
+                if (nameRegex.test(wholeName))
+                    filteredData.push(student);
+            });
 
-        // todo: filter the room label for users that rooms are not assigned
-        // todo: room area is bugging when canteen is assigned wtf
-        Student.find(studentQuery)
-            .populate({
-                path: 'room',
-                match: roomQuery,
-                populate: {
-                    path: 'bills'
-                },
-                options: {strictPopulate: false}})
-            .then(studentdata => {
-                console.log(studentdata);
+            // filtering the status of the room
+            filteredData.forEach((student, index) => {
+                let newDataFormat = {
+                    name: student.details.name,
+                    srCode: student.email,
+                    area: (student.room.label != 'genesis') ? student.room.label : 'unassigned',
+                    roomID: (student.room.label != 'genesis') ? student.room.slot : 'unassigned',
+                    status: 'not available'
+                };
 
-                // match the students that has already paid (status)
-                const filteredData = [];
-                const tmpStorageStatusStorage = [];
+                // return student with unassigned room
+                if (student.room.bills.length > 0) {
+                    const studentBill = student.room.bills[student.room.bills.length - 1].users;
+                    const studentLatestBill = studentBill.find(item => item.username === student.username);
 
-                studentdata.forEach(student => {
-                    const studentRoom = student.room;
-                    if ((status == 'not available' || status == '') && (studentRoom == null)) {
-                        filteredData.push(student);
-                        tmpStorageStatusStorage.push('not available');
-                        return;
+                    if (status == '') {
+                        if (studentLatestBill.paid) newDataFormat.status = 'paid';
+                        else newDataFormat.status = 'unpaid';
+                        filteredData[index] = newDataFormat;
                     }
 
-                    const studentBill = studentRoom.bills;
-                    if (studentBill.length > 0) {
-                        const studentLatestBill = studentBill[studentBill.length - 1].users.find(item => item.username === student.username);
-
-                        // unavailable status
-                        if (!studentLatestBill) {
-                            if (status == 'not available' || status == '') {
-                                filteredData.push(student);
-                                tmpStorageStatusStorage.push('not available')
-                                return;
-                            } else { return; }
-                        }
-
-                        // additional conditions for correcting process of
-                        // searching ALL and searching specific paid/unpaid status
-                        if (status == '') {
-                            filteredData.push(student);
-                            if (studentLatestBill.paid) tmpStorageStatusStorage.push('paid');
-                            else tmpStorageStatusStorage.push('unpaid');
+                    else if (status == 'paid') {
+                        if (studentLatestBill.paid) {
+                            newDataFormat.status = 'paid';
+                            filteredData[index] = newDataFormat;
                         } else {
-                            if (studentLatestBill.paid && (status == 'paid')) {
-                                filteredData.push(student);
-                                tmpStorageStatusStorage.push('paid');
-                            } else if (!studentLatestBill.paid && (status == 'unpaid')) {
-                                filteredData.push(student);
-                                tmpStorageStatusStorage.push('unpaid');
-                            }
+                            filteredData.pop(student);
                         }
-                    } else {
-                        if (status == 'not available' || status == '') {
-                            filteredData.push(student);
-                            tmpStorageStatusStorage.push('not available')
-                            return;
-                        } else { return; }
                     }
-                });
 
-                // searches for matched student srcode
-                filteredData.forEach(student => {
-                    if (!srCodeRegex.test(student.username, 'i'))
+                    else if (status == 'unpaid') {
+                        if (!studentLatestBill.paid) {
+                            newDataFormat.status = 'unpaid';
+                            filteredData[index] = newDataFormat;
+                        } else {
+                            filteredData.pop(student);
+                        }
+                    }
+
+                    else {
                         filteredData.pop(student);
-                });
+                    }
+                }
 
-                // formatting the necessary info that are needed
-                filteredData.forEach((data, index) => {
-                    console.log(data);
+                // if the user is looking for ALL data
+                else if (status == '') {
+                    filteredData[index] = newDataFormat;
+                } else {
+                    filteredData.pop(student);
+                }
+            });
 
-                    let newFormat = {
-                        username: data.username,
-                        email: data.email,
-                        name: data.details.name,
-                        room: data.room != null ? data.room.slot : null,
-                        status: tmpStorageStatusStorage[index]
-                    };
-                    filteredData[index] = newFormat;
-                });
+            this.acceptCallback(filteredData);
+        })
 
-                this.acceptCallback(filteredData);
-            }).catch(this.rejectCallback);
+        .catch(this.rejectCallback);
     }
 
     ////////////////////////

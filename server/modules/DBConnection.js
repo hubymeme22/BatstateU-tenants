@@ -1,6 +1,7 @@
 import { Admin, Student } from "../models/accounts.js";
 import { getCEmail } from "./passwordRecovery.js";
 import './paramchecker.js'
+import { Room } from "../models/rooms.js";
 
 export class MongoDBConnection {
     constructor() {
@@ -69,19 +70,27 @@ export class MongoDBConnection {
 
     // registers a student account
     registerStudent(username, email, password, contact, nameJSON) {
-        const newStudentAccount = new Student({
-            username: username,
-            email: email,
-            password: password,
-            contact: contact,
-            access: 'student',
-            verified: false,
-            room: null,
-            details: {
-                name: nameJSON
-            }
-        });
-        newStudentAccount.save().then(this.acceptCallback).catch(this.rejectCallback);
+        // NOTE: ALWAYS make sure that a genesis room is created
+        // this one was intentionally created to make a temporary fix to
+        // mongoose populate.match seraching bug for null values.
+
+        Room.findOne({ label: 'genesis' })
+            .then(roomdata => {
+                const newStudentAccount = new Student({
+                    username: username,
+                    email: email,
+                    password: password,
+                    contact: contact,
+                    access: 'student',
+                    verified: false,
+                    room: roomdata._id,
+                    details: {
+                        name: nameJSON
+                    }
+                });
+                newStudentAccount.save().then(this.acceptCallback).catch(this.rejectCallback);
+            })
+            .catch(this.rejectCallback);
     }
 
     // changes the password of the user registered in this changepass pin

@@ -30,7 +30,7 @@ const room = new mongoose.Schema({
     label: {
         type: String,
         required: true,
-        enum: ['dorm', 'canteen']
+        enum: ['dorm', 'canteen', 'genesis']
     },
     bills: {
         type: [mongoose.Types.ObjectId],
