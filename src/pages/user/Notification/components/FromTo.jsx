@@ -16,4 +16,7 @@ const Container = styled.div`
   flex-direction: column;
   gap: 15px;
 `;
-const Title = styled.div``;
+const Title = styled.div`
+  font-weight: bold;
+  font-size: 20px;
+`;

@@ -156,7 +156,7 @@ function MainContent() {
             </div>
             <div>
               <Content>Verified</Content>
-              <Read>YES</Read>
+              <Read>Nope</Read>
             </div>
             <div>
               <Content>Room Number</Content>
@@ -164,7 +164,7 @@ function MainContent() {
             </div>
             <div>
               <Content last='last'>Status</Content>
-              <Read last='last'>xxxxx</Read>
+              <Read last='last'>Happily Married</Read>
             </div>
           </Divide>
           <Error>{message}</Error>

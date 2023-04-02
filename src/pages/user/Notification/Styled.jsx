@@ -8,12 +8,13 @@ export const Container = styled.div`
   box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
   -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
-  background-color: #d9d9d9;
+  background-color: #651b1b;
   border: 1px solid;
   font-size: 18px;
   display: flex;
   flex-direction: column;
   gap: 40px;
+  color: white;
 `;
 export const NotifContainer = styled.div`
   gap: 5px;

@@ -27,4 +27,6 @@ const Container = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
   text-align: center;
+  line-height: 1.5rem;
+  letter-spacing: 1px;
 `;
