@@ -1,17 +1,17 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-
+import Loader from '../../../../components/Loader';
 function MainContent() {
-  const [firstName, firstNameSet] = React.useState('');
-  const [lastName, lastNameSet] = React.useState('');
-  const [contact, setContact] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [confirmPassword, setConfirmPassword] = React.useState('');
-  const [message, setMessage] = React.useState('');
-  const [SrCode, SetSrCode] = React.useState('');
+  const [firstName, firstNameSet] = useState('');
+  const [lastName, lastNameSet] = useState('');
+  const [contact, setContact] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const [SrCode, SetSrCode] = useState('');
 
-  React.useEffect(() => {
+  useEffect(() => {
     const getData = async () => {
       const fetchedData = await axios.get(
         'http://localhost:5050/api/student/details'
@@ -71,86 +71,109 @@ function MainContent() {
     }
   }
 
+  function clearForm() {
+    const getData = async () => {
+      const fetchedData = await axios.get(
+        'http://localhost:5050/api/student/details'
+      );
+      firstNameSet(fetchedData.data.userinfo.details.name.first);
+      lastNameSet(fetchedData.data.userinfo.details.name.last);
+      setContact(fetchedData.data.userinfo.contact);
+      SetSrCode(fetchedData.data.userinfo.email);
+    };
+    getData();
+  }
+  function cancel() {
+    window.location.reload();
+  }
   return (
-    <Container onSubmit={handleSubmit}>
-      <Divide>
-        <div>
-          <Content>SR-Code</Content>
-          <Read>{extracted}</Read>
-        </div>
-        <div>
-          <Content>First Name</Content>
-          <Contents
-            type='text'
-            placeholder='Click to edit'
-            value={firstName}
-            name='firstName'
-            onChange={(e) => firstNameSet(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <Content>Last Name</Content>
-          <Contents
-            type='text'
-            placeholder='Click to edit'
-            value={lastName}
-            name='lastName'
-            onChange={(e) => lastNameSet(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <Content>Contact Number</Content>
-          <Contents
-            placeholder='Click to edit'
-            value={contact}
-            name='contact'
-            onChange={(e) => setContact(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <Content>Password</Content>
-          <Contents
-            type='password'
-            placeholder='Click to change Password'
-            value={password}
-            name='password'
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <Content>Confirm Password</Content>
-          <Contents
-            type='password'
-            placeholder='Click to change Password'
-            value={confirmPassword}
-            name='confirmPassword'
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <Content>Verified</Content>
-          <Read>YES</Read>
-        </div>
-        <div>
-          <Content>Room Number</Content>
-          <Read>ROOM 4A</Read>
-        </div>
-        <div>
-          <Content last='last'>Status</Content>
-          <Read last='last'>xxxxx</Read>
-        </div>
-      </Divide>
-      <Error>{message}</Error>
-      <Cont>
-        <Button type='button'>Cancel</Button>
-        <Button color='green'>Confirm</Button>
-      </Cont>
-    </Container>
+    <>
+      {!extracted ? (
+        <Loader />
+      ) : (
+        <Container onSubmit={handleSubmit}>
+          <Divide>
+            <div>
+              <Content>SR-Code</Content>
+              <Read>{extracted}</Read>
+            </div>
+            <div>
+              <Content>First Name</Content>
+              <Contents
+                type='text'
+                placeholder='Click to edit'
+                value={firstName}
+                name='firstName'
+                onChange={(e) => firstNameSet(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <Content>Last Name</Content>
+              <Contents
+                type='text'
+                placeholder='Click to edit'
+                value={lastName}
+                name='lastName'
+                onChange={(e) => lastNameSet(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <Content>Contact Number</Content>
+              <Contents
+                placeholder='Click to edit'
+                value={contact}
+                name='contact'
+                onChange={(e) => setContact(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <Content>Password</Content>
+              <Contents
+                type='password'
+                placeholder='Click to change Password'
+                value={password}
+                name='password'
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <Content>Confirm Password</Content>
+              <Contents
+                type='password'
+                placeholder='Click to change Password'
+                value={confirmPassword}
+                name='confirmPassword'
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <Content>Verified</Content>
+              <Read>YES</Read>
+            </div>
+            <div>
+              <Content>Room Number</Content>
+              <Read>ROOM 4A</Read>
+            </div>
+            <div>
+              <Content last='last'>Status</Content>
+              <Read last='last'>xxxxx</Read>
+            </div>
+          </Divide>
+          <Error>{message}</Error>
+          <Cont>
+            <Button type='button' onClick={clearForm}>
+              Clear Form
+            </Button>
+            <Button color='green'>Confirm</Button>
+          </Cont>
+        </Container>
+      )}
+    </>
   );
 }
 
@@ -188,12 +211,16 @@ const Contents = styled.input`
   border-bottom: ${(props) => (props.last === 'last' ? 'none' : '1px solid')};
 `;
 const Read = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: grey;
   width: 60%;
   border-bottom: ${(props) => (props.last === 'last' ? 'none' : '1px solid')};
 `;
 const Button = styled.button`
   padding: 3px;
+  width: 100px;
   background-color: ${(props) =>
     props.color === 'green' ? '#00DF24' : '#9A9A9A'};
   color: white;
@@ -203,7 +230,7 @@ const Cont = styled.div`
   padding: 10px;
   width: 100%;
   display: flex;
-  gap: 100px;
+  gap: 80px;
   justify-content: space-between;
 `;
 const Divide = styled.div`
