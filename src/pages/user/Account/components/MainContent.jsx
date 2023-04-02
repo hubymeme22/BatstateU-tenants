@@ -30,9 +30,9 @@ function MainContent() {
   function handleSubmit(e) {
     e.preventDefault();
     const V = {
-      first: /^[a-zA-Z]{2,10}(?: [a-zA-Z]+)?$/gi,
-      middle: /^[a-zA-Z]{2,10}(?: [a-zA-Z]+)?$/gi,
-      last: /^[a-zA-Z]{2,10}(?: [a-zA-Z]+)?$/gi,
+      first: /^[a-zA-ZñÑ]{2,10}(?: [a-zA-ZñÑ]+)?$/gi,
+      middle: /^[a-zA-ZñÑ]{2,10}(?: [a-zA-ZñÑ]+)?$/gi,
+      last: /^[a-zA-ZñÑ]{2,10}(?: [a-zA-ZñÑ]+)?$/gi,
       email: /^\S+@\S+\.\S+$/gi,
       contact: /[0-9]+/gi,
       username: /^([0-9]{2})-[0-9]{5}$/gi,
@@ -170,7 +170,7 @@ function MainContent() {
           <Error>{message}</Error>
           <Cont>
             <Button type='button' onClick={clearForm}>
-              Clear Form
+              Reset Form
             </Button>
             <Button color='green'>Confirm</Button>
           </Cont>
@@ -244,4 +244,5 @@ const Divide = styled.div`
 `;
 const Name = styled.h2`
   font-weight: bold;
+  text-transform: uppercase;
 `;
