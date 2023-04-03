@@ -2,10 +2,7 @@ import styled from 'styled-components';
 
 // Bill Container
 export const Bill = styled.div`
-  margin: 0 auto;
   background-color: #d9d9d9;
-  height: 625px;
-  width: 950px;
 
   padding: 1rem;
 
@@ -134,15 +131,6 @@ export const Table = styled.table`
   }
 `;
 
-export const Button = styled.button`
-  align-self: end;
-  background-color: #66e95f;
-  border: 0;
-  padding: 0.25rem 2rem;
-  border-radius: 5px;
-  cursor: pointer;
-`;
-
 export const Columns = styled.div`
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -152,4 +140,30 @@ export const Columns = styled.div`
 export const TenantDetails = styled(Columns)`
   font-size: 0.8rem;
   font-weight: normal;
+`;
+
+export const Container = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+export const ButtonContainer = styled.div`
+  margin-right: 1rem;
+  align-self: end;
+  display: flex;
+  gap: 1rem;
+`;
+
+export const Button = styled.button`
+  align-self: end;
+  background-color: ${(props) => props.color || 'red'};
+  border: 0;
+  padding: 0.25rem 2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 `;

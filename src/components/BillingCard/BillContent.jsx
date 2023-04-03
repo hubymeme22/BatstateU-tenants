@@ -144,7 +144,6 @@ function BillContent({ tenants }) {
           <p>
             Total Accounts Payable: <span>P 1000+ </span>
           </p>
-          <Button>Save</Button>
         </Total>
       </Summary>
     </Form>
