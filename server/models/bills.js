@@ -30,6 +30,10 @@ const roomBills = new mongoose.Schema({
         type: Number,
         required: true
     },
+    roomPayment: {
+        type: Number,
+        required: true
+    },
     dueDate: {
         month: {
             type: Number,

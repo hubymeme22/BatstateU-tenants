@@ -11,7 +11,7 @@ addBilling.post('/:slot/:username', postRequestPermission, (req, res) => {
         'month', 'day', 'year',
         'rate', 'previous_kwh',
         'current_kwh', 'days_present',
-        'water'], req.body);
+        'waterBill', 'roomBill'], req.body);
 
     if (missedParams.length > 0)
         return res.json({ error: `missed_params=${missedParams}`, added: false});
@@ -41,7 +41,8 @@ addBilling.post('/:slot/:username', postRequestPermission, (req, res) => {
         day: req.body.day,
         year: req.body.year,
         days_present: req.body.days_present,
-        waterBill: req.body.water
+        waterBill: req.body.waterBill,
+        roomBill: req.body.roomBill
     };
 
     adminDatabase.addUserBill(req.params.slot, req.params.username, costDetails);
