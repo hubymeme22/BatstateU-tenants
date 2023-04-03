@@ -437,7 +437,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                 reportFormat.utility.previousBalance = previousUserUtility.cost;
 
                 this.acceptCallback(reportFormat);
-            });
+            }).catch(this.rejectCallback);
     }
 
     // deletes a user from a bill
