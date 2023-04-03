@@ -49,8 +49,8 @@ function BillContent({ tenants, handleChange, state, saveBilling }) {
             <label htmlFor="">Starting Date</label>
             <input
               type="date"
-              name="startDate"
-              value={state.startDate}
+              name="start_date"
+              value={state.start_date}
               onChange={(e) => handleChange(e)}
               required
             />
@@ -61,8 +61,8 @@ function BillContent({ tenants, handleChange, state, saveBilling }) {
             <label htmlFor="">End Date</label>
             <input
               type="date"
-              name="endDate"
-              value={state.endDate}
+              name="end_date"
+              value={state.end_date}
               onChange={(e) => handleChange(e)}
               required
             />
@@ -71,7 +71,7 @@ function BillContent({ tenants, handleChange, state, saveBilling }) {
           {/* Number of Days */}
           <fieldset>
             <label>Days</label>
-            <input type="text" value="30" disabled />
+            <input type="text" value={state.days_in_between} disabled />
           </fieldset>
 
           {/* Rent */}
@@ -81,8 +81,8 @@ function BillContent({ tenants, handleChange, state, saveBilling }) {
               type="number"
               placeholder="Enter amount"
               min="0"
-              name="rentFee"
-              value={state.rentFee}
+              name="rent"
+              value={state.rent}
               onChange={(e) => handleChange(e)}
               required
             />
@@ -107,8 +107,8 @@ function BillContent({ tenants, handleChange, state, saveBilling }) {
                 <input
                   type="number"
                   min="0"
-                  name="previousReading"
-                  value={state.previousReading}
+                  name="previous_kwh"
+                  value={state.previous_kwh}
                   onChange={(e) => handleChange(e)}
                   required
                 />
@@ -117,25 +117,25 @@ function BillContent({ tenants, handleChange, state, saveBilling }) {
                 <input
                   type="number"
                   min="0"
-                  name="presentReading"
-                  value={state.presentReading}
+                  name="current_kwh"
+                  value={state.current_kwh}
                   onChange={(e) => handleChange(e)}
                   required
                 />
               </td>
-              <td>kwh</td>
+              <td>{state.total_kwh}</td>
               <td>
                 <input
                   type="number"
                   min="0"
-                  name="ratePerKwh"
-                  value={state.ratePerKwh}
+                  name="rate"
+                  value={state.rate}
                   onChange={(e) => handleChange(e)}
                   required
                 />
               </td>
-              <td></td>
-              <td></td>
+              <td> ₱ {state.total_amount} </td>
+              <td> ₱ {state.bill_per_individual} </td>
             </tr>
           </tbody>
         </Table>
@@ -162,33 +162,33 @@ function BillContent({ tenants, handleChange, state, saveBilling }) {
 
             <tr>
               <td>selected month</td>
-              <td>electric bill + 100 </td>
+              <td> ₱ {state.bill_per_individual} </td>
               <td>
                 <input
                   type="number"
                   placeholder="amount"
                   min="0"
-                  name="waterFee"
-                  value={state.waterFee}
+                  name="water"
+                  value={state.water}
                   onChange={(e) => handleChange(e)}
                   required
                 />
               </td>
-              <td>Sum</td>
+              <td> ₱ {state.bill_per_individual + state.water}</td>
             </tr>
 
             <tr>
               <td colSpan={3} style={{ textAlign: 'end' }}>
                 Total
               </td>
-              <td>AMOUNT</td>
+              <td>₱ {state.overall_bill}</td>
             </tr>
           </tbody>
         </Table>
 
         <Total>
           <p>
-            Total Accounts Payable: <span>P 1000+ </span>
+            Total Accounts Payable: <span>₱ {state.overall_bill} </span>
           </p>
         </Total>
       </Summary>
