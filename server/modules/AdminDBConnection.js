@@ -316,6 +316,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                         Student.findOne({username: username})
                             .then(userdata => {
                                 // adjust the current billings
+                                billdata.fullyPaid = false;
                                 const userbills = billdata.users;
                                 userbills.push({
                                     username: username,
@@ -386,6 +387,8 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                     }
                 };
 
+                // set the assigned due date
+                
                 if (unpaidBills.length == 0) return this.acceptCallback(reportFormat);
                 if (unpaidBills.length == 1) {
                     const currentBill = unpaidBills[0];
@@ -408,11 +411,32 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                     const currentBill = unpaidBills[i];
                     const previousBill = unpaidBills[i - 1];
 
+                    // find the current user to the current bill and update it
+                    const currentUserBill = currentBill.users.findIndex(item => item.username == username);
+                    const pastUserBill = previousBill.users.findIndex(item => item.username == username);
+
                     // re-calculation for charge of 5% on past billing
                     currentBill.roomPayment += (previousBill.roomPayment * 0.05);
+                    currentBill.users[currentUserBill].cost += (previousBill.users[pastUserBill].cost * 0.05);
+
+                    // updates the bills temporarily
+                    unpaidBills[i] = currentBill;
                 }
 
-                // get the latest billing and returns it as an output
+                // get the latest bill and format it to returnable output
+                const previousBilling = unpaidBills[unpaidBills.length - 2];
+                const latestBilling = unpaidBills[unpaidBills.length - 1];
+
+                const previousUserUtility = previousBilling.users.find(item => item.username == username);
+                const latestUserUtility = latestBilling.users.find(item => item.username == username);
+
+                reportFormat.dueDate = latestBilling.dueDate;
+                reportFormat.space.currentBalance = latestBilling.roomPayment;
+                reportFormat.space.previousBalance = previousBilling.roomPayment;
+                reportFormat.utility.currentBalance = latestUserUtility.cost;
+                reportFormat.utility.previousBalance = previousUserUtility.cost;
+
+                this.acceptCallback(reportFormat);
             });
     }
 
