@@ -5,6 +5,24 @@ import { getRequestPermission, setJSONPacketFormat } from "../../../middleware/t
 const getStudentBilling = Router();
 setJSONPacketFormat({error: '', billing: null});
 
+// returns the finalized billing of the student
+getStudentBilling.get('/finalized', getRequestPermission, (req, res) => {
+    const responseFormat = {billing: {}, error: ''};
+    const DBConnection = new StudentDBConnection(req.allowedData);
+
+    DBConnection.setAcceptCallback(billreport => {
+        responseFormat.billing = billreport;
+        res.json(responseFormat);
+    });
+
+    DBConnection.setRejectCallback(error => {
+        responseFormat.error = error;
+        res.json(responseFormat);
+    });
+
+    DBConnection.getStudentFinalizedBilling();
+});
+
 // returns all the list of unpaid bills
 getStudentBilling.get('/unpaid', getRequestPermission, (req, res) => {
     const responseFormat = {error: '', billing: []};
