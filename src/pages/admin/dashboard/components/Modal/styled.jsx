@@ -58,12 +58,25 @@ export const Users = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
+  margin: 0 auto;
   display: flex;
-  justify-content: center;
-  gap: 5rem;
+  flex-direction: column;
+  width: 50%;
+
+  p {
+    font-size: 0.89rem;
+    align-self: end;
+    color: red;
+  }
+
+  div {
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 
 export const Button = styled.button`
+  height: 3rem;
   background-color: ${(props) => props.color};
   color: white;
   padding: 0.5rem 2rem;

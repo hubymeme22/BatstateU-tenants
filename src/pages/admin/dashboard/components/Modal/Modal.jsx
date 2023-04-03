@@ -9,7 +9,7 @@ import { Header, Details, Users } from './styled';
 import { ButtonContainer, Button } from './styled';
 
 // components
-import Loader from '../../../../../components/Loader';
+import Loader from '@/components/Loader';
 
 // theme
 import { theme } from '@/styles/theme';
@@ -18,6 +18,7 @@ function Modal({ isOpen, close, data, includeNames, toggleInvoice }) {
   const [checkboxes, setCheckboxes] = useState({});
   const [tenants, setTenants] = useState([]);
   const [selectedTenants, setSelectedTenants] = useState([]);
+  const [error, setError] = useState(null);
 
   const toggleCheckbox = (id) => {
     setCheckboxes({
@@ -38,13 +39,16 @@ function Modal({ isOpen, close, data, includeNames, toggleInvoice }) {
   };
 
   const createInvoice = () => {
-    if (selectedTenants.length <= 0) return;
+    if (selectedTenants.length <= 0) {
+      setError('* Please select a student *');
+      return;
+    }
 
     console.log(selectedTenants);
 
     includeNames(selectedTenants);
     close(); //close modal
-    toggleInvoice();
+    toggleInvoice(); // open invoice tab
   };
 
   // Set default tenants
@@ -74,6 +78,7 @@ function Modal({ isOpen, close, data, includeNames, toggleInvoice }) {
       .filter((value) => value !== null);
 
     setSelectedTenants(newSelected);
+    setError(null);
   }, [checkboxes]);
 
   return (
@@ -135,12 +140,18 @@ function Modal({ isOpen, close, data, includeNames, toggleInvoice }) {
           </section>
 
           <ButtonContainer>
-            <Button color={'#777777'} onClick={close}>
-              Cancel
-            </Button>
-            <Button color={theme.red} onClick={createInvoice}>
-              Create Invoice
-            </Button>
+            {/* Error */}
+            <p>{error}</p>
+
+            <div>
+              <Button color={'#777777'} onClick={close}>
+                Cancel
+              </Button>
+
+              <Button color={theme.red} onClick={createInvoice}>
+                Create Invoice
+              </Button>
+            </div>
           </ButtonContainer>
         </>
       )}

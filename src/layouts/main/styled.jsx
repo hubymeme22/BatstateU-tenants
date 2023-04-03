@@ -6,6 +6,7 @@ export const MainContainer = styled.div`
   min-height: 100vh;
   display: flex;
   gap: 1em;
+
   @media screen and (max-width: 1200px) {
     width: 1300px;
   }
