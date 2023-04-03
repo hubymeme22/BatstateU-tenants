@@ -2,6 +2,7 @@ import { Router } from "express";
 import publicAPI from "./routes/public/publicAPI.js"
 import adminAPI from "./routes/admin/adminAPI.js";
 import studentAPI from './routes/student/studentAPI.js';
+import '../modules/GenesisRoomCreator.js';
 
 const api = Router();
 

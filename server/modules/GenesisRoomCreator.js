@@ -1,0 +1,34 @@
+import { Room } from "../models/rooms.js";
+
+// before using the apis, make sure that the genesiss
+// room is created, to make sure that the students with no
+// will be placed here
+console.log('[*] Checking for exisence of genesis room...');
+Room.findOne({label: 'genesis'})
+    .then(roomdata => {
+        if (roomdata != null)
+            return console.log('[+] Genesis room exists!');
+
+        console.log('[!] No Genesis room... Adding one...');
+        const genesisRoom = new Room({
+            slot: 'GN-01',
+            users: [],
+            userref: [],
+            max_slot: 99999,
+            available_slot: 99999,
+            status: 'not occupied',
+            label: 'genesis',
+            bills: []
+        });
+
+        genesisRoom.save()
+            .then(res => {
+                console.log('[+] Successfully created genesis room!');
+            }).catch(err => {
+                console.log('[-] Cannot create room due to some error...');
+                console.error(err);
+            });
+    }).catch(err => {
+        console.log('[-] Cannot check due to some error:');
+        console.error(err);
+    });
