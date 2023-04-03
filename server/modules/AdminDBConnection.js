@@ -244,7 +244,8 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     addUserBill(unitID, username, details) {
         const missedParams = paramChecker([
             'previous_kwh', 'current_kwh', 'rate',
-            'month', 'day', 'year', 'days_present', 'waterBill'], details);
+            'month', 'day', 'year', 'days_present',
+            'waterBill', 'roomBill'], details);
 
         if (missedParams.length > 0)
             return this.rejectCallback(`missed_params=${missedParams}`);
@@ -279,6 +280,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                                         currentKWH: details.current_kwh,
                                         fullyPaid: false,
                                         waterPayment: details.waterBill,
+                                        roomPayment: details.roomBill,
                                         currentPayment: monthPayment,
                                         dueDate: {
                                             month: details.month,
@@ -349,7 +351,8 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
     // gets all the indiv billings that are unpaid
     getAllUnpaidBills() {
-        Bills.find({ fullyPaid: false }).then(this.acceptCallback).catch(this.rejectCallback);
+        Bills.find({$or: [{ fullyPaid: false }, {fullyPaid: 'false'}]})
+            .then(this.acceptCallback).catch(this.rejectCallback);
     }
 
     // get the specific indiv billing
@@ -358,7 +361,59 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     }
 
     getIndivUnpaidBilling(username) {
-        Bills.find({ 'users.username': username, 'users.paid': false }).then(this.acceptCallback).catch(this.rejectCallback);
+        Bills.find({ $and: [{'users.username': username}, {'users.paid': false}] }).then(this.acceptCallback).catch(this.rejectCallback);
+    }
+
+    getBillingReport(username) {
+        Bills.find({ $and: [{ 'users.username': username }, { 'users.paid': false }] })
+            .then(unpaidBills => {
+                // format the data into single report
+                const reportFormat = {
+                    space: {
+                        previousBalance: 0,
+                        currentBalance: 0,
+                        totalBalance: 0,
+                    },
+                    utility: {
+                        previousBalance: 0,
+                        currentBalance: 0,
+                        totalBalance: 0,
+                    },
+                    dueDate: {
+                        month: 0,
+                        day: 0,
+                        year: 0
+                    }
+                };
+
+                if (unpaidBills.length == 0) return this.acceptCallback(reportFormat);
+                if (unpaidBills.length == 1) {
+                    const currentBill = unpaidBills[0];
+                    const user = currentBill.users.find(item => item.username == username);
+
+                    // assign the space part
+                    reportFormat.space.currentBalance = currentBill.roomPayment;
+                    reportFormat.space.totalBalance = currentBill.roomPayment;
+
+                    // assign the utilities part
+                    reportFormat.utility.currentBalance = user.cost;
+                    reportFormat.utility.totalBalance = user.cost;
+
+                    reportFormat.dueDate = currentBill.dueDate;
+                    return this.acceptCallback(reportFormat);
+                }
+
+                // generate the correct billings and apply the 5% charges
+                for (let i = 1; i < unpaidBills.length; i++) {
+                    const currentBill = unpaidBills[i];
+                    const previousBill = unpaidBills[i - 1];
+
+                    // re-calculation for charge of 5% on past billing
+                    currentBill.roomPayment += (previousBill.roomPayment * 0.05);
+                }
+
+                // get the latest billing and returns it as an output
+            });
     }
 
     // deletes a user from a bill
@@ -394,15 +449,16 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     // mark the specified username as paid
     markAsPaid(username) {
         // get the last billing statement from this username
-        Bills.find({'users.username': username, 'users.paid': false})
+        Bills.find({$and: [{'users.username': username}, {'users.paid': false}]})
             .then(billdata => {
                 billdata.forEach(bills => {
                     // indicator that one of the bills is not yet paid
                     let allPaid = true;
                     bills.users.forEach(userbill => {
-                        if (!userbill.paid) allPaid = false;
                         if (userbill.username == username)
                             userbill.paid = true;
+
+                        if (!userbill.paid) allPaid = false;
                     });
 
                     // all of them must have already paid
