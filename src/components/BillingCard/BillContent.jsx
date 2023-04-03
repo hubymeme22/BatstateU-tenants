@@ -9,12 +9,11 @@ import {
   Computation,
   Summary,
   Total,
-  Button,
 } from './styled';
 
-function BillContent({ tenants }) {
+function BillContent({ tenants, handleChange, state, saveBilling }) {
   return (
-    <Form>
+    <Form id="billing-form" onSubmit={(e) => saveBilling(e)}>
       {/* Billing Details */}
       <BillingDetails>
         <div>
@@ -44,25 +43,48 @@ function BillContent({ tenants }) {
       </BillingDetails>
 
       <Computation>
-        {/* Rent Date*/}
         <RentDate>
+          {/* Start Date */}
           <fieldset>
             <label htmlFor="">Starting Date</label>
-            <input type="date" />
+            <input
+              type="date"
+              name="startDate"
+              value={state.startDate}
+              onChange={(e) => handleChange(e)}
+              required
+            />
           </fieldset>
 
+          {/* End Date */}
           <fieldset>
             <label htmlFor="">End Date</label>
-            <input type="date" />
+            <input
+              type="date"
+              name="endDate"
+              value={state.endDate}
+              onChange={(e) => handleChange(e)}
+              required
+            />
           </fieldset>
 
+          {/* Number of Days */}
+          <fieldset>
+            <label>Days</label>
+            <input type="text" value="30" disabled />
+          </fieldset>
+
+          {/* Rent */}
           <fieldset>
             <label htmlFor="rent">Rent: </label>
             <input
               type="number"
               placeholder="Enter amount"
               min="0"
-              defaultValue={1000}
+              name="rentFee"
+              value={state.rentFee}
+              onChange={(e) => handleChange(e)}
+              required
             />
           </fieldset>
         </RentDate>
@@ -82,14 +104,35 @@ function BillContent({ tenants }) {
           <tbody>
             <tr>
               <td>
-                <input type="number" min="0" />
+                <input
+                  type="number"
+                  min="0"
+                  name="previousReading"
+                  value={state.previousReading}
+                  onChange={(e) => handleChange(e)}
+                  required
+                />
               </td>
               <td>
-                <input type="number" min="0" />
+                <input
+                  type="number"
+                  min="0"
+                  name="presentReading"
+                  value={state.presentReading}
+                  onChange={(e) => handleChange(e)}
+                  required
+                />
               </td>
               <td>kwh</td>
               <td>
-                <input type="number" min="0" />
+                <input
+                  type="number"
+                  min="0"
+                  name="ratePerKwh"
+                  value={state.ratePerKwh}
+                  onChange={(e) => handleChange(e)}
+                  required
+                />
               </td>
               <td></td>
               <td></td>
@@ -125,7 +168,10 @@ function BillContent({ tenants }) {
                   type="number"
                   placeholder="amount"
                   min="0"
-                  defaultValue={100}
+                  name="waterFee"
+                  value={state.waterFee}
+                  onChange={(e) => handleChange(e)}
+                  required
                 />
               </td>
               <td>Sum</td>

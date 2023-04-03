@@ -67,6 +67,14 @@ export const RentDate = styled.section`
     display: flex;
     flex-direction: column;
   }
+
+  fieldset:nth-child(3) {
+    width: 50px;
+
+    input {
+      width: 100%;
+    }
+  }
 `;
 
 export const Computation = styled.div`
