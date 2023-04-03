@@ -12,7 +12,11 @@ const reducer = (state, action) => {
     case 'reset':
       return { ...action.value };
     case action.type:
-      return { ...state, [action.type]: action.value };
+      if (action.type == 'start_date' || action.type == 'end_date') {
+        return { ...state, [action.type]: action.value };
+      }
+
+      return { ...state, [action.type]: Number(action.value) };
     default:
       return state;
   }
@@ -38,7 +42,7 @@ const initialState = {
   overall_bill: 0,
 };
 
-function BillingCard({ tenants }) {
+function BillingCard({ tenants, roomDetails }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const saveBillingStatement = (e) => {
@@ -46,6 +50,13 @@ function BillingCard({ tenants }) {
 
     console.clear();
     console.table(state);
+
+    // split date
+    const month = new Date(state.end_date).getMonth();
+    const day = new Date(state.end_date).getDay() + 1;
+    const year = new Date(state.end_date).getFullYear();
+
+    console.log(month, day, year);
   };
 
   const handleChange = (e) => {
@@ -78,17 +89,24 @@ function BillingCard({ tenants }) {
   useEffect(() => {
     const { previous_kwh, current_kwh, rate, rent, water } = state;
 
-    if (!previous_kwh || !current_kwh || !rate || !rent || !water) {
-      dispatch({ type: 'over_all_bill', value: 0 });
+    if (!previous_kwh || !current_kwh) {
       return;
     }
 
     const total_kwh = current_kwh - previous_kwh;
+
+    if (total_kwh <= 0) return;
+    dispatch({ type: 'total_kwh', value: total_kwh });
+
+    if (!rate || !rent || !water) {
+      dispatch({ type: 'over_all_bill', value: 0 });
+      return;
+    }
+
     const computation = total_kwh * rate;
     const electricBillPerIndividual = computation / 4;
     const overallBill = rent + water + electricBillPerIndividual;
 
-    dispatch({ type: 'total_kwh', value: total_kwh });
     dispatch({ type: 'total_amount', value: computation });
     dispatch({
       type: 'bill_per_individual',
