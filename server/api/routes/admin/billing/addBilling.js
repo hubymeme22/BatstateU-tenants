@@ -7,7 +7,12 @@ const addBilling = Router();
 
 setJSONPacketFormat({error: '', added: false});
 addBilling.post('/:slot/:username', postRequestPermission, (req, res) => {
-    const missedParams = paramChecker(['month', 'day', 'year', 'rate', 'previous_kwh', 'current_kwh', 'days_present'], req.body);
+    const missedParams = paramChecker([
+        'month', 'day', 'year',
+        'rate', 'previous_kwh',
+        'current_kwh', 'days_present',
+        'water'], req.body);
+
     if (missedParams.length > 0)
         return res.json({ error: `missed_params=${missedParams}`, added: false});
 
@@ -20,7 +25,6 @@ addBilling.post('/:slot/:username', postRequestPermission, (req, res) => {
     });
 
     adminDatabase.setRejectCallback(error => {
-        console.log(error);
         responseFormat.error = error;
         res.json(responseFormat);
     });
@@ -36,7 +40,8 @@ addBilling.post('/:slot/:username', postRequestPermission, (req, res) => {
         month: req.body.month,
         day: req.body.day,
         year: req.body.year,
-        days_present: req.body.days_present
+        days_present: req.body.days_present,
+        waterBill: req.body.water
     };
 
     adminDatabase.addUserBill(req.params.slot, req.params.username, costDetails);

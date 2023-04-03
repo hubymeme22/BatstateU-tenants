@@ -26,6 +26,10 @@ const roomBills = new mongoose.Schema({
         type: Number,
         required: true
     },
+    waterPayment: {
+        type: Number,
+        required: true
+    },
     dueDate: {
         month: {
             type: Number,
