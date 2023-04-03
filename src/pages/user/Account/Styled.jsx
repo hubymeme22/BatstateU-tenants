@@ -5,9 +5,8 @@ export const Container = styled.div`
   width: 470px;
   padding: 20px;
   border-radius: 15px;
-  box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
-  -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
   border: 1px solid;
   display: flex;
   justify-content: center;
