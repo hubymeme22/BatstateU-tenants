@@ -1,6 +1,7 @@
 import { MongoDBConnection } from "./DBConnection.js";
 import { Student } from "../models/accounts.js";
 import { Bills } from "../models/bills.js";
+import { announcement } from "./announcement.js";
 
 // this class is made for student's functionalities
 export class StudentDBConnection extends MongoDBConnection {
@@ -115,6 +116,10 @@ export class StudentDBConnection extends MongoDBConnection {
 
             this.acceptCallback(reportFormat);
         }).catch(this.rejectCallback);
+    }
+
+    retrieveAnnouncement() {
+        this.acceptCallback(announcement);
     }
 
     // changes the password of this account

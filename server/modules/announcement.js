@@ -2,7 +2,7 @@
 // we decided that this will only be stored in single file.
 import { sendMail } from "./Mailer.js";
 
-const announcement = {
+export const announcement = {
     subject: '',
     message: ''
 };
