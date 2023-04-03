@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 
 import { Bill, Title, Button, Container, ButtonContainer } from './styled';
 
@@ -29,10 +29,10 @@ const initialState = {
   days_in_between: 0,
 
   // Readings
-  previous_kwh: '',
-  current_kwh: '',
+  previous_kwh: 0,
+  current_kwh: 0,
   total_kwh: 0,
-  rate: '',
+  rate: 0,
   total_amount: 0,
   bill_per_individual: 0,
 
@@ -44,6 +44,7 @@ const initialState = {
 
 function BillingCard({ tenants, roomDetails }) {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [month, setMonth] = useState(null);
 
   const saveBillingStatement = (e) => {
     e.preventDefault();
@@ -88,32 +89,33 @@ function BillingCard({ tenants, roomDetails }) {
   // Compute total bill
   useEffect(() => {
     const { previous_kwh, current_kwh, rate, rent, water } = state;
-
-    if (!previous_kwh || !current_kwh) {
-      return;
-    }
-
     const total_kwh = current_kwh - previous_kwh;
 
-    if (total_kwh <= 0) return;
-    dispatch({ type: 'total_kwh', value: total_kwh });
-
-    if (!rate || !rent || !water) {
-      dispatch({ type: 'over_all_bill', value: 0 });
-      return;
-    }
+    if (total_kwh < 0) return;
 
     const computation = total_kwh * rate;
-    const electricBillPerIndividual = computation / 4;
+    const electricBillPerIndividual = computation / roomDetails.userinfo.length;
     const overallBill = rent + water + electricBillPerIndividual;
 
+    dispatch({ type: 'total_kwh', value: total_kwh });
     dispatch({ type: 'total_amount', value: computation });
     dispatch({
       type: 'bill_per_individual',
       value: electricBillPerIndividual,
     });
     dispatch({ type: 'overall_bill', value: overallBill });
-  }, [state.previous_kwh, state.current_kwh, state.rate]);
+  }, [
+    state.previous_kwh,
+    state.current_kwh,
+    state.rate,
+    state.water,
+    state.rent,
+  ]);
+
+  useEffect(() => {
+    const monthIndex = new Date(state.end_date).getMonth();
+    setMonth(monthIndex);
+  }, [state.end_date]);
 
   return (
     <Container>
@@ -121,10 +123,12 @@ function BillingCard({ tenants, roomDetails }) {
         <Header />
         <Title>Billing Statement</Title>
         <BillContent
+          roomDetails={roomDetails}
           tenants={tenants}
           state={state}
           handleChange={handleChange}
           saveBilling={saveBillingStatement}
+          month={month}
         />
       </Bill>
 

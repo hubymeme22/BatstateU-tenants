@@ -16,18 +16,22 @@ import { dashboardLoader } from '@/services/loaders';
 import { fetchAsAdmin } from '@/services/adminFetch';
 
 function Dashboard() {
+  // Dashboard states
   const [allRooms, setAllRooms] = useState([]);
   const [dormData, setDormData] = useState([]);
   const [canteenData, setCanteenData] = useState([]);
-
   const [summary, setSummary] = useState();
 
+  // Modal states
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
 
+  // Invoice states
   const [isCreatingInvoice, setIsCreatingInvoice] = useState(false);
   const [invoiceNames, setInvoiceNames] = useState([]);
+  const [invoiceRoom, setInvoiceRoom] = useState({});
 
+  // Retrieve dashboard data from server
   useEffect(() => {
     const fetchData = async () => {
       const response = await dashboardLoader();
@@ -58,7 +62,6 @@ function Dashboard() {
   };
 
   const openDetails = async (roomName, label) => {
-    // Open Modal to show details
     toggleModal();
 
     // get room details
@@ -74,6 +77,10 @@ function Dashboard() {
     setInvoiceNames(list);
   };
 
+  const addRoomOnInvoice = (roomDetails) => {
+    setInvoiceRoom(roomDetails);
+  };
+
   return (
     <>
       {allRooms && summary ? (
@@ -85,7 +92,7 @@ function Dashboard() {
               <Summary data={summary} />
             </Layout>
           ) : (
-            <BillingCard tenants={invoiceNames} />
+            <BillingCard tenants={invoiceNames} roomDetails={invoiceRoom} />
           )}
         </>
       ) : (
@@ -93,11 +100,12 @@ function Dashboard() {
       )}
 
       <Modal
+        data={modalData}
         isOpen={modalIsOpen}
         close={toggleModal}
-        data={modalData}
-        includeNames={addNamesOnInvoice}
         toggleInvoice={toggleInvoice}
+        includeNames={addNamesOnInvoice}
+        includeRoom={addRoomOnInvoice}
       />
     </>
   );

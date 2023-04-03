@@ -14,7 +14,11 @@ import Loader from '@/components/Loader';
 // theme
 import { theme } from '@/styles/theme';
 
-function Modal({ isOpen, close, data, includeNames, toggleInvoice }) {
+function Modal(props) {
+  // Data && Modal & Invoice props
+  const { isOpen, close, data } = props;
+  const { toggleInvoice, includeNames, includeRoom } = props;
+
   const [checkboxes, setCheckboxes] = useState({});
   const [tenants, setTenants] = useState([]);
   const [selectedTenants, setSelectedTenants] = useState([]);
@@ -44,9 +48,8 @@ function Modal({ isOpen, close, data, includeNames, toggleInvoice }) {
       return;
     }
 
-    console.log(selectedTenants);
-
     includeNames(selectedTenants);
+    includeRoom(data);
     close(); //close modal
     toggleInvoice(); // open invoice tab
   };

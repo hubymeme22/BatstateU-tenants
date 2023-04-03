@@ -11,15 +11,20 @@ import {
   Total,
 } from './styled';
 
-function BillContent({ tenants, handleChange, state, saveBilling }) {
+import { getCurrentDate, monthNames } from '../../utils/date';
+
+function BillContent(props) {
+  const { handleChange, saveBilling } = props;
+  const { roomDetails, tenants, state, month } = props;
+
   return (
     <Form id="billing-form" onSubmit={(e) => saveBilling(e)}>
       {/* Billing Details */}
       <BillingDetails>
         <div>
-          <p>Date: Current Date</p>
-          <p>Room Number: Room Number</p>
-          <p>Occupants: {tenants.length} / 4</p>
+          <p>Date: {getCurrentDate()}</p>
+          <p>Room Number: {roomDetails.slot}</p>
+          <p>Occupants: {roomDetails.userinfo.length} / 4</p>
         </div>
 
         {/* Display Users */}
@@ -82,7 +87,7 @@ function BillContent({ tenants, handleChange, state, saveBilling }) {
               placeholder="Enter amount"
               min="0"
               name="rent"
-              value={state.rent}
+              value={state.rent.toString().replace(/^0+/, '')}
               onChange={(e) => handleChange(e)}
               required
             />
@@ -108,7 +113,7 @@ function BillContent({ tenants, handleChange, state, saveBilling }) {
                   type="number"
                   min="0"
                   name="previous_kwh"
-                  value={state.previous_kwh}
+                  value={state.previous_kwh.toString().replace(/^0+/, '')}
                   onChange={(e) => handleChange(e)}
                   required
                 />
@@ -118,7 +123,7 @@ function BillContent({ tenants, handleChange, state, saveBilling }) {
                   type="number"
                   min="0"
                   name="current_kwh"
-                  value={state.current_kwh}
+                  value={state.current_kwh.toString().replace(/^0+/, '')}
                   onChange={(e) => handleChange(e)}
                   required
                 />
@@ -129,7 +134,7 @@ function BillContent({ tenants, handleChange, state, saveBilling }) {
                   type="number"
                   min="0"
                   name="rate"
-                  value={state.rate}
+                  value={state.rate.toString().replace(/^0+/, '')}
                   onChange={(e) => handleChange(e)}
                   required
                 />
@@ -161,7 +166,7 @@ function BillContent({ tenants, handleChange, state, saveBilling }) {
             </tr>
 
             <tr>
-              <td>selected month</td>
+              <td>{monthNames[month]}</td>
               <td> ₱ {state.bill_per_individual} </td>
               <td>
                 <input
@@ -169,19 +174,21 @@ function BillContent({ tenants, handleChange, state, saveBilling }) {
                   placeholder="amount"
                   min="0"
                   name="water"
-                  value={state.water}
+                  value={state.water.toString().replace(/^0+/, '')}
                   onChange={(e) => handleChange(e)}
                   required
                 />
               </td>
-              <td> ₱ {state.bill_per_individual + state.water}</td>
+              <td>₱ {state.bill_per_individual + state.water}</td>
             </tr>
 
             <tr>
               <td colSpan={3} style={{ textAlign: 'end' }}>
                 Total
               </td>
-              <td>₱ {state.overall_bill}</td>
+              <td>
+                ₱ {state.rent} + ₱ {state.bill_per_individual + state.water}
+              </td>
             </tr>
           </tbody>
         </Table>
