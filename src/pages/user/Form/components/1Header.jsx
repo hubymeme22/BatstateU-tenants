@@ -7,9 +7,9 @@ function Header(props) {
       <SmallBlocks logo='logo'>
         <BSULOGO src={BSU}></BSULOGO>
       </SmallBlocks>
-      <Blocks>Reference Number: </Blocks>
-      <Blocks>Effectivity Data:</Blocks>
-      <SmallBlocks left='left'>Revision: </SmallBlocks>
+      <Blocks>Reference Number: BatStateU-Fo-RGO-13</Blocks>
+      <Blocks>Effectivity Data: February 06, 2023</Blocks>
+      <SmallBlocks left='left'>Revision No: 01</SmallBlocks>
     </Table>
   );
 }
