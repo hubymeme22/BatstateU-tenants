@@ -158,10 +158,13 @@ export const Container = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
-  margin-right: 1rem;
-  align-self: end;
   display: flex;
-  gap: 1rem;
+  justify-content: space-between;
+
+  div {
+    display: flex;
+    gap: 1rem;
+  }
 `;
 
 export const Button = styled.button`

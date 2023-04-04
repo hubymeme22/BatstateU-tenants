@@ -56,9 +56,12 @@ function Dashboard() {
     setCanteenData(canteen);
   }, [allRooms]);
 
-  const toggleModal = () => {
+  const toggleModal = (removeDetails = false) => {
     setModalIsOpen(!modalIsOpen);
-    setModalData(null);
+
+    if (removeDetails) {
+      setModalData(null);
+    }
   };
 
   const openDetails = async (roomName, label) => {
@@ -92,7 +95,12 @@ function Dashboard() {
               <Summary data={summary} />
             </Layout>
           ) : (
-            <BillingCard tenants={invoiceNames} roomDetails={invoiceRoom} />
+            <BillingCard
+              tenants={invoiceNames}
+              roomDetails={invoiceRoom}
+              toggleInvoice={toggleInvoice}
+              toggleModal={toggleModal}
+            />
           )}
         </>
       ) : (

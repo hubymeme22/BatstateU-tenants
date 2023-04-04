@@ -42,7 +42,7 @@ const initialState = {
   overall_bill: 0,
 };
 
-function BillingCard({ tenants, roomDetails }) {
+function BillingCard({ tenants, roomDetails, toggleInvoice, toggleModal }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [month, setMonth] = useState(null);
 
@@ -69,6 +69,12 @@ function BillingCard({ tenants, roomDetails }) {
 
   const resetValues = () => {
     dispatch({ type: 'reset', value: initialState });
+  };
+
+  const goBack = () => {
+    toggleInvoice();
+    toggleModal();
+    // openDetails(roomDetails.slot, roomDetails.label);
   };
 
   // Compute days in between
@@ -133,12 +139,18 @@ function BillingCard({ tenants, roomDetails }) {
       </Bill>
 
       <ButtonContainer>
-        <Button color="#777777" onClick={resetValues}>
-          Clear
+        <Button color="#777777" onClick={goBack}>
+          Cancel
         </Button>
-        <Button color="#66e95f" form="billing-form" type="submit">
-          Save
-        </Button>
+
+        <div>
+          <Button color="#777777" onClick={resetValues}>
+            Clear
+          </Button>
+          <Button color="#66e95f" form="billing-form" type="submit">
+            Save
+          </Button>
+        </div>
       </ButtonContainer>
     </Container>
   );
