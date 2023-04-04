@@ -76,7 +76,7 @@ function BillContent(props) {
           {/* Number of Days */}
           <fieldset>
             <label>Days</label>
-            <input type="text" value={state.days_in_between} disabled />
+            <input type="text" value={state.days_present} disabled />
           </fieldset>
 
           {/* Rent */}
@@ -86,8 +86,8 @@ function BillContent(props) {
               type="number"
               placeholder="Enter amount"
               min="0"
-              name="rent"
-              value={state.rent.toString().replace(/^0+/, '')}
+              name="roomBill"
+              value={state.roomBill.toString().replace(/^0+/, '')}
               onChange={(e) => handleChange(e)}
               required
             />
@@ -173,13 +173,13 @@ function BillContent(props) {
                   type="number"
                   placeholder="amount"
                   min="0"
-                  name="water"
-                  value={state.water.toString().replace(/^0+/, '')}
+                  name="waterBill"
+                  value={state.waterBill.toString().replace(/^0+/, '')}
                   onChange={(e) => handleChange(e)}
                   required
                 />
               </td>
-              <td>₱ {state.bill_per_individual + state.water}</td>
+              <td>₱ {state.bill_per_individual + state.waterBill}</td>
             </tr>
 
             <tr>
@@ -187,7 +187,8 @@ function BillContent(props) {
                 Total
               </td>
               <td>
-                ₱ {state.rent} + ₱ {state.bill_per_individual + state.water}
+                ₱ {state.roomBill} + ₱
+                {state.bill_per_individual + state.waterBill}
               </td>
             </tr>
           </tbody>
