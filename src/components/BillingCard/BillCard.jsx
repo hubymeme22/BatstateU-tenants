@@ -26,7 +26,7 @@ const initialState = {
   // Dates
   start_date: '',
   end_date: '',
-  days_in_between: 0,
+  days_present: 0,
 
   // Readings
   previous_kwh: 0,
@@ -36,9 +36,9 @@ const initialState = {
   total_amount: 0,
   bill_per_individual: 0,
 
-  // Fees
-  rent: 1000,
-  water: 100,
+  // Bills
+  roomBill: 1000,
+  waterBill: 100,
   overall_bill: 0,
 };
 
@@ -49,15 +49,31 @@ function BillingCard({ tenants, roomDetails, toggleInvoice, toggleModal }) {
   const saveBillingStatement = (e) => {
     e.preventDefault();
 
-    console.clear();
-    console.table(state);
+    // destruct state
+    const { rate, previous_kwh, current_kwh } = state;
+    const { days_present, waterBill, roomBill } = state;
 
     // split date
     const month = new Date(state.end_date).getMonth();
-    const day = new Date(state.end_date).getDay() + 1;
+    const day = new Date(state.end_date).getDay();
     const year = new Date(state.end_date).getFullYear();
 
-    console.log(month, day, year);
+    const postData = {
+      // dates
+      month,
+      day,
+      year,
+      // readings
+      rate,
+      previous_kwh,
+      current_kwh,
+      //
+      days_present,
+      waterBill,
+      roomBill,
+    };
+
+    console.log(postData);
   };
 
   const handleChange = (e) => {
@@ -80,7 +96,7 @@ function BillingCard({ tenants, roomDetails, toggleInvoice, toggleModal }) {
   // Compute days in between
   useEffect(() => {
     if (state.start_date == '' || state.end_date == '') {
-      dispatch({ type: 'days_in_between', value: 0 });
+      dispatch({ type: 'days_present', value: 0 });
       return;
     }
 
@@ -89,19 +105,19 @@ function BillingCard({ tenants, roomDetails, toggleInvoice, toggleModal }) {
     const days = daysBetweenDates(startDate, endDate);
 
     //
-    dispatch({ type: 'days_in_between', value: days });
+    dispatch({ type: 'days_present', value: days });
   }, [state.start_date, state.end_date]);
 
   // Compute total bill
   useEffect(() => {
-    const { previous_kwh, current_kwh, rate, rent, water } = state;
+    const { previous_kwh, current_kwh, rate, roomBill, waterBill } = state;
     const total_kwh = current_kwh - previous_kwh;
 
     if (total_kwh < 0) return;
 
     const computation = total_kwh * rate;
     const electricBillPerIndividual = computation / roomDetails.userinfo.length;
-    const overallBill = rent + water + electricBillPerIndividual;
+    const overallBill = roomBill + waterBill + electricBillPerIndividual;
 
     dispatch({ type: 'total_kwh', value: total_kwh });
     dispatch({ type: 'total_amount', value: computation });
@@ -114,8 +130,8 @@ function BillingCard({ tenants, roomDetails, toggleInvoice, toggleModal }) {
     state.previous_kwh,
     state.current_kwh,
     state.rate,
-    state.water,
-    state.rent,
+    state.waterBill,
+    state.roomBill,
   ]);
 
   useEffect(() => {
