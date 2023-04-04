@@ -94,10 +94,12 @@ function Modal(props) {
             <Header>
               <p>Room: {data ? data.slot : null}</p>
 
-              <p>
-                Number of Tenants:
-                {data ? <span> {data.userinfo.length} / 4 </span> : null}
-              </p>
+              {data && data.label == 'dorm' && (
+                <p>
+                  Number of Tenants:
+                  {data ? <span> {data.userinfo.length} / 4 </span> : null}
+                </p>
+              )}
             </Header>
 
             <hr />
