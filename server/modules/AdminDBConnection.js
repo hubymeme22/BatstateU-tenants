@@ -416,8 +416,13 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                     const pastUserBill = previousBill.users.findIndex(item => item.username == username);
 
                     // re-calculation for charge of 5% on past billing
-                    currentBill.roomPayment += (previousBill.roomPayment * 0.05);
-                    currentBill.users[currentUserBill].cost += (previousBill.users[pastUserBill].cost * 0.05);
+                    if (i < (unpaidBills.length - 1)) {
+                        currentBill.roomPayment += previousBill.roomPayment + (previousBill.roomPayment * 0.05);
+                        currentBill.users[currentUserBill].cost += previousBill.users[pastUserBill].cost + (previousBill.users[pastUserBill].cost * 0.05);    
+                    } else {
+                        currentBill.roomPayment += (previousBill.roomPayment * 0.05);
+                        currentBill.users[currentUserBill].cost += (previousBill.users[pastUserBill].cost * 0.05);
+                    }
 
                     // updates the bills temporarily
                     unpaidBills[i] = currentBill;
@@ -433,8 +438,11 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                 reportFormat.dueDate = latestBilling.dueDate;
                 reportFormat.space.currentBalance = latestBilling.roomPayment;
                 reportFormat.space.previousBalance = previousBilling.roomPayment;
+                reportFormat.space.totalBalance = (reportFormat.space.currentBalance + reportFormat.space.previousBalance);
+
                 reportFormat.utility.currentBalance = latestUserUtility.cost;
                 reportFormat.utility.previousBalance = previousUserUtility.cost;
+                reportFormat.utility.totalBalance = (reportFormat.utility.currentBalance + reportFormat.utility.previousBalance);
 
                 this.acceptCallback(reportFormat);
             }).catch(this.rejectCallback);

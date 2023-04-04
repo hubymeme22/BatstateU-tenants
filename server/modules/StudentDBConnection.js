@@ -125,8 +125,12 @@ export class StudentDBConnection extends MongoDBConnection {
             reportFormat.dueDate = latestBilling.dueDate;
             reportFormat.space.currentBalance = latestBilling.roomPayment;
             reportFormat.space.previousBalance = previousBilling.roomPayment;
+            reportFormat.space.totalBalance = (reportFormat.space.currentBalance + reportFormat.space.previousBalance);
+
             reportFormat.utility.currentBalance = latestUserUtility.cost;
             reportFormat.utility.previousBalance = previousUserUtility.cost;
+            reportFormat.utility.totalBalance = (reportFormat.utility.currentBalance + reportFormat.utility.previousBalance);
+
 
             this.acceptCallback(reportFormat);
         }).catch(this.rejectCallback);
