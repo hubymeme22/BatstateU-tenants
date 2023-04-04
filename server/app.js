@@ -6,6 +6,7 @@ import 'dotenv/config';
 
 import api from './api/api.js';
 import uiConnector from './middleware/AppUIConnector.js';
+import { serverConsoleLogger } from './middleware/RequestLogger.js';
 
 const app = express();
 const appIP = process.env.IP;
@@ -17,6 +18,7 @@ const corsOptions = {
   credentials: true,
 };
 
+app.use(serverConsoleLogger);
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(cookieParser());
