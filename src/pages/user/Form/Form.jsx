@@ -7,7 +7,7 @@ import Download from './components/Download';
 function Form() {
   React.useEffect(() => {
     axios
-      .get('http://localhost:5050/api/billing/:username')
+      .get('http://localhost:5050/api/student/billing/finalized')
       .then((res) => {
         console.log(res);
       })
