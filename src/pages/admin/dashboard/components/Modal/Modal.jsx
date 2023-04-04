@@ -125,7 +125,7 @@ function Modal(props) {
 
                   return (
                     <React.Fragment key={username}>
-                      <Details>
+                      <Details onClick={() => toggleCheckbox(username)}>
                         <input
                           type="checkbox"
                           checked={checkboxes[username] || false}
