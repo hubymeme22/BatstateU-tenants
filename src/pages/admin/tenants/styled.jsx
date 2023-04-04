@@ -62,6 +62,19 @@ export const UserDetails = styled(ColumnTitles)`
   }
 `;
 
+export const Status = styled.p`
+  font-weight: bold;
+  color: ${({ indicator }) => {
+    if (indicator == 'paid') {
+      return '#00DF24';
+    } else if (indicator == 'unpaid') {
+      return '#C52D2D';
+    } else {
+      return '#777';
+    }
+  }};
+`;
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;

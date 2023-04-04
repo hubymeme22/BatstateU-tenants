@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ColumnTitles, UsersContainer, UserDetails } from '../styled';
+import { ColumnTitles, UsersContainer, UserDetails, Status } from '../styled';
 
 import Loader from '@/components/Loader';
 
@@ -31,7 +31,7 @@ function List({ data, area, filter }) {
                 <p>{last}</p>
                 <p>{contact}</p>
                 <p>{roomID}</p>
-                <p>{status}</p>
+                <Status indicator={status}>{status}</Status>
               </UserDetails>
             );
           })
@@ -44,17 +44,3 @@ function List({ data, area, filter }) {
 }
 
 export default List;
-
-// data.length > 0 ? (
-//   data.map((student) => {
-//     const { first, last } = student.details.name;
-//     return (
-//       <UserDetails key={student._id}>
-//         <p>{student.username}</p>
-//         <p>{first}</p>
-//         <p>{last}</p>
-
-//         <p>{student.contact}</p>
-//       </UserDetails>
-//     );
-//   })
