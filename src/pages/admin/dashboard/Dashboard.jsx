@@ -56,15 +56,12 @@ function Dashboard() {
     setCanteenData(canteen);
   }, [allRooms]);
 
-  const toggleModal = (removeDetails = false) => {
+  const toggleModal = () => {
     setModalIsOpen(!modalIsOpen);
-
-    if (removeDetails) {
-      setModalData(null);
-    }
   };
 
   const openDetails = async (roomName, label) => {
+    setModalData(null);
     toggleModal();
 
     // get room details
