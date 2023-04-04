@@ -4,7 +4,7 @@ import { NavLink as NavLinks } from 'react-router-dom';
 
 export const StyledSidebar = styled.aside`
   color: white;
-  width: min(100%, 350px);
+  width: 350px;
   background-color: ${({ theme }) => theme.primary};
   border-radius: 10px;
 

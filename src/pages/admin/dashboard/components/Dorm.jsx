@@ -18,8 +18,8 @@ function Dorm({ data, openDetails }) {
         {/* Display list of Room slots data */}
         <div>
           {data.length > 0 &&
-            data.map((room, index) => {
-              const { _id, label, slot, max_slot, status, users } = room;
+            data.map((room) => {
+              const { _id, label, slot, max_slot, users } = room;
 
               return (
                 <Details key={_id} onClick={() => openDetails(slot, label)}>

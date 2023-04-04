@@ -31,6 +31,11 @@ export const Card = styled.div`
   text-align: center;
   background-color: ${({ theme }) => theme.gray};
   border-radius: 20px;
+
+  &:nth-child(1),
+  &:nth-child(2) {
+    overflow-y: hidden;
+  }
 `;
 
 export const Title = styled.h1`
