@@ -5,7 +5,11 @@ import { Bill, Title, Button, Container, ButtonContainer } from './styled';
 // Components
 import Header from './Header';
 import BillContent from './BillContent';
+
+// Utils
 import { daysBetweenDates } from '../../utils/date';
+import { createBilling } from '../../services/createBillings';
+import { checkToken } from '../../utils/tokenHandler';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -46,7 +50,7 @@ function BillingCard({ tenants, roomDetails, toggleInvoice, toggleModal }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [month, setMonth] = useState(null);
 
-  const saveBillingStatement = (e) => {
+  const saveBillingStatement = async (e) => {
     e.preventDefault();
 
     // destruct state
@@ -54,9 +58,13 @@ function BillingCard({ tenants, roomDetails, toggleInvoice, toggleModal }) {
     const { days_present, waterBill, roomBill } = state;
 
     // split date
-    const month = new Date(state.end_date).getMonth();
-    const day = new Date(state.end_date).getDay();
-    const year = new Date(state.end_date).getFullYear();
+    const date = state.end_date.split('-');
+
+    const month = Number(date[1]);
+    const day = Number(date[2]);
+    const year = Number(date[0]);
+
+    const selectedTenantsList = tenants.map((tenant) => tenant.username);
 
     const postData = {
       // dates
@@ -71,9 +79,12 @@ function BillingCard({ tenants, roomDetails, toggleInvoice, toggleModal }) {
       days_present,
       waterBill,
       roomBill,
+      users: selectedTenantsList,
+      token: checkToken(),
     };
 
-    console.log(postData);
+    const response = await createBilling(roomDetails.slot, postData);
+    // TODO: Redirect to dashboard if successful
   };
 
   const handleChange = (e) => {
@@ -90,7 +101,6 @@ function BillingCard({ tenants, roomDetails, toggleInvoice, toggleModal }) {
   const goBack = () => {
     toggleInvoice();
     toggleModal();
-    // openDetails(roomDetails.slot, roomDetails.label);
   };
 
   // Compute days in between
@@ -135,9 +145,9 @@ function BillingCard({ tenants, roomDetails, toggleInvoice, toggleModal }) {
   ]);
 
   useEffect(() => {
-    const monthIndex = new Date(state.end_date).getMonth();
+    const monthIndex = new Date(state.start_date).getMonth();
     setMonth(monthIndex);
-  }, [state.end_date]);
+  }, [state.start_date]);
 
   return (
     <Container>
