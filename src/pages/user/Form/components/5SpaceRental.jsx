@@ -1,11 +1,11 @@
 import React from 'react';
 import { Grid, Border, FChild, SChild, TChild, Divider } from '../Styled';
-function SpaceRental() {
+function SpaceRental(props) {
   return (
     <Grid>
       <Border>
         <FChild>BALANCE FROM PREVIOUS BILLING</FChild>
-        <SChild>Php: </SChild>
+        <SChild>Php: {props.prev}</SChild>
       </Border>
       <Border>
         <Divider>CURRENT ADD</Divider>{' '}
@@ -14,13 +14,15 @@ function SpaceRental() {
           <Divider>DUE DATE</Divider>
         </SChild>
         <SChild>
-          <Divider first='first'></Divider>
-          <Divider></Divider>
+          <Divider first='first'>{props.amount}</Divider>
+          <Divider>
+            {props.month}/{props.day}/{props.year}
+          </Divider>
         </SChild>
       </Border>
       <Border last='last'>
         <TChild>AMOUNT DUE</TChild>
-        <FChild top='top'></FChild>
+        <FChild top='top'> {props.total}</FChild>
       </Border>
     </Grid>
   );

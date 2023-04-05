@@ -14,12 +14,26 @@ import Note from './8Note';
 import FormSig from './9FormSig';
 
 function FormContent() {
+  const [firstName, firstNameSet] = React.useState('');
+  const [lastName, lastNameSet] = React.useState('');
+  const [stallLoc, setStallLoc] = React.useState('');
+  const [rental, setRental] = React.useState('');
+  const [space, setSpace] = React.useState({
+    previousBalance: '',
+    currentBalance: '',
+    totalBalance: '',
+  });
+
+  const [due, setDue] = React.useState({ month: '', day: '', year: '' });
   React.useEffect(() => {
     const getData = async () => {
       const fetchedData = await axios.get(
-        'http://localhost:5050/api/student/billing'
+        'http://localhost:5050/api/student/billing/finalized'
       );
-      console.log(fetchedData);
+      setStallLoc(fetchedData.data.billing.roomID);
+      setRental(fetchedData.data.billing.roomRentalFee);
+      setSpace(fetchedData.data.billing.space);
+      setDue(fetchedData.data.billing.dueDate);
     };
     getData();
   }, []);
@@ -28,18 +42,32 @@ function FormContent() {
       const fetchedData = await axios.get(
         'http://localhost:5050/api/student/details'
       );
-      console.log(fetchedData);
+      firstNameSet(fetchedData.data.userinfo.details.name.first);
+      lastNameSet(fetchedData.data.userinfo.details.name.last);
     };
     getData();
   }, []);
-
+  console.log(space);
+  console.log(due);
   return (
     <Container Id='userForm'>
       <Header />
       <ControlNum />
-      <TenantInfo />
+      <TenantInfo
+        first={firstName}
+        last={lastName}
+        loc={stallLoc}
+        rent={rental}
+      />
       <Penalty />
-      <SpaceRental />
+      <SpaceRental
+        prev={space.previousBalance}
+        amount={space.currentBalance}
+        total={space.totalBalance}
+        month={due.month}
+        day={due.day}
+        year={due.year}
+      />
       <Tit />
       <Utility />
       <AmountDue />

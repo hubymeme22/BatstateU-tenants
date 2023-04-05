@@ -1,16 +1,18 @@
 import React from 'react';
 import { Blocks, Table } from '../Styled';
 import styled from 'styled-components';
-function TenantInfo() {
+function TenantInfo(props) {
   return (
     <Table>
-      <Blocks>NAME OF TENANT:</Blocks>
       <Blocks>
-        <Child title='title'>STALL LOCATION: </Child>
+        NAME OF TENANT: {props.first} {props.last}
+      </Blocks>
+      <Blocks>
+        <Child title='title'>STALL LOCATION: {props.loc} </Child>
 
         <Child>BILLING PERIOD: </Child>
       </Blocks>
-      <Blocks>MONTHLY RENTAL:</Blocks>
+      <Blocks>MONTHLY RENTAL: {props.rent}</Blocks>
     </Table>
   );
 }

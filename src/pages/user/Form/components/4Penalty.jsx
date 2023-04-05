@@ -7,7 +7,7 @@ function Penalty() {
       <Blocks>
         Penalty rate per month: 5% based on outstanding balance per month
       </Blocks>
-      <Blocks>ACCOUNT SUMMARY:</Blocks>
+      <Title>ACCOUNT SUMMARY</Title>
       <Title>SPACE RENTAL</Title>
     </Table>
   );
