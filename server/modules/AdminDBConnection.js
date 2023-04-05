@@ -550,6 +550,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
         .then((studentData) => {
             const { name, status } = description;
             const filteredData = [];
+            const finalizedData = [];
 
             // filter the students by name
             studentData.forEach(student => {
@@ -562,7 +563,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
             });
 
             // filtering the status of the room
-            filteredData.forEach((student, index) => {
+            filteredData.forEach(student => {
                 let newDataFormat = {
                     name: student.details.name,
                     srCode: student.email,
@@ -579,41 +580,31 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                     if (status == '') {
                         if (studentLatestBill.paid) newDataFormat.status = 'paid';
                         else newDataFormat.status = 'unpaid';
-                        filteredData[index] = newDataFormat;
+                        finalizedData.push(newDataFormat);
                     }
 
                     else if (status == 'paid') {
                         if (studentLatestBill.paid) {
                             newDataFormat.status = 'paid';
-                            filteredData[index] = newDataFormat;
-                        } else {
-                            filteredData.pop(student);
+                            finalizedData.push(newDataFormat);
                         }
                     }
 
                     else if (status == 'unpaid') {
                         if (!studentLatestBill.paid) {
                             newDataFormat.status = 'unpaid';
-                            filteredData[index] = newDataFormat;
-                        } else {
-                            filteredData.pop(student);
+                            finalizedData.push(newDataFormat);
                         }
-                    }
-
-                    else {
-                        filteredData.pop(student);
                     }
                 }
 
-                // if the user is looking for ALL data
+                // if the user is looking for ALL data (but has no room assigned)
                 else if (status == '') {
-                    filteredData[index] = newDataFormat;
-                } else {
-                    filteredData.pop(student);
+                    finalizedData.push(newDataFormat);
                 }
             });
 
-            this.acceptCallback(filteredData);
+            this.acceptCallback(finalizedData);
         })
 
         .catch(this.rejectCallback);
