@@ -14,10 +14,8 @@ import Note from './8Note';
 import FormSig from './9FormSig';
 
 function FormContent() {
-  const [firstName, firstNameSet] = React.useState('');
-  const [lastName, lastNameSet] = React.useState('');
-  const [stallLoc, setStallLoc] = React.useState('');
-  const [rental, setRental] = React.useState('');
+  const [names, setName] = React.useState({ first: '', last: '' });
+  const [info, setInfo] = React.useState({ roomRentalFee: '', roomID: '' });
   const [space, setSpace] = React.useState({
     previousBalance: '',
     currentBalance: '',
@@ -30,10 +28,10 @@ function FormContent() {
       const fetchedData = await axios.get(
         'http://localhost:5050/api/student/billing/finalized'
       );
-      setStallLoc(fetchedData.data.billing.roomID);
-      setRental(fetchedData.data.billing.roomRentalFee);
+
       setSpace(fetchedData.data.billing.space);
       setDue(fetchedData.data.billing.dueDate);
+      setInfo(fetchedData.data.billing);
     };
     getData();
   }, []);
@@ -42,22 +40,20 @@ function FormContent() {
       const fetchedData = await axios.get(
         'http://localhost:5050/api/student/details'
       );
-      firstNameSet(fetchedData.data.userinfo.details.name.first);
-      lastNameSet(fetchedData.data.userinfo.details.name.last);
+      setName(fetchedData.data.userinfo.details.name);
     };
     getData();
   }, []);
-  console.log(space);
-  console.log(due);
+  console.log(names);
   return (
     <Container Id='userForm'>
       <Header />
       <ControlNum />
       <TenantInfo
-        first={firstName}
-        last={lastName}
-        loc={stallLoc}
-        rent={rental}
+        first={names.first}
+        last={names.last}
+        loc={info.roomRentalFee}
+        rent={info.roomID}
       />
       <Penalty />
       <SpaceRental
