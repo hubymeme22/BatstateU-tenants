@@ -46,7 +46,7 @@ export class StudentDBConnection extends MongoDBConnection {
 
     // returns the finalized and charges added billing of the student
     getStudentFinalizedBilling() {
-        Bills.find({ $and: [{ 'users.username': this.userTokenData.username }, { 'users.paid': false }] })
+        Bills.find({ users: { $elemMatch: { username: this.userTokenData.username, paid: false} } })
         .then(unpaidBills => {
             // format the data into single report
             const reportFormat = {
