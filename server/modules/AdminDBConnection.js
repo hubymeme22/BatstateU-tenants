@@ -240,7 +240,6 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     //  BILLINGS PART  //
     /////////////////////
     // for adding a new bill for a specific user
-    // TODO: make sure that the username added does really exist
     addUserBill(unitID, username, details) {
         const missedParams = paramChecker([
             'previous_kwh', 'current_kwh', 'rate',
@@ -327,6 +326,137 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                                 });
 
                                 let sumDays = 0;
+                                userbills.forEach(userdetails => { sumDays += userdetails.daysPresent });
+                                userbills.forEach(userdetails => {
+                                    userdetails.cost = (monthPayment * (userdetails.daysPresent / sumDays)) + details.waterBill;
+                                });
+
+                                billdata.users = userbills;
+                                billdata.save().then(bill => {
+                                    roomdata.bills.push(bill._id);
+                                    roomdata.save();
+
+                                    this.acceptCallback(bill);
+                                }).catch(this.rejectCallback);
+                            })
+                            .catch(err => this.rejectCallback('UsernameSpecifiedDoesNotExist'));
+                    }).catch(this.rejectCallback);
+            }).catch(this.rejectCallback);
+    }
+
+    // same feature as the above, but adds an array of users
+    // does not care if the user already exists (simply overwrites the data on db)
+    addMultipleUserBill(unitID, username, details) {
+        const missedParams = paramChecker([
+            'previous_kwh', 'current_kwh', 'rate',
+            'month', 'day', 'year', 'days_present',
+            'waterBill', 'roomBill'], details);
+
+        if (missedParams.length > 0)
+            return this.rejectCallback(`missed_params=${missedParams}`);
+
+        // check if the room does exist
+        Room.findOne({slot: unitID})
+            .then(roomdata => {
+                if (roomdata == null)
+                    return this.rejectCallback('NonexistentRoomID');
+
+                // check if all the users are registered to this room
+                let allowed = true;
+                username.forEach(user => {
+                    if (!roomdata.users.find(uname => (uname == user))) {
+                        allowed = false;
+                        return;
+                    }
+                });
+
+                // display return an error if not
+                if (!allowed) return this.rejectCallback('OneOrManyUserNotInRoom');
+
+                // find if there exist a bill that has the same details
+                Bills.findOne({slot: unitID, 'dueDate.month': details.month, 'dueDate.day': details.day, 'dueDate.year': details.year})
+                    .then(billdata => {
+                        // data calculation
+                        const monthPayment = this.calculateBill(details.previous_kwh, details.current_kwh, details.rate);
+
+                        // generate a new bill
+                        if (billdata == null) {
+                            // search the username and retrieve the userID
+                            return Student.find({username: {$in: username}})
+                                .then(userdata => {
+                                    if (userdata.length != username.length) return this.rejectCallback('UsernameSpecifiedDoesNotExist');
+
+                                    // since all the users are added at the same time
+                                    // then the calculation is now simplified
+                                    const individualBilling = (monthPayment / username.length);
+                                    const newBillUsers = [];
+
+                                    userdata.forEach(user => {
+                                        newBillUsers.push({
+                                            username: user.username,
+                                            paid: false,
+                                            cost: (individualBilling + details.waterBill),
+                                            daysPresent: details.days_present,
+                                            userDetails: user._id
+                                        });
+                                    });
+
+                                    const newBill = new Bills({
+                                        slot: unitID,
+                                        rate: details.rate,
+                                        previousKWH: details.previous_kwh,
+                                        currentKWH: details.current_kwh,
+                                        fullyPaid: false,
+                                        waterPayment: details.waterBill,
+                                        roomPayment: details.roomBill,
+                                        currentPayment: monthPayment,
+                                        dueDate: {
+                                            month: details.month,
+                                            day: details.day,
+                                            year: details.year
+                                        },
+                                        users: newBillUsers,
+                                    });
+
+                                    // adds the billing to the room's bill list
+                                    newBill.save().then(billdata => {
+                                        roomdata.bills.push(billdata._id);
+                                        roomdata.save();
+                                        this.acceptCallback(billdata);
+                                    }).catch(this.rejectCallback);
+                                }).catch(error => {
+                                    this.rejectCallback('UsernameSpecifiedDoesNotExist');
+                                })
+                        }
+
+                        // search the student from the collection
+                        Student.find({username: { $in: username }})
+                            .then(userdata => {
+                                if (userdata.length != username.length)
+                                    return this.rejectCallback('UsernameSpecifiedDoesNotExist');
+
+                                // adjust the current billings
+                                billdata.fullyPaid = false;
+                                const userbills = billdata.users;
+
+                                userdata.forEach(user => {
+                                    // check if the user is already on the list
+                                    const existingUserBill = userbills.find(item => item.username == user.username);
+
+                                    // this is a new userbill
+                                    if (!existingUserBill)
+                                        userbills.push({
+                                            username: user.username,
+                                            paid: false,
+                                            cost: 0,
+                                            daysPresent: details.days_present,
+                                            userDetails: user._id
+                                        });
+                                });
+
+                                let sumDays = 0;
+
+                                // recalculation of user charges
                                 userbills.forEach(userdetails => { sumDays += userdetails.daysPresent });
                                 userbills.forEach(userdetails => {
                                     userdetails.cost = (monthPayment * (userdetails.daysPresent / sumDays)) + details.waterBill;

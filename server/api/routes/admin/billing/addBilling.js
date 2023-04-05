@@ -4,8 +4,46 @@ import { AdminMongoDBConnection } from "../../../../modules/AdminDBConnection.js
 import paramChecker from "../../../../modules/paramchecker.js";
 
 const addBilling = Router();
-
 setJSONPacketFormat({error: '', added: false});
+
+addBilling.post('/multiple/:slot', postRequestPermission, (req, res) => {
+    const missedParams = paramChecker([
+        'month', 'day', 'year',
+        'rate', 'previous_kwh',
+        'current_kwh', 'days_present',
+        'waterBill', 'roomBill', 'users'], req.body);
+
+    if (missedParams.length > 0)
+        return res.json({ error: `missed_params=${missedParams}`, added: false});
+
+    const responseFormat = { added: [], error: '' };
+    const adminDatabase = new AdminMongoDBConnection(req.allowedData);
+
+    adminDatabase.setAcceptCallback(userdata => {
+        responseFormat.added = userdata;
+        res.json(responseFormat);
+    });
+
+    adminDatabase.setRejectCallback(error => {
+        responseFormat.error = error;
+        res.json(responseFormat);
+    });
+
+    const costDetails = {
+        rate: req.body.rate,
+        previous_kwh: req.body.previous_kwh,
+        current_kwh: req.body.current_kwh,
+        month: req.body.month,
+        day: req.body.day,
+        year: req.body.year,
+        days_present: req.body.days_present,
+        waterBill: req.body.waterBill,
+        roomBill: req.body.roomBill
+    };
+
+    adminDatabase.addMultipleUserBill(req.params.slot, req.body.users, costDetails);
+});
+
 addBilling.post('/:slot/:username', postRequestPermission, (req, res) => {
     const missedParams = paramChecker([
         'month', 'day', 'year',
