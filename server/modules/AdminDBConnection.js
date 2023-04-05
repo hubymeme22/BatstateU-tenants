@@ -492,11 +492,11 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     }
 
     getIndivUnpaidBilling(username) {
-        Bills.find({ $and: [{'users.username': username}, {'users.paid': false}] }).then(this.acceptCallback).catch(this.rejectCallback);
+        Bills.find({ users: { $elemMatch: { username: username, paid: false} } }).then(this.acceptCallback).catch(this.rejectCallback);
     }
 
     getBillingReport(username) {
-        Bills.find({ $and: [{ 'users.username': username }, { 'users.paid': false }] })
+        Bills.find({ users: { $elemMatch: { username: username, paid: false} } })
             .then(unpaidBills => {
                 // format the data into single report
                 const reportFormat = {
@@ -518,7 +518,6 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                 };
 
                 // set the assigned due date
-                
                 if (unpaidBills.length == 0) return this.acceptCallback(reportFormat);
                 if (unpaidBills.length == 1) {
                     const currentBill = unpaidBills[0];
