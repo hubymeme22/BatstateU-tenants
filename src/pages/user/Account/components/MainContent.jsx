@@ -20,9 +20,11 @@ function MainContent() {
       lastNameSet(fetchedData.data.userinfo.details.name.last);
       setContact(fetchedData.data.userinfo.contact);
       SetSrCode(fetchedData.data.userinfo.email);
+      console.log(fetchedData);
     };
     getData();
   }, []);
+
   //gets value of SR code from email
   const extracted = SrCode.substring(0, 8);
 

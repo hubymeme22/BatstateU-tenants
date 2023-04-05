@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import axios from 'axios';
 import { Container } from '../Styled';
 import ControlNum from './2ControlNum';
 import Header from './1Header';
@@ -14,7 +14,24 @@ import Note from './8Note';
 import FormSig from './9FormSig';
 
 function FormContent() {
-  //map here
+  React.useEffect(() => {
+    const getData = async () => {
+      const fetchedData = await axios.get(
+        'http://localhost:5050/api/student/billing'
+      );
+      console.log(fetchedData);
+    };
+    getData();
+  }, []);
+  React.useEffect(() => {
+    const getData = async () => {
+      const fetchedData = await axios.get(
+        'http://localhost:5050/api/student/details'
+      );
+      console.log(fetchedData);
+    };
+    getData();
+  }, []);
 
   return (
     <Container Id='userForm'>
