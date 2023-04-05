@@ -4,7 +4,7 @@ import { ColumnTitles, UsersContainer, UserDetails, Status } from '../styled';
 
 import Loader from '@/components/Loader';
 
-function List({ data, area, filter }) {
+function List({ data, area, filter, viewStatement }) {
   return (
     <>
       <ColumnTitles>
@@ -25,7 +25,7 @@ function List({ data, area, filter }) {
             const { first, last } = userdata.name;
 
             return (
-              <UserDetails key={username}>
+              <UserDetails key={username} onClick={() => viewStatement()}>
                 <p>{username}</p>
                 <p>{first}</p>
                 <p>{last}</p>
