@@ -1,20 +1,9 @@
 import React from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
-function MainForm() {
-  return (
-    <Container>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla faucibus,
-      orci at aliquam semper, massa augue accumsan nunc, ac consequat metus orci
-      vitae justo. Curabitur magna diam, auctor sit amet augue sed, gravida
-      sollicitudin justo. Duis eget odio quis odio commodo varius non at erat.
-      Maecesi sapien, tincidunt at vehicula ultrices, tellus urna tincidunt
-      mauris, et pulvinar lacus eros et turpis. odio quis odio commodo varius
-      non at erat. Maecesi sapien, tincidunt at vehicula ultrices, tellus urna
-      tincidunt mauris, et pulvinar lacus eros et turpis. odio quis odio commodo
-      varius non at erat. Maecesi sapien, tincidunt at vehicula ultrices, tellus
-      urna tincidunt mauris, et pulvinar lacus eros et turpis.
-    </Container>
-  );
+
+function MainForm(props) {
+  return <Container>{props.content}</Container>;
 }
 
 export default MainForm;

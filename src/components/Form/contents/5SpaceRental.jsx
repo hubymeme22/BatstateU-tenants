@@ -12,19 +12,19 @@ function SpaceRental(props) {
       <Border>
         <Divider>CURRENT ADD</Divider>{' '}
         <SChild>
-          <Divider first="first">AMOUNT</Divider>
+          <Divider first='first'>AMOUNT</Divider>
           <Divider>DUE DATE</Divider>
         </SChild>
         <SChild>
-          <Divider first="first">₱ {props.amount}</Divider>
+          <Divider first='first'>₱ {props.amount}</Divider>
           <Divider>
             {props.month}/{props.day}/{props.year}
           </Divider>
         </SChild>
       </Border>
-      <Border last="last">
+      <Border last='last'>
         <TChild>AMOUNT DUE</TChild>
-        <FChild top="top"> ₱ {props.total}</FChild>
+        <FChild top='top'> ₱ {props.total}</FChild>
       </Border>
     </Grid>
   );

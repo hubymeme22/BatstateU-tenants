@@ -29,3 +29,7 @@ export const billingInitialState = {
     totalBalance: 0,
   },
 };
+export const notificationInit = {
+  subject: '',
+  message: '',
+};
