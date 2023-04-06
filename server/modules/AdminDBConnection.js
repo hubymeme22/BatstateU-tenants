@@ -500,6 +500,8 @@ export class AdminMongoDBConnection extends MongoDBConnection {
             .then(unpaidBills => {
                 // format the data into single report
                 const reportFormat = {
+                    roomID: '',
+                    roomRentalFee: 0,
                     space: {
                         previousBalance: 0,
                         currentBalance: 0,
@@ -531,9 +533,16 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                     reportFormat.utility.currentBalance = user.cost;
                     reportFormat.utility.totalBalance = user.cost;
 
+                    reportFormat.roomRentalFee = currentBill.roomPayment;
                     reportFormat.dueDate = currentBill.dueDate;
+                    reportFormat.roomID = currentBill.slot;
+
                     return this.acceptCallback(reportFormat);
                 }
+
+                const latestBillingCopy = unpaidBills[unpaidBills.length - 1];
+                reportFormat.roomRentalFee = latestBillingCopy.roomPayment;
+                reportFormat.roomID = latestBillingCopy.slot;
 
                 // generate the correct billings and apply the 5% charges
                 for (let i = 1; i < unpaidBills.length; i++) {
