@@ -3,7 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 
 function MainForm(props) {
-  return <Container>{props.content}</Container>;
+  return <Container>{props.content} </Container>;
 }
 
 export default MainForm;

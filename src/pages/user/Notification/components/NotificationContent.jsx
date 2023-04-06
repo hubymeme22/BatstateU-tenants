@@ -3,7 +3,7 @@ import { Container } from '../Styled';
 import FromTo from './FromTo';
 import MainForm from './MainForm';
 import axios from 'axios';
-
+import NothingtoShow from './NothingtoShow';
 function NotificationContent() {
   const [notif, setNotif] = React.useState({ subject: '', message: '' });
   React.useEffect(() => {
@@ -15,11 +15,18 @@ function NotificationContent() {
     };
     getData();
   }, []);
+  console.log(notif);
   return (
-    <Container>
-      <FromTo subj={notif.subject} />
-      <MainForm content={notif.message} />
-    </Container>
+    <>
+      {notif.subject === '' || notif.message === '' ? (
+        <NothingtoShow />
+      ) : (
+        <Container>
+          <FromTo subj={notif.subject} />
+          <MainForm content={notif.message} />
+        </Container>
+      )}
+    </>
   );
 }
 
