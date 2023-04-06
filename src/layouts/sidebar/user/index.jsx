@@ -1,18 +1,30 @@
 import React from 'react';
 import styled from 'styled-components';
 // Styled-components
+
 import { Title, LineBreak } from '../styled';
 import { Nav, NavLink, Button } from '../styled';
-
+import { useContext } from 'react';
 // Icons
 import { FaUsers } from 'react-icons/fa';
 import { BsEnvelopePaperFill } from 'react-icons/bs';
 import { IoNotificationsSharp } from 'react-icons/io5';
-
+import { FaExclamation } from 'react-icons/fa';
 // Hooks
 import { useAuth } from '../../../hooks/useAuth';
+import axios from 'axios';
 
 export function Sidebar() {
+  const [notif, setNotif] = React.useState({ subject: '', message: '' });
+  React.useEffect(() => {
+    const getData = async () => {
+      const fetchedData = await axios.get(
+        'http://localhost:5050/api/student/announcement'
+      );
+      setNotif(fetchedData.data);
+    };
+    getData();
+  }, []);
   const auth = useAuth();
 
   return (
@@ -28,6 +40,7 @@ export function Sidebar() {
           </NavLink>
 
           <NavLink to='/notification'>
+            {notif.subject || notif.message === '' ? null : <Exclamation />}
             <IoNotificationsSharp />
             Notification
           </NavLink>
@@ -70,4 +83,11 @@ const StyledSidebar = styled.aside`
     align-items: center;
     gap: 1em;
   }
+`;
+
+const Exclamation = styled(FaExclamation)`
+  width: 9px;
+  height: 10px;
+  color: red;
+  margin: -11.5px;
 `;

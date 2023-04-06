@@ -15,7 +15,7 @@ function NotificationContent() {
     };
     getData();
   }, []);
-  console.log(notif);
+
   return (
     <>
       {notif.subject === '' || notif.message === '' ? (
@@ -24,6 +24,7 @@ function NotificationContent() {
         <Container>
           <FromTo subj={notif.subject} />
           <MainForm content={notif.message} />
+          <button>CLEAR FORM</button>
         </Container>
       )}
     </>

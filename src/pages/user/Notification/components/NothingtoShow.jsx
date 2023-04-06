@@ -5,7 +5,7 @@ function NothingtoShow() {
   return (
     <NotifContainer>
       <Container>
-        <h1>NO NOTIFICATIONS TO SHOW</h1>
+        <h1>NO ANNOUNCEMENTS TO SHOW</h1>
       </Container>
     </NotifContainer>
   );
