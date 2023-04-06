@@ -32,6 +32,9 @@ function Form() {
     };
     getData();
   }, []);
+
+  console.log(userInfo, userBillings);
+
   return (
     <FormContainer>
       <FormContent userInfo={userInfo} userBillings={userBillings} />

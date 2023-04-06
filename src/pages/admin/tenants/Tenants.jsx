@@ -56,6 +56,8 @@ function Tenants() {
     const { username } = userData;
     const { first, middle, last } = userData.name;
 
+    console.log(userData);
+
     // Retrieve billing report
     const billings = await fetchAsAdmin(`billing/report/${username}`);
 

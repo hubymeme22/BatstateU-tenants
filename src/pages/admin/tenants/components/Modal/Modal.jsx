@@ -1,11 +1,6 @@
 import React from 'react';
 
-import {
-  Button,
-  ModalStyling,
-  StyledModalStatement,
-  Watermark,
-} from './styled';
+import { Button, ModalStyling, StyledModalStatement } from './styled';
 
 import FormContent from '../../../../../components/Form/FormContent';
 
@@ -20,8 +15,6 @@ function ModalStatement(props) {
       style={ModalStyling}
     >
       <FormContent userInfo={userInfo} userBillings={userBillings} />
-
-      {/* <Watermark /> */}
 
       <Button>Mark as Paid</Button>
     </StyledModalStatement>

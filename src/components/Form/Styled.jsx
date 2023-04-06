@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+  position: relative;
   /* height: 715px; */
   min-width: 90%;
   border-bottom: 1px solid;
@@ -68,4 +69,19 @@ export const TChild = styled(SChild)`
   border-top: none;
   display: flex;
   justify-content: center;
+`;
+
+export const Watermark = styled.h1`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-40deg);
+  opacity: 0.2;
+  font-size: 150px;
+  font-weight: bold;
+  pointer-events: none;
+
+  &::before {
+    content: 'PAID';
+  }
 `;

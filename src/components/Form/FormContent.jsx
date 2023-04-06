@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Container } from './Styled';
+import { Container, Watermark } from './Styled';
 
 import Header from './contents/1Header';
 import ControlNum from './contents/2ControlNum';
@@ -51,6 +51,8 @@ function FormContent(props) {
       />
       <Note />
       <FormSig />
+
+      {space.totalBalance + utility.totalBalance == 0 ? <Watermark /> : null}
     </Container>
   );
 }

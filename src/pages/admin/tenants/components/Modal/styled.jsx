@@ -46,18 +46,3 @@ export const Button = styled.button`
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 `;
-
-export const Watermark = styled.h1`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(-40deg);
-  opacity: 0.2;
-  font-size: 150px;
-  font-weight: bold;
-  pointer-events: none;
-
-  &::before {
-    content: 'PAID';
-  }
-`;
