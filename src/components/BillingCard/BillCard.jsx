@@ -84,7 +84,10 @@ function BillingCard({ tenants, roomDetails, toggleInvoice, toggleModal }) {
     };
 
     const response = await createBilling(roomDetails.slot, postData);
-    // TODO: Redirect to dashboard if successful
+
+    if (response.data.error == '') {
+      toggleInvoice();
+    }
   };
 
   const handleChange = (e) => {

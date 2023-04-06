@@ -57,7 +57,7 @@ export const fetchAsAdmin = async (route) => {
 // Dashboard - Creating invoice
 export const createBilling = async (room, billingInformation) => {
   return await axios
-    .post(`admin/billing/${room}`, billingInformation)
+    .post(`admin/billing/multiple/${room}`, billingInformation)
     .then((response) => {
       return response;
     })
@@ -65,5 +65,41 @@ export const createBilling = async (room, billingInformation) => {
       console.log(error);
     });
 };
+
+export const markAsPaid = async () => {
+  return await axios
+    .post(`/admin/students/pay/${username}`)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+// PUT REQUEST
+export const verifyStudent = async (username) => {
+  return await axios
+    .put(`/admin/students/verify/${username}`)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const unverifyStudent = async (username) => {
+  return await axios
+    .put(`/admin/students/unverify/${username}`)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+// DELETE REQUEST
 
 /* ---------- STUDENTS ---------- */
