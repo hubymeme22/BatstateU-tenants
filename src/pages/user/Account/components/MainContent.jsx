@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import Loader from '../../../../components/Loader';
+
+import {
+  getStudentDetails,
+  updateAccountInfo,
+} from '../../../../services/request';
+
 function MainContent() {
   const [firstName, firstNameSet] = useState('');
   const [lastName, lastNameSet] = useState('');
@@ -13,14 +18,12 @@ function MainContent() {
 
   useEffect(() => {
     const getData = async () => {
-      const fetchedData = await axios.get(
-        'http://localhost:5050/api/student/details'
-      );
+      const fetchedData = await getStudentDetails();
+
       firstNameSet(fetchedData.data.userinfo.details.name.first);
       lastNameSet(fetchedData.data.userinfo.details.name.last);
       setContact(fetchedData.data.userinfo.contact);
       SetSrCode(fetchedData.data.userinfo.email);
-      console.log(fetchedData);
     };
     getData();
   }, []);
@@ -29,8 +32,9 @@ function MainContent() {
   const extracted = SrCode.substring(0, 8);
 
   //SUBMIT FUNCTION
-  function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const V = {
       first: /^[a-zA-ZñÑ]{2,10}(?: [a-zA-ZñÑ]+)?$/gi,
       middle: /^[a-zA-ZñÑ]{2,10}(?: [a-zA-ZñÑ]+)?$/gi,
@@ -55,34 +59,32 @@ function MainContent() {
     } else if (password !== confirmPassword) {
       setMessage("Password Don't Match!");
     } else {
-      axios
-        .post('http://localhost:5050/api/student/update-info', {
-          token:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyZGF0YSI6eyJkZXRhaWxzIjp7Im5hbWUiOnsiZmlyc3QiOiJIdWJlcnQiLCJtaWRkbGUiOiJGb2xpZW50ZSIsImxhc3QiOiJFc3Bpbm9sYSJ9fSwiX2lkIjoiNjQyNDVhZGFkZDAwYzJkZTY1YmRlZWFkIiwidXNlcm5hbWUiOiIyMC0wNTg0NSIsImVtYWlsIjoiMjAtMDU4NDVAZy5iYXRzdGF0ZS11LmVkdS5waCIsInBhc3N3b3JkIjoib2ggbm8sIHdoeSB1IGxvb2tpbj8iLCJjb250YWN0IjoiKzkzOTM5NDY4MTM0NyIsImFjY2VzcyI6InN0dWRlbnQiLCJ2ZXJpZmllZCI6dHJ1ZSwicm9vbSI6IjY0MjQ1YjA1ZGQwMGMyZGU2NWJkZWVhZiIsIl9fdiI6MH0sImlhdCI6MTY4MDM3MDQ4NX0.d2mFd17SprZlcRqHKRgKLbiiYEL1R6iAHjq1sTzv_HQ',
-          firstname: firstName,
-          lastname: lastName,
-          contact: contact,
-          password: password,
-        })
-        .then((response) => console.log(response))
-        .catch((err) => console.log(err));
+      const userData = {
+        token: getTokenCookie(),
+        firstname: firstName,
+        lastname: lastName,
+        contact: contact,
+        password: password,
+      };
+
+      const response = await updateAccountInfo(data);
 
       return alert(
         'thankyou for filling up please wait for the admin confirmation!'
       );
     }
-  }
+  };
 
   function clearForm() {
     const getData = async () => {
-      const fetchedData = await axios.get(
-        'http://localhost:5050/api/student/details'
-      );
+      const fetchedData = await getStudentDetails();
+
       firstNameSet(fetchedData.data.userinfo.details.name.first);
       lastNameSet(fetchedData.data.userinfo.details.name.last);
       setContact(fetchedData.data.userinfo.contact);
       SetSrCode(fetchedData.data.userinfo.email);
     };
+
     getData();
   }
   function cancel() {
@@ -105,10 +107,10 @@ function MainContent() {
             <div>
               <Content>First Name</Content>
               <Contents
-                type='text'
-                placeholder='Click to edit'
+                type="text"
+                placeholder="Click to edit"
                 value={firstName}
-                name='firstName'
+                name="firstName"
                 onChange={(e) => firstNameSet(e.target.value)}
                 required
               />
@@ -116,10 +118,10 @@ function MainContent() {
             <div>
               <Content>Last Name</Content>
               <Contents
-                type='text'
-                placeholder='Click to edit'
+                type="text"
+                placeholder="Click to edit"
                 value={lastName}
-                name='lastName'
+                name="lastName"
                 onChange={(e) => lastNameSet(e.target.value)}
                 required
               />
@@ -127,9 +129,9 @@ function MainContent() {
             <div>
               <Content>Contact Number</Content>
               <Contents
-                placeholder='Click to edit'
+                placeholder="Click to edit"
                 value={contact}
-                name='contact'
+                name="contact"
                 onChange={(e) => setContact(e.target.value)}
                 required
               />
@@ -137,10 +139,10 @@ function MainContent() {
             <div>
               <Content>Password</Content>
               <Contents
-                type='password'
-                placeholder='Click to change Password'
+                type="password"
+                placeholder="Click to change Password"
                 value={password}
-                name='password'
+                name="password"
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
@@ -148,10 +150,10 @@ function MainContent() {
             <div>
               <Content>Confirm Password</Content>
               <Contents
-                type='password'
-                placeholder='Click to change Password'
+                type="password"
+                placeholder="Click to change Password"
                 value={confirmPassword}
-                name='confirmPassword'
+                name="confirmPassword"
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
@@ -165,16 +167,16 @@ function MainContent() {
               <Read>ROOM 4A</Read>
             </div>
             <div>
-              <Content last='last'>Status</Content>
-              <Read last='last'>Happily Married</Read>
+              <Content last="last">Status</Content>
+              <Read last="last">Happily Married</Read>
             </div>
           </Divide>
           <Error>{message}</Error>
           <Cont>
-            <Button type='button' onClick={clearForm}>
+            <Button type="button" onClick={clearForm}>
               Reset Form
             </Button>
-            <Button color='green'>Confirm</Button>
+            <Button color="green">Confirm</Button>
           </Cont>
         </Container>
       )}
@@ -184,7 +186,7 @@ function MainContent() {
 
 export default MainContent;
 const Error = styled.p`
-  font-sizs: 12px;
+  font-size: 12px;
   color: red;
 `;
 

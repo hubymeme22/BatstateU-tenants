@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
 import { Container } from '../Styled';
+
 import FromTo from './FromTo';
 import MainForm from './MainForm';
-import axios from 'axios';
 import NothingtoShow from './NothingtoShow';
+
+import { getStudentAnnouncements } from '../../../../services/request';
+
 function NotificationContent() {
-  const [notif, setNotif] = React.useState({ subject: '', message: '' });
-  React.useEffect(() => {
+  const [notif, setNotif] = useState({ subject: '', message: '' });
+
+  useEffect(() => {
     const getData = async () => {
-      const fetchedData = await axios.get(
-        'http://localhost:5050/api/student/announcement'
-      );
+      const fetchedData = await getStudentAnnouncements();
       setNotif(fetchedData.data);
     };
     getData();

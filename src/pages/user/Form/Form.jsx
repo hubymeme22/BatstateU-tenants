@@ -5,7 +5,14 @@ import styled from 'styled-components';
 import FormContent from '../../../components/Form/FormContent';
 import Download from './components/Download';
 
-import { userInitialState, billingInitialState } from '../../../data/FormState';
+import {
+  userInitialState,
+  billingInitialState,
+} from '../../../services/format/FormState';
+import {
+  getStudentBilligns,
+  getStudentDetails,
+} from '../../../services/request';
 
 function Form() {
   const [userInfo, setUserInfo] = useState(userInitialState);
@@ -14,9 +21,7 @@ function Form() {
   // Fetch Student details
   React.useEffect(() => {
     const getData = async () => {
-      const fetchedData = await axios.get(
-        'http://localhost:5050/api/student/details'
-      );
+      const fetchedData = await getStudentDetails();
       setUserInfo(fetchedData.data.userinfo);
     };
     getData();
@@ -25,9 +30,7 @@ function Form() {
   // Fetch student billings
   React.useEffect(() => {
     const getData = async () => {
-      const fetchedData = await axios.get(
-        'http://localhost:5050/api/student/billing/finalized'
-      );
+      const fetchedData = await getStudentBilligns();
       setUserBillings(fetchedData.data.billing);
     };
     getData();

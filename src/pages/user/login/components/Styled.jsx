@@ -38,8 +38,6 @@ export const Wrapper = styled.div`
       props.switch !== true
         ? `
     transform: rotateY(360deg);
-   
-   
     opacity: 1;
   `
         : null}

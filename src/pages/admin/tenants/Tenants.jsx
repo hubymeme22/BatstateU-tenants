@@ -9,7 +9,11 @@ import List from './components/List';
 import ModalStatement from './components/Modal/Modal';
 
 // Utils
-import { userInitialState, billingInitialState } from '@/data/FormState';
+import {
+  userInitialState,
+  billingInitialState,
+} from '../../../services/format/FormState';
+
 import { fetchAsAdmin } from '../../../services/request';
 
 function Tenants() {

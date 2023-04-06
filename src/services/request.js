@@ -50,7 +50,7 @@ export const createBilling = async (room, billingInformation) => {
 // Tenants
 export const markAsPaid = async (username) => {
   return await axios
-    .put(`/admin/students/pay/${username}`)
+    .put(`admin/students/pay/${username}`)
     .then((response) => response)
     .catch((error) => {});
 };
@@ -59,14 +59,14 @@ export const markAsPaid = async (username) => {
 // User page
 export const verifyStudent = async (username) => {
   return await axios
-    .put(`/admin/students/verify/${username}`)
+    .put(`admin/students/verify/${username}`)
     .then((response) => response)
     .catch((error) => {});
 };
 
 export const unverifyStudent = async (username) => {
   return await axios
-    .put(`/admin/students/unverify/${username}`)
+    .put(`admin/students/unverify/${username}`)
     .then((response) => response)
     .catch((error) => {});
 };
@@ -75,9 +75,44 @@ export const unverifyStudent = async (username) => {
 
 export const deleteAccount = async (roomID, username) => {
   return await axios
-    .delete(`/admin/billing/${roomID}/${username}`)
+    .delete(`admin/billing/${roomID}/${username}`)
     .then((response) => response)
     .catch((error) => {});
 };
 
 /* ---------- STUDENTS ---------- */
+
+export const getStudentDetails = async () => {
+  return await axios
+    .get('/student/details')
+    .then((response) => response)
+    .catch((error) => {});
+};
+
+export const getStudentBilligns = async () => {
+  return await axios
+    .get('/student/billing/finalized')
+    .then((response) => response)
+    .catch((error) => {});
+};
+
+export const registerStudent = async (data) => {
+  return await axios
+    .post('register/student', data)
+    .then((response) => response)
+    .catch((error) => {});
+};
+
+export const updateAccountInfo = async (data) => {
+  return await axios
+    .post('student/update-info', data)
+    .then((response) => response)
+    .catch((error) => {});
+};
+
+export const getStudentAnnouncements = async () => {
+  return await axios
+    .get('student/announcement')
+    .then((response) => response)
+    .catch((error) => {});
+};
