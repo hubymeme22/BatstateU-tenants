@@ -48,6 +48,7 @@ export const Border = styled.div`
   flex-direction: column;
 `;
 export const FChild = styled.div`
+  padding-top: 1px;
   flex: 2;
   display: flex;
   justify-content: center;

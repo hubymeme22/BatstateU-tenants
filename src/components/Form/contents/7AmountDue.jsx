@@ -34,5 +34,5 @@ const Child = styled.div`
 const SChild = styled.div`
   flex: 2;
   text-align: end;
-  padding-right: 3px;
+  padding-right: 5px;
 `;
