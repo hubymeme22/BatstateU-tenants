@@ -792,8 +792,11 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                             const latestBill = user.room.bills[user.room.bills.length - 1];
                             const userbill = latestBill.users.find(item => item.username === user.username);
 
-                            if (!userbill)
-                                return newDataFormat.status = 'unavailable';
+                            if (!userbill) {
+                                newDataFormat.status = 'unavailable';
+                                dataFormat.push(newDataFormat);
+                                return;
+                            }
 
                             if (userbill.paid) newDataFormat.status = 'paid';
                             else newDataFormat.status = 'unpaid';
