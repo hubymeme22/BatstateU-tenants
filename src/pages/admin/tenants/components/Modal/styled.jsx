@@ -26,6 +26,7 @@ export const StyledModalStatement = styled(ReactModal)`
   border-radius: 5px;
   outline: 0;
   gap: 1rem;
+  height: 821px;
 
   @media screen and (max-height: 800px) {
     height: 90vh;
