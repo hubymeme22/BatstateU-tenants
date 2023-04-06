@@ -4,12 +4,16 @@ import { InputContainer, StyledHeader } from '../styled';
 
 import { FiFilter, FiSearch } from 'react-icons/fi';
 
-function Header({ area, changeArea, filterBy }) {
+function Header(props) {
+  const { area, searchText } = props;
+  const { changeArea, filterBy, handleSearch } = props;
+
   return (
     <StyledHeader>
       <h1>{area}</h1>
 
       <div>
+        {/* Select Area  */}
         <InputContainer>
           <label htmlFor=""> Area: </label>
           <select
@@ -18,17 +22,18 @@ function Header({ area, changeArea, filterBy }) {
             value={area}
             onChange={(e) => changeArea(e.target.value)}
           >
-            <option value="Tenants">All</option>
+            <option value="">All</option>
             <option value="Dormitory">Dorm</option>
             <option value="Canteen">Canteen</option>
           </select>
         </InputContainer>
 
+        {/* Filter By */}
         <InputContainer>
           <label htmlFor="">Filter By: </label>
 
           <select name="" id="" onChange={(e) => filterBy(e.target.value)}>
-            <option value="null" defaultValue>
+            <option value="" defaultValue>
               None
             </option>
             <option value="paid">Paid</option>
@@ -36,8 +41,14 @@ function Header({ area, changeArea, filterBy }) {
           </select>
         </InputContainer>
 
+        {/* Search Bar */}
         <InputContainer>
-          <input type="text" placeholder="search" />
+          <input
+            type="text"
+            placeholder="Search tenant"
+            value={searchText}
+            onChange={(e) => handleSearch(e)}
+          />
           <FiSearch />
         </InputContainer>
       </div>

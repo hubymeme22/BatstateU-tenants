@@ -1,30 +1,59 @@
 import React, { useEffect, useState } from 'react';
 
-import { tenantsLoader } from '../../../services/loaders';
+import { ColumnTitles, Container } from './styled';
 
 // components
 import Header from './components/Header';
-import { Container } from './styled';
 import List from './components/List';
 import ModalStatement from './components/Modal/Modal';
+import Loader from '../../../components/Loader';
 
 // Utils
+import { searchUser } from '../../../utils/search';
+
 import {
   userInitialState,
   billingInitialState,
 } from '../../../services/format/FormState';
-
+import { tenantsLoader } from '../../../services/loaders';
 import { fetchAsAdmin } from '../../../services/request';
 
 function Tenants() {
-  const [allTenants, setAllTenants] = useState({});
+  const [allTenants, setAllTenants] = useState([]);
   const [area, setArea] = useState('Tenants');
   const [filter, setFilter] = useState(null);
 
+  // Used for searching
+  const [searchText, setSearchText] = useState('');
+  const [matchedUsers, setMatchedUsers] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(true);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
+  // Used for modal
   const [userInfo, setUserInfo] = useState(userInitialState);
   const [userBillings, setUserBillings] = useState(billingInitialState);
+
+  // Get list of tenants on first load
+  useEffect(() => {
+    fetchRecords();
+  }, []);
+
+  useEffect(() => {
+    if (searchText.trim() == '') {
+      setMatchedUsers(allTenants);
+      return;
+    }
+
+    const matchedUsers = searchUser(searchText, allTenants);
+    setMatchedUsers(matchedUsers);
+  }, [searchText]);
+
+  const fetchRecords = async () => {
+    const data = await tenantsLoader();
+    setAllTenants(data.details);
+    setMatchedUsers(data.details);
+  };
 
   const changeArea = (area) => {
     setArea(area);
@@ -34,15 +63,10 @@ function Tenants() {
     setFilter(status);
   };
 
-  // Get list of tenants on first load
-  useEffect(() => {
-    const fetchRecords = async () => {
-      const data = await tenantsLoader();
-      setAllTenants(data.details);
-    };
-
-    fetchRecords();
-  }, []);
+  const handleSearch = (e) => {
+    const keyword = e.target.value;
+    setSearchText(keyword);
+  };
 
   const toggleModal = () => {
     setModalIsOpen(!modalIsOpen);
@@ -76,18 +100,42 @@ function Tenants() {
         },
       },
     });
+
+    setIsLoading(false);
   };
 
   return (
     <>
       <Container>
-        <Header area={area} changeArea={changeArea} filterBy={filterBy} />
-        <List
-          data={allTenants}
+        <Header
           area={area}
-          filter={filter}
-          viewStatement={viewStatement}
+          changeArea={changeArea}
+          filterBy={filterBy}
+          searchText={searchText}
+          handleSearch={handleSearch}
         />
+
+        <ColumnTitles>
+          <p>SR-CODE</p>
+          <p>First Name</p>
+          <p>Last Name</p>
+          <p>Contact</p>
+          <p>Unit Number</p>
+          <p>Status</p>
+        </ColumnTitles>
+
+        <hr />
+
+        {!isLoading || allTenants.length != 0 ? (
+          <List
+            data={matchedUsers}
+            area={area}
+            filter={filter}
+            viewStatement={viewStatement}
+          />
+        ) : (
+          <Loader />
+        )}
       </Container>
 
       <ModalStatement

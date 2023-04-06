@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 
-import { Container } from './styled';
+import { Container, ColumnTitles } from './styled';
 
 import Header from './components/Header';
 
 import { usersLoader } from '../../../services/loaders';
 import { searchUser } from '../../../utils/search';
 import UsersList from './components/UsersList';
+import Loader from '../../../components/Loader';
 
 function Users() {
   const [users, setUsers] = useState([]);
   const [category, setCategory] = useState('student');
   const [filterBy, setFilterBy] = useState('');
+
+  const [isLoading, setIsLoading] = useState(true);
 
   //
   const [searchText, setSearchText] = useState('');
@@ -36,6 +39,7 @@ function Users() {
     const data = await usersLoader();
     setUsers(data.details);
     setMatchedUsers(data.details);
+    setIsLoading(false);
   };
 
   const changeCategory = (value) => {
@@ -62,7 +66,22 @@ function Users() {
           handleSearch={handleSearch}
         ></Header>
 
-        <UsersList list={matchedUsers} />
+        <ColumnTitles>
+          <p>SR-CODE</p>
+          <p>First Name</p>
+          <p>Last Name</p>
+          <p>Contact</p>
+          <p>Verified</p>
+          <p>Unit Number</p>
+        </ColumnTitles>
+
+        <hr />
+
+        {!isLoading || users.length != 0 ? (
+          <UsersList list={matchedUsers} />
+        ) : (
+          <Loader />
+        )}
       </Container>
     </>
   );
