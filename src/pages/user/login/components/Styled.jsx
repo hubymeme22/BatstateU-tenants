@@ -62,12 +62,11 @@ export const Wrapper = styled.div`
 export const ComponentContainer = styled.div`
   transition: all 0.6s ease-in-out;
 
+  width: 100%;
+
   margin: 0;
   padding: 30px;
   color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 export const Title = styled.h1`
