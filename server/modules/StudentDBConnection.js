@@ -52,6 +52,7 @@ export class StudentDBConnection extends MongoDBConnection {
             const reportFormat = {
                 roomID: '',
                 roomRentalFee: 0,
+                isPaid: false,
                 space: {
                     previousBalance: 0,
                     currentBalance: 0,
@@ -69,7 +70,10 @@ export class StudentDBConnection extends MongoDBConnection {
                 }
             };
 
-            if (unpaidBills.length == 0) return this.acceptCallback(reportFormat);
+            if (unpaidBills.length == 0) {
+                reportFormat.isPaid = true;
+                return this.acceptCallback(reportFormat);
+            }
             if (unpaidBills.length == 1) {
                 const currentBill = unpaidBills[0];
                 const user = currentBill.users.find(item => item.username == this.userTokenData.username);
