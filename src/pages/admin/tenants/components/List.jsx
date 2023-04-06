@@ -25,7 +25,10 @@ function List({ data, area, filter, viewStatement }) {
             const { first, last } = userdata.name;
 
             return (
-              <UserDetails key={username} onClick={() => viewStatement()}>
+              <UserDetails
+                key={username}
+                onClick={() => viewStatement(userdata)}
+              >
                 <p>{username}</p>
                 <p>{first}</p>
                 <p>{last}</p>

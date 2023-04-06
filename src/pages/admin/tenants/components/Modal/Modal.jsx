@@ -5,6 +5,7 @@ import FormContent from '../../../../../components/Form/FormContent';
 
 function ModalStatement(props) {
   const { isOpen, toggleModal } = props;
+  const { userInfo, userBillings } = props;
 
   return (
     <StyledModalStatement
@@ -12,9 +13,9 @@ function ModalStatement(props) {
       onRequestClose={toggleModal}
       style={ModalStyling}
     >
-      <FormContent />
+      <FormContent userInfo={userInfo} userBillings={userBillings} />
 
-      <Watermark />
+      {/* <Watermark /> */}
     </StyledModalStatement>
   );
 }

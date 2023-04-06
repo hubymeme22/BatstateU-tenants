@@ -5,37 +5,7 @@ import styled from 'styled-components';
 import FormContent from '../../../components/Form/FormContent';
 import Download from './components/Download';
 
-const userInitialState = {
-  contact: '',
-  details: {
-    name: {
-      first: '',
-      middle: '',
-      last: '',
-    },
-  },
-  email: '',
-};
-
-const billingInitialState = {
-  dueDate: {
-    month: '',
-    day: '',
-    year: '',
-  },
-  roomID: '',
-  roomRentalFee: 0,
-  space: {
-    currentBalance: 0,
-    previousBalance: 0,
-    totalBalance: 0,
-  },
-  utility: {
-    currentBalance: 0,
-    previousBalance: 0,
-    totalBalance: 0,
-  },
-};
+import { userInitialState, billingInitialState } from '../../../data/FormState';
 
 function Form() {
   const [userInfo, setUserInfo] = useState(userInitialState);
