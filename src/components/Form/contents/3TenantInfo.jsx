@@ -12,7 +12,7 @@ function TenantInfo(props) {
 
         <Child>BILLING PERIOD: </Child>
       </Blocks>
-      <Blocks>MONTHLY RENTAL: {props.rent}</Blocks>
+      <Blocks>MONTHLY RENTAL: ₱ {props.rent}</Blocks>
     </Table>
   );
 }

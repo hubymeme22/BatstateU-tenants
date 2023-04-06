@@ -6,12 +6,14 @@ function AmountDue(props) {
 
   return (
     <Blocks>
-      <SChild></SChild>
-      <Child>TOTAL AMOUNT DUE: {spaceTotal + utilityTotal}</Child>
+      <SChild>TOTAL AMOUNT DUE: </SChild>
+      <Child>₱ {spaceTotal + utilityTotal}</Child>
     </Blocks>
   );
 }
+
 export default AmountDue;
+
 const Blocks = styled.div`
   padding-left: 2px;
   width: 100%;
@@ -21,10 +23,16 @@ const Blocks = styled.div`
   display: flex;
   font-size: 15px;
 `;
+
 const Child = styled.div`
   border-left: 1px solid;
+  padding-left: 3px;
   flex: 1;
+  text-align: center;
 `;
+
 const SChild = styled.div`
   flex: 2;
+  text-align: end;
+  padding-right: 3px;
 `;

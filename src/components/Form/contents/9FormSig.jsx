@@ -4,7 +4,7 @@ function FormSig() {
   return (
     <Table>
       <Blocks>
-        <Divider bottom='bottom'>
+        <Divider bottom="bottom">
           <Name>Prepared by:</Name>
           <Name>Date:</Name>
         </Divider>
@@ -14,7 +14,7 @@ function FormSig() {
         </Divider>
       </Blocks>
       <Blocks>
-        <Divider bottom='bottom'>
+        <Divider bottom="bottom">
           <Name>Checked and verify by: </Name>
           <Name>Date:</Name>
         </Divider>
@@ -34,6 +34,13 @@ const Table = styled.div`
   border-top: none;
   border-bottom: none;
   display: flex;
+
+  & > div:nth-child(1) {
+  }
+
+  & > div:nth-child(2) {
+    border-right: 0;
+  }
 `;
 const Blocks = styled.div`
   flex: 1;
