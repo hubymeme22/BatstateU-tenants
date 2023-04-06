@@ -3,6 +3,12 @@ import React from 'react';
 import { Button, ModalStyling, StyledModalStatement } from './styled';
 
 import FormContent from '../../../../../components/Form/FormContent';
+import Loader from '../../../../../components/Loader';
+
+import {
+  userInitialState,
+  billingInitialState,
+} from '../../../../../data/FormState';
 
 function ModalStatement(props) {
   const { isOpen, toggleModal } = props;
@@ -14,8 +20,11 @@ function ModalStatement(props) {
       onRequestClose={toggleModal}
       style={ModalStyling}
     >
-      <FormContent userInfo={userInfo} userBillings={userBillings} />
-
+      {userInfo != userInitialState || userBillings != billingInitialState ? (
+        <FormContent userInfo={userInfo} userBillings={userBillings} />
+      ) : (
+        <Loader />
+      )}
       <Button>Mark as Paid</Button>
     </StyledModalStatement>
   );
