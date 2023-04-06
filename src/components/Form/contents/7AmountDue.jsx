@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-function AmountDue() {
+function AmountDue(props) {
+  const { spaceTotal, utilityTotal } = props;
+
   return (
     <Blocks>
       <SChild></SChild>
-      <Child>TOTAL AMOUNT DUE: </Child>
+      <Child>TOTAL AMOUNT DUE: {spaceTotal + utilityTotal}</Child>
     </Blocks>
   );
 }

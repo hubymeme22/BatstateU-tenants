@@ -1,15 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import BSU from '../assets/BSU.svg';
-function Header(props) {
+import BSU from '../../../assets/BSU.svg';
+
+function Header() {
   return (
     <Table>
-      <SmallBlocks logo='logo'>
+      <SmallBlocks logo="logo">
         <BSULOGO src={BSU}></BSULOGO>
       </SmallBlocks>
       <Blocks>Reference Number: BatStateU-Fo-RGO-13</Blocks>
       <Blocks>Effectivity Data: February 06, 2023</Blocks>
-      <SmallBlocks left='left'>Revision No: 01</SmallBlocks>
+      <SmallBlocks left="left">Revision No: 01</SmallBlocks>
     </Table>
   );
 }

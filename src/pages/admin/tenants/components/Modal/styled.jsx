@@ -35,7 +35,7 @@ export const Watermark = styled.h1`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(-40deg);
-  opacity: 0.25;
+  opacity: 0.2;
   font-size: 150px;
   font-weight: bold;
   pointer-events: none;

@@ -1,10 +1,12 @@
 import React from 'react';
-import { Blocks, Table, Title } from '../Styled';
 import styled from 'styled-components';
+
+import { Blocks, Table, Title } from '../Styled';
+
 function ControlNum() {
   return (
     <Table>
-      <Title bold='bold'>STATEMENT OF ACCOUNT (SPACE RENTAL)</Title>
+      <Title bold="bold">STATEMENT OF ACCOUNT (SPACE RENTAL)</Title>
       <Blocks>
         <SChild></SChild>
         <Child> Control No:</Child>

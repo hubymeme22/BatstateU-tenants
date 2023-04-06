@@ -1,27 +1,88 @@
-import React from 'react';
-import Loader from '@/components/Loader';
 import axios from 'axios';
-import FormContent from './components/FormContent';
-import { FormContainer } from './Styled';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+
+import FormContent from '../../../components/Form/FormContent';
 import Download from './components/Download';
+
+const userInitialState = {
+  contact: '',
+  details: {
+    name: {
+      first: '',
+      middle: '',
+      last: '',
+    },
+  },
+  email: '',
+};
+
+const billingInitialState = {
+  dueDate: {
+    month: '',
+    day: '',
+    year: '',
+  },
+  roomID: '',
+  roomRentalFee: 0,
+  space: {
+    currentBalance: 0,
+    previousBalance: 0,
+    totalBalance: 0,
+  },
+  utility: {
+    currentBalance: 0,
+    previousBalance: 0,
+    totalBalance: 0,
+  },
+};
+
 function Form() {
+  const [userInfo, setUserInfo] = useState(userInitialState);
+  const [userBillings, setUserBillings] = useState(billingInitialState);
+
+  // Fetch Student details
   React.useEffect(() => {
-    axios
-      .get('http://localhost:5050/api/student/billing/finalized')
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const getData = async () => {
+      const fetchedData = await axios.get(
+        'http://localhost:5050/api/student/details'
+      );
+      setUserInfo(fetchedData.data.userinfo);
+    };
+    getData();
   }, []);
 
+  // Fetch student billings
+  React.useEffect(() => {
+    const getData = async () => {
+      const fetchedData = await axios.get(
+        'http://localhost:5050/api/student/billing/finalized'
+      );
+      setUserBillings(fetchedData.data.billing);
+    };
+    getData();
+  }, []);
   return (
     <FormContainer>
-      <FormContent />
+      <FormContent userInfo={userInfo} userBillings={userBillings} />
       <Download />
     </FormContainer>
   );
 }
 
 export default Form;
+
+export const FormContainer = styled.div`
+  @page {
+    size: A 4px;
+    margin: 1em -1.5em;
+  }
+
+  gap: 10px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;

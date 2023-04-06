@@ -8,20 +8,6 @@ export const Container = styled.div`
   -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
 `;
-export const FormContainer = styled.div`
-  @page {
-    size: A 4px;
-    margin: 1em -1.5em;
-  }
-
-  gap: 10px;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
 
 //FORMS SIDE
 export const Table = styled.div`

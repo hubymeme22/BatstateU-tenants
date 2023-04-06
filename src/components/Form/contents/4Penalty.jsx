@@ -1,6 +1,7 @@
 import React from 'react';
+
 import { Blocks, Table, Title } from '../Styled';
-import styled from 'styled-components';
+
 function Penalty() {
   return (
     <Table>

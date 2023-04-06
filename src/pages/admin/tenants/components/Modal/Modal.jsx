@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ModalStyling, StyledModalStatement, Watermark } from './styled';
-import FormContent from '../../../../user/Form/components/FormContent';
+import FormContent from '../../../../../components/Form/FormContent';
 
 function ModalStatement(props) {
   const { isOpen, toggleModal } = props;
