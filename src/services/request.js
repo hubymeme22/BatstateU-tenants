@@ -66,9 +66,9 @@ export const createBilling = async (room, billingInformation) => {
     });
 };
 
-export const markAsPaid = async () => {
+export const markAsPaid = async (username) => {
   return await axios
-    .post(`/admin/students/pay/${username}`)
+    .put(`/admin/students/pay/${username}`)
     .then((response) => {
       return response;
     })

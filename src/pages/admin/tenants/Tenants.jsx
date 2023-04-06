@@ -63,6 +63,7 @@ function Tenants() {
     setUserBillings(billings.data.report);
     setUserInfo({
       ...userInfo,
+      srCode: username,
       details: {
         name: {
           first: first,

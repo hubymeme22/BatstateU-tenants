@@ -52,7 +52,7 @@ function FormContent(props) {
       <Note />
       <FormSig />
 
-      {space.totalBalance + utility.totalBalance == 0 ? <Watermark /> : null}
+      {userBillings.isPaid ? <Watermark /> : null}
     </Container>
   );
 }
