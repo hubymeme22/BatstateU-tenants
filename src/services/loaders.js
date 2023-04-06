@@ -1,4 +1,4 @@
-import { fetchAsAdmin } from './adminFetch';
+import { fetchAsAdmin } from './request';
 
 export const dashboardLoader = async () => {
   const slots = await fetchAsAdmin('slots');

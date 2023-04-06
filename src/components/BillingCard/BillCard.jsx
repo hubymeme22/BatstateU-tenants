@@ -8,8 +8,8 @@ import BillContent from './BillContent';
 
 // Utils
 import { daysBetweenDates } from '../../utils/date';
-import { createBilling } from '../../services/createBillings';
-import { checkToken } from '../../utils/tokenHandler';
+import { createBilling } from '../../services/request';
+import { getTokenCookie } from '../../utils/tokenHandler';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -80,7 +80,7 @@ function BillingCard({ tenants, roomDetails, toggleInvoice, toggleModal }) {
       waterBill,
       roomBill,
       users: selectedTenantsList,
-      token: checkToken(),
+      token: getTokenCookie(),
     };
 
     const response = await createBilling(roomDetails.slot, postData);

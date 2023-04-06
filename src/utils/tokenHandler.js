@@ -1,34 +1,27 @@
 // Methods to save and get token from local storage and cookies
 
-import axios from 'axios';
-
+// Save
 export const saveToken = (token) => {
-  localStorage.setItem('token', token);
   document.cookie = `token=${token};path=/`;
 };
 
-export const checkToken = () => {
-  let token = localStorage.getItem('token');
-  return token;
+// Get
+export const getTokenCookie = () => {
+  const cookies = document.cookie.split(';');
+
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i].trim();
+
+    if (cookie.startsWith(`token=`)) {
+      return cookie.substring('token'.length + 1);
+    }
+  }
+
+  return null;
 };
 
+// Delete
 export const clearToken = () => {
-  localStorage.clear();
-  deleteAdminCookies();
-};
-
-function deleteAdminCookies() {
   const cookie = document.cookie.split('=');
   document.cookie = `token=${cookie[1]}; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
-}
-
-export const validateToken = async (token, permission = 'student') => {
-  return axios
-    .post(`http://localhost:5050/api/check-token/${permission}`, { token })
-    .then((res) => {
-      return res.data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
 };

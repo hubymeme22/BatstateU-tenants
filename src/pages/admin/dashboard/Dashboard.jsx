@@ -13,7 +13,7 @@ import Modal from './components/Modal';
 // Loader
 import Loader from '@/components/Loader';
 import { dashboardLoader } from '@/services/loaders';
-import { fetchAsAdmin } from '@/services/adminFetch';
+import { fetchAsAdmin } from '@/services/request';
 
 function Dashboard() {
   // Dashboard states

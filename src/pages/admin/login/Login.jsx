@@ -10,7 +10,7 @@ import { Button, Link, UserIcon, KeyIcon } from './styled';
 
 // Utils
 import errorTranslator from '@/utils/errorTranslator';
-import { checkToken, saveToken } from '@/utils/tokenHandler';
+import { getTokenCookie, saveToken } from '@/utils/tokenHandler';
 
 function AdminLogin() {
   const [username, usernameHandler, resetUsername] = useInput('');
@@ -23,7 +23,7 @@ function AdminLogin() {
 
   // Check if user is already loggedIn
   useEffect(() => {
-    const token = checkToken();
+    const token = getTokenCookie();
 
     if (token) {
       navigate('/admin', { replace: true });

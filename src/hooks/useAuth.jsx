@@ -1,9 +1,8 @@
-import axios from 'axios';
 import { createContext, useContext } from 'react';
 import { clearToken } from '../utils/tokenHandler';
 import { useNavigate } from 'react-router-dom';
 
-axios.defaults.withCredentials = true;
+import { loginAdmin, loginStudent } from '../services/request';
 
 const AuthContext = createContext(null);
 
@@ -11,28 +10,22 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const login = async (username, password, type = '') => {
-    let url = 'http://localhost:5050/api/login/';
-
+    let response = null;
     let userData = {
       username,
       password,
     };
 
-    if (type === 'admin') {
-      url = url.concat(type);
+    // Do login post request based on type
+    if (type == 'admin') {
       userData = {
         email: username,
         password,
       };
+      response = await loginAdmin(userData);
+    } else {
+      response = await loginStudent(userData);
     }
-
-    const response = await axios
-      .post(url, userData)
-      .then((response) => {
-        const res = response.data;
-        return res;
-      })
-      .catch((error) => {});
 
     return await response;
   };

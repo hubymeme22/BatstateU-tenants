@@ -7,8 +7,8 @@ import { MainContainer, Content } from './styled';
 import { Sidebar as AdminSidebar } from '../sidebar/admin';
 import { Sidebar as UserSidebar } from '../sidebar/user';
 
-import { checkToken } from '@/utils/tokenHandler';
-import { validateToken, clearToken } from '../../utils/tokenHandler';
+import { getTokenCookie, clearToken } from '../../utils/tokenHandler';
+import { validateToken } from '../../services/request';
 
 function Main({ type }) {
   const [tokenIsValid, setTokenIsValid] = useState(false);
@@ -16,7 +16,7 @@ function Main({ type }) {
 
   useEffect(() => {
     const checkCredentials = async () => {
-      const token = await checkToken();
+      const token = getTokenCookie();
 
       // Check if the token is null, redirect to respective login page
       if (!token) {
