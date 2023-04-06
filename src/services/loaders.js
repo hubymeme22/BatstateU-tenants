@@ -11,3 +11,8 @@ export const tenantsLoader = async () => {
   const allRecords = await fetchAsAdmin('summary/student');
   return allRecords.data;
 };
+
+export const usersLoader = async () => {
+  const allRecords = await fetchAsAdmin('summary/students');
+  return allRecords.data;
+};
