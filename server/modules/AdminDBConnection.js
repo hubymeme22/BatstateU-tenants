@@ -653,7 +653,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     ////////////////
     // retrieves all student account data (verified/unverified)
     retrieveAllStudentData() {
-        Student.find().populate('room').select('username email contact verified room')
+        Student.find().populate('room').select('username email contact verified room details')
             .then(userdata => {
                 const studentData = [];
                 userdata.forEach(user => {
