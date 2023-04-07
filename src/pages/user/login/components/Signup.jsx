@@ -99,10 +99,10 @@ function Signup({ handle }) {
           <Namess>
             <div>
               <Input
-                type="text"
-                placeholder="FIRST NAME:"
+                type='text'
+                placeholder='FIRST NAME:'
                 value={value.name.first}
-                name="first"
+                name='first'
                 onChange={nameAdd}
                 required
               />
@@ -110,10 +110,10 @@ function Signup({ handle }) {
             </div>
             <div>
               <Input
-                type="text"
-                placeholder="MID NAME:"
+                type='text'
+                placeholder='MID NAME:'
                 value={value.name.middle}
-                name="middle"
+                name='middle'
                 onChange={nameAdd}
                 required
               />
@@ -121,10 +121,10 @@ function Signup({ handle }) {
             </div>
             <div>
               <Input
-                type="text"
-                placeholder="LAST NAME:"
+                type='text'
+                placeholder='LAST NAME:'
                 value={value.name.last}
-                name="last"
+                name='last'
                 onChange={nameAdd}
                 required
               />
@@ -135,10 +135,10 @@ function Signup({ handle }) {
         <Field>
           <div>
             <Input
-              type="email"
-              placeholder="EMAIL: eg. juancruz@gmail.com"
+              type='email'
+              placeholder='EMAIL: eg. juancruz@gmail.com'
               value={value.email}
-              name="email"
+              name='email'
               onChange={textAdd}
               required
             />
@@ -148,10 +148,10 @@ function Signup({ handle }) {
         <Field>
           <div>
             <Input
-              type="number"
-              placeholder="CONTACT NUMBER: eg. 09735678935"
+              type='number'
+              placeholder='CONTACT NUMBER: eg. 09735678935'
               value={value.contact}
-              name="contact"
+              name='contact'
               onChange={textAdd}
               required
             />
@@ -161,10 +161,10 @@ function Signup({ handle }) {
         <Field>
           <div>
             <Input
-              type="text"
-              placeholder="SR-CODE: eg. 20-06113"
+              type='text'
+              placeholder='SR-CODE: eg. 20-06113'
               value={value.username}
-              name="username"
+              name='username'
               onChange={textAdd}
               required
             />
@@ -175,10 +175,10 @@ function Signup({ handle }) {
         <Field>
           <div>
             <Input
-              type="password"
-              placeholder="PASSWORD: Use 8 characters above"
+              type='password'
+              placeholder='PASSWORD: atleast 8 characters'
               value={value.password}
-              name="password"
+              name='password'
               onChange={textAdd}
               required
             />
@@ -188,10 +188,10 @@ function Signup({ handle }) {
         <Field>
           <div>
             <Input
-              type="password"
-              placeholder="CONFIRM PASSWORD: Use 8 characters above"
+              type='password'
+              placeholder='CONFIRM PASSWORD: atleast 8 characters'
               value={value.confirmPassword}
-              name="confirmPassword"
+              name='confirmPassword'
               onChange={textAdd}
               required
             />
@@ -201,14 +201,14 @@ function Signup({ handle }) {
         <Register>
           <Checkbox>
             <input
-              type="checkbox"
-              id="terms"
+              type='checkbox'
+              id='terms'
               value={value.terms}
-              name="terms"
+              name='terms'
               onChange={textAdd}
               required
             />
-            <label htmlFor="terms">
+            <label htmlFor='terms'>
               I accept the Terms of Use & Privacy Policy
             </label>
           </Checkbox>
@@ -246,6 +246,9 @@ const Title = styled.h1`
 `;
 
 const Input = styled.input`
+  @media screen and (max-width: 767px) {
+    padding: 10px;
+  }
   width: 100%;
   padding: 13px;
   border-radius: 5px;

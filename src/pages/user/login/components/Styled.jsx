@@ -19,7 +19,7 @@ export const Container = styled.div`
 
 export const ContentContainer = styled.div`
   @media screen and (max-width: 767px) {
-    width: 85%;
+    width: 90%;
   }
 
   border-radius: 25px;
