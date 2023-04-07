@@ -873,7 +873,8 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                                 username: userinfo.username,
                                 name: userinfo.details.name,
                                 contact: userinfo.contact,
-                                status: false
+                                status: false,
+                                bill: []
                             };
 
                             // additional checking if no bill on current room is added yet
@@ -885,6 +886,16 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                             // checks if the user is registered in the bill (for status checking)
                             const userbillIndex = lastestBill.users.find(item => item.username === tmpdata.username);
                             if (userbillIndex) {
+
+                                // loops through the billings and returns the report
+                                roomdata.bills.forEach(bill => {
+                                    tmpdata.bill.push({
+                                        previousKWH: bill.previousKWH,
+                                        currentKWH: bill.currentKWH,
+                                        users: bill.users
+                                    });
+                                });
+
                                 if (userbillIndex.paid) tmpdata.status = 'paid';
                                 else tmpdata.status = 'unpaid';
                             } else {
