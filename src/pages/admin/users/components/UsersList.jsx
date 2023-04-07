@@ -5,17 +5,19 @@ function UsersList(props) {
   const { list, toggleVerification } = props;
 
   const renderList = (list) => {
+    console.log(list);
+
     return (
       <div>
         {list.map((user) => {
           const { username, contact, room, verified } = user;
-          // const { first, last } = user.name;
+          const { first, last } = user.name;
 
           return (
             <UserDetails key={username}>
               <p>{username}</p>
-              <p>{'first'}</p>
-              <p>{'last'}</p>
+              <p>{first}</p>
+              <p>{last}</p>
               <p>{contact}</p>
               <Status
                 verified={verified}

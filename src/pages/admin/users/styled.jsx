@@ -55,7 +55,6 @@ export const UserDetails = styled(ColumnTitles)`
   font-weight: normal;
   border-radius: 5px;
   padding: 0.5rem;
-  cursor: pointer;
 
   &:hover {
     background-color: #b5d7ff;
@@ -65,6 +64,7 @@ export const UserDetails = styled(ColumnTitles)`
 export const Status = styled.p`
   font-weight: bold;
   color: ${(props) => (props.verified == true ? '#00DF24' : '#C52D2D')};
+  cursor: pointer;
 `;
 
 export const Container = styled.div`
