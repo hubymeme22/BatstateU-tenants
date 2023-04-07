@@ -64,15 +64,7 @@ export const UserDetails = styled(ColumnTitles)`
 
 export const Status = styled.p`
   font-weight: bold;
-  color: ${({ indicator }) => {
-    if (indicator == 'paid') {
-      return '#00DF24';
-    } else if (indicator == 'unpaid') {
-      return '#C52D2D';
-    } else {
-      return '#777';
-    }
-  }};
+  color: ${(props) => (props.verified == true ? '#00DF24' : '#C52D2D')};
 `;
 
 export const Container = styled.div`

@@ -1,32 +1,41 @@
 import React from 'react';
-import { UserDetails, UsersContainer } from '../styled';
+import { Status, UserDetails, UsersContainer } from '../styled';
 
-function UsersList({ list }) {
-  return (
-    <UsersContainer>
-      {list.length != 0 ? (
-        list.map((user) => {
-          const { username, contact, roomID } = user;
-          const { first, last } = user.name;
+function UsersList(props) {
+  const { list, toggleVerification } = props;
+
+  const renderList = (list) => {
+    return (
+      <div>
+        {list.map((user) => {
+          const { username, contact, room, verified } = user;
+          // const { first, last } = user.name;
 
           return (
             <UserDetails key={username}>
               <p>{username}</p>
-              <p>{first}</p>
-              <p>{last}</p>
+              <p>{'first'}</p>
+              <p>{'last'}</p>
               <p>{contact}</p>
-              <p>{''}</p>
-              <p>{roomID}</p>
+              <Status
+                verified={verified}
+                onClick={() => toggleVerification(username, verified)}
+              >
+                {verified ? 'Yes' : 'No'}
+              </Status>
+              <p>{room}</p>
             </UserDetails>
           );
-        })
-      ) : (
-        <>Does not exist</>
-      )}
+        })}
+      </div>
+    );
+  };
+
+  return (
+    <UsersContainer>
+      {list.length != 0 ? <>{renderList(list)}</> : <>Does not exist</>}
     </UsersContainer>
   );
 }
 
 export default UsersList;
-
-// srcode  first  last  contact  verified  unitNumber

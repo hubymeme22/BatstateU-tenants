@@ -9,13 +9,16 @@ import { searchUser } from '../../../utils/search';
 import UsersList from './components/UsersList';
 import Loader from '../../../components/Loader';
 
+import { filterByVerificationStatus } from '../../../utils/filter';
+import { unverifyStudent } from '../../../services/request';
+import { verifyStudent } from '../../../services/request';
+
 function Users() {
   const [users, setUsers] = useState([]);
   const [category, setCategory] = useState('student');
   const [filterBy, setFilterBy] = useState('');
 
   const [isLoading, setIsLoading] = useState(true);
-
   //
   const [searchText, setSearchText] = useState('');
   const [matchedUsers, setMatchedUsers] = useState([]);
@@ -26,14 +29,20 @@ function Users() {
   }, []);
 
   useEffect(() => {
-    if (searchText.trim() == '') {
+    // Guard case
+    if (users.length == 0 && filterBy == '' && searchText.trim() == '') {
       setMatchedUsers(users);
       return;
     }
 
-    const matchedUsers = searchUser(searchText, users);
-    setMatchedUsers(matchedUsers);
-  }, [searchText]);
+    // filter the users by verification status
+    const filtered = filterByVerificationStatus(users, filterBy);
+
+    // Search the new list
+    const result = searchUser(searchText, filtered);
+
+    setMatchedUsers(result);
+  }, [users, searchText, filterBy]);
 
   const fetchedData = async () => {
     const data = await usersLoader();
@@ -42,17 +51,39 @@ function Users() {
     setIsLoading(false);
   };
 
+  // Functions to change the category / filter / search
   const changeCategory = (value) => {
     setCategory(value);
   };
 
   const changeFilter = (value) => {
     setFilterBy(value);
+    setMatchedUsers(matchedUsers);
   };
 
   const handleSearch = (e) => {
     const keyword = e.target.value;
     setSearchText(keyword);
+  };
+
+  //
+  const toggleVerification = (username, isVerified) => {
+    const editedUsersList = users.map((user) => {
+      if (user.username == username) {
+        return { ...user, verified: !isVerified };
+      }
+      return user;
+    });
+
+    // Edit verification status on server / database
+    if (isVerified) {
+      unverifyStudent(username);
+    } else {
+      verifyStudent(username);
+    }
+
+    // Edit value on browser for fast render
+    setUsers(editedUsersList);
   };
 
   return (
@@ -78,7 +109,11 @@ function Users() {
         <hr />
 
         {!isLoading || users.length != 0 ? (
-          <UsersList list={matchedUsers} />
+          <UsersList
+            list={matchedUsers}
+            toggleVerification={toggleVerification}
+            filterBy={filterBy}
+          />
         ) : (
           <Loader />
         )}

@@ -36,7 +36,7 @@ function Header(props) {
               None
             </option>
             <option value="verified">Verified</option>
-            <option value="unveried"> Unverified</option>
+            <option value="unverified"> Unverified</option>
           </select>
         </InputContainer>
 
