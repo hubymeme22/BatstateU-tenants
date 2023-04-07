@@ -10,7 +10,7 @@ function Header(props) {
 
   return (
     <StyledHeader>
-      <h1>{area}</h1>
+      <h1>{area ? area : 'All Tenants'}</h1>
 
       <div>
         {/* Select Area  */}
