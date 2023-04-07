@@ -653,8 +653,24 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     ////////////////
     // retrieves all student account data (verified/unverified)
     retrieveAllStudentData() {
-        Student.find().select('username email contact verified room')
-            .then(this.acceptCallback).catch(this.rejectCallback);
+        Student.find().populate('room').select('username email contact verified room')
+            .then(userdata => {
+                const studentData = [];
+                userdata.forEach(user => {
+                    let newDataFormat = {
+                        username: user.username,
+                        name: user.details.name,
+                        contact: user.contact,
+                        email: user.email,
+                        verified: user.verified,
+                        room: user.room.label != 'genesis' ? user.room.slot: 'unassigned',
+                    };
+
+                    studentData.push(newDataFormat);
+                });
+
+                this.acceptCallback(studentData);
+            }).catch(this.rejectCallback);
     }
 
     // filters all the unverified student accounts
@@ -785,7 +801,6 @@ export class AdminMongoDBConnection extends MongoDBConnection {
             })
             .then(userdata => {
                 const dataFormat = [];
-                console.log(userdata);
 
                 userdata.forEach(user => {
                     let newDataFormat = {
