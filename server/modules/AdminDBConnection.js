@@ -717,16 +717,31 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
                 // return student with unassigned room
                 if (student.room.bills.length > 0) {
-                    const studentBill = student.room.bills[student.room.bills.length - 1].users;
-                    const studentLatestBill = studentBill.find(item => item.username === student.username);
+                    let latestIndex = student.room.bills.length - 1;
+                    let studentBill = student.room.bills[student.room.bills.length - 1].users;
+                    let studentLatestBill = studentBill.find(item => item.username === student.username);
+
+                    // loopback and try to find the latest billing
+                    // where the target user is listed
+                    while (!studentLatestBill && latestIndex >= 0) {
+                        latestIndex--;
+                        studentBill = student.room.bills[student.room.bills.length - 1].users;
+                        studentLatestBill = studentBill.find(item => item.username === student.username);
+                    }
 
                     if (status == '') {
+                        if (!studentLatestBill) {
+                            newDataFormat.status = 'unavailable';
+                            return finalizedData.push(newDataFormat);
+                        }
+
                         if (studentLatestBill.paid) newDataFormat.status = 'paid';
                         else newDataFormat.status = 'unpaid';
                         finalizedData.push(newDataFormat);
                     }
 
                     else if (status == 'paid') {
+                        if (!studentLatestBill) return;
                         if (studentLatestBill.paid) {
                             newDataFormat.status = 'paid';
                             finalizedData.push(newDataFormat);
@@ -734,6 +749,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                     }
 
                     else if (status == 'unpaid') {
+                        if (!studentLatestBill) return;
                         if (!studentLatestBill.paid) {
                             newDataFormat.status = 'unpaid';
                             finalizedData.push(newDataFormat);
@@ -789,8 +805,17 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                         if (user.room.bills.length <= 0) {
                             newDataFormat.status = 'unavailable';
                         } else {
-                            const latestBill = user.room.bills[user.room.bills.length - 1];
-                            const userbill = latestBill.users.find(item => item.username === user.username);
+                            let latestIndex = (user.room.bills.length - 1);
+                            let latestBill = user.room.bills[latestIndex];
+                            let userbill = latestBill.users.find(item => item.username === user.username);
+
+                            // loopback and try to find the latest billing
+                            // where the target user is listed
+                            while (!userbill && latestIndex >= 0) {
+                                latestIndex--;
+                                latestBill = user.room.bills[latestIndex];
+                                userbill = latestBill.users.find(item => item.username === user.username);
+                            }
 
                             if (!userbill) {
                                 newDataFormat.status = 'unavailable';
