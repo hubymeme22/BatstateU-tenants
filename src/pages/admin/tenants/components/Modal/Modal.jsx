@@ -10,19 +10,9 @@ import {
   billingInitialState,
 } from '../../../../../services/format/FormState';
 
-import { markAsPaid } from '../../../../../services/request';
-import { useNavigate } from 'react-router-dom';
-
 function ModalStatement(props) {
   const { isOpen, toggleModal } = props;
-  const { userInfo, userBillings } = props;
-
-  const navigate = useNavigate();
-
-  const studentPayment = (username) => {
-    markAsPaid(username);
-    navigate(0);
-  };
+  const { userInfo, userBillings, handlePayment } = props;
 
   return (
     <StyledModalStatement
@@ -37,7 +27,7 @@ function ModalStatement(props) {
       )}
       <Button
         disabled={userBillings.isPaid}
-        onClick={() => studentPayment(userInfo.srCode)}
+        onClick={() => handlePayment(userInfo.srCode)}
       >
         Mark as Paid
       </Button>

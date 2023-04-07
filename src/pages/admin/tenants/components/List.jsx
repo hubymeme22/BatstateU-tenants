@@ -2,7 +2,7 @@ import React from 'react';
 
 import { UsersContainer, UserDetails, Status } from '../styled';
 
-function List({ data, area, filter, searchText, viewStatement }) {
+function List({ data, viewStatement }) {
   return (
     <UsersContainer>
       {data.length > 0 ? (

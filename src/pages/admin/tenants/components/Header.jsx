@@ -6,7 +6,7 @@ import { FiFilter, FiSearch } from 'react-icons/fi';
 
 function Header(props) {
   const { area, searchText } = props;
-  const { changeArea, filterBy, handleSearch } = props;
+  const { changeArea, changeFilter, handleSearch } = props;
 
   return (
     <StyledHeader>
@@ -32,7 +32,7 @@ function Header(props) {
         <InputContainer>
           <label htmlFor="">Filter By: </label>
 
-          <select name="" id="" onChange={(e) => filterBy(e.target.value)}>
+          <select name="" id="" onChange={(e) => changeFilter(e.target.value)}>
             <option value="" defaultValue>
               None
             </option>

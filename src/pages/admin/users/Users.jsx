@@ -102,7 +102,6 @@ function Users() {
           <UsersList
             list={matchedUsers}
             toggleVerification={toggleVerification}
-            filterBy={filterBy}
           />
         ) : (
           <Loader />

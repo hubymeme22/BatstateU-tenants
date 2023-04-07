@@ -10,34 +10,64 @@ import Loader from '../../../components/Loader';
 
 // Utils
 import { searchUser } from '../../../utils/search';
+import { filterByStatus } from '../../../utils/filter';
 
+// Services
 import {
   userInitialState,
   billingInitialState,
 } from '../../../services/format/FormState';
 import { tenantsLoader } from '../../../services/loaders';
-import { fetchAsAdmin } from '../../../services/request';
+import { fetchAsAdmin, markAsPaid } from '../../../services/request';
+
+// hooks
+import useFilter from '../../../hooks/useFilter';
+import useToggle from '../../../hooks/useToggle';
+import useSearch from '../../../hooks/useSearch';
 
 function Tenants() {
   const [allTenants, setAllTenants] = useState([]);
-  const [area, setArea] = useState('Tenants');
-  const [filter, setFilter] = useState(null);
-
-  // Used for searching
-  const [searchText, setSearchText] = useState('');
   const [matchedUsers, setMatchedUsers] = useState([]);
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  // Toggles
+  const [isLoading, toggleLoading] = useToggle(true);
+  const [modalIsOpen, toggleModal] = useToggle(false);
 
-  // Used for modal
+  // Placeholder for modal
   const [userInfo, setUserInfo] = useState(userInitialState);
   const [userBillings, setUserBillings] = useState(billingInitialState);
 
+  // Filters & Search
+  const [area, changeArea] = useFilter('Tenants');
+  const [filterBy, changeFilter] = useFilter('');
+  const [searchText, handleSearch] = useSearch();
+
   // Get list of tenants on first load
   useEffect(() => {
+    const fetchRecords = async () => {
+      const data = await tenantsLoader();
+      setAllTenants(data.details);
+      setMatchedUsers(data.details);
+    };
+
     fetchRecords();
   }, []);
+
+  useEffect(() => {
+    // Guard case
+    if (allTenants.length == 0 && filterBy == '' && searchText.trim() == '') {
+      setMatchedUsers(allTenants);
+      return;
+    }
+
+    // filter the users by verification status
+    const filtered = filterByStatus(allTenants, filterBy);
+
+    // Search the new list
+    const result = searchUser(searchText, filtered);
+
+    setMatchedUsers(result);
+  }, [allTenants, searchText, filterBy]);
 
   useEffect(() => {
     if (searchText.trim() == '') {
@@ -49,27 +79,19 @@ function Tenants() {
     setMatchedUsers(matchedUsers);
   }, [searchText]);
 
-  const fetchRecords = async () => {
-    const data = await tenantsLoader();
-    setAllTenants(data.details);
-    setMatchedUsers(data.details);
-  };
+  const handlePayment = (username) => {
+    const editedTenantsList = allTenants.map((user) => {
+      if (user.username == username) {
+        return { ...user, status: 'paid' };
+      }
+      return user;
+    });
 
-  const changeArea = (area) => {
-    setArea(area);
-  };
+    // Set as paid on the server / database
+    markAsPaid(username);
 
-  const filterBy = (status) => {
-    setFilter(status);
-  };
-
-  const handleSearch = (e) => {
-    const keyword = e.target.value;
-    setSearchText(keyword);
-  };
-
-  const toggleModal = () => {
-    setModalIsOpen(!modalIsOpen);
+    setAllTenants(editedTenantsList);
+    setUserBillings({ ...userBillings, isPaid: true });
   };
 
   const viewStatement = async (userData) => {
@@ -101,7 +123,7 @@ function Tenants() {
       },
     });
 
-    setIsLoading(false);
+    toggleLoading();
   };
 
   return (
@@ -110,7 +132,7 @@ function Tenants() {
         <Header
           area={area}
           changeArea={changeArea}
-          filterBy={filterBy}
+          changeFilter={changeFilter}
           searchText={searchText}
           handleSearch={handleSearch}
         />
@@ -127,12 +149,7 @@ function Tenants() {
         <hr />
 
         {!isLoading || allTenants.length != 0 ? (
-          <List
-            data={matchedUsers}
-            area={area}
-            filter={filter}
-            viewStatement={viewStatement}
-          />
+          <List data={matchedUsers} viewStatement={viewStatement} />
         ) : (
           <Loader />
         )}
@@ -143,6 +160,7 @@ function Tenants() {
         toggleModal={toggleModal}
         userInfo={userInfo}
         userBillings={userBillings}
+        handlePayment={handlePayment}
       />
     </>
   );
