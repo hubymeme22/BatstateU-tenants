@@ -10,6 +10,7 @@ import { getStudentAnnouncements } from '../../../../services/request';
 
 function NotificationContent() {
   const [notif, setNotif] = useState({ subject: '', message: '' });
+  ('Hello this is a sample test, very very long message');
 
   useEffect(() => {
     const getData = async () => {
@@ -27,7 +28,6 @@ function NotificationContent() {
         <Container>
           <FromTo subj={notif.subject} />
           <MainForm content={notif.message} />
-          <button>CLEAR FORM</button>
         </Container>
       )}
     </>

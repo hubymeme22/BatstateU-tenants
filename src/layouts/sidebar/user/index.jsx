@@ -13,18 +13,20 @@ import { FaExclamation } from 'react-icons/fa';
 // Hooks
 import { useAuth } from '../../../hooks/useAuth';
 import axios from 'axios';
-
+import { getStudentAnnouncements } from '../../../services/request';
 export function Sidebar() {
-  const [notif, setNotif] = React.useState({ subject: '', message: '' });
+  const [notif, setNotif] = React.useState({
+    subject: '',
+    message: '',
+  });
   React.useEffect(() => {
     const getData = async () => {
-      const fetchedData = await axios.get(
-        'http://localhost:5050/api/student/announcement'
-      );
+      const fetchedData = await getStudentAnnouncements();
       setNotif(fetchedData.data);
     };
     getData();
   }, []);
+
   const auth = useAuth();
 
   return (
@@ -40,7 +42,9 @@ export function Sidebar() {
           </NavLink>
 
           <NavLink to='/notification'>
-            {notif.subject || notif.message === '' ? null : <Exclamation />}
+            {notif.subject === '' || notif.message === '' ? null : (
+              <Exclamation />
+            )}
             <IoNotificationsSharp />
             Notification
           </NavLink>
