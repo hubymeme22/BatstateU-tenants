@@ -853,6 +853,44 @@ export class AdminMongoDBConnection extends MongoDBConnection {
             }).catch(this.rejectCallback);
     }
 
+    // retrieves all account data (verified/unverified)
+    accountSummary() {
+        Student.find().populate('room').select('username email contact verified room details')
+            .then(userdata => {
+                const studentData = [];
+                userdata.forEach(user => {
+                    let newDataFormat = {
+                        username: user.username,
+                        name: user.details.name,
+                        contact: user.contact,
+                        email: user.email,
+                        verified: user.verified,
+                        room: user.room.label != 'genesis' ? user.room.slot: 'unassigned',
+                        access: 'student'
+                    };
+
+                    studentData.push(newDataFormat);
+                });
+
+                Admin.find().then(admindata => {
+                    admindata.forEach(admin => {
+                        let newDataFormat = {
+                            name: admin.name,
+                            contact: admin.contact,
+                            email: admin.email,
+                            verified: true,
+                            access: 'admin'
+                        };
+
+                        studentData.push(newDataFormat);
+                    });
+
+                    this.acceptCallback(studentData);
+
+                }).catch(this.rejectCallback);
+            }).catch(this.rejectCallback);
+    }
+
     // summarizes the user information for on a room
     roomSummary(roomID) {
         Room.findOne({slot: roomID, label: { $ne: "genesis" }})

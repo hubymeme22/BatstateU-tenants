@@ -14,6 +14,7 @@ import roomSummary from "./summary/room.js";
 import announce from "./announcement/announce.js";
 import studentSummary from "./summary/student.js";
 import studentPayment from "./students/payment.js";
+import accountSummary from "./summary/account.js";
 
 const adminPermission = Router();
 
@@ -37,6 +38,7 @@ adminPermission.use("/students", studentPayment)
 // for summarizing data
 adminPermission.use("/summary", roomSummary);
 adminPermission.use("/summary", studentSummary);
+adminPermission.use("/summary", accountSummary);
 
 // for announcement assigning
 adminPermission.use("/announce", announce);
