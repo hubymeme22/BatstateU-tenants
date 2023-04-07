@@ -785,6 +785,8 @@ export class AdminMongoDBConnection extends MongoDBConnection {
             })
             .then(userdata => {
                 const dataFormat = [];
+                console.log(userdata);
+
                 userdata.forEach(user => {
                     let newDataFormat = {
                         username: user.username,
@@ -811,10 +813,11 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
                             // loopback and try to find the latest billing
                             // where the target user is listed
+                            latestIndex--;
                             while (!userbill && latestIndex >= 0) {
-                                latestIndex--;
                                 latestBill = user.room.bills[latestIndex];
                                 userbill = latestBill.users.find(item => item.username === user.username);
+                                latestIndex--;
                             }
 
                             if (!userbill) {
