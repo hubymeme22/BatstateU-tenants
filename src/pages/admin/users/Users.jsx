@@ -3,28 +3,40 @@ import React, { useEffect, useState } from 'react';
 import { Container, ColumnTitles } from './styled';
 
 import Header from './components/Header';
-
-import { usersLoader } from '../../../services/loaders';
-import { searchUser } from '../../../utils/search';
 import UsersList from './components/UsersList';
 import Loader from '../../../components/Loader';
 
+// Http request
+import { usersLoader } from '../../../services/loaders';
 import { filterByVerificationStatus } from '../../../utils/filter';
 import { unverifyStudent } from '../../../services/request';
 import { verifyStudent } from '../../../services/request';
 
+import { searchUser } from '../../../utils/search';
+
+// custom hooks
+import useSearch from '../../../hooks/useSearch';
+import useFilter from '../../../hooks/useFilter';
+
 function Users() {
   const [users, setUsers] = useState([]);
-  const [category, setCategory] = useState('student');
-  const [filterBy, setFilterBy] = useState('');
-
-  const [isLoading, setIsLoading] = useState(true);
-  //
-  const [searchText, setSearchText] = useState('');
+  const [isLoading, toggleLoading] = useState(true);
   const [matchedUsers, setMatchedUsers] = useState([]);
+
+  // Filters & Search
+  const [category, changeCategory] = useFilter('student');
+  const [filterBy, changeFilter] = useFilter('');
+  const [searchText, handleSearch] = useSearch();
 
   // Fetch Users
   useEffect(() => {
+    const fetchedData = async () => {
+      const data = await usersLoader();
+      setUsers(data.details);
+      setMatchedUsers(data.details);
+      toggleLoading(false);
+    };
+
     fetchedData();
   }, []);
 
@@ -43,28 +55,6 @@ function Users() {
 
     setMatchedUsers(result);
   }, [users, searchText, filterBy]);
-
-  const fetchedData = async () => {
-    const data = await usersLoader();
-    setUsers(data.details);
-    setMatchedUsers(data.details);
-    setIsLoading(false);
-  };
-
-  // Functions to change the category / filter / search
-  const changeCategory = (value) => {
-    setCategory(value);
-  };
-
-  const changeFilter = (value) => {
-    setFilterBy(value);
-    setMatchedUsers(matchedUsers);
-  };
-
-  const handleSearch = (e) => {
-    const keyword = e.target.value;
-    setSearchText(keyword);
-  };
 
   //
   const toggleVerification = (username, isVerified) => {
