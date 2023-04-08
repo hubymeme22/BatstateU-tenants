@@ -2,8 +2,9 @@ import React from 'react';
 
 import { FaUserCircle } from 'react-icons/fa';
 import { BsKey } from 'react-icons/bs';
-
+import bcrypt from 'bcryptjs';
 import styled from 'styled-components';
+import { registerStudent } from '../../../../services/request';
 import {
   Field,
   Namess,
@@ -52,6 +53,10 @@ function Signup({ handle }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const Hashed = value.password;
+    const hashedPassword = bcrypt.hashSync(Hashed, 10);
+    console.log(Hashed);
+    console.log(hashedPassword);
     const V = {
       first: /^[a-zA-ZñÑ]{2,10}(?: [a-zA-ZñÑ]+)?$/gi,
       middle: /^[a-zA-ZñÑ]{2,10}(?: [a-zA-ZñÑ]+)?$/gi,
@@ -82,7 +87,10 @@ function Signup({ handle }) {
     } else if (value.password !== value.confirmPassword) {
       setMessage("Password Don't Match!");
     } else {
-      const response = await registerStudent(value);
+      const response = await registerStudent({
+        ...value,
+        password: hashedPassword,
+      });
       alert('thankyou for filling up please wait for the admin confirmation!');
       return handle();
     }

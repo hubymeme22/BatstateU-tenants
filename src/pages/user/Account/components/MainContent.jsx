@@ -107,10 +107,10 @@ function MainContent() {
             <div>
               <Content>First Name</Content>
               <Contents
-                type="text"
-                placeholder="Click to edit"
+                type='text'
+                placeholder='Click to edit'
                 value={firstName}
-                name="firstName"
+                name='firstName'
                 onChange={(e) => firstNameSet(e.target.value)}
                 required
               />
@@ -118,10 +118,10 @@ function MainContent() {
             <div>
               <Content>Last Name</Content>
               <Contents
-                type="text"
-                placeholder="Click to edit"
+                type='text'
+                placeholder='Click to edit'
                 value={lastName}
-                name="lastName"
+                name='lastName'
                 onChange={(e) => lastNameSet(e.target.value)}
                 required
               />
@@ -129,9 +129,9 @@ function MainContent() {
             <div>
               <Content>Contact Number</Content>
               <Contents
-                placeholder="Click to edit"
+                placeholder='Click to edit'
                 value={contact}
-                name="contact"
+                name='contact'
                 onChange={(e) => setContact(e.target.value)}
                 required
               />
@@ -139,10 +139,10 @@ function MainContent() {
             <div>
               <Content>Password</Content>
               <Contents
-                type="password"
-                placeholder="Click to change Password"
+                type='password'
+                placeholder='Click to change Password'
                 value={password}
-                name="password"
+                name='password'
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
@@ -150,10 +150,10 @@ function MainContent() {
             <div>
               <Content>Confirm Password</Content>
               <Contents
-                type="password"
-                placeholder="Click to change Password"
+                type='password'
+                placeholder='Click to change Password'
                 value={confirmPassword}
-                name="confirmPassword"
+                name='confirmPassword'
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
@@ -167,16 +167,16 @@ function MainContent() {
               <Read>ROOM 4A</Read>
             </div>
             <div>
-              <Content last="last">Status</Content>
-              <Read last="last">Happily Married</Read>
+              <Content last='last'>Status</Content>
+              <Read last='last'>Happily Married</Read>
             </div>
           </Divide>
           <Error>{message}</Error>
           <Cont>
-            <Button type="button" onClick={clearForm}>
+            <Button type='button' onClick={clearForm}>
               Reset Form
             </Button>
-            <Button color="green">Confirm</Button>
+            <Button color='green'>Confirm</Button>
           </Cont>
         </Container>
       )}
