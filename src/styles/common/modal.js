@@ -10,6 +10,5 @@ export const ModalStyling = {
   },
   content: {
     width: '800px',
-    overflowY: 'scroll',
   },
 };

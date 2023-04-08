@@ -8,6 +8,24 @@ export const userInitialState = {
     },
   },
   email: '',
+  roomID: '',
+  room_label: '',
+  status: '',
+  username: '',
+};
+
+export const accountInitialState = {
+  contact: '',
+  name: {
+    first: '',
+    middle: '',
+    last: '',
+  },
+  email: '',
+  roomID: '',
+  room_label: '',
+  status: '',
+  username: '',
 };
 
 export const billingInitialState = {

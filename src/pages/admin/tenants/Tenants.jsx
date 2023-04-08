@@ -16,6 +16,7 @@ import { filterByStatus } from '../../../utils/filter';
 import {
   userInitialState,
   billingInitialState,
+  accountInitialState,
 } from '../../../services/format/FormState';
 import { tenantsLoader } from '../../../services/loaders';
 import { fetchAsAdmin, markAsPaid } from '../../../services/request';
@@ -38,6 +39,9 @@ function Tenants() {
   // Placeholder for modal
   const [userInfo, setUserInfo] = useState(userInitialState);
   const [userBillings, setUserBillings] = useState(billingInitialState);
+
+  // For viewing the user info card
+  const [userData, setUserData] = useState(accountInitialState);
 
   // Filters & Search
   const [table, changeTable] = useFilter('');
@@ -125,8 +129,12 @@ function Tenants() {
     toggleLoading();
   };
 
-  const viewTenantInfo = (user) => {
+  const viewTenantInfo = (userData) => {
+    setUserData({ accountInitialState });
+
     toggleViewingInfo();
+
+    setUserData(userData);
   };
 
   return (
@@ -171,7 +179,11 @@ function Tenants() {
         handlePayment={handlePayment}
       />
 
-      <InfoCard isOpen={isViewingInfo} toggleModal={toggleViewingInfo} />
+      <InfoCard
+        isOpen={isViewingInfo}
+        toggleModal={toggleViewingInfo}
+        userData={userData}
+      />
     </>
   );
 }

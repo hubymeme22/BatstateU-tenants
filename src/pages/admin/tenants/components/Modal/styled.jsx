@@ -14,6 +14,7 @@ export const StyledModalStatement = styled(ReactModal)`
 
   @media screen and (max-height: 800px) {
     height: 90vh;
+    overflow-y: scroll;
   }
 `;
 
