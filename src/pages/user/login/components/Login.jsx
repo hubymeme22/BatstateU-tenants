@@ -25,6 +25,8 @@ import useInput from '@/hooks/useInput';
 import errorTranslator from '@/utils/errorTranslator';
 import { saveToken } from '@/utils/tokenHandler';
 
+import { MD5 } from 'crypto-js';
+
 function Login({ handle }) {
   const [username, usernameHandler, resetUsername] = useInput('');
   const [password, passwordHandler, resetPassword] = useInput('');
@@ -41,7 +43,9 @@ function Login({ handle }) {
       return;
     }
 
-    const credential = await auth.login(username, password);
+    // Encrypt password
+    const hashedPassword = MD5(password).toString();
+    const credential = await auth.login(username, hashedPassword);
 
     // Destruct credential object
     const { isLoggedIn, error, token } = await credential;

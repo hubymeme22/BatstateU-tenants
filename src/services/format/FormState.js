@@ -29,6 +29,27 @@ export const billingInitialState = {
     totalBalance: 0,
   },
 };
+
+export const invoiceInitialState = {
+  // Dates
+  start_date: '',
+  end_date: '',
+  days_present: 0,
+
+  // Readings
+  previous_kwh: 0,
+  current_kwh: 0,
+  total_kwh: 0,
+  rate: 0,
+  total_amount: 0,
+  bill_per_individual: 0,
+
+  // Bills
+  roomBill: 1000,
+  waterBill: 100,
+  overall_bill: 1100,
+};
+
 export const notificationInit = {
   subject: '',
   message: '',

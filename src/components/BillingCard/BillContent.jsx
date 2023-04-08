@@ -12,6 +12,7 @@ import {
 } from './styled';
 
 import { getCurrentDate, monthNames } from '../../utils/date';
+import { parseNumber } from '../../utils/parser';
 
 function BillContent(props) {
   const { handleChange, saveBilling } = props;
@@ -85,6 +86,7 @@ function BillContent(props) {
             <input
               type="number"
               placeholder="Enter amount"
+              step="0.01"
               min="0"
               name="roomBill"
               value={state.roomBill.toString().replace(/^0+/, '')}
@@ -111,6 +113,7 @@ function BillContent(props) {
               <td>
                 <input
                   type="number"
+                  step="0.01"
                   min="0"
                   name="previous_kwh"
                   value={state.previous_kwh.toString().replace(/^0+/, '')}
@@ -121,6 +124,7 @@ function BillContent(props) {
               <td>
                 <input
                   type="number"
+                  step="0.01"
                   min="0"
                   name="current_kwh"
                   value={state.current_kwh.toString().replace(/^0+/, '')}
@@ -128,10 +132,11 @@ function BillContent(props) {
                   required
                 />
               </td>
-              <td>{state.total_kwh}</td>
+              <td>{parseNumber(state.total_kwh)}</td>
               <td>
                 <input
                   type="number"
+                  step="0.01"
                   min="0"
                   name="rate"
                   value={state.rate.toString().replace(/^0+/, '')}
@@ -139,8 +144,8 @@ function BillContent(props) {
                   required
                 />
               </td>
-              <td> ₱ {state.total_amount} </td>
-              <td> ₱ {state.bill_per_individual} </td>
+              <td> ₱ {parseNumber(state.total_amount)} </td>
+              <td> ₱ {parseNumber(state.bill_per_individual)} </td>
             </tr>
           </tbody>
         </Table>
@@ -167,10 +172,11 @@ function BillContent(props) {
 
             <tr>
               <td>{monthNames[month]}</td>
-              <td> ₱ {state.bill_per_individual} </td>
+              <td> ₱ {parseNumber(state.bill_per_individual)} </td>
               <td>
                 <input
                   type="number"
+                  step="0.01"
                   placeholder="amount"
                   min="0"
                   name="waterBill"
@@ -179,7 +185,9 @@ function BillContent(props) {
                   required
                 />
               </td>
-              <td>₱ {state.bill_per_individual + state.waterBill}</td>
+              <td>
+                ₱ {parseNumber(state.bill_per_individual + state.waterBill)}
+              </td>
             </tr>
 
             <tr>
@@ -187,8 +195,8 @@ function BillContent(props) {
                 Total
               </td>
               <td>
-                ₱ {state.roomBill} + ₱
-                {state.bill_per_individual + state.waterBill}
+                ₱ {parseNumber(state.roomBill)} + ₱{' '}
+                {parseNumber(state.bill_per_individual + state.waterBill)}
               </td>
             </tr>
           </tbody>
@@ -196,7 +204,8 @@ function BillContent(props) {
 
         <Total>
           <p>
-            Total Accounts Payable: <span>₱ {state.overall_bill} </span>
+            Total Accounts Payable:{' '}
+            <span>₱ {parseNumber(state.overall_bill)} </span>
           </p>
         </Total>
       </Summary>

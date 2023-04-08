@@ -1,10 +1,9 @@
 import React from 'react';
+import styled from 'styled-components';
 
 import { FaUserCircle } from 'react-icons/fa';
 import { BsKey } from 'react-icons/bs';
-import bcrypt from 'bcryptjs';
-import styled from 'styled-components';
-import { registerStudent } from '../../../../services/request';
+
 import {
   Field,
   Namess,
@@ -13,6 +12,9 @@ import {
   EmailIcon,
   Message,
 } from './Styled';
+
+import { registerStudent } from '../../../../services/request';
+import { MD5 } from 'crypto-js';
 
 function Signup({ handle }) {
   const [message, setMessage] = React.useState('');
@@ -53,10 +55,7 @@ function Signup({ handle }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const Hashed = value.password;
-    const hashedPassword = bcrypt.hashSync(Hashed, 10);
-    console.log(Hashed);
-    console.log(hashedPassword);
+
     const V = {
       first: /^[a-zA-ZñÑ]{2,10}(?: [a-zA-ZñÑ]+)?$/gi,
       middle: /^[a-zA-ZñÑ]{2,10}(?: [a-zA-ZñÑ]+)?$/gi,
@@ -89,8 +88,9 @@ function Signup({ handle }) {
     } else {
       const response = await registerStudent({
         ...value,
-        password: hashedPassword,
+        password: MD5(value.password).toString(),
       });
+
       alert('thankyou for filling up please wait for the admin confirmation!');
       return handle();
     }
@@ -107,10 +107,10 @@ function Signup({ handle }) {
           <Namess>
             <div>
               <Input
-                type='text'
-                placeholder='FIRST NAME:'
+                type="text"
+                placeholder="FIRST NAME:"
                 value={value.name.first}
-                name='first'
+                name="first"
                 onChange={nameAdd}
                 required
               />
@@ -118,10 +118,10 @@ function Signup({ handle }) {
             </div>
             <div>
               <Input
-                type='text'
-                placeholder='MID NAME:'
+                type="text"
+                placeholder="MID NAME:"
                 value={value.name.middle}
-                name='middle'
+                name="middle"
                 onChange={nameAdd}
                 required
               />
@@ -129,10 +129,10 @@ function Signup({ handle }) {
             </div>
             <div>
               <Input
-                type='text'
-                placeholder='LAST NAME:'
+                type="text"
+                placeholder="LAST NAME:"
                 value={value.name.last}
-                name='last'
+                name="last"
                 onChange={nameAdd}
                 required
               />
@@ -143,10 +143,10 @@ function Signup({ handle }) {
         <Field>
           <div>
             <Input
-              type='email'
-              placeholder='EMAIL: eg. juancruz@gmail.com'
+              type="email"
+              placeholder="EMAIL: eg. juancruz@gmail.com"
               value={value.email}
-              name='email'
+              name="email"
               onChange={textAdd}
               required
             />
@@ -156,10 +156,10 @@ function Signup({ handle }) {
         <Field>
           <div>
             <Input
-              type='number'
-              placeholder='CONTACT NUMBER: eg. 09735678935'
+              type="number"
+              placeholder="CONTACT NUMBER: eg. 09735678935"
               value={value.contact}
-              name='contact'
+              name="contact"
               onChange={textAdd}
               required
             />
@@ -169,10 +169,10 @@ function Signup({ handle }) {
         <Field>
           <div>
             <Input
-              type='text'
-              placeholder='SR-CODE: eg. 20-06113'
+              type="text"
+              placeholder="SR-CODE: eg. 20-06113"
               value={value.username}
-              name='username'
+              name="username"
               onChange={textAdd}
               required
             />
@@ -183,10 +183,10 @@ function Signup({ handle }) {
         <Field>
           <div>
             <Input
-              type='password'
-              placeholder='PASSWORD: atleast 8 characters'
+              type="password"
+              placeholder="PASSWORD: atleast 8 characters"
               value={value.password}
-              name='password'
+              name="password"
               onChange={textAdd}
               required
             />
@@ -196,10 +196,10 @@ function Signup({ handle }) {
         <Field>
           <div>
             <Input
-              type='password'
-              placeholder='CONFIRM PASSWORD: atleast 8 characters'
+              type="password"
+              placeholder="CONFIRM PASSWORD: atleast 8 characters"
               value={value.confirmPassword}
-              name='confirmPassword'
+              name="confirmPassword"
               onChange={textAdd}
               required
             />
@@ -209,14 +209,14 @@ function Signup({ handle }) {
         <Register>
           <Checkbox>
             <input
-              type='checkbox'
-              id='terms'
+              type="checkbox"
+              id="terms"
               value={value.terms}
-              name='terms'
+              name="terms"
               onChange={textAdd}
               required
             />
-            <label htmlFor='terms'>
+            <label htmlFor="terms">
               I accept the Terms of Use & Privacy Policy
             </label>
           </Checkbox>
@@ -230,6 +230,7 @@ function Signup({ handle }) {
 }
 
 export default Signup;
+
 const ComponentContainer = styled.div`
   transition: all 0.6s ease-in-out;
   margin: 0;
