@@ -9,26 +9,23 @@ import {
 import { FiSearch } from 'react-icons/fi';
 
 function Header(props) {
-  const { area, searchText } = props;
-  const { changeArea, changeFilter, handleSearch } = props;
+  const { table, searchText } = props;
+  const { changeTable, changeFilter, handleSearch } = props;
 
   return (
     <StyledHeader>
-      <h1>{area ? area : 'All Tenants'}</h1>
+      <h1>
+        {table ? table.charAt(0).toUpperCase() + table.slice(1) : 'All Tenants'}
+      </h1>
 
       <FilterContainer>
-        {/* Select Area  */}
+        {/* Select table  */}
         <InputContainer>
-          <label htmlFor=""> Area: </label>
-          <select
-            name=""
-            id=""
-            value={area}
-            onChange={(e) => changeArea(e.target.value)}
-          >
+          <label htmlFor=""> Table: </label>
+          <select value={table} onChange={(e) => changeTable(e.target.value)}>
             <option value="">All</option>
-            <option value="Dormitory">Dorm</option>
-            <option value="Canteen">Canteen</option>
+            <option value="dorm">Dorm</option>
+            <option value="canteen">Canteen</option>
           </select>
         </InputContainer>
 
@@ -36,7 +33,7 @@ function Header(props) {
         <InputContainer>
           <label htmlFor="">Filter By: </label>
 
-          <select name="" id="" onChange={(e) => changeFilter(e.target.value)}>
+          <select onChange={(e) => changeFilter(e.target.value)}>
             <option value="" defaultValue>
               None
             </option>

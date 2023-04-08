@@ -13,5 +13,6 @@ export const filterByVerificationStatus = (list, filterBy) => {
 
 export const filterByStatus = (list, filterValue) => {
   if (filterValue == '') return list;
+
   return list.filter((user) => user.status == filterValue);
 };

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const ColumnTitles = styled.div`
   font-weight: bold;
   display: grid;
-  grid-template-columns: 150px repeat(5, 1fr);
+  grid-template-columns: 150px repeat(5, 1fr) 50px;
   padding: 0.5rem;
 
   & > p:nth-child(4),
@@ -27,6 +27,14 @@ export const UserDetails = styled(ColumnTitles)`
   &:hover {
     background-color: #b5d7ff;
   }
+
+  svg {
+    justify-self: end;
+    align-self: center;
+    color: #737c85;
+    font-size: 1.5rem;
+    cursor: help;
+  }
 `;
 
 export const Status = styled.p`
@@ -40,6 +48,10 @@ export const Status = styled.p`
       return '#777';
     }
   }};
+`;
+
+export const Room = styled.p`
+  color: ${({ room }) => (room.includes('GN') ? '#999999' : null)};
 `;
 
 export const Container = styled.div`

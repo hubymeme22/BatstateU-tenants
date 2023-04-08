@@ -38,7 +38,7 @@ function Tenants() {
   const [userBillings, setUserBillings] = useState(billingInitialState);
 
   // Filters & Search
-  const [area, changeArea] = useFilter('Tenants');
+  const [table, changeTable] = useFilter('');
   const [filterBy, changeFilter] = useFilter('');
   const [searchText, handleSearch] = useSearch();
 
@@ -60,14 +60,21 @@ function Tenants() {
       return;
     }
 
-    // filter the users by verification status
-    const filtered = filterByStatus(allTenants, filterBy);
+    let accounts = allTenants;
+
+    if (table != '') {
+      // filter out based on access type (none / room  / canteen )
+      accounts = allTenants.filter((user) => user.room_label == table);
+    }
+
+    // filter again by status
+    const filtered = filterByStatus(accounts, filterBy);
 
     // Search the new list
     const result = searchUser(searchText, filtered);
 
     setMatchedUsers(result);
-  }, [allTenants, searchText, filterBy]);
+  }, [allTenants, table, filterBy, searchText]);
 
   const handlePayment = (username) => {
     const editedTenantsList = allTenants.map((user) => {
@@ -120,8 +127,8 @@ function Tenants() {
     <>
       <Container>
         <Header
-          area={area}
-          changeArea={changeArea}
+          table={table}
+          changeTable={changeTable}
           changeFilter={changeFilter}
           searchText={searchText}
           handleSearch={handleSearch}

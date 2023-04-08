@@ -30,7 +30,7 @@ function UsersList(props) {
                   <p>{room}</p>
                 </UserDetails>
               ) : (
-                <AdminDetails>
+                <AdminDetails key={email}>
                   <p>{first}</p>
                   <p>{last}</p>
                   <p>{email}</p>

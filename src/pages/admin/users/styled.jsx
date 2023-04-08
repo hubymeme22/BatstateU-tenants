@@ -16,6 +16,7 @@ export const UserColumn = styled.div`
 export const UsersContainer = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
 `;
 
 export const UserDetails = styled(UserColumn)`
