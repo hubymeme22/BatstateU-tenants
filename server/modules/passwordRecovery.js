@@ -63,7 +63,7 @@ export function getCEmail(id) {
 
 // i see what you did there
 export function passchanged(id) {
-    delete changePassMap[id];
+    delete passmap[id];
 }
 
 // template for password recovery email
