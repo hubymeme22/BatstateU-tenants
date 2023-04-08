@@ -10,6 +10,9 @@ import BillContent from './BillContent';
 import { daysBetweenDates } from '../../utils/date';
 import { createBilling } from '../../services/request';
 import { getTokenCookie } from '../../utils/tokenHandler';
+import { parseObject } from '../../utils/parser';
+
+import { invoiceInitialState } from '../../services/format/FormState';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -26,28 +29,8 @@ const reducer = (state, action) => {
   }
 };
 
-const initialState = {
-  // Dates
-  start_date: '',
-  end_date: '',
-  days_present: 0,
-
-  // Readings
-  previous_kwh: 0,
-  current_kwh: 0,
-  total_kwh: 0,
-  rate: 0,
-  total_amount: 0,
-  bill_per_individual: 0,
-
-  // Bills
-  roomBill: 1000,
-  waterBill: 100,
-  overall_bill: 0,
-};
-
 function BillingCard({ tenants, roomDetails, toggleInvoice, toggleModal }) {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, invoiceInitialState);
   const [month, setMonth] = useState(null);
 
   const saveBillingStatement = async (e) => {
@@ -58,7 +41,7 @@ function BillingCard({ tenants, roomDetails, toggleInvoice, toggleModal }) {
     const { days_present, waterBill, roomBill } = state;
 
     // split date
-    const date = state.end_date.split('-');
+    let date = state.end_date.split('-');
 
     const month = Number(date[1]);
     const day = Number(date[2]);
@@ -67,23 +50,26 @@ function BillingCard({ tenants, roomDetails, toggleInvoice, toggleModal }) {
     const selectedTenantsList = tenants.map((tenant) => tenant.username);
 
     const postData = {
-      // dates
-      month,
-      day,
-      year,
-      // readings
       rate,
       previous_kwh,
       current_kwh,
-      //
-      days_present,
       waterBill,
       roomBill,
+    };
+
+    let parsedData = parseObject(postData);
+
+    let newPostData = {
+      ...parsedData,
+      month,
+      day,
+      year,
+      days_present,
       users: selectedTenantsList,
       token: getTokenCookie(),
     };
 
-    const response = await createBilling(roomDetails.slot, postData);
+    const response = await createBilling(roomDetails.slot, newPostData);
 
     if (response.data.error == '') {
       toggleInvoice();
@@ -98,7 +84,7 @@ function BillingCard({ tenants, roomDetails, toggleInvoice, toggleModal }) {
   };
 
   const resetValues = () => {
-    dispatch({ type: 'reset', value: initialState });
+    dispatch({ type: 'reset', value: invoiceInitialState });
   };
 
   const goBack = () => {
