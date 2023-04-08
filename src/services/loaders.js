@@ -13,6 +13,6 @@ export const tenantsLoader = async () => {
 };
 
 export const usersLoader = async () => {
-  const allRecords = await fetchAsAdmin('students/details');
-  return allRecords.data;
+  const allAccounts = await fetchAsAdmin('summary/account');
+  return allAccounts.data;
 };

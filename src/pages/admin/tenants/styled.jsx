@@ -1,38 +1,5 @@
 import styled from 'styled-components';
 
-export const StyledHeader = styled.header`
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-
-  /* Title */
-  h1 {
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-
-  div {
-    display: flex;
-    gap: 1rem;
-  }
-`;
-
-export const InputContainer = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-
-  input,
-  select {
-    padding: 0.25rem;
-  }
-
-  svg {
-    position: absolute;
-    right: 0.5rem;
-  }
-`;
-
 export const ColumnTitles = styled.div`
   font-weight: bold;
   display: grid;

@@ -1,8 +1,12 @@
 import React from 'react';
 
-import { InputContainer, StyledHeader } from '../styled';
+import {
+  FilterContainer,
+  InputContainer,
+  StyledHeader,
+} from '../../../../styles/common/styles';
 
-import { FiFilter, FiSearch } from 'react-icons/fi';
+import { FiSearch } from 'react-icons/fi';
 
 function Header(props) {
   const { area, searchText } = props;
@@ -12,7 +16,7 @@ function Header(props) {
     <StyledHeader>
       <h1>{area ? area : 'All Tenants'}</h1>
 
-      <div>
+      <FilterContainer>
         {/* Select Area  */}
         <InputContainer>
           <label htmlFor=""> Area: </label>
@@ -44,14 +48,14 @@ function Header(props) {
         {/* Search Bar */}
         <InputContainer>
           <input
-            type="text"
+            type="search"
             placeholder="Search tenant"
             value={searchText}
             onChange={(e) => handleSearch(e)}
           />
           <FiSearch />
         </InputContainer>
-      </div>
+      </FilterContainer>
     </StyledHeader>
   );
 }

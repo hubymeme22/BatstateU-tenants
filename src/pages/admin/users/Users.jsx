@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-import { Container, ColumnTitles } from './styled';
+import { Container } from './styled';
 
 import Header from './components/Header';
+import TableHeader from './components/TableHeader';
 import UsersList from './components/UsersList';
 import Loader from '../../../components/Loader';
 
@@ -19,12 +20,12 @@ import useSearch from '../../../hooks/useSearch';
 import useFilter from '../../../hooks/useFilter';
 
 function Users() {
-  const [users, setUsers] = useState([]);
+  const [allAcounts, setAllAccounts] = useState([]);
   const [isLoading, toggleLoading] = useState(true);
   const [matchedUsers, setMatchedUsers] = useState([]);
 
   // Filters & Search
-  const [category, changeCategory] = useFilter('student');
+  const [table, changeTable] = useFilter('student');
   const [filterBy, changeFilter] = useFilter('');
   const [searchText, handleSearch] = useSearch();
 
@@ -32,7 +33,7 @@ function Users() {
   useEffect(() => {
     const fetchedData = async () => {
       const data = await usersLoader();
-      setUsers(data.details);
+      setAllAccounts(data.details);
       setMatchedUsers(data.details);
       toggleLoading(false);
     };
@@ -42,23 +43,26 @@ function Users() {
 
   useEffect(() => {
     // Guard case
-    if (users.length == 0 && filterBy == '' && searchText.trim() == '') {
-      setMatchedUsers(users);
+    if (allAcounts.length == 0 && filterBy == '' && searchText.trim() == '') {
+      setMatchedUsers(allAcounts);
       return;
     }
 
-    // filter the users by verification status
-    const filtered = filterByVerificationStatus(users, filterBy);
+    // filter out based on access type (admin / student)
+    const accounts = allAcounts.filter((user) => user.access == table);
 
-    // Search the new list
+    // filter again by verification status
+    const filtered = filterByVerificationStatus(accounts, filterBy);
+
+    // Search from the filtered list
     const result = searchUser(searchText, filtered);
 
     setMatchedUsers(result);
-  }, [users, searchText, filterBy]);
+  }, [allAcounts, table, filterBy, searchText]);
 
   //
   const toggleVerification = (username, isVerified) => {
-    const editedUsersList = users.map((user) => {
+    const editedUsersList = allAcounts.map((user) => {
       if (user.username == username) {
         return { ...user, verified: !isVerified };
       }
@@ -73,35 +77,27 @@ function Users() {
     }
 
     // Edit value on browser for fast render
-    setUsers(editedUsersList);
+    setAllAccounts(editedUsersList);
   };
 
   return (
     <>
       <Container>
         <Header
-          category={category}
-          changeCategory={changeCategory}
+          table={table}
+          changeTable={changeTable}
           changeFilter={changeFilter}
           searchText={searchText}
           handleSearch={handleSearch}
         ></Header>
 
-        <ColumnTitles>
-          <p>SR-CODE</p>
-          <p>First Name</p>
-          <p>Last Name</p>
-          <p>Contact</p>
-          <p>Verified</p>
-          <p>Unit Number</p>
-        </ColumnTitles>
+        <TableHeader table={table} />
 
-        <hr />
-
-        {!isLoading || users.length != 0 ? (
+        {!isLoading || allAcounts.length != 0 ? (
           <UsersList
             list={matchedUsers}
             toggleVerification={toggleVerification}
+            type={table}
           />
         ) : (
           <Loader />
