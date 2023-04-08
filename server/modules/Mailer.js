@@ -11,8 +11,10 @@ const transporter = nodemailer.createTransport({
 
 // simply sends an email to the recipient
 export function sendMail(to, subject, text, acceptCallback, rejectCallback) {
-    if (process.env.GMAIL_USER == "" || process.env.GMAIL_PASS == "")
+    if (process.env.GMAIL_USER == "" || process.env.GMAIL_PASS == "") {
+        rejectCallback('NoAccountSet');
         return false;
+    }
 
     const mailOptions = {
         from: process.env.GMAIL_USER,
