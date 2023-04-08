@@ -19,13 +19,8 @@ function Header(props) {
       <FilterContainer>
         {/* Table */}
         <InputContainer>
-          <label htmlFor=""> Table: </label>
-          <select
-            name=""
-            id=""
-            value={table}
-            onChange={(e) => changeTable(e.target.value)}
-          >
+          <label htmlFor=""> Area: </label>
+          <select value={table} onChange={(e) => changeTable(e.target.value)}>
             <option value="student">Student</option>
             <option value="admin">Admin</option>
           </select>
@@ -36,11 +31,7 @@ function Header(props) {
           <InputContainer>
             <label htmlFor="">Filter By: </label>
 
-            <select
-              name=""
-              id=""
-              onChange={(e) => changeFilter(e.target.value)}
-            >
+            <select onChange={(e) => changeFilter(e.target.value)}>
               <option value="" defaultValue>
                 None
               </option>

@@ -24,6 +24,7 @@ import { fetchAsAdmin, markAsPaid } from '../../../services/request';
 import useFilter from '../../../hooks/useFilter';
 import useToggle from '../../../hooks/useToggle';
 import useSearch from '../../../hooks/useSearch';
+import InfoCard from './components/InfoCard/InfoCard';
 
 function Tenants() {
   const [allTenants, setAllTenants] = useState([]);
@@ -32,6 +33,7 @@ function Tenants() {
   // Toggles
   const [isLoading, toggleLoading] = useToggle(true);
   const [modalIsOpen, toggleModal] = useToggle(false);
+  const [isViewingInfo, toggleViewingInfo] = useToggle(false);
 
   // Placeholder for modal
   const [userInfo, setUserInfo] = useState(userInitialState);
@@ -123,6 +125,10 @@ function Tenants() {
     toggleLoading();
   };
 
+  const viewTenantInfo = (user) => {
+    toggleViewingInfo();
+  };
+
   return (
     <>
       <Container>
@@ -141,12 +147,17 @@ function Tenants() {
           <p>Contact</p>
           <p>Unit Number</p>
           <p>Status</p>
+          <p></p>
         </ColumnTitles>
 
         <hr />
 
         {!isLoading || allTenants.length != 0 ? (
-          <List data={matchedUsers} viewStatement={viewStatement} />
+          <List
+            data={matchedUsers}
+            viewStatement={viewStatement}
+            viewTenantInfo={viewTenantInfo}
+          />
         ) : (
           <Loader />
         )}
@@ -159,6 +170,8 @@ function Tenants() {
         userBillings={userBillings}
         handlePayment={handlePayment}
       />
+
+      <InfoCard isOpen={isViewingInfo} toggleModal={toggleViewingInfo} />
     </>
   );
 }

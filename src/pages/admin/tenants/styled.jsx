@@ -19,22 +19,11 @@ export const UsersContainer = styled.div`
 `;
 
 export const UserDetails = styled(ColumnTitles)`
+  grid-template-columns: 150px repeat(5, 1fr);
   font-weight: normal;
   border-radius: 5px;
   padding: 0.5rem;
   cursor: pointer;
-
-  &:hover {
-    background-color: #b5d7ff;
-  }
-
-  svg {
-    justify-self: end;
-    align-self: center;
-    color: #737c85;
-    font-size: 1.5rem;
-    cursor: help;
-  }
 `;
 
 export const Status = styled.p`

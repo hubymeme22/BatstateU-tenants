@@ -1,22 +1,6 @@
 import ReactModal from 'react-modal';
 import styled from 'styled-components';
 
-export const ModalStyling = {
-  overlay: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#000000ba',
-
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  content: {
-    width: '800px',
-    overflowY: 'scroll',
-  },
-};
-
 export const StyledModalStatement = styled(ReactModal)`
   padding: 2rem;
   padding-bottom: 1.5rem;

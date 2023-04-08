@@ -2,8 +2,11 @@ import React from 'react';
 
 import { UsersContainer, UserDetails, Status, Room } from '../styled';
 import { FaFileInvoice } from 'react-icons/fa';
+import styled from 'styled-components';
 
-function List({ data, viewStatement }) {
+function List(props) {
+  const { data, viewStatement, viewTenantInfo } = props;
+
   return (
     <UsersContainer>
       {data.length > 0 ? (
@@ -12,15 +15,21 @@ function List({ data, viewStatement }) {
           const { first, last } = userdata.name;
 
           return (
-            <UserDetails key={username}>
-              <p>{username}</p>
-              <p>{first}</p>
-              <p>{last}</p>
-              <p>{contact}</p>
-              <Room room={roomID}>{roomID}</Room>
-              <Status indicator={status}>{status}</Status>
+            <Container>
+              <UserDetails
+                key={username}
+                onClick={() => viewTenantInfo(userdata)}
+              >
+                <p>{username}</p>
+                <p>{first}</p>
+                <p>{last}</p>
+                <p>{contact}</p>
+                <Room room={roomID}>{roomID}</Room>
+                <Status indicator={status}>{status}</Status>
+              </UserDetails>
+
               <FaFileInvoice onClick={() => viewStatement(userdata)} />
-            </UserDetails>
+            </Container>
           );
         })
       ) : (
@@ -31,3 +40,21 @@ function List({ data, viewStatement }) {
 }
 
 export default List;
+
+const Container = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  align-items: center;
+
+  &:hover {
+    background-color: #b5d7ff;
+  }
+
+  svg {
+    justify-self: end;
+    align-self: center;
+    color: #737c85;
+    font-size: 1.5rem;
+    cursor: help;
+  }
+`;
