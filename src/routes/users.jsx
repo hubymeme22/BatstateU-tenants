@@ -5,6 +5,8 @@ import Notification from '../pages/user/Notification/Notification';
 import Form from '../pages/user/Form/Form';
 import Account from '../pages/user/Account/Account';
 import Forgot from '../pages/user/ForgotPass/Forgot';
+import PinInput from '../pages/user/ForgotPass/components/PinInput';
+PinInput;
 
 export const userRoutes = [
   {
@@ -14,6 +16,10 @@ export const userRoutes = [
   {
     path: 'forgotpass',
     element: <Forgot />,
+  },
+  {
+    path: 'pinInput',
+    element: <PinInput />,
   },
   {
     path: '/',

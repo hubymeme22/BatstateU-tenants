@@ -9,10 +9,10 @@ import {
   Label,
   Input,
   Button,
-} from './styled';
+} from '../styled';
 import BackgroundPath from '@/assets/background.webp';
-import { forgotPass } from '../../../services/request';
-function Forgot() {
+import { forgotPass } from '../../../../services/request';
+function PinInput() {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState('');
   const handleSubmit = async (e) => {
@@ -46,4 +46,4 @@ function Forgot() {
     </LoginContainer>
   );
 }
-export default Forgot;
+export default PinInput;

@@ -116,3 +116,10 @@ export const getStudentAnnouncements = async () => {
     .then((response) => response)
     .catch((error) => {});
 };
+//forgot password
+export const forgotPass = async (email) => {
+  return await axios
+    .post('/forgotpass', email)
+    .then((response) => response)
+    .catch((error) => {});
+};
