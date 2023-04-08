@@ -14,9 +14,9 @@ function UsersList(props) {
           if (access != type) return;
 
           return (
-            <>
+            <React.Fragment key={email}>
               {type == 'student' ? (
-                <UserDetails key={username}>
+                <UserDetails>
                   <p>{username}</p>
                   <p>{first}</p>
                   <p>{last}</p>
@@ -30,13 +30,13 @@ function UsersList(props) {
                   <p>{room}</p>
                 </UserDetails>
               ) : (
-                <AdminDetails key={email}>
+                <AdminDetails>
                   <p>{first}</p>
                   <p>{last}</p>
                   <p>{email}</p>
                 </AdminDetails>
               )}
-            </>
+            </React.Fragment>
           );
         })}
       </div>
