@@ -531,12 +531,12 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                     const user = currentBill.users.find(item => item.username == username);
 
                     // assign the space part
-                    reportFormat.space.currentBalance = currentBill.roomPayment;
-                    reportFormat.space.totalBalance = currentBill.roomPayment;
+                    reportFormat.space.currentBalance = currentBill.roomPayment.toFixed(2);
+                    reportFormat.space.totalBalance = currentBill.roomPayment.toFixed(2);
 
                     // assign the utilities part
-                    reportFormat.utility.currentBalance = user.cost;
-                    reportFormat.utility.totalBalance = user.cost;
+                    reportFormat.utility.currentBalance = parseFloat(user.cost.toFixed(2));
+                    reportFormat.utility.totalBalance = parseFloat(user.cost.toFixed(2));
 
                     reportFormat.roomRentalFee = currentBill.roomPayment;
                     reportFormat.dueDate = currentBill.dueDate;
@@ -560,8 +560,8 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
                     // re-calculation for charge of 5% on past billing
                     if (i < (unpaidBills.length - 1)) {
-                        currentBill.roomPayment += previousBill.roomPayment + (previousBill.roomPayment * 0.05);
-                        currentBill.users[currentUserBill].cost += previousBill.users[pastUserBill].cost + (previousBill.users[pastUserBill].cost * 0.05);    
+                        currentBill.roomPayment += (previousBill.roomPayment + (previousBill.roomPayment * 0.05));
+                        currentBill.users[currentUserBill].cost += (previousBill.users[pastUserBill].cost + (previousBill.users[pastUserBill].cost * 0.05));
                     } else {
                         currentBill.roomPayment += (previousBill.roomPayment * 0.05);
                         currentBill.users[currentUserBill].cost += (previousBill.users[pastUserBill].cost * 0.05);
@@ -579,13 +579,12 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                 const latestUserUtility = latestBilling.users.find(item => item.username == username);
 
                 reportFormat.dueDate = latestBilling.dueDate;
-                reportFormat.space.currentBalance = latestBilling.roomPayment;
-                reportFormat.space.previousBalance = previousBilling.roomPayment;
-                reportFormat.space.totalBalance = (reportFormat.space.currentBalance + reportFormat.space.previousBalance);
-
-                reportFormat.utility.currentBalance = latestUserUtility.cost;
-                reportFormat.utility.previousBalance = previousUserUtility.cost;
-                reportFormat.utility.totalBalance = (reportFormat.utility.currentBalance + reportFormat.utility.previousBalance);
+                reportFormat.space.currentBalance = parseFloat(latestBilling.roomPayment.toFixed(2));
+                reportFormat.space.previousBalance = parseFloat(previousBilling.roomPayment.toFixed(2));
+                reportFormat.space.totalBalance = parseFloat((reportFormat.space.currentBalance + reportFormat.space.previousBalance).toFixed(2));
+                reportFormat.utility.currentBalance = parseFloat(latestUserUtility.cost.toFixed(2));
+                reportFormat.utility.previousBalance = parseFloat(previousUserUtility.cost.toFixed(2));
+                reportFormat.utility.totalBalance = parseFloat((reportFormat.utility.currentBalance + reportFormat.utility.previousBalance).toFixed(2));
 
                 this.acceptCallback(reportFormat);
             }).catch(this.rejectCallback);
