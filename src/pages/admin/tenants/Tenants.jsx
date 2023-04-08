@@ -29,6 +29,7 @@ import InfoCard from './components/InfoCard/InfoCard';
 
 function Tenants() {
   const [allTenants, setAllTenants] = useState([]);
+  const [availableRooms, setAvailableRooms] = useState([]);
   const [matchedUsers, setMatchedUsers] = useState([]);
 
   // Toggles
@@ -52,8 +53,9 @@ function Tenants() {
   useEffect(() => {
     const fetchRecords = async () => {
       const data = await tenantsLoader();
-      setAllTenants(data.details);
-      setMatchedUsers(data.details);
+      setAllTenants(data.records.details);
+      setMatchedUsers(data.records.details);
+      setAvailableRooms(data.availableRooms.slots);
     };
 
     fetchRecords();
@@ -137,6 +139,25 @@ function Tenants() {
     setUserData(userData);
   };
 
+  const changeRoom = (e, username) => {
+    const room = e.target.value;
+    const updatedAccount = { ...userData, roomID: room };
+
+    setUserData(updatedAccount);
+  };
+
+  const saveChanges = () => {
+    const updatedTenantList = allTenants.map((tenant) => {
+      if (tenant.username == userData.username) {
+        return userData;
+      }
+      return tenant;
+    });
+
+    setAllTenants(updatedTenantList);
+    toggleViewingInfo();
+  };
+
   return (
     <>
       <Container>
@@ -182,7 +203,10 @@ function Tenants() {
       <InfoCard
         isOpen={isViewingInfo}
         toggleModal={toggleViewingInfo}
+        availableRooms={availableRooms}
         userData={userData}
+        changeRoom={changeRoom}
+        saveChanges={saveChanges}
       />
     </>
   );

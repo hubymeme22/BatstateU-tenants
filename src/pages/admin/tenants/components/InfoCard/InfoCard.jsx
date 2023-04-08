@@ -6,6 +6,9 @@ import Button from '../../../../../components/ui/Button';
 
 function InfoCard(props) {
   const { isOpen, toggleModal, userData } = props;
+  const { availableRooms, changeRoom, saveChanges } = props;
+
+  // Destruct user information
   const { username, contact, email, roomID, status } = userData;
   const { first, middle, last } = userData.name;
 
@@ -37,7 +40,17 @@ function InfoCard(props) {
           </tr>
           <tr>
             <td>UNIT NUMBER</td>
-            <td>{roomID}</td>
+            <td>
+              <select value={roomID} onChange={(e) => changeRoom(e, username)}>
+                {availableRooms.map((room) => {
+                  return (
+                    <option value={room.slot} key={room._id}>
+                      {room.slot}
+                    </option>
+                  );
+                })}
+              </select>
+            </td>
           </tr>
           <tr>
             <td>STATUS</td>
@@ -48,7 +61,9 @@ function InfoCard(props) {
 
       <ButtonContainer>
         <Button onClick={toggleModal}>Cancel</Button>
-        <Button primary>Save</Button>
+        <Button onClick={saveChanges} primary>
+          Save
+        </Button>
       </ButtonContainer>
     </InfoCardModal>
   );

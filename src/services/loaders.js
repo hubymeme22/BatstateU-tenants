@@ -9,7 +9,8 @@ export const dashboardLoader = async () => {
 
 export const tenantsLoader = async () => {
   const allRecords = await fetchAsAdmin('summary/student');
-  return allRecords.data;
+  const available = await fetchAsAdmin('slots/available');
+  return { records: allRecords.data, availableRooms: available.data };
 };
 
 export const usersLoader = async () => {
