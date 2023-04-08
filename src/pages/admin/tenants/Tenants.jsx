@@ -19,7 +19,11 @@ import {
   accountInitialState,
 } from '../../../services/format/FormState';
 import { tenantsLoader } from '../../../services/loaders';
-import { fetchAsAdmin, markAsPaid } from '../../../services/request';
+import {
+  fetchAsAdmin,
+  markAsPaid,
+  changeTenantRoom,
+} from '../../../services/request';
 
 // hooks
 import useFilter from '../../../hooks/useFilter';
@@ -139,14 +143,14 @@ function Tenants() {
     setUserData(userData);
   };
 
-  const changeRoom = (e, username) => {
+  const changeRoom = (e) => {
     const room = e.target.value;
     const updatedAccount = { ...userData, roomID: room };
 
     setUserData(updatedAccount);
   };
 
-  const saveChanges = () => {
+  const saveChanges = (username, roomID) => {
     const updatedTenantList = allTenants.map((tenant) => {
       if (tenant.username == userData.username) {
         return userData;
@@ -155,6 +159,7 @@ function Tenants() {
     });
 
     setAllTenants(updatedTenantList);
+    const response = changeTenantRoom(username, roomID);
     toggleViewingInfo();
   };
 

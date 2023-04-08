@@ -61,7 +61,7 @@ function InfoCard(props) {
 
       <ButtonContainer>
         <Button onClick={toggleModal}>Cancel</Button>
-        <Button onClick={saveChanges} primary>
+        <Button onClick={() => saveChanges(username, roomID)} primary>
           Save
         </Button>
       </ButtonContainer>

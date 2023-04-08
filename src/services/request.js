@@ -5,6 +5,8 @@ import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:5050/api/';
 axios.defaults.withCredentials = true;
 
+import { getTokenCookie } from '../utils/tokenHandler';
+
 /* ---------- PUBLIC ---------- */
 
 export const loginAdmin = async (adminData) => {
@@ -39,6 +41,7 @@ export const fetchAsAdmin = async (route) => {
 };
 
 // POST REQUESTS
+
 // Dashboard - Creating invoice
 export const createBilling = async (room, billingInformation) => {
   return await axios
@@ -46,6 +49,16 @@ export const createBilling = async (room, billingInformation) => {
     .then((response) => response)
     .catch((error) => {});
 };
+
+export const changeTenantRoom = async (username, room_id) => {
+  return await axios.post('admin/students/room', {
+    room_id,
+    username,
+    token: getTokenCookie(),
+  });
+};
+
+// PUT REQUEST
 
 // Tenants
 export const markAsPaid = async (username) => {
@@ -55,7 +68,6 @@ export const markAsPaid = async (username) => {
     .catch((error) => {});
 };
 
-// PUT REQUEST
 // User page
 export const verifyStudent = async (username) => {
   return await axios
