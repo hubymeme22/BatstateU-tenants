@@ -18,11 +18,11 @@ Notes:
         - [ ] Preview Dorm Students
             - [ ] Can Filter based on number of tenants
 
-            - [ ]  Select Student
-                - [ ]  Create Invoice
+            - [x]  Select Student
+                - [x]  Create Invoice
 
-            - [ ] Select Multiple Student
-                - [ ]  Create invoice for multiple student
+            - [x] Select Multiple Student
+                - [x]  Create invoice for multiple student
             - [ ]  Real time update when changes applies
             
     Tenants Tab
@@ -32,7 +32,7 @@ Notes:
         - [ ]   Select Single & multiple
                 Edit | Delete
 
-        - [ ]   Filter  
+        - [x]   Filter  
                 Paid | Unpaid
 
         - [ ]   Search (Need to discuss)
@@ -40,8 +40,8 @@ Notes:
 
     Users Tab
         - [ ]  Select Table Student | Admin
-        - [ ]  Fitler By Paid | unpaid
-        - [ ]  Search By Sr-code | name
+        - [x]  Fitler By Paid | unpaid
+        - [x]  Search By Sr-code | name
 
 
     Announcement Tab
@@ -56,13 +56,13 @@ Users
     - [ ]  Forget password
     
     Billing Tab
-        - [ ]  View Billing
-        - [ ]  Download Billing
+        - [x]  View Billing
+        - [x]  Download Billing
 
     Profile Tab
-        - [ ]  View Profile
+        - [x]  View Profile
             - [ ]  Edit profile
-        - [ ]  Logout
+        - [x]  Logout
 
 ## __Back-End__
 
