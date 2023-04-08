@@ -15,11 +15,8 @@ function List(props) {
           const { first, last } = userdata.name;
 
           return (
-            <Container>
-              <UserDetails
-                key={username}
-                onClick={() => viewTenantInfo(userdata)}
-              >
+            <Container key={username}>
+              <UserDetails onClick={() => viewTenantInfo(userdata)}>
                 <p>{username}</p>
                 <p>{first}</p>
                 <p>{last}</p>
