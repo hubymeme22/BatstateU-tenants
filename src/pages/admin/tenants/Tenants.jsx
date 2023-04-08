@@ -69,16 +69,6 @@ function Tenants() {
     setMatchedUsers(result);
   }, [allTenants, searchText, filterBy]);
 
-  useEffect(() => {
-    if (searchText.trim() == '') {
-      setMatchedUsers(allTenants);
-      return;
-    }
-
-    const matchedUsers = searchUser(searchText, allTenants);
-    setMatchedUsers(matchedUsers);
-  }, [searchText]);
-
   const handlePayment = (username) => {
     const editedTenantsList = allTenants.map((user) => {
       if (user.username == username) {
