@@ -531,8 +531,8 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                     const user = currentBill.users.find(item => item.username == username);
 
                     // assign the space part
-                    reportFormat.space.currentBalance = currentBill.roomPayment.toFixed(2);
-                    reportFormat.space.totalBalance = currentBill.roomPayment.toFixed(2);
+                    reportFormat.space.currentBalance = parseFloat(currentBill.roomPayment.toFixed(2));
+                    reportFormat.space.totalBalance = parseFloat(currentBill.roomPayment.toFixed(2));
 
                     // assign the utilities part
                     reportFormat.utility.currentBalance = parseFloat(user.cost.toFixed(2));
