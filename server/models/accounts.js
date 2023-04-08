@@ -25,7 +25,6 @@ const adminAccountSchema = mongoose.Schema({
         },
         middle: {
             type: String,
-            required: true
         },
         last: {
             type: String,
