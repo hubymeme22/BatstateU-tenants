@@ -17,12 +17,14 @@ import studentPayment from "./students/payment.js";
 import accountSummary from "./summary/account.js";
 import setConstants from "./billing/setConstants.js";
 import getConstants from "./billing/getConstants.js";
+import deleteUnits from "./slots/deleteUnits.js";
 
 const adminPermission = Router();
 
 // units crud operations
 adminPermission.use("/slots", getUnits);
 adminPermission.use("/slots", addUnit);
+adminPermission.use("/slots", deleteUnits);
 
 // bill crud operations
 adminPermission.use("/billing", setConstants);

@@ -253,6 +253,27 @@ export class AdminMongoDBConnection extends MongoDBConnection {
             }).catch(this.rejectCallback);
     }
 
+    // completely delete a room
+    deleteRoom(roomID) {
+        Room.findOneAndDelete(roomID)
+            .then(roomdata => {
+                Room.findOne({label: 'genesis'})
+                    .then(genroom => {
+
+                        // retrieve all the students and remove
+                        // their rooms parallel to room deletion
+                        Student.find({room: roomdata._id})
+                            .then(studentsdata => {
+                                studentsdata.forEach(student => {
+                                    student.room = genroom._id;
+                                    student.save();
+                                });
+                            }).catch(this.rejectCallback);
+
+                    }).catch(this.rejectCallback);
+            }).catch(this.rejectCallback);
+    }
+
     /////////////////////
     //  BILLINGS PART  //
     /////////////////////
