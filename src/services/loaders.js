@@ -18,7 +18,7 @@ export const usersLoader = async () => {
   return allAccounts.data;
 };
 
-export const settingsLoader = async () => {
+export const defaultPaymentLoader = async () => {
   const defaultBillings = await fetchAsAdmin('billing/paymentValues');
   return defaultBillings.data;
 };

@@ -6,9 +6,9 @@ import {
   StyledButton,
   ButtonContainer,
 } from '../styled';
-import { settingsLoader } from '../../../../services/loaders';
 
 import { defaultBillingsInit } from '../../../../services/format/FormState';
+import { defaultPaymentLoader } from '../../../../services/loaders';
 import { updateDefaultPaymentValues } from '../../../../services/request';
 
 function Left() {
@@ -17,7 +17,7 @@ function Left() {
 
   useEffect(() => {
     const getData = async () => {
-      const response = await settingsLoader();
+      const response = await defaultPaymentLoader();
       setDefaultValues(response.roomBill);
     };
 

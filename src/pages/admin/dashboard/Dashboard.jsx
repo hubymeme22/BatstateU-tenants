@@ -15,6 +15,9 @@ import Loader from '@/components/Loader';
 import { dashboardLoader } from '@/services/loaders';
 import { fetchAsAdmin } from '@/services/request';
 
+import { defaultPaymentLoader } from '../../../services/loaders';
+import { defaultBillingsInit } from '../../../services/format/FormState';
+
 function Dashboard() {
   // Dashboard states
   const [allRooms, setAllRooms] = useState([]);
@@ -30,6 +33,7 @@ function Dashboard() {
   const [isCreatingInvoice, setIsCreatingInvoice] = useState(false);
   const [invoiceNames, setInvoiceNames] = useState([]);
   const [invoiceRoom, setInvoiceRoom] = useState({});
+  const [defaultPayment, setDefaultPayment] = useState(defaultBillingsInit);
 
   // Retrieve dashboard data from server
   useEffect(() => {
@@ -43,6 +47,16 @@ function Dashboard() {
     };
 
     fetchData();
+  }, []);
+
+  // Retrieve the default payment for room || canteen
+
+  useEffect(() => {
+    const getData = async () => {
+      const response = await defaultPaymentLoader();
+      setDefaultPayment(response.roomBill);
+    };
+    getData();
   }, []);
 
   // Separate the data after the allRooms are set
@@ -97,6 +111,7 @@ function Dashboard() {
               roomDetails={invoiceRoom}
               toggleInvoice={toggleInvoice}
               toggleModal={toggleModal}
+              defaultPayment={defaultPayment}
             />
           )}
         </>

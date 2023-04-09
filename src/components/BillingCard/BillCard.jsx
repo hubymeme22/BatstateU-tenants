@@ -29,9 +29,38 @@ const reducer = (state, action) => {
   }
 };
 
-function BillingCard({ tenants, roomDetails, toggleInvoice, toggleModal }) {
+function BillingCard({
+  tenants,
+  roomDetails,
+  toggleInvoice,
+  toggleModal,
+  defaultPayment,
+}) {
   const [state, dispatch] = useReducer(reducer, invoiceInitialState);
   const [month, setMonth] = useState(null);
+
+  useEffect(() => {
+    // Input the default based on the room type
+    if (roomDetails.label == 'dorm') {
+      dispatch({
+        type: 'waterBill',
+        value: defaultPayment.dormWater,
+      });
+      dispatch({
+        type: 'roomBill',
+        value: defaultPayment.dormRoom,
+      });
+    } else if (roomDetails.label == 'canteen') {
+      dispatch({
+        type: 'waterBill',
+        value: defaultPayment.canteenWater,
+      });
+      dispatch({
+        type: 'roomBill',
+        value: defaultPayment.canteenRoom,
+      });
+    }
+  }, []);
 
   const saveBillingStatement = async (e) => {
     e.preventDefault();
@@ -84,7 +113,14 @@ function BillingCard({ tenants, roomDetails, toggleInvoice, toggleModal }) {
   };
 
   const resetValues = () => {
-    dispatch({ type: 'reset', value: invoiceInitialState });
+    // new default billing for water and rent
+    const { waterBill, roomBill } = state;
+    const overall_bill = waterBill + roomBill;
+
+    dispatch({
+      type: 'reset',
+      value: { ...invoiceInitialState, waterBill, roomBill, overall_bill },
+    });
   };
 
   const goBack = () => {

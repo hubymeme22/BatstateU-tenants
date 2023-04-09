@@ -63,9 +63,9 @@ export const invoiceInitialState = {
   bill_per_individual: 0,
 
   // Bills
-  roomBill: 1000,
-  waterBill: 100,
-  overall_bill: 1100,
+  roomBill: 0,
+  waterBill: 0,
+  overall_bill: 0,
 };
 
 export const notificationInit = {
