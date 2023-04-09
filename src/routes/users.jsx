@@ -6,20 +6,29 @@ import Form from '../pages/user/Form/Form';
 import Account from '../pages/user/Account/Account';
 import Forgot from '../pages/user/ForgotPass/Forgot';
 import PinInput from '../pages/user/ForgotPass/components/PinInput';
-PinInput;
-
+import ResetPassword from '../pages/user/ForgotPass/components/ResetPassword';
 export const userRoutes = [
   {
     path: '/login',
     element: <Index />,
   },
   {
-    path: 'forgotpass',
-    element: <Forgot />,
-  },
-  {
-    path: 'pinInput',
-    element: <PinInput />,
+    path: '/forgotpass',
+
+    children: [
+      {
+        index: true,
+        element: <Forgot />,
+      },
+      {
+        path: 'pinInput',
+        element: <PinInput />,
+      },
+      {
+        path: 'passwordreset',
+        element: <ResetPassword />,
+      },
+    ],
   },
   {
     path: '/',

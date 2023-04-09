@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { pinInput } from '../../../../services/request';
 import {
   LoginContainer,
   Form,
@@ -14,33 +15,34 @@ import BackgroundPath from '@/assets/background.webp';
 import { forgotPass } from '../../../../services/request';
 function PinInput() {
   const navigate = useNavigate();
-  const [email, setEmail] = React.useState('');
+  const [pin, setPin] = React.useState('');
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await forgotPass({ email });
+    const response = await pinInput({ pin });
     alert('Thankyou! you will receive a code in your email shortly!');
 
     console.log(response);
-    return navigate('/');
   };
   return (
     <LoginContainer bg={BackgroundPath}>
       <Form onSubmit={handleSubmit}>
-        <Title>FORGOT PASSWORD</Title>
+        <Title> PIN INPUT</Title>
         <Field>
-          <Label htmlFor='email'>Kindly input your Email here:</Label>
+          <Label htmlFor='pin'>
+            Input the PIN that you received in your email here:
+          </Label>
 
           <div>
             <Input
-              type='text'
-              id='email'
-              name='email'
-              placeholder='20-06113@g.batstate-u.edu.ph'
-              onChange={(e) => setEmail(e.target.value)}
+              type='number'
+              id='pin'
+              name='pin'
+              placeholder='0123456'
+              onChange={(e) => setPin(e.target.value)}
             />
             <UserIcon />
           </div>
-          <Button> SEND CODE </Button>
+          <Button> Confirm Pin </Button>
         </Field>
       </Form>
     </LoginContainer>

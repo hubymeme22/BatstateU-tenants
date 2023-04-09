@@ -129,9 +129,16 @@ export const getStudentAnnouncements = async () => {
     .catch((error) => {});
 };
 //forgot password
+//forgot password
 export const forgotPass = async (email) => {
   return await axios
     .post('/forgotpass', email)
+    .then((response) => response)
+    .catch((error) => {});
+};
+export const pinInput = async (pin, code) => {
+  return await axios
+    .post(`/forgotpass/pin/${code}`, pin)
     .then((response) => response)
     .catch((error) => {});
 };
