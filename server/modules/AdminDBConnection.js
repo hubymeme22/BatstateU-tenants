@@ -169,9 +169,9 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                                 else existingroomdata.status = 'occupied';
                             }
 
-                            existingroomdata.users.pop(username);
 
                             const idIndex = existingroomdata.users.indexOf(username);
+                            existingroomdata.users.splice(idIndex, 1);
                             existingroomdata.userref.splice(idIndex, 1);
 
                             existingroomdata.save().then(updatedUserRoom => {
@@ -203,7 +203,6 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                                                 this.acceptCallback(_roomdata);
                                             }).catch(this.rejectCallback);
                                         }).catch(this.rejectCallback);
-
                                     }).catch(this.rejectCallback);
                             }).catch(this.rejectCallback)
                         }
