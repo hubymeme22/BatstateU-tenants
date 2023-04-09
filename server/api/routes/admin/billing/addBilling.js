@@ -2,6 +2,7 @@ import { Router } from "express";
 import { postRequestPermission, setJSONPacketFormat } from "../../../../middleware/tokenValidator.js";
 import { AdminMongoDBConnection } from "../../../../modules/AdminDBConnection.js";
 import paramChecker from "../../../../modules/paramchecker.js";
+import * as sc from "../../../../modules/constants.js";
 
 const addBilling = Router();
 setJSONPacketFormat({error: '', added: false});
@@ -11,7 +12,7 @@ addBilling.post('/multiple/:slot', postRequestPermission, (req, res) => {
         'month', 'day', 'year',
         'rate', 'previous_kwh',
         'current_kwh', 'days_present',
-        'waterBill', 'roomBill', 'users'], req.body);
+        'users'], req.body);
 
     if (missedParams.length > 0)
         return res.json({ error: `missed_params=${missedParams}`, added: false});
@@ -37,8 +38,8 @@ addBilling.post('/multiple/:slot', postRequestPermission, (req, res) => {
         day: req.body.day,
         year: req.body.year,
         days_present: req.body.days_present,
-        waterBill: req.body.waterBill,
-        roomBill: req.body.roomBill
+        waterBill: sc.waterPayment,
+        roomBill: sc.roomPayment
     };
 
     adminDatabase.addMultipleUserBill(req.params.slot, req.body.users, costDetails);
@@ -48,8 +49,7 @@ addBilling.post('/:slot/:username', postRequestPermission, (req, res) => {
     const missedParams = paramChecker([
         'month', 'day', 'year',
         'rate', 'previous_kwh',
-        'current_kwh', 'days_present',
-        'waterBill', 'roomBill'], req.body);
+        'current_kwh', 'days_present'], req.body);
 
     if (missedParams.length > 0)
         return res.json({ error: `missed_params=${missedParams}`, added: false});
@@ -79,8 +79,8 @@ addBilling.post('/:slot/:username', postRequestPermission, (req, res) => {
         day: req.body.day,
         year: req.body.year,
         days_present: req.body.days_present,
-        waterBill: req.body.waterBill,
-        roomBill: req.body.roomBill
+        waterBill: sc.waterPayment,
+        roomBill: sc.roomPayment
     };
 
     adminDatabase.addUserBill(req.params.slot, req.params.username, costDetails);
