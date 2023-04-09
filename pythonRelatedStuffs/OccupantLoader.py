@@ -1,5 +1,6 @@
 import requests as re
 import json
+import hashlib
 
 apiURI = 'http://localhost:5050/api/register/student'
 JSONParsed = json.load(open('boysTenants.json', 'r'))
@@ -28,7 +29,7 @@ for account in JSONParsed:
         'username': account['SR-Code.1'],
         'email': account['SR-Code.1'] + '@g.batstate-u.edu.ph',
         'contact': '09000000000',
-        'password': account['SR-Code.1'] + 'password',
+        'password': hashlib.md5((account['SR-Code.1'] + 'password').encode()).hexdigest(),
         'name': {
             'first': first,
             'middle': middle,
