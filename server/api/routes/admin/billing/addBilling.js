@@ -2,7 +2,6 @@ import { Router } from "express";
 import { postRequestPermission, setJSONPacketFormat } from "../../../../middleware/tokenValidator.js";
 import { AdminMongoDBConnection } from "../../../../modules/AdminDBConnection.js";
 import paramChecker from "../../../../modules/paramchecker.js";
-import * as sc from "../../../../modules/constants.js";
 
 const addBilling = Router();
 setJSONPacketFormat({error: '', added: false});
@@ -38,8 +37,6 @@ addBilling.post('/multiple/:slot', postRequestPermission, (req, res) => {
         day: req.body.day,
         year: req.body.year,
         days_present: req.body.days_present,
-        waterBill: sc.waterPayment,
-        roomBill: sc.roomPayment
     };
 
     adminDatabase.addMultipleUserBill(req.params.slot, req.body.users, costDetails);
@@ -78,9 +75,7 @@ addBilling.post('/:slot/:username', postRequestPermission, (req, res) => {
         month: req.body.month,
         day: req.body.day,
         year: req.body.year,
-        days_present: req.body.days_present,
-        waterBill: sc.waterPayment,
-        roomBill: sc.roomPayment
+        days_present: req.body.days_present
     };
 
     adminDatabase.addUserBill(req.params.slot, req.params.username, costDetails);

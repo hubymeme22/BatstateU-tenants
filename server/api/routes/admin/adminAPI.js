@@ -16,6 +16,7 @@ import studentSummary from "./summary/student.js";
 import studentPayment from "./students/payment.js";
 import accountSummary from "./summary/account.js";
 import setConstants from "./billing/setConstants.js";
+import getConstants from "./billing/getConstants.js";
 
 const adminPermission = Router();
 
@@ -24,10 +25,11 @@ adminPermission.use("/slots", getUnits);
 adminPermission.use("/slots", addUnit);
 
 // bill crud operations
+adminPermission.use("/billing", setConstants);
+adminPermission.use("/billing", getConstants);
 adminPermission.use("/billing", addBilling);
 adminPermission.use("/billing", getBillings);
 adminPermission.use("/billing", deleteBilling);
-adminPermission.use("/billing", setConstants);
 
 // students crud operations
 adminPermission.use("/students", verify);

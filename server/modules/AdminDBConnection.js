@@ -3,6 +3,7 @@ import { Admin, Student } from "../models/accounts.js";
 import { Bills } from "../models/bills.js";
 import { Room } from "../models/rooms.js";
 import paramChecker from "./paramchecker.js";
+import * as sc from "../modules/constants.js";
 
 // database operations that only admin can execute
 export class AdminMongoDBConnection extends MongoDBConnection {
@@ -93,26 +94,31 @@ export class AdminMongoDBConnection extends MongoDBConnection {
         const temporaryCallback = this.acceptCallback;
         const roomSummaryData = {
             'occupiedDorms': 0,
-            'totalSlot': 0,
-            'totalBorders': 0,
+            'numberOfDorms': 0,
+            'totalNumberOfRooms': 0,
+            'totalDormSlot': 0,
+            'totalDormBorders': 0,
+            'totalCanteenSlot': 0,
             'totalCanteenTenants': 0
         };
 
         // add additional process for the accept callback
         this.acceptCallback = (roomdata) => {
             roomdata.forEach(room => {
+                if (room.status == 'occupied' || room.status == 'full')
+                    roomSummaryData.occupiedDorms++;
+
                 if (room.label == 'dorm') {
-                    if (room.status == 'occupied')
-                        roomSummaryData.occupiedDorms++;
-                    roomSummaryData.totalBorders += room.users.length;
-                } else {
-                    if (room.status == 'occupied')
-                        roomSummaryData.occupiedDorms++;
+                    roomSummaryData.totalDormBorders += room.users.length;
+                    roomSummaryData.totalDormSlot += room.max_slot;
+                } else if (room.label == 'canteen') {
                     roomSummaryData.totalCanteenTenants += room.users.length;
+                    roomSummaryData.totalCanteenSlot += room.max_slot;
                 }
 
                 // add the number to the total dormslots
-                roomSummaryData.totalSlot += room.max_slot;
+                roomSummaryData.totalNumberOfRooms += room.max_slot;
+                roomSummaryData.numberOfDorms++;
             });
 
             // pass the room data summary to the callback set by the user
@@ -255,8 +261,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     addUserBill(unitID, username, details) {
         const missedParams = paramChecker([
             'previous_kwh', 'current_kwh', 'rate',
-            'month', 'day', 'year', 'days_present',
-            'waterBill', 'roomBill'], details);
+            'month', 'day', 'year', 'days_present'], details);
 
         if (missedParams.length > 0)
             return this.rejectCallback(`missed_params=${missedParams}`);
@@ -270,6 +275,17 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                 // check if user is registered to this room
                 if (!roomdata.users.find(user => (user == username)))
                     return this.rejectCallback('UserNotRegisteredInRoom');
+
+                // check the room type for water and room billing
+                let waterBill;
+                let roomBill;
+                if (roomdata.label == 'dorm') {
+                    waterBill = sc.waterDormPayment;
+                    roomBill = sc.roomDormPayment;
+                } else {
+                    waterBill = sc.waterCanteenPayment;
+                    roomBill = sc.roomCanteenPayment;
+                }
 
                 // find if there exist a bill that has the same details
                 Bills.findOne({slot: unitID, 'dueDate.month': details.month, 'dueDate.day': details.day, 'dueDate.year': details.year})
@@ -290,8 +306,8 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                                         previousKWH: details.previous_kwh,
                                         currentKWH: details.current_kwh,
                                         fullyPaid: false,
-                                        waterPayment: details.waterBill,
-                                        roomPayment: details.roomBill,
+                                        waterPayment: waterBill,
+                                        roomPayment: roomBill,
                                         currentPayment: monthPayment,
                                         dueDate: {
                                             month: details.month,
@@ -301,7 +317,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                                         users: [{
                                             username: username,
                                             paid: false,
-                                            cost: (monthPayment + details.waterBill),
+                                            cost: (monthPayment + waterBill),
                                             daysPresent: details.days_present,
                                             userDetails: userdata._id
                                         }],
@@ -340,7 +356,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                                 let sumDays = 0;
                                 userbills.forEach(userdetails => { sumDays += userdetails.daysPresent });
                                 userbills.forEach(userdetails => {
-                                    userdetails.cost = (monthPayment * (userdetails.daysPresent / sumDays)) + details.waterBill;
+                                    userdetails.cost = (monthPayment * (userdetails.daysPresent / sumDays)) + waterBill;
                                 });
 
                                 billdata.users = userbills;
@@ -361,8 +377,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     addMultipleUserBill(unitID, username, details) {
         const missedParams = paramChecker([
             'previous_kwh', 'current_kwh', 'rate',
-            'month', 'day', 'year', 'days_present',
-            'waterBill', 'roomBill'], details);
+            'month', 'day', 'year', 'days_present'], details);
 
         if (missedParams.length > 0)
             return this.rejectCallback(`missed_params=${missedParams}`);
@@ -384,6 +399,17 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
                 // display return an error if not
                 if (!allowed) return this.rejectCallback('OneOrManyUserNotInRoom');
+
+                // check the room type for water and room billing
+                let waterBill;
+                let roomBill;
+                if (roomdata.label == 'dorm') {
+                    waterBill = sc.waterDormPayment;
+                    roomBill = sc.roomDormPayment;
+                } else {
+                    waterBill = sc.waterCanteenPayment;
+                    roomBill = sc.roomCanteenPayment;
+                }
 
                 // find if there exist a bill that has the same details
                 Bills.findOne({slot: unitID, 'dueDate.month': details.month, 'dueDate.day': details.day, 'dueDate.year': details.year})
@@ -407,7 +433,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                                         newBillUsers.push({
                                             username: user.username,
                                             paid: false,
-                                            cost: (individualBilling + details.waterBill),
+                                            cost: (individualBilling + waterBill),
                                             daysPresent: details.days_present,
                                             userDetails: user._id
                                         });
@@ -419,8 +445,8 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                                         previousKWH: details.previous_kwh,
                                         currentKWH: details.current_kwh,
                                         fullyPaid: false,
-                                        waterPayment: details.waterBill,
-                                        roomPayment: details.roomBill,
+                                        waterPayment: waterBill,
+                                        roomPayment: roomBill,
                                         currentPayment: monthPayment,
                                         dueDate: {
                                             month: details.month,
@@ -471,7 +497,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                                 // recalculation of user charges
                                 userbills.forEach(userdetails => { sumDays += userdetails.daysPresent });
                                 userbills.forEach(userdetails => {
-                                    userdetails.cost = (monthPayment * (userdetails.daysPresent / sumDays)) + details.waterBill;
+                                    userdetails.cost = (monthPayment * (userdetails.daysPresent / sumDays)) + waterBill;
                                 });
 
                                 billdata.users = userbills;
@@ -870,8 +896,6 @@ export class AdminMongoDBConnection extends MongoDBConnection {
             .then(userdata => {
                 const studentData = [];
                 userdata.forEach(user => {
-                    console.log(user);
-
                     let newDataFormat = {
                         username: user.username,
                         name: user.details.name,

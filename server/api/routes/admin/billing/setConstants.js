@@ -6,7 +6,7 @@ const setConstants = Router();
 setJSONPacketFormat({updated: false, error: ''});
 
 // updates the water payment bill value
-setConstants.put('/update/waterBill/:value', getRequestPermission, (req, res) => {
+setConstants.put('/update/waterBill/dorm/:value', getRequestPermission, (req, res) => {
     const responseFormat = { updated: false, error: '' };
 
     try {
@@ -16,7 +16,7 @@ setConstants.put('/update/waterBill/:value', getRequestPermission, (req, res) =>
             return res.json(responseFormat);    
         }
 
-        sc.setWaterPaymentValue(numericalValue);
+        sc.seDormtWaterPaymentValue(numericalValue);
         responseFormat.updated = true;
         res.json(responseFormat);
 
@@ -27,7 +27,7 @@ setConstants.put('/update/waterBill/:value', getRequestPermission, (req, res) =>
 });
 
 // updates the water payment bill value
-setConstants.put('/update/roomBill/:value', getRequestPermission, (req, res) => {
+setConstants.put('/update/waterBill/canteen/:value', getRequestPermission, (req, res) => {
     const responseFormat = { updated: false, error: '' };
 
     try {
@@ -37,7 +37,48 @@ setConstants.put('/update/roomBill/:value', getRequestPermission, (req, res) => 
             return res.json(responseFormat);    
         }
 
-        sc.setRoomPaymentValue(numericalValue);
+        sc.setCanteenWaterPaymentValue(numericalValue);
+        responseFormat.updated = true;
+        res.json(responseFormat);
+
+    } catch (err) {
+        responseFormat.error = err;
+        res.json(responseFormat);
+    }
+});
+
+setConstants.put('/update/roomBill/dorm/:value', getRequestPermission, (req, res) => {
+    const responseFormat = { updated: false, error: '' };
+
+    try {
+        const numericalValue = parseFloat(req.params.value);
+        if (Number.isNaN(numericalValue)) {
+            responseFormat.error = 'NaNValueNotAllowed';
+            return res.json(responseFormat);    
+        }
+
+        sc.setDormRoomPaymentValue(numericalValue);
+        responseFormat.updated = true;
+        res.json(responseFormat);
+
+    } catch (err) {
+        responseFormat.error = err;
+        res.json(responseFormat);
+    }
+});
+
+// updates the water payment bill value
+setConstants.put('/update/roomBill/canteen/:value', getRequestPermission, (req, res) => {
+    const responseFormat = { updated: false, error: '' };
+
+    try {
+        const numericalValue = parseFloat(req.params.value);
+        if (Number.isNaN(numericalValue)) {
+            responseFormat.error = 'NaNValueNotAllowed';
+            return res.json(responseFormat);    
+        }
+
+        sc.setCanteenRoomPaymentValue(numericalValue);
         responseFormat.updated = true;
         res.json(responseFormat);
 
