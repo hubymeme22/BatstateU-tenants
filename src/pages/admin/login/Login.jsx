@@ -6,16 +6,22 @@ import useInput from '@/hooks/useInput';
 // Components
 import { LoginContainer, Form, Title, Error } from './styled';
 import { Field, Label, Input } from './styled';
-import { Button, Link, UserIcon, KeyIcon } from './styled';
+import { Button, ViewButton } from './styled';
+
+// Icons
+import { FaUserCircle, FaEye, FaEyeSlash } from 'react-icons/fa';
 
 // Utils
 import errorTranslator from '@/utils/errorTranslator';
 import { getTokenCookie, saveToken } from '@/utils/tokenHandler';
 
+import useToggle from '../../../hooks/useToggle';
+
 function AdminLogin() {
   const [username, usernameHandler, resetUsername] = useInput('');
   const [password, passwordHandler, resetPassword] = useInput('');
 
+  const [viewPassword, toggleViewPassword] = useToggle(false);
   const [errorMsg, setErrorMsg] = useState('');
 
   const auth = useAuth();
@@ -29,6 +35,11 @@ function AdminLogin() {
       navigate('/admin', { replace: true });
     }
   }, []);
+
+  useEffect(() => {
+    if (errorMsg == '') return;
+    setErrorMsg('');
+  }, [username, password]);
 
   const submitForm = async (e) => {
     e.preventDefault();
@@ -69,7 +80,7 @@ function AdminLogin() {
               placeholder="Username"
               {...usernameHandler}
             />
-            <UserIcon />
+            <FaUserCircle />
           </div>
         </Field>
 
@@ -78,19 +89,21 @@ function AdminLogin() {
 
           <div>
             <Input
-              type="password"
+              type={viewPassword ? 'text' : 'password'}
               id="password"
               placeholder="Password"
               {...passwordHandler}
             />
-            <KeyIcon />
+
+            <ViewButton type="button" onClick={toggleViewPassword}>
+              {/*  */}
+              {viewPassword ? <FaEyeSlash /> : <FaEye />}
+            </ViewButton>
           </div>
         </Field>
 
-        <Link>Forget Password?</Link>
-
         {/* // Display error if there is one */}
-        {errorMsg ? <Error>{errorMsg}</Error> : null}
+        <Error>{errorMsg}</Error>
 
         <Button onClick={auth.login}> LOGIN </Button>
       </Form>

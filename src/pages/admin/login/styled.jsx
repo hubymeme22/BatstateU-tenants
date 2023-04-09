@@ -1,11 +1,5 @@
-import ceafaBG from '../../../assets/ceafa_bg.webp';
-
 import styled from 'styled-components';
-import { Link as LinkTag } from 'react-router-dom';
-
-// Icons
-import { FaUserCircle } from 'react-icons/fa';
-import { BsKey } from 'react-icons/bs';
+import ceafaBG from '../../../assets/ceafa_bg.webp';
 
 export const LoginContainer = styled.div`
   height: 100vh;
@@ -44,16 +38,28 @@ export const Field = styled.div`
   display: flex;
   flex-direction: column;
 
+  svg {
+    font-size: 1.5rem;
+    position: absolute;
+    align-self: center;
+    right: 0.5rem;
+    color: gray;
+  }
+
   div {
     display: flex;
     position: relative;
 
-    svg {
-      font-size: 1.5rem;
+    button {
       position: absolute;
       align-self: center;
-      right: 0.5rem;
-      color: gray;
+      height: 100%;
+      right: 0;
+      padding: 0 0.25rem;
+
+      svg {
+        position: static;
+      }
     }
   }
 `;
@@ -79,17 +85,7 @@ export const Button = styled.button`
   cursor: pointer;
 `;
 
-export const Link = styled(LinkTag)`
-  font-size: 0.9rem;
-  color: white;
-  text-decoration: underline;
-`;
-
-export const UserIcon = styled(FaUserCircle)``;
-
-export const KeyIcon = styled(BsKey)`
-  transform: rotate(90deg);
-`;
+export const ViewButton = styled.button``;
 
 export const Error = styled.p`
   color: white;
