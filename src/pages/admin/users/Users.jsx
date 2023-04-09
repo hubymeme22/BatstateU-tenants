@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { Container } from './styled';
 
 import Header from './components/Header';
-import TableHeader from './components/TableHeader';
 import UsersList from './components/UsersList';
 import Loader from '../../../components/Loader';
 
@@ -82,7 +81,7 @@ function Users() {
 
   return (
     <>
-      <Container>
+      <Container id="users-page">
         <Header
           table={table}
           changeTable={changeTable}
@@ -90,8 +89,6 @@ function Users() {
           searchText={searchText}
           handleSearch={handleSearch}
         ></Header>
-
-        <TableHeader table={table} />
 
         {!isLoading || allAcounts.length != 0 ? (
           <UsersList

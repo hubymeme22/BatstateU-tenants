@@ -3,21 +3,30 @@ import styled from 'styled-components';
 
 // Tenants and Users Header
 export const StyledHeader = styled.header`
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
+  width: 100%;
+  background-color: white;
 
-  /* Title */
-  h1 {
-    font-size: 1.5rem;
-    font-weight: bold;
+  position: sticky;
+  top: 0;
+
+  & > div:first-child {
+    padding-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    gap: rem;
+
+    /* Title */
+    h1 {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
   }
 `;
 
 export const FilterContainer = styled.div`
   display: flex;
   gap: 1rem;
-  width: 600px;
+  width: 700px;
 `;
 
 export const InputContainer = styled.div`
@@ -43,7 +52,7 @@ export const InputContainer = styled.div`
   }
 
   &:nth-child(2) {
-    width: 450px;
+    width: 375px;
   }
 
   &:last-child {

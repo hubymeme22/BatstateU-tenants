@@ -4,7 +4,7 @@ export const ColumnTitles = styled.div`
   font-weight: bold;
   display: grid;
   grid-template-columns: 150px repeat(5, 1fr) 50px;
-  padding: 0.5rem;
+  padding: 0.5rem 0;
 
   & > p:nth-child(4),
   & > p:nth-child(5),
@@ -22,7 +22,6 @@ export const UserDetails = styled(ColumnTitles)`
   grid-template-columns: 150px repeat(5, 1fr);
   font-weight: normal;
   border-radius: 5px;
-  padding: 0.5rem;
   cursor: pointer;
 `;
 

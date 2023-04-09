@@ -165,7 +165,7 @@ function Tenants() {
 
   return (
     <>
-      <Container>
+      <Container id="tenants-page">
         <Header
           table={table}
           changeTable={changeTable}
@@ -173,18 +173,6 @@ function Tenants() {
           searchText={searchText}
           handleSearch={handleSearch}
         />
-
-        <ColumnTitles>
-          <p>SR-CODE</p>
-          <p>First Name</p>
-          <p>Last Name</p>
-          <p>Contact</p>
-          <p>Unit Number</p>
-          <p>Status</p>
-          <p></p>
-        </ColumnTitles>
-
-        <hr />
 
         {!isLoading || allTenants.length != 0 ? (
           <List

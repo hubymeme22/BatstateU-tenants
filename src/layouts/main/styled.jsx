@@ -18,5 +18,11 @@ export const Content = styled.div`
   background-color: white;
   border-radius: 10px;
   padding: 2rem;
-  overflow-y: scroll;
+  overflow-y: auto;
+
+  &:has(div#tenants-page),
+  &:has(div#users-page) {
+    padding: 0 2rem;
+    padding-bottom: 1rem;
+  }
 `;
