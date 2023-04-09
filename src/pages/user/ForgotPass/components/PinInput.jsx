@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import { pinInput } from '../../../../services/request';
 import {
   LoginContainer,
@@ -16,12 +17,12 @@ import { forgotPass } from '../../../../services/request';
 function PinInput() {
   const navigate = useNavigate();
   const [pin, setPin] = React.useState('');
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e, pin) => {
     e.preventDefault();
     const response = await pinInput({ pin });
     alert('Thankyou! you will receive a code in your email shortly!');
 
-    console.log(response);
+    return navigate('/forgotpass/passwordreset');
   };
   return (
     <LoginContainer bg={BackgroundPath}>
