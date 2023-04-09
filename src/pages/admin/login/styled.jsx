@@ -1,3 +1,5 @@
+import ceafaBG from '../../../assets/ceafa_bg.webp';
+
 import styled from 'styled-components';
 import { Link as LinkTag } from 'react-router-dom';
 
@@ -6,11 +8,17 @@ import { FaUserCircle } from 'react-icons/fa';
 import { BsKey } from 'react-icons/bs';
 
 export const LoginContainer = styled.div`
-  background-color: ${({ theme }) => theme.darkGray};
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  background-color: ${({ theme }) => theme.darkGray};
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url(${ceafaBG});
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 10%;
 `;
 
 export const Form = styled.form`
@@ -21,6 +29,9 @@ export const Form = styled.form`
   gap: 0.5rem;
   padding: 2rem;
   border-radius: 25px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
 `;
 
 export const Title = styled.h1`
