@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { NavLink } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
+
 // Styled-components
 import {
   ComponentContainer,
@@ -8,8 +8,6 @@ import {
   Field,
   Label,
   Input,
-  UserIcon,
-  KeyIcon,
   Link,
   Button,
   Form,
@@ -20,6 +18,7 @@ import {
 // Hooks
 import { useAuth } from '@/hooks/useAuth';
 import useInput from '@/hooks/useInput';
+import useToggle from '@/hooks/useToggle';
 
 // utils
 import errorTranslator from '@/utils/errorTranslator';
@@ -27,9 +26,14 @@ import { saveToken } from '@/utils/tokenHandler';
 
 import { MD5 } from 'crypto-js';
 
+// Icons
+import { FaUserCircle, FaEye, FaEyeSlash } from 'react-icons/fa';
+
 function Login({ handle }) {
   const [username, usernameHandler, resetUsername] = useInput('');
   const [password, passwordHandler, resetPassword] = useInput('');
+
+  const [viewPassword, toggleViewPassword] = useToggle(false);
   const [errorMsg, setErrorMsg] = useState('');
 
   const auth = useAuth();
@@ -60,47 +64,55 @@ function Login({ handle }) {
       navigate('/');
     }
   };
-  const styles = {
-    color: 'white',
-    textDecoration: 'underline',
-  };
+
   return (
     <ComponentContainer>
       <Form onSubmit={submitForm}>
         <Title> Login</Title>
+
+        {/* Input Field for username  */}
         <Field>
-          <Label htmlFor='username'>Username</Label>
+          <Label htmlFor="username">Username</Label>
           <div>
             <Input
-              type='text'
-              id='username'
-              placeholder='Username'
-              name='username'
+              type="text"
+              id="username"
+              placeholder="Username"
+              name="username"
               {...usernameHandler}
               required
             />
-            <UserIcon />
+            <FaUserCircle />
           </div>
         </Field>
 
+        {/* Input Field for password */}
         <Field>
-          <Label htmlFor='password'>Password</Label>
+          <Label htmlFor="password">Password</Label>
           <div>
             <Input
-              type='password'
-              id='password'
-              placeholder='Password'
-              name='password'
+              type={viewPassword ? 'text' : 'password'}
+              id="password"
+              placeholder="Password"
+              name="password"
               {...passwordHandler}
               required
             />
-            <KeyIcon />
+            <button type="button" onClick={toggleViewPassword}>
+              {viewPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
           </div>
         </Field>
 
         <ButtonContainer>
           <div>
-            <NavLink to='/forgotpass' style={styles}>
+            <NavLink
+              to="/forgotpass"
+              style={{
+                color: 'white',
+                textDecoration: 'underline',
+              }}
+            >
               Forgot Password?
             </NavLink>
             {errorMsg ? <> {errorMsg} </> : null}
@@ -110,7 +122,7 @@ function Login({ handle }) {
           <div>
             <Link>Dont Have An Account?</Link>
 
-            <SignInButton type='button' onClick={handle}>
+            <SignInButton type="button" onClick={handle}>
               Sign up
             </SignInButton>
           </div>

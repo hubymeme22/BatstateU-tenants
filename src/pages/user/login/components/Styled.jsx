@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import { FaUserCircle } from 'react-icons/fa';
-import { BsKey } from 'react-icons/bs';
 import { AiOutlineMail } from 'react-icons/ai';
 import { Link as LinkTag } from 'react-router-dom';
 
@@ -81,16 +79,28 @@ export const Field = styled.div`
   display: flex;
   flex-direction: column;
 
+  svg {
+    font-size: 1.5rem;
+    position: absolute;
+    align-self: center;
+    right: 0.5rem;
+    color: gray;
+  }
+
   div {
     display: flex;
     position: relative;
 
-    svg {
-      font-size: 1.5rem;
+    button {
       position: absolute;
       align-self: center;
-      right: 0.5rem;
-      color: gray;
+      height: 100%;
+      right: 0;
+      padding: 0 0.25rem;
+
+      svg {
+        position: static;
+      }
     }
   }
 `;
@@ -118,13 +128,7 @@ export const Input = styled.input`
   border: 0;
 `;
 
-export const UserIcon = styled(FaUserCircle)``;
-
 export const EmailIcon = styled(AiOutlineMail)``;
-
-export const KeyIcon = styled(BsKey)`
-  transform: rotate(90deg);
-`;
 
 export const Button = styled.button`
   background-color: ${({ theme }) => theme.lightRed};
