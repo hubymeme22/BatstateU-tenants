@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 
 import { StyledSidebar, Title, LineBreak } from '../styled';
 import { Nav, NavLink, Button } from '../styled';
@@ -7,8 +6,7 @@ import { Nav, NavLink, Button } from '../styled';
 import { useAuth } from '@/hooks/useAuth';
 
 import { MdDashboard } from 'react-icons/md';
-import { FaUsers } from 'react-icons/fa';
-import { FaHouseUser } from 'react-icons/fa';
+import { FaUsers, FaHouseUser, FaBell } from 'react-icons/fa';
 import { FiSettings } from 'react-icons/fi';
 
 export function Sidebar() {
@@ -33,6 +31,11 @@ export function Sidebar() {
           <NavLink to="/admin/users">
             <FaUsers />
             Users
+          </NavLink>
+
+          <NavLink to="/admin/announcement">
+            <FaBell />
+            Announcement
           </NavLink>
 
           <NavLink to="/admin/settings">

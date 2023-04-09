@@ -5,6 +5,7 @@ import Dashboard from '@/pages/admin/dashboard';
 import Tenants from '@/pages/admin/tenants';
 import Users from '@/pages/admin/users';
 import Settings from '@/pages/admin/settings';
+import Announcement from '../pages/admin/announcement/Announcement';
 
 export const adminRoutes = [
   {
@@ -22,6 +23,10 @@ export const adminRoutes = [
       {
         path: 'users',
         element: <Users />,
+      },
+      {
+        path: 'announcement',
+        element: <Announcement />,
       },
       {
         path: 'settings',

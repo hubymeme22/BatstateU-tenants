@@ -37,7 +37,6 @@ function Main({ type }) {
         return navigate('/login');
       } else {
         toggleTokenIsValid(true);
-        toggleIsLoading();
       }
     };
 
