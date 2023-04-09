@@ -158,6 +158,7 @@ export const Container = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
+  padding-bottom: 1.5rem;
   display: flex;
   justify-content: space-between;
 
