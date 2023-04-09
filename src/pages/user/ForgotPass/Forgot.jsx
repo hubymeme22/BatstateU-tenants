@@ -11,18 +11,22 @@ import {
   Button,
 } from './styled';
 import BackgroundPath from '@/assets/background.webp';
-import { forgotPass } from '../../../services/request';
-function Forgot() {
+import { forgotPass, pinInput } from '../../../services/request';
+
+function Forgot(props) {
+  const [code, setCode] = React.useState(null);
+
   const navigate = useNavigate();
   const [email, setEmail] = React.useState('');
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await forgotPass({ email });
     alert('Thankyou! you will receive a code in your email shortly!');
-
+    setCode(response.data.code);
     console.log(response);
-    return navigate('/');
+    return navigate('pinInput');
   };
+
   return (
     <LoginContainer bg={BackgroundPath}>
       <Form onSubmit={handleSubmit}>

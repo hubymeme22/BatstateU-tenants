@@ -136,7 +136,7 @@ export const forgotPass = async (email) => {
     .then((response) => response)
     .catch((error) => {});
 };
-export const pinInput = async (pin, code) => {
+export const pinInput = async (pin, code = { code }) => {
   return await axios
     .post(`/forgotpass/pin/${code}`, pin)
     .then((response) => response)
