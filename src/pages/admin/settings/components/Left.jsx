@@ -9,6 +9,7 @@ import {
 import { settingsLoader } from '../../../../services/loaders';
 
 import { defaultBillingsInit } from '../../../../services/format/FormState';
+import { updateDefaultPaymentValues } from '../../../../services/request';
 
 function Left() {
   const [defaultValues, setDefaultValues] = useState(defaultBillingsInit);
@@ -23,15 +24,42 @@ function Left() {
     getData();
   }, []);
 
+  useEffect(() => {
+    setTemporary(defaultValues);
+  }, [defaultValues]);
+
   const updateValue = (e) => {
     const { name, value } = e.target;
 
     const updateVal = {
-      ...defaultValues,
+      ...temporary,
       [name]: Number(value),
     };
 
-    setDefaultValues(updateVal);
+    setTemporary(updateVal);
+  };
+
+  const resetChanges = () => {
+    setTemporary(defaultValues);
+  };
+
+  const saveChanges = () => {
+    setDefaultValues(temporary);
+
+    const { dormWater, dormRoom } = temporary;
+    const { canteenWater, canteenRoom } = temporary;
+
+    const newDormDefaults = {
+      waterBill: dormWater,
+      roomBill: dormRoom,
+    };
+
+    const newCanteenDefaults = {
+      waterBill: canteenWater,
+      roomBill: canteenRoom,
+    };
+
+    updateDefaultPaymentValues(newDormDefaults, newCanteenDefaults);
   };
 
   return (
@@ -46,53 +74,58 @@ function Left() {
 
         {/* Row 2 */}
         <div>Dorm</div>
+
+        {/* Dorm water */}
         <div>
           <input
             type="number"
             min="0"
             name="dormWater"
-            value={defaultValues.dormWater}
+            value={temporary.dormWater}
             onChange={(e) => updateValue(e)}
           />
         </div>
+
+        {/* Dorm Rent */}
         <div>
           <input
             type="number"
             min="0"
-            name="canteenWater"
-            value={defaultValues.canteenWater}
+            name="dormRoom"
+            value={temporary.dormRoom}
             onChange={(e) => updateValue(e)}
           />
         </div>
 
         {/* Row 3 */}
         <div>Canteen</div>
+
+        {/* Canteen Water */}
         <div>
           <input
             type="number"
             min="0"
-            name="dormRoom"
-            value={defaultValues.dormRoom}
+            name="canteenWater"
+            value={temporary.canteenWater}
             onChange={(e) => updateValue(e)}
           />
         </div>
+
+        {/* Canteen Rent */}
         <div>
           <input
             type="number"
             min="0"
             name="canteenRoom"
-            value={defaultValues.canteenRoom}
+            value={temporary.canteenRoom}
             onChange={(e) => updateValue(e)}
           />
         </div>
       </Column3>
 
       <ButtonContainer>
-        <StyledButton>Reset</StyledButton>
-        <StyledButton
-          color="#C52D2D"
-          onClick={() => console.log(defaultValues)}
-        >
+        <StyledButton onClick={resetChanges}>Reset</StyledButton>
+        <StyledButton color="#C52D2D" onClick={saveChanges}>
           Save
         </StyledButton>
       </ButtonContainer>

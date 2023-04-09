@@ -83,6 +83,24 @@ export const unverifyStudent = async (username) => {
     .catch((error) => {});
 };
 
+export const updateDefaultPaymentValues = async (dorm, canteen) => {
+  const routes = {
+    water: '/admin/billing/update/waterBill/',
+    room: '/admin/billing/update/roomBill/',
+  };
+
+  const updateValues = async (type, location, value) => {
+    await axios.put(`${routes[type]}${location}/${value}`);
+  };
+
+  await Promise.all([
+    updateValues('water', 'dorm', dorm.waterBill),
+    updateValues('room', 'dorm', dorm.roomBill),
+    updateValues('water', 'canteen', canteen.waterBill),
+    updateValues('room', 'canteen', canteen.roomBill),
+  ]);
+};
+
 // DELETE REQUEST
 
 export const deleteAccount = async (roomID, username) => {
