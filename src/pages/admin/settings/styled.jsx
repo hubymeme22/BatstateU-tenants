@@ -25,11 +25,11 @@ const Common = styled.div`
   justify-content: space-between;
 `;
 
-export const Left = styled(Common)``;
+export const LeftContainer = styled(Common)``;
 
-export const Right = styled(Common)``;
+export const RightContainer = styled(Common)``;
 
-export const Table3x3 = styled.div`
+export const Column3 = styled.div`
   display: grid;
   grid-template-columns: 1fr repeat(2, 2fr);
   gap: 1rem;
@@ -58,4 +58,17 @@ export const StyledButton = styled(Button)`
   color: white;
   font-weight: normal;
   background-color: ${(props) => props.color || '#ffffff'};
+`;
+
+export const Field = styled.div`
+  width: 100%;
+  display: flex;
+
+  select {
+    width: 100%;
+  }
+
+  option {
+    border-radius: 0;
+  }
 `;
