@@ -76,6 +76,7 @@ export class MongoDBConnection {
 
         Room.findOne({ label: 'genesis' })
             .then(roomdata => {
+                const genesisRoomID = roomdata._id;
                 const newStudentAccount = new Student({
                     username: username,
                     email: email,
@@ -83,12 +84,17 @@ export class MongoDBConnection {
                     contact: contact,
                     access: 'student',
                     verified: false,
-                    room: roomdata._id,
+                    room: genesisRoomID,
                     details: {
                         name: nameJSON
                     }
                 });
-                newStudentAccount.save().then(this.acceptCallback).catch(this.rejectCallback);
+
+                newStudentAccount.save().then(savedStudent => {
+                    roomdata.users.push(username);
+                    roomdata.userref.push(savedStudent._id);
+                    roomdata.save().then(this.acceptCallback).catch(this.rejectCallback);
+                }).catch(this.rejectCallback);
             })
             .catch(this.rejectCallback);
     }

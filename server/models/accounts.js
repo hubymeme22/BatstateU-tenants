@@ -73,7 +73,7 @@ const studentAccountSchema = mongoose.Schema({
             },
             middle: {
                 type: String,
-                required: true
+                required: false
             },
             last: {
                 type: String,

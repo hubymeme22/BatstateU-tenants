@@ -155,41 +155,53 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                 Room.findOne({users: username})
                     .then(existingroomdata => {
                         if (existingroomdata != null) {
-                            existingroomdata.available_slot++;
+                            if (existingroomdata.label != 'genesis') {
+                                existingroomdata.available_slot++;
+
+                                if (existingroomdata.available_slot == existingroomdata.max_slot) existingroomdata.status = 'not occupied';
+                                else if (existingroomdata.available_slot <= 0) existingroomdata.status = 'full';
+                                else existingroomdata.status = 'occupied';
+                            }
+
                             existingroomdata.users.pop(username);
-                            existingroomdata.save();
-                        }
 
-                        // verify if this username does exist
-                        Student.findOne({ username: username, verified: true })
-                            .then(userdata => {
-                                if (userdata == null)
-                                    return this.rejectCallback('NonexistentUsername');
+                            const idIndex = existingroomdata.users.indexOf(username);
+                            existingroomdata.userref.splice(idIndex, 1);
 
-                                // checks if the slot is already full
-                                if (roomdata.available_slot <= 0)
-                                    return this.rejectCallback('SlotAlreadyFull');
+                            existingroomdata.save().then(updatedUserRoom => {
+                                // verify if this username does exist
+                                Student.findOne({ username: username, verified: true })
+                                    .then(userdata => {
+                                        if (userdata == null)
+                                            return this.rejectCallback('NonexistentUsername');
 
-                                // append this user to the room
-                                roomdata.users.push(username);
-                                roomdata.userref.push(userdata._id);
-                                roomdata.available_slot--;
+                                        // checks if the slot is already full
+                                        if (roomdata.available_slot <= 0)
+                                            return this.rejectCallback('SlotAlreadyFull');
 
-                                // for room status
-                                if (roomdata.available_slot == 0) roomdata.status = 'full'
-                                else roomdata.status = 'occupied';
+                                        // append this user to the room
+                                        roomdata.users.push(username);
+                                        roomdata.userref.push(userdata._id);
 
-                                roomdata.save().then(_roomdata => {
-                                    userdata.room = _roomdata._id;
-                                    userdata.save().then(_userdata => {
-                                        this.acceptCallback(_roomdata);
+                                        if (roomdata.label != 'genesis')
+                                            roomdata.available_slot--;
+
+                                        // for room status
+                                        if (roomdata.available_slot == roomdata.max_slot) roomdata.status = 'not occupied';
+                                        else if (roomdata.available_slot <= 0) roomdata.status = 'full';
+                                        else roomdata.status = 'occupied';
+
+                                        roomdata.save().then(_roomdata => {
+                                            userdata.room = _roomdata._id;
+                                            userdata.save().then(_userdata => {
+                                                this.acceptCallback(_roomdata);
+                                            }).catch(this.rejectCallback);
+                                        }).catch(this.rejectCallback);
+
                                     }).catch(this.rejectCallback);
-                                }).catch(this.rejectCallback);
-
-                            }).catch(this.rejectCallback);
-
+                            }).catch(this.rejectCallback)
+                        }
                     }).catch(this.rejectCallback);
-
             }).catch(this.rejectCallback);
     }    
 
@@ -858,6 +870,8 @@ export class AdminMongoDBConnection extends MongoDBConnection {
             .then(userdata => {
                 const studentData = [];
                 userdata.forEach(user => {
+                    console.log(user);
+
                     let newDataFormat = {
                         username: user.username,
                         name: user.details.name,
