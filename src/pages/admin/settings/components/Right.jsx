@@ -15,7 +15,7 @@ function Right() {
 
         <Field>
           <select>
-            <option value=""></option>
+            <option></option>
           </select>
           <button>Del</button>
         </Field>

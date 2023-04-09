@@ -72,3 +72,10 @@ export const notificationInit = {
   subject: '',
   message: '',
 };
+
+export const defaultBillingsInit = {
+  dormWater: 0,
+  dormRoom: 0,
+  canteenWater: 0,
+  canteenRoom: 0,
+};

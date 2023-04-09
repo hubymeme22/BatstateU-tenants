@@ -17,3 +17,8 @@ export const usersLoader = async () => {
   const allAccounts = await fetchAsAdmin('summary/account');
   return allAccounts.data;
 };
+
+export const settingsLoader = async () => {
+  const defaultBillings = await fetchAsAdmin('billing/paymentValues');
+  return defaultBillings.data;
+};
