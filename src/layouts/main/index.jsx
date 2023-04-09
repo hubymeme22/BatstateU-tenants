@@ -10,8 +10,11 @@ import { Sidebar as UserSidebar } from '../sidebar/user';
 import { getTokenCookie, clearToken } from '../../utils/tokenHandler';
 import { validateToken } from '../../services/request';
 
+import useToggle from '../../hooks/useToggle';
+
 function Main({ type }) {
-  const [tokenIsValid, setTokenIsValid] = useState(false);
+  const [tokenIsValid, toggleTokenIsValid] = useToggle(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,7 +36,8 @@ function Main({ type }) {
         if (type == 'admin') return navigate('/admin/login');
         return navigate('/login');
       } else {
-        setTokenIsValid(true);
+        toggleTokenIsValid(true);
+        toggleIsLoading();
       }
     };
 
@@ -41,13 +45,16 @@ function Main({ type }) {
   }, []);
 
   return (
-    <MainContainer>
-      {type == 'admin' ? <AdminSidebar /> : <UserSidebar />}
-      <Content>
-        {tokenIsValid ? <Outlet /> : null}
-        {/*  */}
-      </Content>
-    </MainContainer>
+    <>
+      {tokenIsValid && (
+        <MainContainer>
+          {type == 'admin' ? <AdminSidebar /> : <UserSidebar />}
+          <Content>
+            <Outlet />
+          </Content>
+        </MainContainer>
+      )}
+    </>
   );
 }
 
