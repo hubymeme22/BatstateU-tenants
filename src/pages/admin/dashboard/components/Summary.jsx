@@ -3,8 +3,8 @@ import React from 'react';
 import { Card, Title, SummaryContainer } from '../styled';
 
 function Summary({ data }) {
-  const { occupiedDorms, totalSlot } = data.summary;
-  const { totalBorders, totalCanteenTenants } = data.summary;
+  const { occupiedDorms, numberOfDorms } = data.summary;
+  const { totalDormBorders, totalDormSlot, totalCanteenTenants, totalCanteenSlot } = data.summary;
 
   return (
     <Card>
@@ -13,17 +13,17 @@ function Summary({ data }) {
       <SummaryContainer>
         <div>
           <p>Occupied Dormitory Rooms:</p>
-          {`${occupiedDorms} / ${totalSlot}`}
+          {`${occupiedDorms} / ${numberOfDorms}`}
         </div>
 
         <div>
           <p>Student boarders:</p>
-          {`${totalBorders} / ${totalBorders}`}
+          {`${totalDormBorders} / ${totalDormSlot}`}
         </div>
 
         <div>
           <p>Tenants in Canteen:</p>
-          {`${totalCanteenTenants} / ${totalCanteenTenants}`}{' '}
+          {`${totalCanteenTenants} / ${totalCanteenSlot}`}{' '}
         </div>
       </SummaryContainer>
     </Card>
