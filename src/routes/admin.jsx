@@ -4,6 +4,7 @@ import AdminLogin from '@/pages/admin/login';
 import Dashboard from '@/pages/admin/dashboard';
 import Tenants from '@/pages/admin/tenants';
 import Users from '@/pages/admin/users';
+import Settings from '@/pages/admin/settings';
 
 export const adminRoutes = [
   {
@@ -21,6 +22,10 @@ export const adminRoutes = [
       {
         path: 'users',
         element: <Users />,
+      },
+      {
+        path: 'settings',
+        element: <Settings />,
       },
     ],
   },
