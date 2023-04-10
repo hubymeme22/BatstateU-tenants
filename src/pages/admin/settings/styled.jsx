@@ -11,7 +11,7 @@ export const Container = styled.div`
 `;
 
 const Common = styled.div`
-  width: 50%;
+  width: min(50%, 600px);
   height: 250px;
   background-color: ${theme.gray};
   padding: 1rem;
@@ -32,14 +32,18 @@ export const RightContainer = styled(Common)``;
 export const Column3 = styled.div`
   display: grid;
   grid-template-columns: 1fr repeat(2, 2fr);
+  align-items: center;
   gap: 1rem;
 
   em {
     font-weight: bold;
   }
 
+  select,
+  option,
   input {
     width: 100%;
+    padding: 0.25rem;
   }
 `;
 
@@ -63,6 +67,7 @@ export const StyledButton = styled(Button)`
 export const Field = styled.div`
   width: 100%;
   display: flex;
+  gap: 5px;
 
   select {
     width: 100%;
@@ -70,5 +75,9 @@ export const Field = styled.div`
 
   option {
     border-radius: 0;
+  }
+
+  button {
+    padding: 0.25rem 1rem;
   }
 `;

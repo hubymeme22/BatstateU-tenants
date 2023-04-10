@@ -151,6 +151,8 @@ export const TenantDetails = styled(Columns)`
 `;
 
 export const Container = styled.div`
+  margin: 0 auto;
+  width: min(100%, 1200px);
   height: 100%;
   display: flex;
   flex-direction: column;
