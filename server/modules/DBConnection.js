@@ -32,7 +32,7 @@ export class MongoDBConnection {
 
     // checks the existence of student username
     checkStudentEmail(email) {
-        Student.find({email: email})
+        Student.find({email: email, verified: true})
             .then(this.acceptCallback).catch(this.rejectCallback);
     }
     
