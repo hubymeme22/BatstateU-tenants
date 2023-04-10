@@ -3,14 +3,52 @@ import React, { useEffect, useState } from 'react';
 import { RightContainer, Column3, Field } from '../styled';
 
 import { BsHouseAddFill, BsHouseDashFill } from 'react-icons/bs';
+import { fetchAsAdmin } from '../../../../services/request';
 
 function Right() {
   const [allSlots, setAllSlots] = useState([]);
   const [dormSlots, setDormSlots] = useState([]);
   const [canteenSlots, setCanteenSlots] = useState([]);
 
-  // Get all tenants list and filter by label
-  useEffect(() => {}, []);
+  const [selectedDorm, setSelectedDorm] = useState('');
+  const [selectedCanteen, setSelectedCanteen] = useState('');
+
+  // Get all slots list
+  useEffect(() => {
+    const getSlots = async () => {
+      const { data } = await fetchAsAdmin('/slots');
+      setAllSlots(data.slots);
+    };
+
+    getSlots();
+  }, []);
+
+  // Separate the slots by label
+  useEffect(() => {
+    if (allSlots.length == 0) return;
+
+    const dorm = allSlots.filter((slot) => slot.label == 'dorm');
+    const canteen = allSlots.filter((slot) => slot.label == 'canteen');
+
+    setDormSlots(dorm);
+    setCanteenSlots(canteen);
+  }, [allSlots]);
+
+  const renderOptions = (list) => {
+    if (list.length == 0) return;
+
+    return (
+      <>
+        <option value="">None</option>
+        {list.map((slot) => (
+          <option key={slot._id} value={slot.slot}>
+            {slot.slot}
+            {''}
+          </option>
+        ))}
+      </>
+    );
+  };
 
   return (
     <RightContainer>
@@ -21,8 +59,12 @@ function Right() {
         <p>Dorm</p>
 
         <Field>
-          <select>
-            <option></option>
+          <select
+            name="dorm"
+            value={selectedDorm}
+            onChange={(e) => setSelectedDorm(e.target.value)}
+          >
+            {renderOptions(dormSlots)}
           </select>
           <button>Del</button>
         </Field>
@@ -36,8 +78,12 @@ function Right() {
         <p>Canteen</p>
 
         <Field>
-          <select>
-            <option value="">hello</option>
+          <select
+            name="canteen"
+            value={selectedCanteen}
+            onChange={(e) => setSelectedCanteen(e.target.value)}
+          >
+            {renderOptions(canteenSlots)}
           </select>
 
           <button>Del</button>
