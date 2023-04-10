@@ -31,6 +31,7 @@ function Forgot() {
   const [email, setEmail] = useState('');
   const [code, setCode] = useState(null);
   const [pin, setPin] = useState(null);
+  const [message, setMessage] = useState('');
 
   const [loading, toggleLoading] = useToggle(false);
 
@@ -50,24 +51,34 @@ function Forgot() {
 
     console.log(response);
 
-    setCode(response.data.code);
+    localStorage.setItem('code', response.data.code);
+
     nextStep('second');
   };
 
   const sendInputPin = async (e) => {
     e.preventDefault();
 
-    const response = await enterPin(pin, code);
+    const response = await enterPin(pin);
 
     console.log(response);
 
-    setCode(response.data.key);
-
+    localStorage.setItem('key', response.data.key);
+    console.log(localStorage.getItem('key'));
     if (response.data.error == '') {
       nextStep('third');
+    } else {
+      setMessage('INVALID INPUT!');
     }
   };
-
+  // if (!pin) {
+  //   setMessage('Wrong Pin! Please input again');
+  // } else {
+  //   const response = await enterPin(pin, code);
+  //   console.log(response);
+  //   setCode(response.data.key);
+  //   return nextStep('third');
+  // }
   const changePassword = async (password) => {
     // Encrypt password
     const hashedPassword = MD5(password).toString();
@@ -98,14 +109,14 @@ function Forgot() {
               <Title>FORGOT PASSWORD</Title>
 
               <Field>
-                <Label htmlFor="email">Kindly input your Email here:</Label>
+                <Label htmlFor='email'>Kindly input your Email here:</Label>
 
                 <div>
                   <Input
-                    type="text"
-                    id="email"
-                    name="email"
-                    placeholder="20-06113@g.batstate-u.edu.ph"
+                    type='text'
+                    id='email'
+                    name='email'
+                    placeholder='20-06113@g.batstate-u.edu.ph'
                     onChange={(e) => setEmail(e.target.value)}
                   />
                   <UserIcon />
@@ -124,6 +135,7 @@ function Forgot() {
         <PinInput
           handlePinChange={handlePinChange}
           sendInputPin={sendInputPin}
+          errorMessage={message}
         />
       )}
 

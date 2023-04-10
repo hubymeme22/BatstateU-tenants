@@ -155,18 +155,20 @@ export const forgotPass = async (email) => {
     .catch((error) => {});
 };
 
-export const enterPin = async (pin, code) => {
-  console.log(pin, code);
+export const enterPin = async (pin) => {
+  const retrievedCode = localStorage.getItem('code');
+  console.log(pin, retrievedCode);
 
   return await axios
-    .post(`/forgotpass/pin/${code}`, { pin })
+    .post(`/forgotpass/pin/${retrievedCode}`, { pin })
     .then((response) => response)
     .catch((error) => {});
 };
 
-export const resetAccountPassword = async (password, code) => {
+export const resetAccountPassword = async (password) => {
+  const retrievedKey = localStorage.getItem('key');
   return await axios
-    .post(`/forgotpass/change/${code}`, { password })
+    .post(`/forgotpass/change/${retrievedKey}`, { password })
     .then((response) => response)
     .catch((error) => {});
 };
