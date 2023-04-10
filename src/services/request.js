@@ -30,9 +30,8 @@ export const validateToken = async (token, permission = 'student') => {
     .catch((error) => {});
 };
 
-/* ---------- ADMIN ---------- */
+/* ############### ADMIN ############### */
 
-// GET REQUESTS
 export const fetchAsAdmin = async (route) => {
   return await axios
     .get(`admin/${route}`)
@@ -40,9 +39,9 @@ export const fetchAsAdmin = async (route) => {
     .catch((error) => {});
 };
 
-// POST REQUESTS
+// By Page Routes
 
-// Dashboard - Creating invoice
+/*----------- Dashboard page -----------*/
 export const createBilling = async (room, billingInformation) => {
   return await axios
     .post(`admin/billing/multiple/${room}`, billingInformation)
@@ -50,6 +49,7 @@ export const createBilling = async (room, billingInformation) => {
     .catch((error) => {});
 };
 
+/*----------- Tenants page -----------*/
 export const changeTenantRoom = async (username, room_id) => {
   return await axios.post('admin/students/room', {
     room_id,
@@ -58,9 +58,6 @@ export const changeTenantRoom = async (username, room_id) => {
   });
 };
 
-// PUT REQUEST
-
-// Tenants
 export const markAsPaid = async (username) => {
   return await axios
     .put(`admin/students/pay/${username}`)
@@ -68,7 +65,7 @@ export const markAsPaid = async (username) => {
     .catch((error) => {});
 };
 
-// User page
+/*----------- User page -----------*/
 export const verifyStudent = async (username) => {
   return await axios
     .put(`admin/students/verify/${username}`)
@@ -83,6 +80,14 @@ export const unverifyStudent = async (username) => {
     .catch((error) => {});
 };
 
+export const deleteAccount = async (roomID, username) => {
+  return await axios
+    .delete(`admin/billing/${roomID}/${username}`)
+    .then((response) => response)
+    .catch((error) => {});
+};
+
+/*----------- Settings page -----------*/
 export const updateDefaultPaymentValues = async (dorm, canteen) => {
   const routes = {
     water: '/admin/billing/update/waterBill/',
@@ -101,16 +106,21 @@ export const updateDefaultPaymentValues = async (dorm, canteen) => {
   ]);
 };
 
-// DELETE REQUEST
-
-export const deleteAccount = async (roomID, username) => {
+export const addRoom = async (roomDetails) => {
   return await axios
-    .delete(`admin/billing/${roomID}/${username}`)
+    .post('/admin/slots/new', { ...roomDetails, token: getTokenCookie() })
     .then((response) => response)
     .catch((error) => {});
 };
 
-/* ---------- STUDENTS ---------- */
+export const deleteRoom = async (room) => {
+  return await axios
+    .delete(`/admin/slot/${room}`)
+    .then((response) => response)
+    .catch((error) => {});
+};
+
+/* ############### STUDENTS ############### */
 
 export const getStudentDetails = async () => {
   return await axios
@@ -146,8 +156,8 @@ export const getStudentAnnouncements = async () => {
     .then((response) => response)
     .catch((error) => {});
 };
-//forgot password
-//forgot password
+
+// Forgot Password
 export const forgotPass = async (email) => {
   return await axios
     .post('/forgotpass', email)
