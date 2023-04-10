@@ -165,9 +165,10 @@ export const enterPin = async (pin) => {
     .catch((error) => {});
 };
 
-export const resetAccountPassword = async (password, code) => {
+export const resetAccountPassword = async (password) => {
+  const retrievedKey = localStorage.getItem('key');
   return await axios
-    .post(`/forgotpass/change/${code}`, { password })
+    .post(`/forgotpass/change/${retrievedKey}`, { password })
     .then((response) => response)
     .catch((error) => {});
 };

@@ -63,8 +63,8 @@ function Forgot() {
 
     console.log(response);
 
-    setCode(response.data.key);
-
+    localStorage.setItem('key', response.data.key);
+    console.log(localStorage.getItem('key'));
     if (response.data.error == '') {
       nextStep('third');
     } else {
