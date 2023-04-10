@@ -63,6 +63,11 @@ forgotPassword.post('/', (req, res) => {
 
     const mongodbAccounts = new MongoDBConnection();
     mongodbAccounts.setAcceptCallback(userdata => {
+        if (userdata == null) {
+            responseFormat.error = 'UserNotRegisteredInDatabase';
+            return res.json(responseFormat);
+        }
+
         const generatedPassID = pr.generateCPasswordID(req.body.email);
         const generatedPin = pr.generatePin();
         const generatedID = pr.generatePinID(generatedPin, generatedPassID);
