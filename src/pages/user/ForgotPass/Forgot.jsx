@@ -18,7 +18,7 @@ function Forgot() {
 
   const navigate = useNavigate();
   const [email, setEmail] = React.useState('');
-  const handleSubmit = async (e, email) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await forgotPass({ email });
     alert('Thankyou! you will receive a code in your email shortly!');

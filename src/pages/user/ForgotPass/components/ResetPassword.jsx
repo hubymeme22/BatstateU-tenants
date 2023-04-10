@@ -40,6 +40,7 @@ function ResetPassword(props) {
       alert('Thankyou! you will receive a code in your email shortly!');
 
       console.log(response);
+      return navigate('/login');
     }
   };
 
