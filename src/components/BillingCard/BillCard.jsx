@@ -13,6 +13,7 @@ import { getTokenCookie } from '../../utils/tokenHandler';
 import { parseObject } from '../../utils/parser';
 
 import { invoiceInitialState } from '../../services/format/FormState';
+import { toast } from 'react-toastify';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -62,71 +63,11 @@ function BillingCard({
     }
   }, []);
 
-  const saveBillingStatement = async (e) => {
-    e.preventDefault();
-
-    // destruct state
-    const { rate, previous_kwh, current_kwh } = state;
-    const { days_present, waterBill, roomBill } = state;
-
-    // split date
-    let date = state.end_date.split('-');
-
-    const month = Number(date[1]);
-    const day = Number(date[2]);
-    const year = Number(date[0]);
-
-    const selectedTenantsList = tenants.map((tenant) => tenant.username);
-
-    const postData = {
-      rate,
-      previous_kwh,
-      current_kwh,
-      waterBill,
-      roomBill,
-    };
-
-    let parsedData = parseObject(postData);
-
-    let newPostData = {
-      ...parsedData,
-      month,
-      day,
-      year,
-      days_present,
-      users: selectedTenantsList,
-      token: getTokenCookie(),
-    };
-
-    const response = await createBilling(roomDetails.slot, newPostData);
-
-    if (response.data.error == '') {
-      toggleInvoice();
-    }
-  };
-
-  const handleChange = (e) => {
-    dispatch({
-      type: e.target.name,
-      value: e.target.value,
-    });
-  };
-
-  const resetValues = () => {
-    // new default billing for water and rent
-    const { waterBill, roomBill } = state;
-    const overall_bill = waterBill + roomBill;
-
-    dispatch({
-      type: 'reset',
-      value: { ...invoiceInitialState, waterBill, roomBill, overall_bill },
-    });
-  };
-
-  const goBack = () => {
-    toggleInvoice();
-    toggleModal();
-  };
+  // Set the starting month on the billing
+  useEffect(() => {
+    const monthIndex = new Date(state.start_date).getMonth();
+    setMonth(monthIndex);
+  }, [state.start_date]);
 
   // Compute days in between
   useEffect(() => {
@@ -169,10 +110,68 @@ function BillingCard({
     state.roomBill,
   ]);
 
-  useEffect(() => {
-    const monthIndex = new Date(state.start_date).getMonth();
-    setMonth(monthIndex);
-  }, [state.start_date]);
+  const handleChange = (e) => {
+    dispatch({
+      type: e.target.name,
+      value: e.target.value,
+    });
+  };
+
+  const resetValues = () => {
+    // new default billing for water and rent
+    const { waterBill, roomBill } = state;
+    const overall_bill = waterBill + roomBill;
+
+    dispatch({
+      type: 'reset',
+      value: { ...invoiceInitialState, waterBill, roomBill, overall_bill },
+    });
+  };
+
+  const goBack = () => {
+    toggleInvoice();
+    toggleModal();
+  };
+
+  const saveBillingStatement = async (e) => {
+    e.preventDefault();
+
+    // destruct state
+    const { rate, previous_kwh, current_kwh } = state;
+    const { days_present, waterBill, roomBill } = state;
+
+    // split date
+    let date = state.end_date.split('-');
+
+    const selectedTenantsList = tenants.map((tenant) => tenant.username);
+
+    const billData = {
+      rate,
+      previous_kwh,
+      current_kwh,
+      waterBill,
+      roomBill,
+    };
+
+    let parsedData = parseObject(billData);
+
+    let newPostData = {
+      ...parsedData,
+      days_present,
+      month: Number(date[1]),
+      day: Number(date[2]),
+      year: Number(date[0]),
+      users: selectedTenantsList,
+      token: getTokenCookie(),
+    };
+
+    const response = await createBilling(roomDetails.slot, newPostData);
+
+    if (response.data.error == '') {
+      toggleInvoice();
+      toast.success(`Created Invoice for ${roomDetails.slot}`);
+    }
+  };
 
   return (
     <Container>

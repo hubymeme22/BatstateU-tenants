@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import { MainContainer, Content } from './styled';
@@ -11,6 +11,8 @@ import { getTokenCookie, clearToken } from '../../utils/tokenHandler';
 import { validateToken } from '../../services/request';
 
 import useToggle from '../../hooks/useToggle';
+
+import { ToastContainer } from 'react-toastify';
 
 function Main({ type }) {
   const [tokenIsValid, toggleTokenIsValid] = useToggle(false);
@@ -46,12 +48,16 @@ function Main({ type }) {
   return (
     <>
       {tokenIsValid && (
-        <MainContainer>
-          {type == 'admin' ? <AdminSidebar /> : <UserSidebar />}
-          <Content>
-            <Outlet />
-          </Content>
-        </MainContainer>
+        <>
+          <MainContainer>
+            {type == 'admin' ? <AdminSidebar /> : <UserSidebar />}
+            <Content>
+              <Outlet />
+            </Content>
+          </MainContainer>
+
+          <ToastContainer autoClose={5000} draggable={false} />
+        </>
       )}
     </>
   );

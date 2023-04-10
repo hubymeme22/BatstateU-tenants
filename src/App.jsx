@@ -1,6 +1,8 @@
-import './styles/reset.css';
 import React from 'react';
 import RoutingSystem from './routes';
+
+import './styles/reset.css';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';

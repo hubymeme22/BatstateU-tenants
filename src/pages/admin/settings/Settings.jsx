@@ -8,15 +8,25 @@ import Right from './components/Right';
 
 import useToggle from '../../../hooks/useToggle';
 
+import { ToastContainer, toast } from 'react-toastify';
+
 function Settings() {
   const [modalIsOpen, toggleModalIsOpen] = useToggle(false);
 
-  return (
-    <Container>
-      <Left />
+  const notify = (message) => {
+    toast.success(message, {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  };
 
-      <Right />
-    </Container>
+  return (
+    <>
+      <Container>
+        <Left notify={notify} />
+
+        <Right />
+      </Container>
+    </>
   );
 }
 
