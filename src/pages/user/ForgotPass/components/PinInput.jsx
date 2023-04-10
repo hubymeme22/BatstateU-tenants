@@ -15,20 +15,21 @@ import {
 import BackgroundPath from '@/assets/background.webp';
 import { forgotPass } from '../../../../services/request';
 function PinInput() {
-  const [code, setCode] = React.useState(87000);
   const navigate = useNavigate();
   const [pin, setPin] = React.useState('');
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await pinInput({ pin, code });
+    const response = await pinInput({ pin });
     if (response.data.confirmed == false) {
+      console.log(response);
       return console.log('theres an error!');
     } else {
       alert('Thankyou! you will receive a code in your email shortly!');
-      console.log(response);
+
       return navigate('/forgotpass/passwordreset');
     }
   };
+
   return (
     <LoginContainer bg={BackgroundPath}>
       <Form onSubmit={handleSubmit}>
