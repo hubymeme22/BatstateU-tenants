@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Form, Title, Field, UserIcon, Label, Input, Button } from '../styled';
 
-function PinInput({ handlePinChange, sendInputPin, ErrorMessage }) {
+function PinInput({ handlePinChange, sendInputPin, errorMessage }) {
   return (
     <Form onSubmit={sendInputPin}>
       <Title> PIN INPUT</Title>
@@ -21,7 +21,7 @@ function PinInput({ handlePinChange, sendInputPin, ErrorMessage }) {
           />
           <UserIcon />
         </div>
-        {ErrorMessage}
+        {errorMessage}
         <Button> Confirm Pin </Button>
       </Field>
     </Form>

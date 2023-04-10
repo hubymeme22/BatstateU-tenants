@@ -51,14 +51,15 @@ function Forgot() {
 
     console.log(response);
 
-    setCode(response.data.code);
+    localStorage.setItem('code', response.data.code);
+
     nextStep('second');
   };
 
   const sendInputPin = async (e) => {
     e.preventDefault();
 
-    const response = await enterPin(pin, code);
+    const response = await enterPin(pin);
 
     console.log(response);
 
@@ -66,6 +67,8 @@ function Forgot() {
 
     if (response.data.error == '') {
       nextStep('third');
+    } else {
+      setMessage('INVALID INPUT!');
     }
   };
   // if (!pin) {
@@ -132,6 +135,7 @@ function Forgot() {
         <PinInput
           handlePinChange={handlePinChange}
           sendInputPin={sendInputPin}
+          errorMessage={message}
         />
       )}
 
