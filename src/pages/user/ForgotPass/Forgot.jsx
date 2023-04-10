@@ -31,6 +31,7 @@ function Forgot() {
   const [email, setEmail] = useState('');
   const [code, setCode] = useState(null);
   const [pin, setPin] = useState(null);
+  const [message, setMessage] = useState('');
 
   const [loading, toggleLoading] = useToggle(false);
 

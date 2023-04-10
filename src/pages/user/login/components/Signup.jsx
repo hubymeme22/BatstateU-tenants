@@ -58,7 +58,7 @@ function Signup({ handle }) {
 
     const V = {
       first: /^[a-zA-ZñÑ]{2,10}(?: [a-zA-ZñÑ]+)?$/gi,
-      middle: /^.{0}|.{1}|.{2,}$/gi,
+      middle: /^(|[a-zA-Z]|[a-zA-Z]+)$/gi,
       last: /^[a-zA-ZñÑ]{2,10}(?: [a-zA-ZñÑ]+)?$/gi,
       email: /^\S+@\S+\.\S+$/gi,
       contact: /[0-9]+/gi,
