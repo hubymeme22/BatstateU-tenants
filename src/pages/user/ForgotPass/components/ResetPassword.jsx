@@ -1,81 +1,84 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { pinInput } from '../../../../services/request';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {
-  LoginContainer,
-  Form,
-  Title,
-  Field,
-  UserIcon,
-  Label,
-  Input,
-  Button,
-} from '../styled';
-import BackgroundPath from '@/assets/background.webp';
+
+import { Form, Title, Field, UserIcon, Label, Input, Button } from '../styled';
 
 function ResetPassword(props) {
-  const navigate = useNavigate();
-  const [code, setCode] = React.useState(props.my);
-  const [pass, setPass] = React.useState('');
-  const [confirm, setConfirm] = React.useState('');
+  const { changePassword } = props;
+
+  const [pass, setPassword] = useState('');
+  const [confirm, setConfirm] = useState('');
+
   const [message, setMessage] = React.useState('');
+
+  useEffect(() => {
+    if (setMessage == '') return;
+    setMessage('');
+  }, [pass, confirm]);
+
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleConfirm = (e) => {
+    setConfirm(e.target.value);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const V = {
       pass: /^[\w]{8,20}$/gi,
       confirm: /^[\w]{8,20}$/gi,
     };
+
     if (pass.length <= 7) {
       setMessage('Password too Short!!');
+      return;
     } else if (!V.pass.test(pass)) {
       setMessage('Invalid Password');
+      return;
     } else if (!V.confirm.test(confirm)) {
       setMessage('Invalid Password');
+      return;
     } else if (pass !== confirm) {
       setMessage("Password Don't Match!");
-    } else {
-      const response = await pinInput({ pin });
-      alert('Thankyou! you will receive a code in your email shortly!');
-
-      console.log(response);
-      return navigate('/login');
+      return;
     }
+
+    changePassword(pass);
   };
 
   return (
-    <LoginContainer bg={BackgroundPath}>
-      <Form onSubmit={handleSubmit}>
-        <Title> New Password</Title>
-        <Field>
-          <Label htmlFor='pass'>Input a new password</Label>
+    <Form onSubmit={handleSubmit}>
+      <Title> New Password</Title>
+      <Field>
+        <Label htmlFor="pass">Input a new password</Label>
 
-          <div>
-            <Input
-              type='password'
-              id='pass'
-              name='pass'
-              placeholder='Input Password'
-              onChange={(e) => setPass(e.target.value)}
-            />
-            <UserIcon />
-          </div>
-          <div>
-            <Input
-              type='password'
-              id='pass'
-              name='confirm'
-              placeholder='Confirm Password'
-              onChange={(e) => setConfirm(e.target.value)}
-            />
-            <UserIcon />
-          </div>
-          <Message> {message}</Message>
-          <Button> Reset Password </Button>
-        </Field>
-      </Form>
-    </LoginContainer>
+        <div>
+          <Input
+            type="password"
+            name="pass"
+            placeholder="Input Password"
+            value={pass}
+            onChange={(e) => handlePassword(e)}
+          />
+          <UserIcon />
+        </div>
+        <div>
+          <Input
+            type="password"
+            name="confirm"
+            placeholder="Confirm Password"
+            value={confirm}
+            onChange={(e) => handleConfirm(e)}
+          />
+          <UserIcon />
+        </div>
+        <Message> {message}</Message>
+        <Button> Reset Password </Button>
+      </Field>
+    </Form>
   );
 }
 export default ResetPassword;

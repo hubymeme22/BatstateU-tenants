@@ -15,6 +15,7 @@ export const LoginContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100vw;
 `;
 
 export const Form = styled.form`

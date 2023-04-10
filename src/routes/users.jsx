@@ -7,6 +7,7 @@ import Account from '../pages/user/Account/Account';
 import Forgot from '../pages/user/ForgotPass/Forgot';
 import PinInput from '../pages/user/ForgotPass/components/PinInput';
 import ResetPassword from '../pages/user/ForgotPass/components/ResetPassword';
+
 export const userRoutes = [
   {
     path: '/login',
@@ -14,21 +15,7 @@ export const userRoutes = [
   },
   {
     path: '/forgotpass',
-
-    children: [
-      {
-        index: true,
-        element: <Forgot />,
-      },
-      {
-        path: 'pinInput',
-        element: <PinInput />,
-      },
-      {
-        path: 'passwordreset',
-        element: <ResetPassword />,
-      },
-    ],
+    element: <Forgot />,
   },
   {
     path: '/',
