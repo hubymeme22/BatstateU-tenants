@@ -23,7 +23,7 @@ import useToggle from '../../../hooks/useToggle';
 
 import {
   forgotPass,
-  pinInput,
+  enterPin,
   resetAccountPassword,
 } from '../../../services/request';
 
@@ -57,7 +57,9 @@ function Forgot() {
   const sendInputPin = async (e) => {
     e.preventDefault();
 
-    const response = await pinInput(pin, code);
+    const response = await enterPin(pin, code);
+
+    console.log(response);
 
     setCode(response.data.key);
 

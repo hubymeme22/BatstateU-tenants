@@ -155,7 +155,9 @@ export const forgotPass = async (email) => {
     .catch((error) => {});
 };
 
-export const pinInput = async (pin, code) => {
+export const enterPin = async (pin, code) => {
+  console.log(pin, code);
+
   return await axios
     .post(`/forgotpass/pin/${code}`, { pin })
     .then((response) => response)
