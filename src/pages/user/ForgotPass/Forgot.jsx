@@ -122,6 +122,10 @@ function Forgot() {
                   <UserIcon />
                 </div>
                 <Button> SEND CODE </Button>
+                <Button type='button' onClick={() => navigate('/login')}>
+                  {' '}
+                  BACK TO LOGIN{' '}
+                </Button>
               </Field>
             </>
           ) : (
