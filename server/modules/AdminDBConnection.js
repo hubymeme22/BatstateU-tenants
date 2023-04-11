@@ -255,11 +255,10 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
     // completely delete a room
     deleteRoom(roomID) {
-        Room.findOneAndDelete(roomID)
+        Room.findOneAndDelete({slot: roomID})
             .then(roomdata => {
                 Room.findOne({label: 'genesis'})
                     .then(genroom => {
-
                         // retrieve all the students and remove
                         // their rooms parallel to room deletion
                         Student.find({room: roomdata._id})
@@ -268,8 +267,10 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                                     student.room = genroom._id;
                                     student.save();
                                 });
-                            }).catch(this.rejectCallback);
 
+                                this.acceptCallback(roomdata);
+
+                            }).catch(this.rejectCallback);
                     }).catch(this.rejectCallback);
             }).catch(this.rejectCallback);
     }
