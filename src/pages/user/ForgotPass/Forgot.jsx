@@ -12,6 +12,7 @@ import {
   Label,
   Input,
   Button,
+  Message,
 } from './styled';
 
 import BackgroundPath from '@/assets/background.webp';
@@ -32,6 +33,7 @@ function Forgot() {
   const [code, setCode] = useState(null);
   const [pin, setPin] = useState(null);
   const [message, setMessage] = useState('');
+  const [errMessage, errSetMessage] = useState('');
 
   const [loading, toggleLoading] = useToggle(false);
 
@@ -41,19 +43,23 @@ function Forgot() {
 
   const sendEmail = async (e) => {
     e.preventDefault();
+    const emailRegex = /^[\d]{2}-[\d]{5}@g\.batstate-u\.edu\.ph$/;
+    if (!emailRegex.test(email)) {
+      errSetMessage('Please input a valid BSU email!');
+    } else {
+      toggleLoading();
 
-    toggleLoading();
+      const response = await forgotPass({ email });
 
-    const response = await forgotPass({ email });
+      toggleLoading();
+      alert('Thankyou! you will receive a code in your email shortly!');
 
-    toggleLoading();
-    alert('Thankyou! you will receive a code in your email shortly!');
+      console.log(response);
 
-    console.log(response);
+      localStorage.setItem('code', response.data.code);
 
-    localStorage.setItem('code', response.data.code);
-
-    nextStep('second');
+      return nextStep('second');
+    }
   };
 
   const sendInputPin = async (e) => {
@@ -68,7 +74,7 @@ function Forgot() {
     if (response.data.error == '') {
       nextStep('third');
     } else {
-      setMessage('INVALID INPUT!');
+      setMessage('INVALID PIN INPUT!');
     }
   };
   // if (!pin) {
@@ -122,6 +128,7 @@ function Forgot() {
                   />
                   <UserIcon />
                 </div>
+                <Message> {errMessage}</Message>
                 <Button> SEND CODE </Button>
                 <Button type='button' onClick={() => navigate('/login')}>
                   {' '}

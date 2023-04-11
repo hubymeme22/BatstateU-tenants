@@ -1,6 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Form, Title, Field, UserIcon, Label, Input, Button } from '../styled';
+import {
+  Form,
+  Title,
+  Field,
+  UserIcon,
+  Label,
+  Input,
+  Button,
+  Message,
+} from '../styled';
 
 function PinInput({ handlePinChange, sendInputPin, errorMessage }) {
   return (
@@ -28,9 +37,3 @@ function PinInput({ handlePinChange, sendInputPin, errorMessage }) {
   );
 }
 export default PinInput;
-const Message = styled.p`
-  font-size: 12px;
-  text-align: center;
-  color: red;
-  font-weight: bold;
-`;
