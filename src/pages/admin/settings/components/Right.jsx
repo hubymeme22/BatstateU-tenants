@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import useInput from '../../../../hooks/useInput';
 
 import { RightContainer, Column3, Field } from '../styled';
 
-import { toast } from 'react-toastify';
-
-import useInput from '../../../../hooks/useInput';
-
-import { addRoom, fetchAsAdmin } from '../../../../services/request';
+import {
+  addRoom,
+  deleteRoom,
+  fetchAsAdmin,
+} from '../../../../services/request';
 import { doesRoomExist } from '../../../../utils/doesExists';
 
 function Right() {
@@ -81,7 +83,24 @@ function Right() {
     }
   };
 
-  const removeRoom = async (room, label) => {};
+  const removeRoom = async (room, label) => {
+    if (room == '') return;
+
+    const response = await deleteRoom(room);
+
+    // Also remove locally
+    const roomDetails = {
+      slot_id: room,
+      label,
+    };
+
+    const updatedRooms = allSlots.filter((slot) => {
+      return JSON.stringify(slot) != JSON.stringify(roomDetails);
+    });
+
+    setAllSlots(updatedRooms);
+    notify('success', `Successfully deleted ${room} from ${label}`);
+  };
 
   const createRoom = async (room, label) => {
     if (room.trim() == '') {
@@ -131,7 +150,7 @@ function Right() {
           >
             {renderOptions(dormSlots)}
           </select>
-          <button>Del</button>
+          <button onClick={() => removeRoom(selectedDorm, 'dorm')}>Del</button>
         </Field>
 
         <Field>
@@ -151,7 +170,9 @@ function Right() {
             {renderOptions(canteenSlots)}
           </select>
 
-          <button>Del</button>
+          <button onClick={() => removeRoom(selectedCanteen, 'canteen')}>
+            Del
+          </button>
         </Field>
 
         <Field>

@@ -60,6 +60,7 @@ function Tenants() {
       setAllTenants(data.records.details);
       setMatchedUsers(data.records.details);
       setAvailableRooms(data.availableRooms.slots);
+      toggleLoading();
     };
 
     fetchRecords();

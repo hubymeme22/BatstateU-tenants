@@ -115,7 +115,7 @@ export const addRoom = async (roomDetails) => {
 
 export const deleteRoom = async (room) => {
   return await axios
-    .delete(`/admin/slot/${room}`)
+    .delete(`/admin/slots/${room}`)
     .then((response) => response)
     .catch((error) => {});
 };

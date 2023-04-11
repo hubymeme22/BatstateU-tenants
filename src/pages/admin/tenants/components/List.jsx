@@ -9,7 +9,7 @@ function List(props) {
 
   return (
     <UsersContainer>
-      {data.length > 0 ? (
+      {data.length != 0 ? (
         data.map((userdata) => {
           const { username, contact, roomID, status } = userdata;
           const { first, last } = userdata.name;
