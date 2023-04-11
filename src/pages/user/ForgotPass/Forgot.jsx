@@ -113,11 +113,12 @@ function Forgot() {
 
                 <div>
                   <Input
-                    type='text'
+                    type='email'
                     id='email'
                     name='email'
                     placeholder='20-06113@g.batstate-u.edu.ph'
                     onChange={(e) => setEmail(e.target.value)}
+                    required
                   />
                   <UserIcon />
                 </div>
