@@ -160,6 +160,9 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                 // remove the user on the other room if there is
                 Room.findOne({users: username})
                     .then(existingroomdata => {
+                        // console.log(existingroomdata);
+                        // console.log('this is called');
+
                         if (existingroomdata != null) {
                             if (existingroomdata.label != 'genesis') {
                                 existingroomdata.available_slot++;
@@ -264,10 +267,16 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                         Student.find({room: roomdata._id})
                             .then(studentsdata => {
                                 studentsdata.forEach(student => {
+                                    // register the student's account to the room
+                                    genroom.users.push(student.username);
+                                    genroom.userref.push(student._id);
+
+                                    // register the room to the student's account
                                     student.room = genroom._id;
                                     student.save();
                                 });
 
+                                genroom.save();
                                 this.acceptCallback(roomdata);
 
                             }).catch(this.rejectCallback);
