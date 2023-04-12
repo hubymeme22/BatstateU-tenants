@@ -15,8 +15,6 @@ function Announcement() {
 
     const { data } = await createAnnouncement(subject, message);
 
-    console.log(data);
-
     if (data.error == '') {
       showSuccessToast('Announcement was sent');
       resetSubject();
