@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { theme } from '../../../styles/theme';
-import Button from '../../../components/ui/Button';
+import { Button } from '../../../styles/shared/button';
 
 export const Container = styled.div`
   height: 100%;
