@@ -87,6 +87,15 @@ export const deleteAccount = async (roomID, username) => {
     .catch((error) => {});
 };
 
+/*----------- Annoucement page -----------*/
+
+export const createAnnouncement = async (subject, message) => {
+  return await axios
+    .post('/admin/announce', { subject, message, token: getTokenCookie() })
+    .then((response) => response)
+    .catch((error) => {});
+};
+
 /*----------- Settings page -----------*/
 export const updateDefaultPaymentValues = async (dorm, canteen) => {
   const routes = {
