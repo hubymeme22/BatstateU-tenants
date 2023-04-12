@@ -7,7 +7,7 @@ import { useAuth } from '@/hooks/useAuth';
 
 import { MdDashboard } from 'react-icons/md';
 import { FaUsers, FaHouseUser, FaBell } from 'react-icons/fa';
-import { FiSettings } from 'react-icons/fi';
+import { BsHouseGearFill } from 'react-icons/bs';
 
 export function Sidebar() {
   const auth = useAuth();
@@ -39,7 +39,7 @@ export function Sidebar() {
           </NavLink>
 
           <NavLink to="/admin/settings">
-            <FiSettings />
+            <BsHouseGearFill />
             Settings
           </NavLink>
         </Nav>
