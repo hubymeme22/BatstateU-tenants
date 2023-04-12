@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import useInput from '../../../../hooks/useInput';
 
 import { RightContainer, Column3, Field } from '../styled';
@@ -10,6 +9,8 @@ import {
   fetchAsAdmin,
 } from '../../../../services/request';
 import { doesRoomExist } from '../../../../utils/doesExists';
+
+import { showSuccessToast, showErrorToast } from '../../../../utils/toast';
 
 function Right() {
   const [allSlots, setAllSlots] = useState([]);
@@ -70,19 +71,6 @@ function Right() {
     );
   };
 
-  const notify = (type, message) => {
-    switch (type) {
-      case 'success':
-        toast.success(message);
-        break;
-      case 'error':
-        toast.error(message, { autoClose: 2000 });
-        break;
-      default:
-        toast(message);
-    }
-  };
-
   const removeRoom = async (room, label) => {
     if (room == '') return;
 
@@ -99,18 +87,18 @@ function Right() {
     });
 
     setAllSlots(updatedRooms);
-    notify('success', `Successfully deleted ${room} from ${label}`);
+    showSuccessToast(`Successfully deleted ${room} from ${label}`);
   };
 
   const createRoom = async (room, label) => {
     if (room.trim() == '') {
-      notify('error', 'Must not be empty');
+      showErrorToast('Must not be empty');
       return;
     }
 
     const doesExistAlready = doesRoomExist(room, label, allSlots);
     if (doesExistAlready) {
-      notify('error', `${room} already exists in ${label}`);
+      showErrorToast(`${room} already exists in ${label}`);
       return;
     }
 
@@ -121,7 +109,7 @@ function Right() {
     };
 
     const response = await addRoom(roomDetails);
-    notify('success', `Sucessfully added ${room} to ${label}`);
+    showSuccessToast(`Sucessfully added ${room} to ${label}`);
 
     // Also update the changes locally
     const updateRooms = [...allSlots, { slot_id: room, label }];

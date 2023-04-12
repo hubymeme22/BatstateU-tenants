@@ -13,7 +13,7 @@ import { getTokenCookie } from '../../utils/tokenHandler';
 import { parseObject } from '../../utils/parser';
 
 import { invoiceInitialState } from '../../services/format/FormState';
-import { toast } from 'react-toastify';
+import { showSuccessToast, showErrorToast } from '../../utils/toast';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -169,7 +169,9 @@ function BillingCard({
 
     if (response.data.error == '') {
       toggleInvoice();
-      toast.success(`Created Invoice for ${roomDetails.slot}`);
+      showSuccessToast(`Created Invoice for ${roomDetails.slot}`);
+    } else {
+      showErrorToast(`Something went wrong, Try Again!`);
     }
   };
 
