@@ -25,7 +25,7 @@ function Header(props) {
         <FilterContainer>
           {/* Select table  */}
           <InputContainer>
-            <label htmlFor=""> Table: </label>
+            <label htmlFor=""> Area: </label>
             <select value={table} onChange={(e) => changeTable(e.target.value)}>
               <option value="">All</option>
               <option value="dorm">Dorm</option>
