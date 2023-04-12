@@ -44,7 +44,7 @@ function Modal(props) {
 
   const createInvoice = () => {
     if (selectedTenants.length <= 0) {
-      setError('* Please select a student *');
+      setError('* Please select a tenant *');
       return;
     }
 

@@ -5,7 +5,7 @@ export const Button = styled.button`
   background-color: ${({ primary }) => (primary ? '#00DF24' : '#9A9A9A')};
   border: 0;
   padding: 0.5rem;
-  width: 150px;
+  width: 125px;
   border-radius: 5px;
   cursor: pointer;
   font-weight: bold;

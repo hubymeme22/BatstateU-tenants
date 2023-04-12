@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Button, StyledModalStatement } from './styled';
-import { ModalStyling } from '../../../../../styles/common/modal';
+import { ModalStyling } from '../../../../../styles/shared/modal';
 
 import FormContent from '../../../../../components/Form/FormContent';
 import Loader from '../../../../../components/Loader';

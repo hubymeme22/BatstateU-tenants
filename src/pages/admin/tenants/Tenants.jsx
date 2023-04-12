@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { ColumnTitles, Container } from './styled';
+import { Container } from './styled';
 
 // components
 import Header from './components/Header';

@@ -4,7 +4,7 @@ import {
   FilterContainer,
   InputContainer,
   StyledHeader,
-} from '../../../../styles/common/styles';
+} from '../../../../styles/shared/styles';
 
 import TableHeader from './TableHeader';
 import { FiSearch } from 'react-icons/fi';
