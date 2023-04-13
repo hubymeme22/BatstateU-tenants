@@ -12,13 +12,13 @@ function NotificationContent() {
   const [notif, setNotif] = useState({ subject: '', message: '' });
   ('Hello this is a sample test, very very long message');
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     const fetchedData = await getStudentAnnouncements();
-  //     localStorage.setItem('announcement', fetchedData.data.message);
-  //   };
-  //   getData();
-  // }, []);
+  useEffect(() => {
+    const getData = async () => {
+      const fetchedData = await getStudentAnnouncements();
+      sessionStorage.setItem('announcement', fetchedData.data.message);
+    };
+    getData();
+  }, []);
 
   const fetchedAnn = sessionStorage.getItem('announcement');
   return (
