@@ -15,17 +15,7 @@ import { useAuth } from '../../../hooks/useAuth';
 import axios from 'axios';
 import { getStudentAnnouncements } from '../../../services/request';
 export function Sidebar() {
-  const [notif, setNotif] = React.useState({
-    subject: '',
-    message: '',
-  });
-  React.useEffect(() => {
-    const getData = async () => {
-      const fetchedData = await getStudentAnnouncements();
-      setNotif(fetchedData.data);
-    };
-    getData();
-  }, []);
+  const fetchedAnn = sessionStorage.getItem('announcement');
 
   const auth = useAuth();
 
@@ -42,9 +32,7 @@ export function Sidebar() {
           </NavLink>
 
           <NavLink to='/notification'>
-            {notif.subject === '' || notif.message === '' ? null : (
-              <Exclamation />
-            )}
+            {!fetchedAnn ? null : <Exclamation />}
             <IoNotificationsSharp />
             Notification
           </NavLink>

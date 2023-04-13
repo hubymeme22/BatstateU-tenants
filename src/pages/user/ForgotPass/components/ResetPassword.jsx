@@ -53,13 +53,13 @@ function ResetPassword(props) {
     <Form onSubmit={handleSubmit}>
       <Title> New Password</Title>
       <Field>
-        <Label htmlFor="pass">Input a new password</Label>
+        <Label htmlFor='pass'>Input a new password</Label>
 
         <div>
           <Input
-            type="password"
-            name="pass"
-            placeholder="Input Password"
+            type='password'
+            name='pass'
+            placeholder='Input Password'
             value={pass}
             onChange={(e) => handlePassword(e)}
           />
@@ -67,9 +67,9 @@ function ResetPassword(props) {
         </div>
         <div>
           <Input
-            type="password"
-            name="confirm"
-            placeholder="Confirm Password"
+            type='password'
+            name='confirm'
+            placeholder='Confirm Password'
             value={confirm}
             onChange={(e) => handleConfirm(e)}
           />
