@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import useToggle from '../../../../hooks/useToggle';
 import { FaUserCircle } from 'react-icons/fa';
 import { BsKey } from 'react-icons/bs';
 
@@ -15,8 +15,10 @@ import {
 
 import { registerStudent } from '../../../../services/request';
 import { MD5 } from 'crypto-js';
+import Modal from './Modal';
 
 function Signup({ handle }) {
+  const [tog, togSet] = useToggle(false);
   const [message, setMessage] = React.useState('');
   const [value, setValue] = React.useState({
     name: {
@@ -101,129 +103,138 @@ function Signup({ handle }) {
 
   return (
     <ComponentContainer>
-      <Form onSubmit={handleSubmit}>
-        <Title> Sign up</Title>
-        <Field>
-          <Namess>
+      {tog ? (
+        <Modal handleClick={togSet} />
+      ) : (
+        <Form onSubmit={handleSubmit}>
+          <Title> Sign up</Title>
+          <Field>
+            <Namess>
+              <div>
+                <Input
+                  type='text'
+                  placeholder='FIRST NAME:'
+                  value={value.name.first}
+                  name='first'
+                  onChange={nameAdd}
+                  required
+                />
+                <UserIcon />
+              </div>
+              <div>
+                <Input
+                  type='text'
+                  placeholder='MID NAME:'
+                  value={value.name.middle}
+                  name='middle'
+                  onChange={nameAdd}
+                />
+                <UserIcon />
+              </div>
+              <div>
+                <Input
+                  type='text'
+                  placeholder='LAST NAME:'
+                  value={value.name.last}
+                  name='last'
+                  onChange={nameAdd}
+                  required
+                />
+                <UserIcon />
+              </div>
+            </Namess>
+          </Field>
+          <Field>
             <div>
               <Input
-                type='text'
-                placeholder='FIRST NAME:'
-                value={value.name.first}
-                name='first'
-                onChange={nameAdd}
+                type='email'
+                placeholder='EMAIL: eg. juancruz@gmail.com'
+                value={value.email}
+                name='email'
+                onChange={textAdd}
                 required
               />
-              <UserIcon />
+              <EmailIcon />
             </div>
+          </Field>
+          <Field>
             <div>
               <Input
-                type='text'
-                placeholder='MID NAME:'
-                value={value.name.middle}
-                name='middle'
-                onChange={nameAdd}
-              />
-              <UserIcon />
-            </div>
-            <div>
-              <Input
-                type='text'
-                placeholder='LAST NAME:'
-                value={value.name.last}
-                name='last'
-                onChange={nameAdd}
+                type='number'
+                placeholder='CONTACT NUMBER: eg. 09735678935'
+                value={value.contact}
+                name='contact'
+                onChange={textAdd}
                 required
               />
-              <UserIcon />
+              <KeyIcon />
             </div>
-          </Namess>
-        </Field>
-        <Field>
-          <div>
-            <Input
-              type='email'
-              placeholder='EMAIL: eg. juancruz@gmail.com'
-              value={value.email}
-              name='email'
-              onChange={textAdd}
-              required
-            />
-            <EmailIcon />
-          </div>
-        </Field>
-        <Field>
-          <div>
-            <Input
-              type='number'
-              placeholder='CONTACT NUMBER: eg. 09735678935'
-              value={value.contact}
-              name='contact'
-              onChange={textAdd}
-              required
-            />
-            <KeyIcon />
-          </div>
-        </Field>
-        <Field>
-          <div>
-            <Input
-              type='text'
-              placeholder='SR-CODE: eg. 20-06113'
-              value={value.username}
-              name='username'
-              onChange={textAdd}
-              required
-            />
-            <SrIcon />
-          </div>
-        </Field>
+          </Field>
+          <Field>
+            <div>
+              <Input
+                type='text'
+                placeholder='SR-CODE: eg. 20-06113'
+                value={value.username}
+                name='username'
+                onChange={textAdd}
+                required
+              />
+              <SrIcon />
+            </div>
+          </Field>
 
-        <Field>
-          <div>
-            <Input
-              type='password'
-              placeholder='PASSWORD: atleast 8 characters'
-              value={value.password}
-              name='password'
-              onChange={textAdd}
-              required
-            />
-            <KeyIcon />
-          </div>
-        </Field>
-        <Field>
-          <div>
-            <Input
-              type='password'
-              placeholder='CONFIRM PASSWORD: atleast 8 characters'
-              value={value.confirmPassword}
-              name='confirmPassword'
-              onChange={textAdd}
-              required
-            />
-            <KeyIcon />
-          </div>
-        </Field>
-        <Register>
-          <Checkbox>
-            <input
-              type='checkbox'
-              id='terms'
-              value={value.terms}
-              name='terms'
-              onChange={textAdd}
-              required
-            />
-            <label htmlFor='terms'>
-              I accept the Terms of Use & Privacy Policy
-            </label>
-          </Checkbox>
-          <Message> {message}</Message>
-          <HaveAcc onClick={Backbutton}>I already Have an account</HaveAcc>
-          <SignInButton>REGISTER</SignInButton>
-        </Register>
-      </Form>
+          <Field>
+            <div>
+              <Input
+                type='password'
+                placeholder='PASSWORD: atleast 8 characters'
+                value={value.password}
+                name='password'
+                onChange={textAdd}
+                required
+              />
+              <KeyIcon />
+            </div>
+          </Field>
+          <Field>
+            <div>
+              <Input
+                type='password'
+                placeholder='CONFIRM PASSWORD: atleast 8 characters'
+                value={value.confirmPassword}
+                name='confirmPassword'
+                onChange={textAdd}
+                required
+              />
+              <KeyIcon />
+            </div>
+          </Field>
+          <Register>
+            <Checkbox>
+              <input
+                type='checkbox'
+                id='terms'
+                value={value.terms}
+                name='terms'
+                onChange={textAdd}
+                required
+              />
+              <label htmlFor='terms'>
+                <Textinline> I accept the</Textinline>
+              </label>
+              <HaveAcc onClick={togSet}>
+                {' '}
+                Terms of Use & Privacy Policy{' '}
+              </HaveAcc>
+            </Checkbox>
+
+            <Message> {message}</Message>
+            <HaveAcc onClick={Backbutton}>I already Have an account</HaveAcc>
+            <SignInButton>REGISTER</SignInButton>
+          </Register>
+        </Form>
+      )}
     </ComponentContainer>
   );
 }
@@ -238,6 +249,10 @@ const ComponentContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+
+  height: 100%;
+  gap: 50px;
 `;
 const Form = styled.form`
   display: flex;
@@ -280,8 +295,12 @@ const Register = styled.div`
   flex-direction: column;
 `;
 const HaveAcc = styled.p`
+  display: inline;
   width: auto;
   cursor: pointer;
   font-size: 15px;
   text-decoration: underline;
+`;
+const Textinline = styled(HaveAcc)`
+  text-decoration: none;
 `;

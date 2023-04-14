@@ -181,3 +181,21 @@ export const Message = styled.p`
   color: red;
   font-weight: bold;
 `;
+
+export const ModalStyling = {
+  overlay: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#000000ba',
+  },
+  content: {
+    width: '800px',
+    height: '400px',
+
+    // Centering the modal
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
