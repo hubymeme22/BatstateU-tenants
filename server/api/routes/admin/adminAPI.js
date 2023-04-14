@@ -18,6 +18,7 @@ import accountSummary from "./summary/account.js";
 import setConstants from "./billing/setConstants.js";
 import getConstants from "./billing/getConstants.js";
 import deleteUnits from "./slots/deleteUnits.js";
+import logs from "./logger/logs.js";
 
 const adminPermission = Router();
 
@@ -48,5 +49,6 @@ adminPermission.use("/summary", accountSummary);
 
 // for announcement assigning
 adminPermission.use("/announce", announce);
+adminPermission.use('/logger', logs);
 
 export default adminPermission

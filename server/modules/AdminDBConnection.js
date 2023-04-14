@@ -697,8 +697,10 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                     // indicator that one of the bills is not yet paid
                     let allPaid = true;
                     bills.users.forEach(userbill => {
-                        if (userbill.username == username)
+                        if (userbill.username == username) {
                             userbill.paid = true;
+                            userbill.datePaid = Date.now();
+                        }
 
                         if (!userbill.paid) allPaid = false;
                     });
@@ -1012,6 +1014,38 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
                         this.acceptCallback(summaryData);
                     })
+            }).catch(this.rejectCallback);
+    }
+
+    /////////////////
+    //  Logs part  //
+    /////////////////
+    // returns the logs of past invoices of the specific user
+    getUserInvoiceLog(username) {
+        Bills.find({'users.username': username})
+            .then(billdata => {
+                if (billdata.length <= 0)
+                    return this.rejectCallback('NoBillsLogged');
+
+                const formattedData = [];
+                billdata.forEach(bill => {
+                    const userPaymentDetails = bill.users.find(item => item.username == username);
+                    if (userPaymentDetails == null) return;
+
+                    const format = {
+                        previousKWH: bill.previousKWH,
+                        currentKWH: bill.currentKWH,
+                        utilityTotalPayment: userPaymentDetails.cost,
+                        waterBill: bill.waterPayment,
+                        roomBill: bill.roomPayment,
+                        status: userPaymentDetails.paid ? 'paid' : 'unpaid',
+                        datePaid: userPaymentDetails.datePaid
+                    };
+
+                    formattedData.push(format);
+                });
+
+                this.acceptCallback(formattedData);
             }).catch(this.rejectCallback);
     }
 }

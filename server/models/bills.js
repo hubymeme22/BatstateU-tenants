@@ -69,6 +69,10 @@ const roomBills = new mongoose.Schema({
             type: mongoose.Types.ObjectId,
             required: true,
             ref: 'student_accounts'
+        },
+        datePaid: {
+            type: Date,
+            required: false
         }
     }]
 });
