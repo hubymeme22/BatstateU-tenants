@@ -50,6 +50,13 @@ export const createBilling = async (room, billingInformation) => {
 };
 
 /*----------- Tenants page -----------*/
+export const getUserLogs = async (username) => {
+  return await axios
+    .get(`admin/logger/invoice/${username}`)
+    .then((response) => response)
+    .catch((error) => error);
+};
+
 export const changeTenantRoom = async (username, room_id) => {
   return await axios.post('admin/students/room', {
     room_id,
@@ -87,7 +94,7 @@ export const deleteAccount = async (roomID, username) => {
     .catch((error) => {});
 };
 
-/*----------- Annoucement page -----------*/
+/*--------- Annoucement page ---------*/
 
 export const createAnnouncement = async (subject, message) => {
   return await axios
