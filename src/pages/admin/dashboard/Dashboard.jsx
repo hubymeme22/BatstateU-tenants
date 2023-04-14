@@ -18,6 +18,8 @@ import { fetchAsAdmin } from '@/services/request';
 import { defaultPaymentLoader } from '../../../services/loaders';
 import { defaultBillingsInit } from '../../../services/format/FormState';
 
+import { sortByRoomNames } from '../../../utils/dataFilters';
+
 function Dashboard() {
   // Dashboard states
   const [allRooms, setAllRooms] = useState([]);
@@ -41,6 +43,8 @@ function Dashboard() {
       const response = await dashboardLoader();
 
       const all = await response.slots.data.slots;
+
+      sortByRoomNames(all);
 
       setAllRooms(all);
       setSummary(response.summary.data);

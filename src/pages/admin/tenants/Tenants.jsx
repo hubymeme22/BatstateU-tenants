@@ -10,7 +10,7 @@ import Loader from '../../../components/Loader';
 
 // Utils
 import { searchUser } from '../../../utils/search';
-import { filterByStatus } from '../../../utils/filter';
+import { filterByStatus } from '../../../utils/dataFilters';
 
 // Services
 import {

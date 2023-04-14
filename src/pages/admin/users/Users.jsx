@@ -8,7 +8,7 @@ import Loader from '../../../components/Loader';
 
 // Http request
 import { usersLoader } from '../../../services/loaders';
-import { filterByVerificationStatus } from '../../../utils/filter';
+import { filterByVerificationStatus } from '../../../utils/dataFilters';
 import { unverifyStudent } from '../../../services/request';
 import { verifyStudent } from '../../../services/request';
 
