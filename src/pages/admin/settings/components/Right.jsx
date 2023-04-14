@@ -144,7 +144,12 @@ function Right() {
         </Field>
 
         <Field>
-          <input type="text" name="dorm-input" {...dormInputHandler} />
+          <input
+            type="text"
+            name="dorm-input"
+            autoComplete="off"
+            {...dormInputHandler}
+          />
           <button onClick={() => createRoom(dormInput, 'dorm')}>Add</button>
         </Field>
 
@@ -166,7 +171,12 @@ function Right() {
         </Field>
 
         <Field>
-          <input type="text" name="canteen-input" {...canteenInputHandler} />
+          <input
+            type="text"
+            name="canteen-input"
+            autoComplete="off"
+            {...canteenInputHandler}
+          />
           <button onClick={() => createRoom(canteenInput, 'canteen')}>
             Add
           </button>

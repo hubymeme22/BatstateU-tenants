@@ -31,7 +31,9 @@ export const Layout = styled.div`
 `;
 
 export const Card = styled.div`
+  position: relative;
   padding: 1rem;
+  padding-top: 0;
   width: 100%;
   height: 100%;
   text-align: center;
@@ -40,7 +42,23 @@ export const Card = styled.div`
 
   &:nth-child(1),
   &:nth-child(2) {
-    overflow-y: hidden;
+    overflow-y: auto;
+  }
+
+  &:last-child {
+    padding-top: 1rem;
+  }
+
+  & > div:first-child {
+    position: sticky;
+    padding-top: 1rem;
+    top: 0;
+    background-color: inherit;
+  }
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 1px;
   }
 `;
 
@@ -66,4 +84,8 @@ export const SummaryContainer = styled.div`
     display: grid;
     grid-template-columns: 2fr 1fr;
   }
+`;
+
+export const Contents = styled.div`
+  overflow-y: auto;
 `;
