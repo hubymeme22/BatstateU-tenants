@@ -4,13 +4,39 @@ import { InfoCardModal, Table, ButtonContainer } from './styled';
 import { ModalStyling } from '../../../../../styles/shared/modal';
 import { Button } from '../../../../../styles/shared/button';
 
+import {
+  doesRoomExist,
+  filterByRoomLabel,
+} from '../../../../../utils/dataFilters';
+
 function InfoCard(props) {
   const { isOpen, toggleModal, userData } = props;
   const { availableRooms, changeRoom, saveChanges } = props;
 
   // Destruct user information
-  const { username, contact, email, roomID, status } = userData;
+  const { username, contact, email, roomID, status, room_label } = userData;
   const { first, middle, last } = userData.name;
+
+  const renderOptions = (list) => {
+    list = filterByRoomLabel(list, room_label);
+
+    return (
+      <>
+        <option value="GN-01">None</option>
+
+        {list.length != 0 &&
+          list.map((room) => {
+            if (room.slot == 'GN-01') return;
+
+            return (
+              <option value={room.slot} key={room._id}>
+                {room.slot}
+              </option>
+            );
+          })}
+      </>
+    );
+  };
 
   return (
     <InfoCardModal
@@ -42,13 +68,7 @@ function InfoCard(props) {
             <td>UNIT NUMBER</td>
             <td>
               <select value={roomID} onChange={(e) => changeRoom(e, username)}>
-                {availableRooms.map((room) => {
-                  return (
-                    <option value={room.slot} key={room._id}>
-                      {room.slot}
-                    </option>
-                  );
-                })}
+                {renderOptions(availableRooms)}
               </select>
             </td>
           </tr>

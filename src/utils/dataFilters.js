@@ -13,8 +13,15 @@ export const filterByVerificationStatus = (list, filterBy) => {
 
 export const filterByStatus = (list, filterValue) => {
   if (filterValue == '') return list;
-
   return list.filter((user) => user.status == filterValue);
+};
+
+export const filterByRoomLabel = (list, label) => {
+  if (list.length == 0) return [];
+
+  if (label === 'unavailable') return list;
+
+  return list.filter((room) => room.label === label);
 };
 
 export const sortByNames = (list) => {
@@ -44,3 +51,7 @@ export const sortByRoomNames = (list) => {
 
   return sortedRooms;
 };
+
+export function doesRoomExist(roomName, objectList) {
+  return objectList.some((obj) => obj.slot_id == roomName);
+}

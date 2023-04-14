@@ -5,12 +5,13 @@ import { Container } from './styled';
 // components
 import Header from './components/Header';
 import List from './components/List';
-import ModalStatement from './components/Modal/Modal';
 import Loader from '../../../components/Loader';
+import ModalStatement from './components/Modal/Modal';
+import InfoCard from './components/InfoCard/InfoCard';
 
 // Utils
 import { searchUser } from '../../../utils/search';
-import { filterByStatus } from '../../../utils/dataFilters';
+import { filterByStatus, sortByRoomNames } from '../../../utils/dataFilters';
 
 // Services
 import {
@@ -29,7 +30,6 @@ import {
 import useFilter from '../../../hooks/useFilter';
 import useToggle from '../../../hooks/useToggle';
 import useSearch from '../../../hooks/useSearch';
-import InfoCard from './components/InfoCard/InfoCard';
 
 function Tenants() {
   const [allTenants, setAllTenants] = useState([]);
@@ -57,9 +57,13 @@ function Tenants() {
   useEffect(() => {
     const fetchRecords = async () => {
       const data = await tenantsLoader();
-      setAllTenants(data.records.details);
-      setMatchedUsers(data.records.details);
-      setAvailableRooms(data.availableRooms.slots);
+
+      const tenants = data.records.details;
+      const available = sortByRoomNames(data.availableRooms.slots);
+
+      setAllTenants(tenants);
+      setMatchedUsers(tenants);
+      setAvailableRooms(available);
       toggleLoading();
     };
 

@@ -8,7 +8,7 @@ import {
   deleteRoom,
   fetchAsAdmin,
 } from '../../../../services/request';
-import { doesRoomExist } from '../../../../utils/doesExists';
+import { doesRoomExist, sortByRoomNames } from '../../../../utils/dataFilters';
 
 import { showSuccessToast, showErrorToast } from '../../../../utils/toast';
 
@@ -31,7 +31,7 @@ function Right() {
       // Only include the slot_id (name) & label
       const filteredData = data.slots.map((slot) => {
         return {
-          slot_id: slot.slot,
+          slot: slot.slot,
           label: slot.label,
         };
       });
@@ -48,8 +48,10 @@ function Right() {
       return;
     }
 
-    const dorm = allSlots.filter((slot) => slot.label == 'dorm');
-    const canteen = allSlots.filter((slot) => slot.label == 'canteen');
+    const slots = sortByRoomNames(allSlots);
+
+    const dorm = slots.filter((slot) => slot.label == 'dorm');
+    const canteen = slots.filter((slot) => slot.label == 'canteen');
 
     setDormSlots(dorm);
     setCanteenSlots(canteen);
@@ -62,8 +64,8 @@ function Right() {
       <>
         <option value="">None</option>
         {list.map((slot) => (
-          <option key={slot.slot_id} value={slot.slot_id}>
-            {slot.slot_id}
+          <option key={slot.slot} value={slot.slot}>
+            {slot.slot}
             {''}
           </option>
         ))}
@@ -78,7 +80,7 @@ function Right() {
 
     // Also remove locally
     const roomDetails = {
-      slot_id: room,
+      slot: room,
       label,
     };
 
@@ -96,9 +98,9 @@ function Right() {
       return;
     }
 
-    const doesExistAlready = doesRoomExist(room, label, allSlots);
+    const doesExistAlready = doesRoomExist(room, allSlots);
     if (doesExistAlready) {
-      showErrorToast(`${room} already exists in ${label}`);
+      showErrorToast(`${room} already exists`);
       return;
     }
 
@@ -112,7 +114,7 @@ function Right() {
     showSuccessToast(`Sucessfully added ${room} to ${label}`);
 
     // Also update the changes locally
-    const updateRooms = [...allSlots, { slot_id: room, label }];
+    const updateRooms = [...allSlots, { slot: room, label }];
     setAllSlots(updateRooms);
 
     if (label == 'dorm') {
