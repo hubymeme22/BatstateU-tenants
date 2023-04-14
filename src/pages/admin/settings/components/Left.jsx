@@ -11,7 +11,9 @@ import { defaultBillingsInit } from '../../../../services/format/FormState';
 import { defaultPaymentLoader } from '../../../../services/loaders';
 import { updateDefaultPaymentValues } from '../../../../services/request';
 
-function Left({ notify }) {
+import { showSuccessToast, showErrorToast } from '../../../../utils/toast';
+
+function Left() {
   const [defaultValues, setDefaultValues] = useState(defaultBillingsInit);
   const [temporary, setTemporary] = useState(defaultBillingsInit);
 
@@ -60,7 +62,7 @@ function Left({ notify }) {
     };
 
     updateDefaultPaymentValues(newDormDefaults, newCanteenDefaults);
-    notify('Changes were applied');
+    showSuccessToast('Changes were applied');
   };
 
   return (
