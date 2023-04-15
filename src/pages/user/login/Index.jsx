@@ -30,10 +30,12 @@ function Index() {
       navigate('/', { replace: true });
     }
   }, []);
-
+  const style = {
+    backgroundColor: tog ? 'rgba(0, 0, 0, 0.7)' : null,
+  };
   return (
     <>
-      <Container bg={BackgroundPath}>
+      <Container bg={BackgroundPath} style={style}>
         <ContentContainer>
           {tog ? <Modal handleClick={togSet} /> : null}
           <Wrapper switch={toggle}>
