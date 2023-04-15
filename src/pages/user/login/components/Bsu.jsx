@@ -27,7 +27,7 @@ const BSUContainer = styled.div`
   transition: all 0.6s ease-in-out;
   width: 50%;
   background-color: white;
-
+  position: relative;
   transform: ${(props) =>
     props.switch ? 'translateX(0)' : 'translateX(-100%)'};
 `;
