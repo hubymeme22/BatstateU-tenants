@@ -168,6 +168,7 @@ function Modal({ handleClick }) {
           also receive personal information about you from third parties as
           described above.
         </Content>
+        <br />
         <Buttons onClick={handleClick}>Back</Buttons>
       </Contents>
     </Overlayy>
@@ -209,7 +210,7 @@ const Content = styled.div`
 
 const Buttons = styled(Button)`
   font-size: 12px;
-  width: 40%;
+  width: 20%;
 `;
 const Title = styled.div`
   color: #c52d2d;
@@ -239,6 +240,9 @@ const Overlayy = styled.div`
 `;
 
 const Contents = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border-radius: 10px;
   width: 850px;
   height: 700px;
