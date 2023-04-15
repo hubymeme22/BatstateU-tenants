@@ -168,6 +168,126 @@ function Modal({ handleClick }) {
           also receive personal information about you from third parties as
           described above.
         </Content>
+        <Content>
+          <br />
+          <Bold>How Do We Use Your Email Address?</Bold>
+          <br />
+          By submitting your email address on this website, you agree to receive
+          emails from us. You can cancel your participation in any of these
+          email lists at any time by clicking on the opt-out link or other
+          unsubscribe option that is included in the respective email. We only
+          send emails to people who have authorized us to contact them, either
+          directly, or through a third party. We do not send unsolicited
+          commercial emails, because we hate spam as much as you do. By
+          submitting your email address, you also agree to allow us to use your
+          email address for customer audience targeting on sites like Facebook,
+          where we display custom advertising to specific people who have
+          opted-in to receive communications from us. Email addresses submitted
+          only through the order processing page will be used for the sole
+          purpose of sending you information and updates pertaining to your
+          order. If, however, you have provided the same email to us through
+          another method, we may use it for any of the purposes stated in this
+          Policy. Note: If at any time you would like to unsubscribe from
+          receiving future emails, we include detailed unsubscribe instructions
+          at the bottom of each email.
+        </Content>
+        <Content>
+          <br />
+          <Bold>
+            Could my information be transferred to other countries?
+          </Bold>{' '}
+          <br />
+          We are incorporated in Philippines. Information collected via our
+          website, through direct interactions with you, or from use of our help
+          services may be transferred from time to time to our offices or
+          personnel, or to third parties, located throughout the world, and may
+          be viewed and hosted anywhere in the world, including countries that
+          may not have laws of general applicability regulating the use and
+          transfer of such data. To the fullest extent allowed by applicable
+          law, by using any of the above, you voluntarily consent to the trans-
+          border transfer and hosting of such information.
+        </Content>
+        <Content>
+          <br />
+          <Bold>
+            Is the information collected through our service secure?
+          </Bold>{' '}
+          <br />
+          We take precautions to protect the security of your information. We
+          have physical, electronic, and managerial procedures to help
+          safeguard, prevent unauthorized access, maintain data security, and
+          correctly use your information. However, neither people nor security
+          systems are foolproof, including encryption systems. In addition,
+          people can commit intentional crimes, make mistakes or fail to follow
+          policies. Therefore, while we use reasonable efforts to protect your
+          personal information, we cannot guarantee its absolute security. If
+          applicable law imposes any non-disclaimable duty to protect your
+          personal information, you agree that intentional misconduct will be
+          the standards used to measure our compliance with that duty.
+        </Content>
+        <Content>
+          <br />
+          <Bold>Can I update or correct my information?</Bold>
+          <br />
+          The rights you have to request updates or corrections to the
+          information we collect depend on your relationship with us. Personnel
+          may update or correct their information as detailed in our internal
+          company employment policies. Customers have the right to request the
+          restriction of certain uses and disclosures of personally identifiable
+          information as follows. You can contact us in order to (1) update or
+          correct your personally identifiable information, (2) change your
+          preferences with respect to communications and other information you
+          receive from us, or (3) delete the personally identifiable information
+          maintained about you on our systems (subject to the following
+          paragraph), by cancelling your account. Such updates, corrections,
+          changes and deletions will have no effect on other information that we
+          maintain, or information that we have provided to third parties in
+          accordance with this Privacy Policy prior to such update, correction,
+          change or deletion. To protect your privacy and security, we may take
+          reasonable steps (such as requesting a unique password) to verify your
+          identity before granting you profile access or making corrections. You
+          are responsible for maintaining the secrecy of your unique password
+          and account information at all times. You should be aware that it is
+          not technologically possible to remove each and every record of the
+          information you have provided to us from our system. The need to back
+          up our systems to protect information from inadvertent loss means that
+          a copy of your information may exist in a non-erasable form that will
+          be difficult or impossible for us to locate. Promptly after receiving
+          your request, all personal information stored in databases we actively
+          use, and other readily searchable media will be updated, corrected,
+          changed or deleted, as appropriate, as soon as and to the extent
+          reasonably and technically practicable. If you are an end user and
+          wish to update, delete, or receive any information we have about you,
+          you may do so by contacting the organization of which you are a
+          customer.
+        </Content>
+        <Content>
+          <br />
+          <Bold> Sale of Business</Bold> <br />
+          We reserve the right to transfer information to a third party in the
+          event of a sale, merger or other transfer of all or substantially all
+          of the assets of us or any of its Corporate Affiliates (as defined
+          herein), or that portion of us or any of its Corporate Affiliates to
+          which the Service relates, or in the event that we discontinue our
+          business or file a petition or have filed against us a petition in
+          bankruptcy, reorganization or similar proceeding, provided that the
+          third party agrees to adhere to the terms of this Privacy Policy.
+        </Content>
+        <Content>
+          <Bold>
+            <br />
+            Affiliates
+            <br />
+          </Bold>
+          We may disclose information (including personal information) about you
+          to our Corporate Affiliates. For purposes of this Privacy Policy,
+          "Corporate Affiliate" means any person or entity which directly or
+          indirectly controls, is controlled by or is under common control with
+          us, whether by ownership or otherwise. Any information relating to you
+          that we provide to our Corporate Affiliates will be treated by those
+          Corporate Affiliates in accordance with the terms of this Privacy
+          Policy.
+        </Content>
         <br />
         <Buttons onClick={handleClick}>Back</Buttons>
       </Contents>
