@@ -19,6 +19,10 @@ import setConstants from "./billing/setConstants.js";
 import getConstants from "./billing/getConstants.js";
 import deleteUnits from "./slots/deleteUnits.js";
 import logs from "./logger/logs.js";
+import setPrepared from "./names/setPrepared.js";
+import setRecieved from "./names/setRecieved.js";
+import setReviewed from "./names/setReviewed.js";
+import setVerified from "./names/setVerified.js";
 
 const adminPermission = Router();
 
@@ -47,8 +51,14 @@ adminPermission.use("/summary", roomSummary);
 adminPermission.use("/summary", studentSummary);
 adminPermission.use("/summary", accountSummary);
 
+// for assigning personel names
+adminPermission.use("/names", setPrepared);
+adminPermission.use("/names", setRecieved);
+adminPermission.use("/names", setReviewed);
+adminPermission.use("/names", setVerified);
+
 // for announcement assigning
 adminPermission.use("/announce", announce);
-adminPermission.use('/logger', logs);
+adminPermission.use("/logger", logs);
 
 export default adminPermission
