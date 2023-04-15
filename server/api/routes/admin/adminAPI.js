@@ -23,6 +23,7 @@ import setPrepared from "./names/setPrepared.js";
 import setRecieved from "./names/setRecieved.js";
 import setReviewed from "./names/setReviewed.js";
 import setVerified from "./names/setVerified.js";
+import getNames from "./names/getNames.js";
 
 const adminPermission = Router();
 
@@ -56,6 +57,7 @@ adminPermission.use("/names", setPrepared);
 adminPermission.use("/names", setRecieved);
 adminPermission.use("/names", setReviewed);
 adminPermission.use("/names", setVerified);
+adminPermission.use("/names", getNames);
 
 // for announcement assigning
 adminPermission.use("/announce", announce);
