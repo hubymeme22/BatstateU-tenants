@@ -1,5 +1,11 @@
 import styled from 'styled-components';
 
+export const ButtonContainer = styled.div`
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+`;
+
 export const Button = styled.button`
   align-self: end;
   background-color: ${({ primary }) => (primary ? '#00DF24' : '#9A9A9A')};

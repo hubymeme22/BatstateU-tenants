@@ -1,6 +1,8 @@
 import ReactModal from 'react-modal';
 import styled from 'styled-components';
 
+import { Button as Btn } from '../../../../../styles/shared/button';
+
 export const StyledModalStatement = styled(ReactModal)`
   padding: 2rem;
   padding-bottom: 1.5rem;
@@ -18,17 +20,6 @@ export const StyledModalStatement = styled(ReactModal)`
   }
 `;
 
-export const Button = styled.button`
-  padding: 0.5rem 2rem;
-
+export const Button = styled(Btn)`
   background-color: #66e95f;
-  align-self: end;
-
-  border: 0;
-  border-radius: 5px;
-  cursor: pointer;
-
-  font-weight: bold;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 `;

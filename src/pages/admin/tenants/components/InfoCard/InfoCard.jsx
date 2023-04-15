@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { InfoCardModal, Table, ButtonContainer } from './styled';
+import { InfoCardModal, Table } from './styled';
 import { ModalStyling } from '../../../../../styles/shared/modal';
-import { Button } from '../../../../../styles/shared/button';
+import { Button, ButtonContainer } from '../../../../../styles/shared/button';
 
 function InfoCard(props) {
   const { isOpen, toggleModal, userData } = props;

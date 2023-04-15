@@ -19,12 +19,13 @@ import {
   billingInitialState,
   accountInitialState,
 } from '../../../services/format/FormState';
-import { tenantsLoader } from '../../../services/loaders';
 import {
   fetchAsAdmin,
   markAsPaid,
   changeTenantRoom,
+  getUserLogs,
 } from '../../../services/request';
+import { tenantsLoader } from '../../../services/loaders';
 
 // hooks
 import useFilter from '../../../hooks/useFilter';
@@ -42,8 +43,7 @@ function Tenants() {
   const [isViewingInfo, toggleViewingInfo] = useToggle(false);
 
   // Placeholder for modal
-  const [userInfo, setUserInfo] = useState(userInitialState);
-  const [userBillings, setUserBillings] = useState(billingInitialState);
+  const [selectedTenant, setSelectedTenant] = useState(null);
 
   // For viewing the user info card
   const [userData, setUserData] = useState(accountInitialState);
@@ -70,6 +70,7 @@ function Tenants() {
     fetchRecords();
   }, []);
 
+  // Rerender lists based on the dependencies
   useEffect(() => {
     // Guard case
     if (allTenants.length == 0 && filterBy == '' && searchText.trim() == '') {
@@ -103,48 +104,17 @@ function Tenants() {
 
     // Set as paid on the server / database
     markAsPaid(username);
-
     setAllTenants(editedTenantsList);
-    setUserBillings({ ...userBillings, isPaid: true });
   };
 
   const viewStatement = async (userData) => {
-    // Clear modal datas
-    setUserInfo(userInitialState);
-    setUserBillings(billingInitialState);
-
-    // open modal
-    toggleModal();
-
-    // Destruct userdata
-    const { username } = userData;
-    const { first, middle, last } = userData.name;
-
-    // Retrieve billing report
-    const billings = await fetchAsAdmin(`billing/report/${username}`);
-
-    // Set form information
-    setUserBillings(billings.data.report);
-    setUserInfo({
-      ...userInfo,
-      srCode: username,
-      details: {
-        name: {
-          first: first,
-          middle: middle,
-          last: last,
-        },
-      },
-    });
-
-    toggleLoading();
+    toggleModal(); // open modal
+    setSelectedTenant(userData);
   };
 
   const viewTenantInfo = (userData) => {
     setUserData({ accountInitialState });
-
     toggleViewingInfo();
-
     setUserData(userData);
   };
 
@@ -155,6 +125,7 @@ function Tenants() {
     setUserData(updatedAccount);
   };
 
+  // Save changing room in local and in server
   const saveChanges = (username, roomID) => {
     const updatedTenantList = allTenants.map((tenant) => {
       if (tenant.username == userData.username) {
@@ -193,8 +164,7 @@ function Tenants() {
       <ModalStatement
         isOpen={modalIsOpen}
         toggleModal={toggleModal}
-        userInfo={userInfo}
-        userBillings={userBillings}
+        selectedTenant={selectedTenant}
         handlePayment={handlePayment}
       />
 

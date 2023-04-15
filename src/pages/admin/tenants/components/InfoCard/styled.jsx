@@ -44,9 +44,3 @@ export const Table = styled.table`
     padding-left: 1rem;
   }
 `;
-
-export const ButtonContainer = styled.div`
-  display: flex;
-  gap: 2rem;
-  justify-content: center;
-`;
