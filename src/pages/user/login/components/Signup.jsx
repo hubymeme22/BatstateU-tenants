@@ -17,7 +17,7 @@ import { registerStudent } from '../../../../services/request';
 import { MD5 } from 'crypto-js';
 import Modal from './Modal';
 
-function Signup({ handle, handleClick }) {
+function Signup({ handle, handleClick, handol }) {
   const [message, setMessage] = React.useState('');
   const [value, setValue] = React.useState({
     name: {
@@ -217,13 +217,12 @@ function Signup({ handle, handleClick }) {
               required
             />
             <label htmlFor='terms'>
-              <Textinline> I accept the</Textinline>{' '}
+              <Textinline> I have read the</Textinline>{' '}
               <HaveAcc onClick={handleClick}>
                 Terms of Use & Privacy Policy{' '}
               </HaveAcc>
             </label>
           </Checkbox>
-
           <Message> {message}</Message>
           <HaveAcc onClick={Backbutton}>I already Have an account</HaveAcc>
           <SignInButton>REGISTER</SignInButton>
