@@ -53,7 +53,7 @@ export const createBilling = async (room, billingInformation) => {
 export const getUserLogs = async (username) => {
   return await axios
     .get(`admin/logger/invoice/${username}`)
-    .then((response) => response)
+    .then((response) => response.data)
     .catch((error) => error);
 };
 

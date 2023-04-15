@@ -14,6 +14,7 @@ import {
 
 import useToggle from '../../../../../hooks/useToggle';
 import { fetchAsAdmin, getUserLogs } from '../../../../../services/request';
+import Logs from './Logs';
 
 function ModalStatement(props) {
   const { isOpen, toggleModal, selectedTenant } = props;
@@ -25,7 +26,7 @@ function ModalStatement(props) {
 
   const [tenantRoom, setTenantRoom] = useState('');
 
-  const [viewLogs, toggleViewLogs] = useToggle(false);
+  const [isViewingLogs, toggleIsViewingLogs] = useToggle(false);
 
   // Retrieve the userBills and logs
   useEffect(() => {
@@ -50,12 +51,15 @@ function ModalStatement(props) {
 
     setUserInfo(formattedTenantInfo);
 
-    const getBillings = async () => {
+    const getUserData = async () => {
       const billings = await fetchTenantBillings(username);
       setUserBillings(billings.data.report);
+
+      const data = await fetchTenantLogs(username);
+      setUserLogs(data.logs);
     };
 
-    getBillings();
+    getUserData();
   }, [selectedTenant]);
 
   const fetchTenantBillings = async (username) => {
@@ -80,24 +84,34 @@ function ModalStatement(props) {
       {/* View the form with the user billing content */}
 
       {userInfo != userInitialState || userBillings != billingInitialState ? (
-        <FormContent
-          userInfo={userInfo}
-          userBillings={userBillings}
-          roomID={tenantRoom}
-        />
+        <div>
+          {!isViewingLogs ? (
+            <FormContent
+              userInfo={userInfo}
+              userBillings={userBillings}
+              roomID={tenantRoom}
+            />
+          ) : (
+            <Logs list={userLogs} />
+          )}
+        </div>
       ) : (
         <Loader />
       )}
 
       <ButtonContainer>
-        <Button>View Logs</Button>
-
-        <Button
-          disabled={userBillings.isPaid}
-          onClick={() => updateBillings(userInfo.srCode)}
-        >
-          Mark as Paid
+        <Button onClick={toggleIsViewingLogs}>
+          View {!isViewingLogs ? 'Logs' : 'Current Billing'}
         </Button>
+
+        {!isViewingLogs && (
+          <Button
+            disabled={userBillings.isPaid}
+            onClick={() => updateBillings(userInfo.srCode)}
+          >
+            Mark as Paid
+          </Button>
+        )}
       </ButtonContainer>
     </StyledModalStatement>
   );

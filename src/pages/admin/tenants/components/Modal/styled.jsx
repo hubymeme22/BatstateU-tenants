@@ -22,4 +22,5 @@ export const StyledModalStatement = styled(ReactModal)`
 
 export const Button = styled(Btn)`
   background-color: #66e95f;
+  width: auto;
 `;
