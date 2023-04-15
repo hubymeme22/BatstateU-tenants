@@ -8,7 +8,7 @@ function Modal({ handleClick }) {
   return (
     <Overlayy>
       <Contents>
-        <Title> TERMS AND CONDITIONS</Title> <br />
+        <Title> TERMS AND CONDITIONS</Title>
         <br />
         <Bold> Privacy Policy </Bold> <br /> Updated at 2023-04-11 <br />
         <br />
@@ -393,7 +393,9 @@ function Modal({ handleClick }) {
           risk and subject to such third parties' terms and conditions.
         </Content>
         <br />
-        <Buttons onClick={handleClick}>Back</Buttons>
+        <Buttons onClick={handleClick} required>
+          I ACCEPT ALL THE TERMS AND CONDITIONS
+        </Buttons>
       </Contents>
     </Overlayy>
   );
@@ -435,12 +437,17 @@ const Content = styled.div`
 
 const Buttons = styled(Button)`
   font-size: 12px;
-  width: 20%;
+  width: auto;
+  padding: 10px;
 `;
 const Title = styled.div`
   color: #c52d2d;
   font-weight: bold;
   text-align: center;
+  font-size: 20px;
+  border: 1px solid;
+  padding: 5px;
+  border-radius: 10px; ;
 `;
 const Bold = styled.p`
   @media screen and (max-width: 767px) {
