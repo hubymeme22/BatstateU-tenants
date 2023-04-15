@@ -13,10 +13,10 @@ export const names = {
 
 // contains base64 encoded images of their signatures
 export const signatures = {
-    'prepared': '',
-    'reviewed': '',
-    'verified': '',
-    'recieved': ''
+    'prepared': null,
+    'reviewed': null,
+    'verified': null,
+    'recieved': null
 }
 
 export function seDormtWaterPaymentValue(newWater) {
