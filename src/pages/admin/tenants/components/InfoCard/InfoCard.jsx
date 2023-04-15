@@ -1,35 +1,62 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { InfoCardModal, Table } from './styled';
 import { ModalStyling } from '../../../../../styles/shared/modal';
 import { Button, ButtonContainer } from '../../../../../styles/shared/button';
 
-function InfoCard(props) {
-  const { isOpen, toggleModal, userData } = props;
-  const { availableRooms, changeRoom, saveChanges } = props;
+import { accountInitialState } from '../../../../../services/format/FormState';
+import { fetchAsAdmin } from '../../../../../services/request';
+import { sortByRoomNames } from '../../../../../utils/dataFilters';
 
-  // Destruct user information
-  const { username, contact, email, roomID, status } = userData;
-  const { first, middle, last } = userData.name;
+function InfoCard(props) {
+  const { isOpen, toggleModal, selectedTenant } = props;
+  const { changeRoom, saveChanges } = props;
+
+  const [tenantInfo, setTenantInfo] = useState(accountInitialState);
+  const [availableRooms, setAvailableRooms] = useState([]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    updateAvailableRooms();
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!selectedTenant) return;
+    setTenantInfo(selectedTenant);
+  }, [selectedTenant]);
+
+  const updateAvailableRooms = async () => {
+    const { data } = await fetchAsAdmin('slots/available');
+    const { slots } = await data;
+
+    setAvailableRooms(sortByRoomNames(slots));
+  };
 
   const renderOptions = (list) => {
+    // Filter out the list based on the room_label of the tenant
+    //
+
     return (
       <>
         <option value="GN-01">None</option>
 
         {list.length != 0 &&
           list.map((room) => {
-            if (room.slot == 'GN-01') return;
+            const { slot, label } = room;
+            if (slot == 'GN-01') return;
 
             return (
-              <option value={room.slot} key={room._id}>
-                {room.slot}
+              <option value={`${slot}|${label}`} key={room._id}>
+                {slot}
               </option>
             );
           })}
       </>
     );
   };
+
+  const { username, contact, email, roomID, room_label, status } = tenantInfo;
+  const { first, middle, last } = tenantInfo.name;
 
   return (
     <InfoCardModal
@@ -60,7 +87,10 @@ function InfoCard(props) {
           <tr>
             <td>UNIT NUMBER</td>
             <td>
-              <select value={roomID} onChange={(e) => changeRoom(e, username)}>
+              <select
+                value={`${roomID}|${room_label}`}
+                onChange={(e) => changeRoom(e)}
+              >
                 {renderOptions(availableRooms)}
               </select>
             </td>
