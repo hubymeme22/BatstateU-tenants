@@ -136,7 +136,7 @@ function Tenants() {
       return;
     }
 
-    // Unsuccessfull in changing rooms
+    // Unsuccessful in changing rooms
     if (!data.added && data.error != '') {
       showErrorToast('Something went wrong, Try Again!');
       toggleViewingInfo();

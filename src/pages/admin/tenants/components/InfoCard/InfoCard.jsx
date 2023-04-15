@@ -33,17 +33,17 @@ function InfoCard(props) {
   };
 
   const renderOptions = (list) => {
-    // Filter out the list based on the room_label of the tenant
-    //
-
     return (
       <>
-        <option value="GN-01">None</option>
+        <option value="GN-01|unavailable">None</option>
 
         {list.length != 0 &&
           list.map((room) => {
             const { slot, label } = room;
             if (slot == 'GN-01') return;
+
+            // Filter out the list based on the room_label of the tenant
+            if (room_label != 'unavailable' && label != room_label) return;
 
             return (
               <option value={`${slot}|${label}`} key={room._id}>
