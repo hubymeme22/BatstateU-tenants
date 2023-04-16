@@ -25,6 +25,9 @@ import setReviewed from "./names/setReviewed.js";
 import setVerified from "./names/setVerified.js";
 import getNames from "./names/getNames.js";
 import uploadReview from "./signatures/uploadReviewed.js";
+import uploadPrepared from "./signatures/uploadPrepared.js";
+import getPreparedSignature from "./signatures/getPrepared.js";
+import uploadVerified from "./signatures/uploadVerified.js";
 
 const adminPermission = Router();
 
@@ -62,6 +65,9 @@ adminPermission.use("/names", getNames);
 
 // for assigning personel signatures
 adminPermission.use("/signatures", uploadReview);
+adminPermission.use("/signatures", uploadPrepared);
+adminPermission.use("/signatures", uploadVerified);
+adminPermission.use("/signatures", getPreparedSignature);
 
 // for announcement assigning
 adminPermission.use("/announce", announce);

@@ -7,7 +7,7 @@ const setRecieved = Router();
 setJSONPacketFormat({ assigned: false, error: '' });
 
 // set the name for prepared by part
-setRecieved.post('/preparedBy', postRequestPermission, (req, res) => {
+setRecieved.post('/recievedBy', postRequestPermission, (req, res) => {
     const missedParams = paramChecker(['wholeName'], req.body);
     const responseFormat = { assigned: false, error: '' };
 
