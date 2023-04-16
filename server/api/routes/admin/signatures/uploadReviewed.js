@@ -1,8 +1,10 @@
 import { Router } from "express";
-import { getRequestPermission } from "../../../../middleware/tokenValidator.js";
+import { getRequestPermission, setJSONPacketFormat } from "../../../../middleware/tokenValidator.js";
 import { pngWriteFilter } from '../../../../modules/pngImageFilter.js';
 
 const uploadReview = Router();
+setJSONPacketFormat({ uploaded: false, error: '' });
+
 uploadReview.post('/reviewer', getRequestPermission, (req, res) => {
     if (!req.files)
         return res.json({ uploaded: false, error: 'NoFilesRecieved' });
