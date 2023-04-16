@@ -550,35 +550,96 @@ function Modal({ handleClick }) {
           site, a list of any URLs from which you intend to link to our Website,
           and a list of the URLs on our site to which you would like to link.
           Wait 2-3 weeks for a response.
+        </Content>{' '}
+        <br />
+        <Content>
+          Approved organizations may hyperlink to our Website as follows: <br />
+          •By use of our corporate name; or <br />
+          •By use of the uniform resource locator being linked to; or
+          <br />
+          •By use of any other description of our Website being linked to that
+          makes sense within the context and format of content on the linking
+          party's site.
+          <br />
+          No use of RGO-Alangilan's logo or other artwork will be allowed for
+          linking absent a trademark license agreement.
         </Content>
-        <Buttons onClick={handleClick} required>
-          I ACCEPT ALL THE TERMS AND CONDITIONS
-        </Buttons>
+        <br /> <Bold>iFrames</Bold> <br />
+        <Content>
+          Without prior approval and written permission, you may not create
+          frames around our Webpages that alter in any way the visual
+          presentation or appearance of our Website.
+        </Content>
+        <br />
+        <Bold> Content Liability</Bold> <br />
+        <Content>
+          We shall not be hold responsible for any content that appears on your
+          Website. You agree to protect and defend us against all claims that is
+          rising on your Website. No link(s) should appear on any Website that
+          may be interpreted as libelous, obscene or criminal, or which
+          infringes, otherwise violates, or advocates the infringement or other
+          violation of, any third party rights.
+        </Content>
+        <br /> <Bold> Reservation of Rights</Bold> <br />
+        <Content>
+          We reserve the right to request that you remove all links or any
+          particular link to our Website. You approve to immediately remove all
+          links to our Website upon request. We also reserve the right to amen
+          these terms and conditions and it's linking policy at any time. By
+          continuously linking to our Website, you agree to be bound to and
+          follow these linking terms and conditions.
+        </Content>
+        <br />
+        <Bold> Removal of links from our website</Bold> <br />
+        <Content>
+          If you find any link on our Website that is offensive for any reason,
+          you are free to contact and inform us any moment. We will consider
+          requests to remove links but we are not obligated to or so or to
+          respond to you directly. We do not ensure that the information on this
+          website is correct, we do not warrant its completeness or accuracy;
+          nor do we promise to ensure that the website remains available or that
+          the material on the website is kept up to date.
+        </Content>
+        <br /> <Bold> Disclaimer</Bold> <br />
+        <Content>
+          To the maximum extent permitted by applicable law, we exclude all
+          representations, warranties and conditions relating to our website and
+          the use of this website. Nothing in this disclaimer will: <br />
+          limit or exclude our or your liability for death or personal injury;{' '}
+          <br />
+          limit or exclude our or your liability for fraud or fraudulent
+          misrepresentation; <br />
+          limit any of our or your liabilities in any way that is not permitted
+          under applicable law; or <br />
+          exclude any of our or your liabilities that may not be excluded under
+          applicable law. <br />
+        </Content>
+        <br />
+        <Content>
+          The limitations and prohibitions of liability set in this Section and
+          elsewhere in this disclaimer: (a) are subject to the preceding
+          paragraph; and (b) govern all liabilities arising under the
+          disclaimer, including liabilities arising in contract, in tort and for
+          breach of statutory duty.
+        </Content>{' '}
+        <br />
+        <Content>
+          As long as the website and the information and services on the website
+          are provided free of charge, we will not be liable for any loss or
+          damage of any nature.
+        </Content>
+        <Wrap>
+          <Buttons onClick={handleClick} required>
+            I ACCEPT ALL THE TERMS AND CONDITIONS
+          </Buttons>
+        </Wrap>
       </Contents>
     </Overlayy>
   );
 }
 
 export default Modal;
-const Con = styled.div`
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 20px;
-  height: 90%;
-  width: 100%;
 
-  border: 1px solid;
-  color: black;
-  border-radius: 10px;
-  background-color: white;
-
-  overflow-y: auto;
-  overflow-x: hidden;
-  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
-`;
 const Content = styled.div`
   @media screen and (max-width: 767px) {
     font-size: 12px;
@@ -647,4 +708,7 @@ const Contents = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+`;
+const Wrap = styled.div`
+  padding-top: 50px;
 `;
