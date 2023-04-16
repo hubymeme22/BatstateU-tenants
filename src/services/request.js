@@ -136,6 +136,44 @@ export const deleteRoom = async (room) => {
     .catch((error) => {});
 };
 
+export const updateName = async (wholeName, adminRole) => {
+  let role = '';
+
+  switch (adminRole) {
+    case 'prepare':
+      role = 'preparedBy';
+      break;
+    case 'reviewer':
+      role = 'reviewedBy';
+      break;
+    case 'verifier':
+      role = 'verifiedBy';
+      break;
+  }
+
+  console.log(role, wholeName);
+
+  return await axios
+    .post(`/admin/names/${role}`, { wholeName, token: getTokenCookie() })
+    .then((response) => response)
+    .catch((error) => error);
+};
+
+export const updateSignature = async (img, role) => {
+  const formData = new FormData();
+
+  formData.append('img', img);
+
+  return await axios
+    .post(`admin/signatures/${role}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    .then((response) => response)
+    .catch((error) => error);
+};
+
 /* ############### STUDENTS ############### */
 
 export const getStudentDetails = async () => {

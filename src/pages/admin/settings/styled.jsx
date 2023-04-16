@@ -31,7 +31,7 @@ export const RightContainer = styled(Common)``;
 export const SignatureContainer = styled(Common)`
   grid-column: 1 / 3;
 
-  div {
+  form {
     display: grid;
     grid-template-columns: 200px 1fr 1fr 100px;
 
