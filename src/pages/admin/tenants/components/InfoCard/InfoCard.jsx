@@ -16,13 +16,9 @@ function InfoCard(props) {
   const [availableRooms, setAvailableRooms] = useState([]);
 
   useEffect(() => {
-    if (!isOpen) return;
-    updateAvailableRooms();
-  }, [isOpen]);
-
-  useEffect(() => {
     if (!selectedTenant) return;
-    setTenantInfo(selectedTenant);
+    setTenantInfo({ ...selectedTenant });
+    updateAvailableRooms();
   }, [selectedTenant]);
 
   const updateAvailableRooms = async () => {

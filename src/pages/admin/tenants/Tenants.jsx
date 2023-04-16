@@ -33,6 +33,8 @@ function Tenants() {
 
   // Placeholder for modal
   const [selectedTenant, setSelectedTenant] = useState(null);
+  // Placeholder for infocard
+  const [selectedUserData, setSelectedUserData] = useState(null);
 
   // Filters & Search
   const [table, changeTable] = useFilter('');
@@ -99,7 +101,7 @@ function Tenants() {
 
   const viewTenantInfo = (userData) => {
     toggleViewingInfo();
-    setSelectedTenant(userData);
+    setSelectedUserData(userData);
   };
 
   const changeRoom = (e) => {
@@ -111,24 +113,17 @@ function Tenants() {
     const label = value[1];
 
     const updatedAccount = {
-      ...selectedTenant,
+      ...selectedUserData,
       roomID: room,
       room_label: label,
     };
 
-    setSelectedTenant(updatedAccount);
+    setSelectedUserData(updatedAccount);
   };
 
   // Save changing room in local and in server
   const saveChanges = async (username, roomID) => {
-    const updatedTenantList = allTenants.map((tenant) => {
-      if (tenant.username == selectedTenant.username) {
-        return selectedTenant;
-      }
-      return tenant;
-    });
-
-    const { data } = await changeTenantRoom(username, roomID);
+    const response = await changeTenantRoom(username, roomID);
 
     // No changes
     if (data.error == 'UserAlreadyExists') {
@@ -137,13 +132,20 @@ function Tenants() {
     }
 
     // Unsuccessful in changing rooms
-    if (!data.added && data.error != '') {
+    if (!response.data.added) {
       showErrorToast('Something went wrong, Try Again!');
       toggleViewingInfo();
       return;
     }
 
     // Update local state
+    const updatedTenantList = allTenants.map((tenant) => {
+      if (tenant.username == selectedUserData.username) {
+        return selectedUserData;
+      }
+      return tenant;
+    });
+
     setAllTenants(updatedTenantList);
     showSuccessToast(`Successfully moved ${username} to ${roomID}`);
     toggleViewingInfo();
@@ -181,7 +183,7 @@ function Tenants() {
       <InfoCard
         isOpen={isViewingInfo}
         toggleModal={toggleViewingInfo}
-        selectedTenant={selectedTenant}
+        selectedTenant={selectedUserData}
         changeRoom={changeRoom}
         saveChanges={saveChanges}
       />
