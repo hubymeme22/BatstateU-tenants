@@ -263,11 +263,15 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     getAllCanteenUnits() {
         Room.find({label: 'canteen'}).then(this.acceptCallback).catch(this.rejectCallback);
     }
-    
 
     // gets the units with available slots
-    getAvailableUnits() {
-        Room.find().where('available_slot').gt(0).then(this.acceptCallback).catch(this.rejectCallback);
+    getAvailableUnits(username=undefined) {
+        if (!username) {
+            Room.find().where('available_slot').gt(0).then(this.acceptCallback).catch(this.rejectCallback);
+        } else {
+            Room.find({ $or: [{available_slot: { $gt: 0 }}, {users: username}] })
+                .then(this.acceptCallback).catch(this.rejectCallback);
+        }
     }
 
     // gets units with n number of available spaces
