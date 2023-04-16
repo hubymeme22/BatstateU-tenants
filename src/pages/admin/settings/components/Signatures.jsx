@@ -7,8 +7,6 @@ import {
   updateSignature,
 } from '../../../../services/request';
 import { showSuccessToast, showErrorToast } from '../../../../utils/toast';
-import { namesInitialState } from '../../../../services/format/FormState';
-
 import useFile from '../../../../hooks/useFile';
 
 function Signatures() {
@@ -35,11 +33,6 @@ function Signatures() {
   }, []);
 
   const saveNameAndSignature = async (wholeName, signatureImg, role) => {
-    if (!signatureImg) {
-      showErrorToast('Signature was not uploaded');
-      return;
-    }
-
     const updateNameResponse = await updateName(wholeName, role);
     const updateSignatureResponse = await updateSignature(signatureImg, role);
 
@@ -48,11 +41,11 @@ function Signatures() {
       !updateNameResponse.data.assigned ||
       !updateSignatureResponse.data.uploaded
     ) {
-      showErrorToast(`Hold up wait a minute, something ain't right`);
+      showErrorToast('Something went wrong, Try Again!');
       return;
     }
 
-    showSuccessToast('Successful update');
+    showSuccessToast('Successfully update name and signature');
   };
 
   return (
