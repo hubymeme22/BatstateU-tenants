@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import useToggle from '../../../../../hooks/useToggle';
 
 import { InfoCardModal, Table } from './styled';
 import { ModalStyling } from '../../../../../styles/shared/modal';
@@ -6,6 +7,7 @@ import { Button, ButtonContainer } from '../../../../../styles/shared/button';
 
 import { accountInitialState } from '../../../../../services/format/FormState';
 import { fetchAsAdmin } from '../../../../../services/request';
+
 import { sortByRoomNames } from '../../../../../utils/dataFilters';
 
 function InfoCard(props) {
@@ -14,6 +16,8 @@ function InfoCard(props) {
 
   const [tenantInfo, setTenantInfo] = useState(accountInitialState);
   const [availableRooms, setAvailableRooms] = useState([]);
+
+  const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
     if (!selectedTenant) return;
@@ -49,6 +53,12 @@ function InfoCard(props) {
           })}
       </>
     );
+  };
+
+  const markAsPaid = async (username, roomID) => {
+    setIsPending(true);
+    await saveChanges(username, roomID);
+    setIsPending(false);
   };
 
   const { username, contact, email, roomID, room_label, status } = tenantInfo;
@@ -100,7 +110,11 @@ function InfoCard(props) {
 
       <ButtonContainer>
         <Button onClick={toggleModal}>Cancel</Button>
-        <Button onClick={() => saveChanges(username, roomID)} primary>
+        <Button
+          disabled={isPending}
+          onClick={() => markAsPaid(username, roomID)}
+          primary
+        >
           Save
         </Button>
       </ButtonContainer>
