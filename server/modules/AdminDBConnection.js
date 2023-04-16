@@ -160,10 +160,11 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                 // remove the user on the other room if there is
                 Room.findOne({users: username})
                     .then(existingroomdata => {
-                        // console.log(existingroomdata);
-                        // console.log('this is called');
-
                         if (existingroomdata != null) {
+                            // additional check to check if the user is already in the same room
+                            if (existingroomdata._id == roomdata._id)
+                                return this.rejectCallback('UserAlreadyExists');
+
                             if (existingroomdata.label != 'genesis') {
                                 existingroomdata.available_slot++;
 
@@ -171,7 +172,6 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                                 else if (existingroomdata.available_slot <= 0) existingroomdata.status = 'full';
                                 else existingroomdata.status = 'occupied';
                             }
-
 
                             const idIndex = existingroomdata.users.indexOf(username);
                             existingroomdata.users.splice(idIndex, 1);
@@ -208,6 +208,40 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                                         }).catch(this.rejectCallback);
                                     }).catch(this.rejectCallback);
                             }).catch(this.rejectCallback)
+                        }
+
+                        // fix: we encountered a bug where data in database
+                        // becomes corrupted, so we'll just apply this part
+                        else {
+                            // verify if this username does exist
+                            Student.findOne({ username: username, verified: true })
+                                .then(userdata => {
+                                    if (userdata == null)
+                                        return this.rejectCallback('NonexistentUsername');
+
+                                    // checks if the slot is already full
+                                    if (roomdata.available_slot <= 0)
+                                        return this.rejectCallback('SlotAlreadyFull');
+
+                                    // append this user to the room
+                                    roomdata.users.push(username);
+                                    roomdata.userref.push(userdata._id);
+
+                                    if (roomdata.label != 'genesis')
+                                        roomdata.available_slot--;
+
+                                    // for room status
+                                    if (roomdata.available_slot == roomdata.max_slot) roomdata.status = 'not occupied';
+                                    else if (roomdata.available_slot <= 0) roomdata.status = 'full';
+                                    else roomdata.status = 'occupied';
+
+                                    roomdata.save().then(_roomdata => {
+                                        userdata.room = _roomdata._id;
+                                        userdata.save().then(_userdata => {
+                                            this.acceptCallback(_roomdata);
+                                        }).catch(this.rejectCallback);
+                                    }).catch(this.rejectCallback);
+                                }).catch(this.rejectCallback);
                         }
                     }).catch(this.rejectCallback);
             }).catch(this.rejectCallback);
