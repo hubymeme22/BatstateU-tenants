@@ -103,12 +103,7 @@ function ModalStatement(props) {
       )}
 
       <ButtonContainer>
-        <Button
-          onClick={() => {
-            console.log(userInfo);
-            toggle();
-          }}
-        >
+        <Button onClick={() => toggle()}>
           View {!isViewingLogs ? 'Logs' : 'Current Billing'}
         </Button>
 

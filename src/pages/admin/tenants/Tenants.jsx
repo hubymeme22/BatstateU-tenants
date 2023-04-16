@@ -13,8 +13,14 @@ import InfoCard from './components/InfoCard/InfoCard';
 import { searchUser } from '../../../utils/search';
 import { filterByStatus } from '../../../utils/dataFilters';
 import { showSuccessToast, showErrorToast } from '../../../utils/toast';
+import { sortByRoomNames } from '../../../utils/dataFilters';
+
 // Services
-import { markAsPaid, changeTenantRoom } from '../../../services/request';
+import {
+  fetchAsAdmin,
+  markAsPaid,
+  changeTenantRoom,
+} from '../../../services/request';
 import { tenantsLoader } from '../../../services/loaders';
 
 // hooks
@@ -35,6 +41,7 @@ function Tenants() {
   const [selectedTenant, setSelectedTenant] = useState(null);
   // Placeholder for infocard
   const [selectedUserData, setSelectedUserData] = useState(null);
+  const [availableRooms, setAvailableRooms] = useState([]);
 
   // Filters & Search
   const [table, changeTable] = useFilter('');
@@ -102,6 +109,15 @@ function Tenants() {
   const viewTenantInfo = (userData) => {
     toggleViewingInfo();
     setSelectedUserData(userData);
+
+    // get latest availables roooms based on userData.username
+    updateAvailableRooms(userData.username);
+  };
+
+  const updateAvailableRooms = async (username) => {
+    const { data } = await fetchAsAdmin(`slots/available/${username}`);
+    const { slots } = await data;
+    setAvailableRooms(sortByRoomNames(slots));
   };
 
   const changeRoom = (e) => {
@@ -185,6 +201,7 @@ function Tenants() {
         toggleModal={toggleViewingInfo}
         selectedTenant={selectedUserData}
         changeRoom={changeRoom}
+        availableRooms={availableRooms}
         saveChanges={saveChanges}
       />
     </>
