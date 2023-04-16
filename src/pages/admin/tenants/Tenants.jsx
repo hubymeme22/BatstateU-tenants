@@ -126,7 +126,7 @@ function Tenants() {
     const response = await changeTenantRoom(username, roomID);
 
     // No changes
-    if (data.error == 'UserAlreadyExists') {
+    if (response.data.error == 'UserAlreadyExists') {
       toggleViewingInfo();
       return;
     }
