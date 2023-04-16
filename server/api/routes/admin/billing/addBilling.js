@@ -7,14 +7,24 @@ const addBilling = Router();
 setJSONPacketFormat({error: '', added: false});
 
 addBilling.post('/multiple/:slot', postRequestPermission, (req, res) => {
-    const missedParams = paramChecker([
-        'month', 'day', 'year',
+    let missedParams = paramChecker([
+        'startDate', 'endDate',
         'rate', 'previous_kwh',
         'current_kwh', 'days_present',
         'users'], req.body);
 
     if (missedParams.length > 0)
         return res.json({ error: `missed_params=${missedParams}`, added: false});
+
+    // another checking for startDate object
+    missedParams = paramChecker(['month', 'day', 'year'], req.body.startDate);
+    if (missedParams.length > 0)
+        return res.json({ error: `missed_params=startDate:${missedParams}`, added: false});
+
+    // another checking for endDate object
+    missedParams = paramChecker(['month', 'day', 'year'], req.body.endDate);
+    if (missedParams.length > 0)
+        return res.json({ error: `missed_params=startDate:${missedParams}`, added: false});
 
     const responseFormat = { added: [], error: '' };
     const adminDatabase = new AdminMongoDBConnection(req.allowedData);
@@ -25,6 +35,7 @@ addBilling.post('/multiple/:slot', postRequestPermission, (req, res) => {
     });
 
     adminDatabase.setRejectCallback(error => {
+        console.log(error);
         responseFormat.error = error;
         res.json(responseFormat);
     });
@@ -32,10 +43,9 @@ addBilling.post('/multiple/:slot', postRequestPermission, (req, res) => {
     const costDetails = {
         rate: req.body.rate,
         previous_kwh: req.body.previous_kwh,
+        startDate: req.body.startDate,
+        endDate: req.body.endDate,
         current_kwh: req.body.current_kwh,
-        month: req.body.month,
-        day: req.body.day,
-        year: req.body.year,
         days_present: req.body.days_present,
     };
 
@@ -44,12 +54,22 @@ addBilling.post('/multiple/:slot', postRequestPermission, (req, res) => {
 
 addBilling.post('/:slot/:username', postRequestPermission, (req, res) => {
     const missedParams = paramChecker([
-        'month', 'day', 'year',
+        'startDate', 'endDate',
         'rate', 'previous_kwh',
         'current_kwh', 'days_present'], req.body);
 
     if (missedParams.length > 0)
         return res.json({ error: `missed_params=${missedParams}`, added: false});
+
+    // another checking for startDate object
+    missedParams = paramChecker(['month', 'day', 'year'], req.body.startDate);
+    if (missedParams.length > 0)
+        return res.json({ error: `missed_params=startDate:${missedParams}`, added: false});
+
+    // another checking for endDate object
+    missedParams = paramChecker(['month', 'day', 'year'], req.body.endDate);
+    if (missedParams.length > 0)
+        return res.json({ error: `missed_params=startDate:${missedParams}`, added: false});
 
     const responseFormat = { added: [], error: '' };
     const adminDatabase = new AdminMongoDBConnection(req.allowedData);
@@ -72,9 +92,8 @@ addBilling.post('/:slot/:username', postRequestPermission, (req, res) => {
         rate: req.body.rate,
         previous_kwh: req.body.previous_kwh,
         current_kwh: req.body.current_kwh,
-        month: req.body.month,
-        day: req.body.day,
-        year: req.body.year,
+        startDate: req.body.startDate,
+        endDate: req.body.endDate,
         days_present: req.body.days_present
     };
 

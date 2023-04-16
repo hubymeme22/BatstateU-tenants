@@ -48,6 +48,20 @@ const roomBills = new mongoose.Schema({
             required: true
         }
     },
+    startDate: {
+        month: {
+            type: Number,
+            required: true
+        },
+        day: {
+            type: Number,
+            required: true
+        },
+        year: {
+            type: Number,
+            required: true
+        }
+    },
     users: [{
         username: {
             type: String,

@@ -374,9 +374,14 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                                         roomPayment: roomBill,
                                         currentPayment: monthPayment,
                                         dueDate: {
-                                            month: details.month,
-                                            day: details.day,
-                                            year: details.year
+                                            month: details.endDate.month,
+                                            day: details.endDate.day,
+                                            year: details.endDate.year
+                                        },
+                                        startDate: {
+                                            month: details.startDate.month,
+                                            day: details.startDate.day,
+                                            year: details.startDate.year
                                         },
                                         users: [{
                                             username: username,
@@ -439,13 +444,6 @@ export class AdminMongoDBConnection extends MongoDBConnection {
     // same feature as the above, but adds an array of users
     // does not care if the user already exists (simply overwrites the data on db)
     addMultipleUserBill(unitID, username, details) {
-        const missedParams = paramChecker([
-            'previous_kwh', 'current_kwh', 'rate',
-            'month', 'day', 'year', 'days_present'], details);
-
-        if (missedParams.length > 0)
-            return this.rejectCallback(`missed_params=${missedParams}`);
-
         // check if the room does exist
         Room.findOne({slot: unitID})
             .then(roomdata => {
@@ -513,9 +511,14 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                                         roomPayment: roomBill,
                                         currentPayment: monthPayment,
                                         dueDate: {
-                                            month: details.month,
-                                            day: details.day,
-                                            year: details.year
+                                            month: details.endDate.month,
+                                            day: details.endDate.day,
+                                            year: details.endDate.year
+                                        },
+                                        startDate: {
+                                            month: details.startDate.month,
+                                            day: details.startDate.day,
+                                            year: details.startDate.year
                                         },
                                         users: newBillUsers,
                                     });
@@ -619,6 +622,11 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                         month: 0,
                         day: 0,
                         year: 0
+                    },
+                    startDate: {
+                        month: 0,
+                        day: 0,
+                        year: 0
                     }
                 };
 
@@ -642,6 +650,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
 
                     reportFormat.roomRentalFee = currentBill.roomPayment;
                     reportFormat.dueDate = currentBill.dueDate;
+                    reportFormat.startDate = currentBill.startDate;
                     reportFormat.roomID = currentBill.slot;
 
                     return this.acceptCallback(reportFormat);
@@ -681,6 +690,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                 const latestUserUtility = latestBilling.users.find(item => item.username == username);
 
                 reportFormat.dueDate = latestBilling.dueDate;
+                reportFormat.startDate = latestBilling.startDate;
                 reportFormat.space.currentBalance = parseFloat(latestBilling.roomPayment.toFixed(2));
                 reportFormat.space.previousBalance = parseFloat(previousBilling.roomPayment.toFixed(2));
                 reportFormat.space.totalBalance = parseFloat((reportFormat.space.currentBalance + reportFormat.space.previousBalance).toFixed(2));
@@ -1074,6 +1084,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                         roomBill: bill.roomPayment,
                         status: userPaymentDetails.paid ? 'paid' : 'unpaid',
                         dueDate: bill.dueDate,
+                        startDate: bill.startDate,
                         datePaid: userPaymentDetails.datePaid
                     };
 
