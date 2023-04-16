@@ -24,6 +24,7 @@ import setRecieved from "./names/setRecieved.js";
 import setReviewed from "./names/setReviewed.js";
 import setVerified from "./names/setVerified.js";
 import getNames from "./names/getNames.js";
+import uploadReview from "./signatures/uploadReviewed.js";
 
 const adminPermission = Router();
 
@@ -58,6 +59,9 @@ adminPermission.use("/names", setRecieved);
 adminPermission.use("/names", setReviewed);
 adminPermission.use("/names", setVerified);
 adminPermission.use("/names", getNames);
+
+// for assigning personel signatures
+adminPermission.use("/signatures", uploadReview);
 
 // for announcement assigning
 adminPermission.use("/announce", announce);

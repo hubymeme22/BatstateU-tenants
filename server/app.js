@@ -1,4 +1,5 @@
 import express from 'express';
+import upload from 'express-fileupload';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -20,6 +21,7 @@ const corsOptions = {
 
 app.use(serverConsoleLogger);
 app.use(express.json());
+app.use(upload())
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use('/api', api);
