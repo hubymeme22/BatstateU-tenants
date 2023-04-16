@@ -3,15 +3,14 @@ import { theme } from '../../../styles/theme';
 import { Button } from '../../../styles/shared/button';
 
 export const Container = styled.div`
-  height: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   justify-content: center;
-  align-items: center;
   gap: 2rem;
 `;
 
 const Common = styled.div`
-  width: min(50%, 600px);
+  min-width: 100%;
   height: 250px;
   background-color: ${theme.gray};
   padding: 1rem;
@@ -28,6 +27,19 @@ const Common = styled.div`
 export const LeftContainer = styled(Common)``;
 
 export const RightContainer = styled(Common)``;
+
+export const SignatureContainer = styled(Common)`
+  grid-column: 1 / 3;
+
+  div {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr 100px;
+
+    input {
+      padding: 0.25em;
+    }
+  }
+`;
 
 export const Column3 = styled.div`
   display: grid;
