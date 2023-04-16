@@ -7,7 +7,7 @@ const setVerified = Router();
 setJSONPacketFormat({ assigned: false, error: '' });
 
 // set the name for prepared by part
-setVerified.post('/reviewedBy', postRequestPermission, (req, res) => {
+setVerified.post('/verifiedBy', postRequestPermission, (req, res) => {
     const missedParams = paramChecker(['wholeName'], req.body);
     const responseFormat = { assigned: false, error: '' };
 
