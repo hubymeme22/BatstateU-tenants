@@ -1039,6 +1039,7 @@ export class AdminMongoDBConnection extends MongoDBConnection {
                         waterBill: bill.waterPayment,
                         roomBill: bill.roomPayment,
                         status: userPaymentDetails.paid ? 'paid' : 'unpaid',
+                        dueDate: bill.dueDate,
                         datePaid: userPaymentDetails.datePaid
                     };
 
