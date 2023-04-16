@@ -6,31 +6,19 @@ import { ModalStyling } from '../../../../../styles/shared/modal';
 import { Button, ButtonContainer } from '../../../../../styles/shared/button';
 
 import { accountInitialState } from '../../../../../services/format/FormState';
-import { fetchAsAdmin } from '../../../../../services/request';
-
-import { sortByRoomNames } from '../../../../../utils/dataFilters';
 
 function InfoCard(props) {
   const { isOpen, toggleModal, selectedTenant } = props;
-  const { changeRoom, saveChanges } = props;
+  const { availableRooms, changeRoom, saveChanges } = props;
 
   const [tenantInfo, setTenantInfo] = useState(accountInitialState);
-  const [availableRooms, setAvailableRooms] = useState([]);
 
   const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
     if (!selectedTenant) return;
     setTenantInfo({ ...selectedTenant });
-    updateAvailableRooms();
   }, [selectedTenant]);
-
-  const updateAvailableRooms = async () => {
-    const { data } = await fetchAsAdmin('slots/available');
-    const { slots } = await data;
-
-    setAvailableRooms(sortByRoomNames(slots));
-  };
 
   const renderOptions = (list) => {
     return (
