@@ -4,7 +4,8 @@ import { Room } from "../models/rooms.js";
 // room is created, to make sure that the students with no
 // will be placed here
 console.log('[*] Checking for exisence of genesis room...');
-Room.findOne({label: 'genesis'})
+export function genesisRoomInitialize() {
+    Room.findOne({label: 'genesis'})
     .then(roomdata => {
         if (roomdata != null)
             return console.log('[+] Genesis room exists!');
@@ -32,3 +33,4 @@ Room.findOne({label: 'genesis'})
         console.log('[-] Cannot check due to some error:');
         console.error(err);
     });
+}

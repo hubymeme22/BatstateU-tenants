@@ -8,6 +8,7 @@ import 'dotenv/config';
 import api from './api/api.js';
 import uiConnector from './middleware/AppUIConnector.js';
 import { serverConsoleLogger } from './middleware/RequestLogger.js';
+import { genesisRoomInitialize } from './modules/GenesisRoomCreator.js';
 
 const app = express();
 const appIP = process.env.IP;
@@ -34,6 +35,8 @@ mongoose
   .connect(mongodbURI)
   .then(() => {
     console.log('[+] Connected to database!');
+    genesisRoomInitialize();
+
     app.listen(appPort, appIP, () => {
       console.log(`[+] Server started at: http://${appIP}:${appPort}/`);
     });
