@@ -1,4 +1,5 @@
 import { Room } from "../models/rooms.js";
+import fs from 'fs';
 
 // before using the apis, make sure that the genesiss
 // room is created, to make sure that the students with no
@@ -32,5 +33,12 @@ export function genesisRoomInitialize() {
     }).catch(err => {
         console.log('[-] Cannot check due to some error:');
         console.error(err);
+    });
+}
+
+export function tmpFolderInitialize() {
+    console.log('[+] Adding tmp folder...');
+    fs.mkdir('tmp', (err) => {
+        if (err) console.log('[*] Error occured in generating tmp folder');
     });
 }
