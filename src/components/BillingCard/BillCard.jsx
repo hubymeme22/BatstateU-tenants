@@ -140,9 +140,6 @@ function BillingCard({
     const { rate, previous_kwh, current_kwh } = state;
     const { days_present, waterBill, roomBill } = state;
 
-    // split date
-    let date = state.end_date.split('-');
-
     const selectedTenantsList = tenants.map((tenant) => tenant.username);
 
     const billData = {
@@ -155,12 +152,23 @@ function BillingCard({
 
     let parsedData = parseObject(billData);
 
+    // split date
+    let startDate = state.start_date.split('-');
+    let endDate = state.end_date.split('-');
+
     let newPostData = {
       ...parsedData,
       days_present,
-      month: Number(date[1]),
-      day: Number(date[2]),
-      year: Number(date[0]),
+      startDate: {
+        month: Number(startDate[1]),
+        day: Number(startDate[2]),
+        year: Number(startDate[0]),
+      },
+      endDate: {
+        month: Number(endDate[1]),
+        day: Number(endDate[2]),
+        year: Number(endDate[0]),
+      },
       users: selectedTenantsList,
       token: getTokenCookie(),
     };
