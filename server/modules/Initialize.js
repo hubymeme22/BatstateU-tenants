@@ -38,7 +38,7 @@ export function genesisRoomInitialize() {
 
 export function tmpFolderInitialize() {
     console.log('[+] Adding tmp folder...');
-    fs.mkdir('tmp', (err) => {
+    fs.mkdir('./server/tmp', (err) => {
         if (err) console.log('[*] Error occured in generating tmp folder');
     });
 }
