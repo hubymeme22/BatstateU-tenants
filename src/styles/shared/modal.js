@@ -9,6 +9,6 @@ export const ModalStyling = {
     justifyContent: 'center',
   },
   content: {
-    width: '800px',
+    width: '1000px',
   },
 };

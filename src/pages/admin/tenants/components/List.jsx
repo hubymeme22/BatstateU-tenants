@@ -1,4 +1,5 @@
 import React from 'react';
+import NotExists from '../../../../components/NotExists/NotExists';
 
 import { UsersContainer, UserDetails, Status, Room } from '../styled';
 import { FaFileInvoice } from 'react-icons/fa';
@@ -30,7 +31,7 @@ function List(props) {
           );
         })
       ) : (
-        <>Does not exist</>
+        <NotExists />
       )}
     </UsersContainer>
   );

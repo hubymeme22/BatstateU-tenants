@@ -14,6 +14,7 @@ export const ColumnTitles = styled.div`
 `;
 
 export const UsersContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
 `;

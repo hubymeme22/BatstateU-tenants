@@ -12,7 +12,6 @@ import {
   billingInitialState,
 } from '../../../../../services/format/FormState';
 
-import useToggle from '../../../../../hooks/useToggle';
 import { fetchAsAdmin, getUserLogs } from '../../../../../services/request';
 import Logs from './Logs';
 
@@ -26,7 +25,7 @@ function ModalStatement(props) {
 
   const [tenantRoom, setTenantRoom] = useState('');
 
-  const [isViewingLogs, toggleIsViewingLogs] = useToggle(false);
+  const [isViewingLogs, setIsViewingLogs] = useState(false);
 
   // Retrieve the userBills and logs
   useEffect(() => {
@@ -40,6 +39,7 @@ function ModalStatement(props) {
     const formattedTenantInfo = {
       ...userInfo,
       srCode: username,
+      username: username,
       details: {
         name: {
           first,
@@ -51,23 +51,18 @@ function ModalStatement(props) {
 
     setUserInfo(formattedTenantInfo);
 
-    const getUserData = async () => {
-      const billings = await fetchTenantBillings(username);
-      setUserBillings(billings.data.report);
-
-      const data = await fetchTenantLogs(username);
-      setUserLogs(data.logs);
-    };
-
-    getUserData();
+    fetchTenantBillings(username);
+    fetchTenantLogs(username);
   }, [selectedTenant]);
 
   const fetchTenantBillings = async (username) => {
-    return await fetchAsAdmin(`billing/report/${username}`);
+    const { data } = await fetchAsAdmin(`billing/report/${username}`);
+    setUserBillings(data.report);
   };
 
   const fetchTenantLogs = async (username) => {
-    return await getUserLogs(username);
+    const response = await getUserLogs(username);
+    setUserLogs(response.logs);
   };
 
   const updateBillings = async (srcode) => {
@@ -75,10 +70,18 @@ function ModalStatement(props) {
     setUserBillings({ ...userBillings, isPaid: true });
   };
 
+  const toggle = () => {
+    setIsViewingLogs(!isViewingLogs);
+    fetchTenantLogs(userInfo.username);
+  };
+
   return (
     <StyledModalStatement
       isOpen={isOpen}
-      onRequestClose={toggleModal}
+      onRequestClose={() => {
+        toggleModal();
+        setIsViewingLogs(false);
+      }}
       style={ModalStyling}
     >
       {/* View the form with the user billing content */}
@@ -100,7 +103,12 @@ function ModalStatement(props) {
       )}
 
       <ButtonContainer>
-        <Button onClick={toggleIsViewingLogs}>
+        <Button
+          onClick={() => {
+            console.log(userInfo);
+            toggle();
+          }}
+        >
           View {!isViewingLogs ? 'Logs' : 'Current Billing'}
         </Button>
 

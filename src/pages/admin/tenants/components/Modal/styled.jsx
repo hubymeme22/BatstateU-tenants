@@ -13,10 +13,10 @@ export const StyledModalStatement = styled(ReactModal)`
   outline: 0;
   gap: 1rem;
   height: 821px;
+  overflow-y: auto;
 
   @media screen and (max-height: 800px) {
     height: 90vh;
-    overflow-y: scroll;
   }
 `;
 
