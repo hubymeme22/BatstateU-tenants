@@ -28,6 +28,8 @@ import uploadReview from "./signatures/uploadReviewed.js";
 import uploadPrepared from "./signatures/uploadPrepared.js";
 import getPreparedSignature from "./signatures/getPrepared.js";
 import uploadVerified from "./signatures/uploadVerified.js";
+import getReviewedSignature from "./signatures/getReviewed.js";
+import getVerifiedSignature from "./signatures/getVerified.js";
 
 const adminPermission = Router();
 
@@ -68,6 +70,10 @@ adminPermission.use("/signatures", uploadReview);
 adminPermission.use("/signatures", uploadPrepared);
 adminPermission.use("/signatures", uploadVerified);
 adminPermission.use("/signatures", getPreparedSignature);
+adminPermission.use("/signatures", getReviewedSignature);
+adminPermission.use("/signatures", getVerifiedSignature);
+
+
 
 // for announcement assigning
 adminPermission.use("/announce", announce);
