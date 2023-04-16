@@ -4,7 +4,7 @@ function FormSig() {
   return (
     <Table>
       <Blocks>
-        <Divider bottom="bottom">
+        <Divider bottom='bottom'>
           <Name>Prepared by:</Name>
           <Name>Date:</Name>
         </Divider>
@@ -14,8 +14,8 @@ function FormSig() {
         </Divider>
       </Blocks>
       <Blocks>
-        <Divider bottom="bottom">
-          <Name>Checked and verify by: </Name>
+        <Divider bottom='bottom'>
+          <Name>Checked and verified by: </Name>
           <Name>Date:</Name>
         </Divider>
         <Divider>
