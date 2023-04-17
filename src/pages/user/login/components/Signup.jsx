@@ -16,7 +16,7 @@ import {
 import { registerStudent } from '../../../../services/request';
 import { MD5 } from 'crypto-js';
 
-function Signup({ handle, handleClick, handol }) {
+function Signup({ handle, handleClick }) {
   const [message, setMessage] = React.useState('');
   const [value, setValue] = React.useState({
     name: {
@@ -242,7 +242,6 @@ const ComponentContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
   height: 100%;
   gap: 50px;
 `;

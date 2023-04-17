@@ -72,13 +72,13 @@ function Login({ handle }) {
 
         {/* Input Field for username  */}
         <Field>
-          <Label htmlFor="username">Username</Label>
+          <Label htmlFor='username'>Username</Label>
           <div>
             <Input
-              type="text"
-              id="username"
-              placeholder="Username"
-              name="username"
+              type='text'
+              id='username'
+              placeholder='Username'
+              name='username'
               {...usernameHandler}
               required
             />
@@ -88,17 +88,17 @@ function Login({ handle }) {
 
         {/* Input Field for password */}
         <Field>
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor='password'>Password</Label>
           <div>
             <Input
               type={viewPassword ? 'text' : 'password'}
-              id="password"
-              placeholder="Password"
-              name="password"
+              id='password'
+              placeholder='Password'
+              name='password'
               {...passwordHandler}
               required
             />
-            <button type="button" onClick={toggleViewPassword}>
+            <button type='button' onClick={toggleViewPassword}>
               {viewPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
@@ -107,7 +107,7 @@ function Login({ handle }) {
         <ButtonContainer>
           <div>
             <NavLink
-              to="/forgotpass"
+              to='/forgotpass'
               style={{
                 color: 'white',
                 textDecoration: 'underline',
@@ -122,7 +122,7 @@ function Login({ handle }) {
           <div>
             <Link>Dont Have An Account?</Link>
 
-            <SignInButton type="button" onClick={handle}>
+            <SignInButton type='button' onClick={handle}>
               Sign up
             </SignInButton>
           </div>
