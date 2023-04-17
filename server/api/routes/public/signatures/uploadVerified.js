@@ -6,6 +6,10 @@ const uploadVerified = Router();
 
 setJSONPacketFormat({ uploaded: false, error: '' });
 uploadVerified.post('/verifier', getRequestPermission, (req, res) => {
+    if (req.allowedData.access != 'admin') {
+        return res.json({ uploaded: false, error: 'InsufficientPermission' });
+    }
+
     if (!req.files)
         return res.json({ uploaded: false, error: 'NoFilesRecieved' });
 

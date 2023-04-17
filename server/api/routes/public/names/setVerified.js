@@ -16,6 +16,11 @@ setVerified.post('/verifiedBy', postRequestPermission, (req, res) => {
         res.json(responseFormat);
     }
 
+    if (req.allowedData.access != 'admin') {
+        responseFormat.error = 'InsufficientPermission';
+        res.json(responseFormat);
+    }
+
     names.verified = req.body.wholeName;
     responseFormat.assigned = true;
     res.json(responseFormat);

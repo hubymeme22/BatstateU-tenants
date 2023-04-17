@@ -16,6 +16,11 @@ setPrepared.post('/preparedBy', postRequestPermission, (req, res) => {
         res.json(responseFormat);
     }
 
+    if (req.allowedData.access != 'admin') {
+        responseFormat.error = 'InsufficientPermission';
+        res.json(responseFormat);
+    }
+
     names.prepared = req.body.wholeName;
     responseFormat.assigned = true;
     res.json(responseFormat);

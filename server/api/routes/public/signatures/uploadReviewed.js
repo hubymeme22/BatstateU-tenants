@@ -6,6 +6,10 @@ const uploadReview = Router();
 setJSONPacketFormat({ uploaded: false, error: '' });
 
 uploadReview.post('/reviewer', getRequestPermission, (req, res) => {
+    if (req.allowedData.access != 'admin') {
+        return res.json({ uploaded: false, error: 'InsufficientPermission' });
+    }
+
     if (!req.files)
         return res.json({ uploaded: false, error: 'NoFilesRecieved' });
 
