@@ -14,16 +14,16 @@ import Note from './contents/8Note';
 import FormSig from './contents/9FormSig';
 
 function FormContent(props) {
-  const { userInfo, userBillings } = props;
+  const { userInfo, userBillings, rgoNames } = props;
 
   // Destruct user info and billings
   const { first, last } = userInfo.details.name;
 
   const { roomID } = userBillings;
   const { roomRentalFee, space, utility, dueDate } = userBillings;
-
+  const { names } = rgoNames;
   return (
-    <Container Id="userForm">
+    <Container Id='userForm'>
       <Header />
       <ControlNum />
       <TenantInfo name={`${first} ${last}`} loc={roomID} rent={roomRentalFee} />
@@ -50,7 +50,12 @@ function FormContent(props) {
         utilityTotal={utility.totalBalance}
       />
       <Note />
-      <FormSig />
+      <FormSig
+        prepared={names.prepared}
+        reviewed={names.reviewed}
+        verified={names.verified}
+        recieved={names.recieved}
+      />
 
       {userBillings.isPaid ? <Watermark /> : null}
     </Container>

@@ -79,3 +79,6 @@ export const defaultBillingsInit = {
   canteenWater: 0,
   canteenRoom: 0,
 };
+export const adminInfo = {
+  names: { prepared: '', reviewed: '', verified: '', recieved: '' },
+};
