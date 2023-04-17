@@ -19,17 +19,6 @@ import setConstants from "./billing/setConstants.js";
 import getConstants from "./billing/getConstants.js";
 import deleteUnits from "./slots/deleteUnits.js";
 import logs from "./logger/logs.js";
-import setPrepared from "./names/setPrepared.js";
-import setRecieved from "./names/setRecieved.js";
-import setReviewed from "./names/setReviewed.js";
-import setVerified from "./names/setVerified.js";
-import getNames from "./names/getNames.js";
-import uploadReview from "./signatures/uploadReviewed.js";
-import uploadPrepared from "./signatures/uploadPrepared.js";
-import getPreparedSignature from "./signatures/getPrepared.js";
-import uploadVerified from "./signatures/uploadVerified.js";
-import getReviewedSignature from "./signatures/getReviewed.js";
-import getVerifiedSignature from "./signatures/getVerified.js";
 
 const adminPermission = Router();
 
@@ -57,23 +46,6 @@ adminPermission.use("/students", studentPayment)
 adminPermission.use("/summary", roomSummary);
 adminPermission.use("/summary", studentSummary);
 adminPermission.use("/summary", accountSummary);
-
-// for assigning personel names
-adminPermission.use("/names", setPrepared);
-adminPermission.use("/names", setRecieved);
-adminPermission.use("/names", setReviewed);
-adminPermission.use("/names", setVerified);
-adminPermission.use("/names", getNames);
-
-// for assigning personel signatures
-adminPermission.use("/signatures", uploadReview);
-adminPermission.use("/signatures", uploadPrepared);
-adminPermission.use("/signatures", uploadVerified);
-adminPermission.use("/signatures", getPreparedSignature);
-adminPermission.use("/signatures", getReviewedSignature);
-adminPermission.use("/signatures", getVerifiedSignature);
-
-
 
 // for announcement assigning
 adminPermission.use("/announce", announce);
