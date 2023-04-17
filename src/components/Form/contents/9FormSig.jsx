@@ -1,30 +1,53 @@
 import React from 'react';
 import styled from 'styled-components';
-function FormSig({ prepared, reviewed, verified, recieved }) {
+import { prepare, reviewer, verifier } from '../../../services/request';
+import { getRGONames } from '../../../services/request';
+function FormSig() {
+  const [rgo, setRgoNames] = React.useState('');
+
+  React.useEffect(() => {
+    const getData = async () => {
+      const fetchedData = await getRGONames();
+      setRgoNames(fetchedData.data.names);
+    };
+    getData();
+  }, []);
+  console.log(rgo);
   return (
     <Table>
       <Blocks>
+        <Name>Prepared by:</Name>
         <Divider bottom='bottom'>
-          <Name>Prepared by:</Name>
-          <Label>{prepared}</Label>
+          <Pirma>
+            <img alt='picture' src={prepare} />
+          </Pirma>
+          <Label>{rgo.prepared}</Label>
           <NameSig>RGO Staff</NameSig>
         </Divider>
+        <Name>Reviewed by: </Name>
         <Divider>
-          <Name>Reviewed by: </Name>
-          <Label>{reviewed}</Label>
+          <Pirma>
+            <img alt='picture' src={reviewer} />
+          </Pirma>
+          <Label>{rgo.reviewed}</Label>
+
           <NameSig>Head,Resource Generation</NameSig>
         </Divider>
       </Blocks>
       <Blocks>
+        <Name>Checked and verified by: </Name>
         <Divider bottom='bottom'>
-          <Name>Checked and verified by: </Name>
-          <Label>{verified}</Label>
-          <NameSig>RGO Staff</NameSig>
+          <Pirma>
+            <img alt='picture' src={verifier} />
+          </Pirma>
+          <Label>{rgo.verified}</Label>
+          <NameSig>Senior Bookkeeper</NameSig>
         </Divider>
+        <Name>Received by:</Name>
         <Divider>
-          <Name>Received by:</Name>
-          <Label>{recieved}</Label>
-          <NameSig>RGO Staff</NameSig>
+          <Label>{rgo.recieved}</Label>
+          <Line />
+          <NameSig>Signature Over Printed Name</NameSig>
         </Divider>
       </Blocks>
     </Table>
@@ -53,10 +76,14 @@ const Blocks = styled.div`
   flex-direction: column;
 `;
 const Divider = styled.div`
+  position: relative;
   flex: 1;
   border-bottom: ${(props) =>
     props.bottom === 'bottom' ? '1px solid' : 'none'};
   display: flex;
+  justify-content: center;
+  align-items: center;
+
   flex-direction: column;
 `;
 const Name = styled.div`
@@ -72,4 +99,13 @@ const Label = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+const Pirma = styled.div`
+  position: absolute;
+  width: 70%;
+  top: -30px; ;
+`;
+const Line = styled.hr`
+  border-top: 1px solid black;
+  width: 300px;
 `;

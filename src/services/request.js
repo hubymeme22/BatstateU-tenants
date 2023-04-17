@@ -29,9 +29,9 @@ export const validateToken = async (token, permission = 'student') => {
     .catch((error) => {});
 };
 
-// export const prepare = axios.defaults.baseURL + '/signatures/prepare';
-// export const reviewer = axios.defaults.baseURL + '/signatures/reviewer';
-// export const verifier = axios.defaults.baseURL + '/signatures/verifier';
+export const prepare = axios.defaults.baseURL + '/signatures/prepare';
+export const reviewer = axios.defaults.baseURL + '/signatures/reviewer';
+export const verifier = axios.defaults.baseURL + '/signatures/verifier';
 
 export const getRGONames = async () => {
   return await axios
@@ -40,7 +40,7 @@ export const getRGONames = async () => {
     .catch((error) => error);
 };
 
-/* ############### ADMIN ############### */
+/*############### ADMIN ############### */
 
 export const fetchAsAdmin = async (route) => {
   return await axios

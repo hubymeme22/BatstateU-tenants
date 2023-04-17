@@ -21,7 +21,7 @@ function FormContent(props) {
 
   const { roomID } = userBillings;
   const { roomRentalFee, space, utility, dueDate } = userBillings;
-  const { names } = rgoNames;
+
   return (
     <Container Id='userForm'>
       <Header />
@@ -50,12 +50,7 @@ function FormContent(props) {
         utilityTotal={utility.totalBalance}
       />
       <Note />
-      <FormSig
-        prepared={names.prepared}
-        reviewed={names.reviewed}
-        verified={names.verified}
-        recieved={names.recieved}
-      />
+      <FormSig />
 
       {userBillings.isPaid ? <Watermark /> : null}
     </Container>

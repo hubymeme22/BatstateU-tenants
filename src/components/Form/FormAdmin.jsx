@@ -48,12 +48,7 @@ function FormContent(props) {
         utilityTotal={utility.totalBalance}
       />
       <Note />
-      <FormSig
-        prepared='hardcoded'
-        reviewed='hardcoded'
-        verified='hardcoded'
-        recieved='hardcoded'
-      />
+      <FormSig />
 
       {userBillings.isPaid ? <Watermark /> : null}
     </Container>

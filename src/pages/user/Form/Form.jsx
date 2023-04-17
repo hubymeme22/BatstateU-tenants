@@ -3,23 +3,20 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import FormContent from '../../../components/Form/FormContent';
-import Download from './components/Download';
 
 import {
   userInitialState,
   billingInitialState,
-  adminInfo,
 } from '../../../services/format/FormState';
 import {
   getStudentBilligns,
   getStudentDetails,
-  getRGONames,
 } from '../../../services/request';
 
 function Form() {
   const [userInfo, setUserInfo] = useState(userInitialState);
   const [userBillings, setUserBillings] = useState(billingInitialState);
-  const [rgoNames, setRgoNames] = useState(adminInfo);
+
   // Fetch Student details
   React.useEffect(() => {
     const getData = async () => {
@@ -39,21 +36,10 @@ function Form() {
   }, []);
 
   // for rgo admins forms
-  React.useEffect(() => {
-    const getData = async () => {
-      const fetchedData = await getRGONames();
-      setRgoNames(fetchedData.data);
-    };
-    getData();
-  }, []);
 
   return (
     <FormContainer>
-      <FormContent
-        userInfo={userInfo}
-        userBillings={userBillings}
-        rgoNames={rgoNames}
-      />
+      <FormContent userInfo={userInfo} userBillings={userBillings} />
     </FormContainer>
   );
 }
