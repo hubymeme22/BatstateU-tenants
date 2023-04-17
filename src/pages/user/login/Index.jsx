@@ -6,7 +6,6 @@ import Bsu from './components/Bsu';
 import Modal from './components/Modal';
 import { Container, ContentContainer, Wrapper } from './components/Styled';
 import useToggle from '../../../hooks/useToggle';
-('../../../hooks/useToggle');
 import BackgroundPath from '@/assets/background.webp';
 
 import { getTokenCookie } from '../../../utils/tokenHandler';
