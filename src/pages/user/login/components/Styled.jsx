@@ -10,7 +10,6 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   background-image: url(${(props) => props.bg});
-
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

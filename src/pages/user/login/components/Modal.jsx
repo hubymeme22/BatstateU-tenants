@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ComponentContainer } from './Styled';
-import useToggle from '../../../../hooks/useToggle';
+
 import { Button } from './Styled';
-import { BsPCircle } from 'react-icons/bs';
+
 function Modal({ handleClick }) {
   return (
     <Overlayy>
@@ -680,12 +679,6 @@ const Bold = styled.p`
   color: ${(props) => (props.color === 'red' ? 'red' : 'black')};
 `;
 
-// overlay: {
-
-// },
-// content: {
-
-// },
 const Overlayy = styled.div`
   width: 100%;
   height: 100%;
@@ -703,7 +696,7 @@ const Contents = styled.div`
   overflow-x: hidden;
   padding: 20px;
   background-color: white;
-  // Centering the modal
+
   position: absolute;
   top: 50%;
   left: 50%;

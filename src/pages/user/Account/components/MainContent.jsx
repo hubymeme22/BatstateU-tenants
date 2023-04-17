@@ -87,9 +87,7 @@ function MainContent() {
 
     getData();
   }
-  function cancel() {
-    window.location.reload();
-  }
+
   return (
     <>
       <Name>
@@ -158,18 +156,6 @@ function MainContent() {
                 required
               />
             </div>
-            <div>
-              <Content>Verified</Content>
-              <Read>Nope</Read>
-            </div>
-            <div>
-              <Content>Room Number</Content>
-              <Read>ROOM 4A</Read>
-            </div>
-            <div>
-              <Content last='last'>Status</Content>
-              <Read last='last'>Happily Married</Read>
-            </div>
           </Divide>
           <Error>{message}</Error>
           <Cont>
@@ -197,7 +183,7 @@ const Container = styled.form`
   display: flex;
   align-items: center;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
 
   div {
     display: flex;

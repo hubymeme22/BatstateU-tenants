@@ -15,7 +15,6 @@ import {
 
 import { registerStudent } from '../../../../services/request';
 import { MD5 } from 'crypto-js';
-import Modal from './Modal';
 
 function Signup({ handle, handleClick, handol }) {
   const [message, setMessage] = React.useState('');
