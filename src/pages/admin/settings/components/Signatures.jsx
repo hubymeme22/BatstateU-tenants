@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { SignatureContainer } from '../styled';
 
 import {
-  fetchAsAdmin,
+  getRGONames,
   updateName,
   updateSignature,
 } from '../../../../services/request';
+
 import { showSuccessToast, showErrorToast } from '../../../../utils/toast';
 import useFile from '../../../../hooks/useFile';
 
@@ -21,7 +22,7 @@ function Signatures() {
 
   useEffect(() => {
     const getNames = async () => {
-      const { data } = await fetchAsAdmin('names');
+      const { data } = await getRGONames();
       const { prepared, reviewed, verified } = await data.names;
 
       setPreparedBy(prepared);

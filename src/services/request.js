@@ -2,39 +2,49 @@
 
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:5050/api/';
+axios.defaults.baseURL = 'http://localhost:5050/api';
 axios.defaults.withCredentials = true;
 
 import { getTokenCookie } from '../utils/tokenHandler';
 
 /* ---------- PUBLIC ---------- */
-
 export const loginAdmin = async (adminData) => {
   return await axios
-    .post('login/admin', adminData)
+    .post('/login/admin', adminData)
     .then((response) => response.data)
     .catch((error) => {});
 };
 
 export const loginStudent = async (studentData) => {
   return await axios
-    .post('login', studentData)
+    .post('/login', studentData)
     .then((response) => response.data)
     .catch((error) => {});
 };
 
 export const validateToken = async (token, permission = 'student') => {
   return axios
-    .post(`check-token/${permission}`, { token })
+    .post(`/check-token/${permission}`, { token })
     .then((response) => response.data)
     .catch((error) => {});
+};
+
+// export const prepare = axios.defaults.baseURL + '/signatures/prepare';
+// export const reviewer = axios.defaults.baseURL + '/signatures/reviewer';
+// export const verifier = axios.defaults.baseURL + '/signatures/verifier';
+
+export const getRGONames = async () => {
+  return await axios
+    .get('/names')
+    .then((response) => response)
+    .catch((error) => error);
 };
 
 /* ############### ADMIN ############### */
 
 export const fetchAsAdmin = async (route) => {
   return await axios
-    .get(`admin/${route}`)
+    .get(`/admin/${route}`)
     .then((response) => response)
     .catch((error) => {});
 };
@@ -44,7 +54,7 @@ export const fetchAsAdmin = async (route) => {
 /*----------- Dashboard page -----------*/
 export const createBilling = async (room, billingInformation) => {
   return await axios
-    .post(`admin/billing/multiple/${room}`, billingInformation)
+    .post(`/admin/billing/multiple/${room}`, billingInformation)
     .then((response) => response)
     .catch((error) => {});
 };
@@ -52,13 +62,13 @@ export const createBilling = async (room, billingInformation) => {
 /*----------- Tenants page -----------*/
 export const getUserLogs = async (username) => {
   return await axios
-    .get(`admin/logger/invoice/${username}`)
+    .get(`/admin/logger/invoice/${username}`)
     .then((response) => response.data)
     .catch((error) => error);
 };
 
 export const changeTenantRoom = async (username, room_id) => {
-  return await axios.post('admin/students/room', {
+  return await axios.post('/admin/students/room', {
     room_id,
     username,
     token: getTokenCookie(),
@@ -67,7 +77,7 @@ export const changeTenantRoom = async (username, room_id) => {
 
 export const markAsPaid = async (username) => {
   return await axios
-    .put(`admin/students/pay/${username}`)
+    .put(`/admin/students/pay/${username}`)
     .then((response) => response)
     .catch((error) => {});
 };
@@ -75,21 +85,21 @@ export const markAsPaid = async (username) => {
 /*----------- User page -----------*/
 export const verifyStudent = async (username) => {
   return await axios
-    .put(`admin/students/verify/${username}`)
+    .put(`/admin/students/verify/${username}`)
     .then((response) => response)
     .catch((error) => {});
 };
 
 export const unverifyStudent = async (username) => {
   return await axios
-    .put(`admin/students/unverify/${username}`)
+    .put(`/admin/students/unverify/${username}`)
     .then((response) => response)
     .catch((error) => {});
 };
 
 export const deleteAccount = async (roomID, username) => {
   return await axios
-    .delete(`admin/billing/${roomID}/${username}`)
+    .delete(`/admin/billing/${roomID}/${username}`)
     .then((response) => response)
     .catch((error) => {});
 };
@@ -151,12 +161,10 @@ export const updateName = async (wholeName, adminRole) => {
       break;
   }
 
-  console.log(role, wholeName);
-
   return await axios
-    .post(`/admin/names/${role}`, { wholeName, token: getTokenCookie() })
+    .post(`/names/${role}`, { wholeName, token: getTokenCookie() })
     .then((response) => response)
-    .catch((error) => error);
+    .catch((error) => {});
 };
 
 export const updateSignature = async (img, role) => {
@@ -165,13 +173,13 @@ export const updateSignature = async (img, role) => {
   formData.append('img', img);
 
   return await axios
-    .post(`admin/signatures/${role}`, formData, {
+    .post(`/signatures/${role}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     })
     .then((response) => response)
-    .catch((error) => error);
+    .catch((error) => {});
 };
 
 /* ############### STUDENTS ############### */
@@ -192,21 +200,21 @@ export const getStudentBilligns = async () => {
 
 export const registerStudent = async (data) => {
   return await axios
-    .post('register/student', data)
+    .post('/register/student', data)
     .then((response) => response)
     .catch((error) => {});
 };
 
 export const updateAccountInfo = async (data) => {
   return await axios
-    .post('student/update-info', data)
+    .post('/student/update-info', data)
     .then((response) => response)
     .catch((error) => {});
 };
 
 export const getStudentAnnouncements = async () => {
   return await axios
-    .get('student/announcement')
+    .get('/student/announcement')
     .then((response) => response)
     .catch((error) => {});
 };
