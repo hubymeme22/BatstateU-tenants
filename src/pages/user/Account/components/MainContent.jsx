@@ -6,7 +6,7 @@ import {
   getStudentDetails,
   updateAccountInfo,
 } from '../../../../services/request';
-
+import { MD5 } from 'crypto-js';
 function MainContent() {
   const [firstName, firstNameSet] = useState('');
   const [lastName, lastNameSet] = useState('');
@@ -64,14 +64,12 @@ function MainContent() {
         firstname: firstName,
         lastname: lastName,
         contact: contact,
-        password: password,
+        password: MD5(password).toString(),
       };
 
       const response = await updateAccountInfo(userData);
 
-      return alert(
-        'thankyou for filling up please wait for the admin confirmation!'
-      );
+      return alert('Password has been Successfully Changed');
     }
   };
 
@@ -135,7 +133,7 @@ function MainContent() {
               />
             </Divi>
             <Divi>
-              <Content>Password</Content>
+              <Content> Change Password</Content>
               <Contents
                 type='password'
                 placeholder='Click to change Password'
