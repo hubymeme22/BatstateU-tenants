@@ -98,11 +98,11 @@ function MainContent() {
       ) : (
         <Container onSubmit={handleSubmit}>
           <Divide>
-            <div>
+            <Divi>
               <Content>SR-Code</Content>
               <Read>{extracted}</Read>
-            </div>
-            <div>
+            </Divi>
+            <Divi>
               <Content>First Name</Content>
               <Contents
                 type='text'
@@ -112,8 +112,8 @@ function MainContent() {
                 onChange={(e) => firstNameSet(e.target.value)}
                 required
               />
-            </div>
-            <div>
+            </Divi>
+            <Divi>
               <Content>Last Name</Content>
               <Contents
                 type='text'
@@ -123,8 +123,8 @@ function MainContent() {
                 onChange={(e) => lastNameSet(e.target.value)}
                 required
               />
-            </div>
-            <div>
+            </Divi>
+            <Divi>
               <Content>Contact Number</Content>
               <Contents
                 placeholder='Click to edit'
@@ -133,8 +133,8 @@ function MainContent() {
                 onChange={(e) => setContact(e.target.value)}
                 required
               />
-            </div>
-            <div>
+            </Divi>
+            <Divi>
               <Content>Password</Content>
               <Contents
                 type='password'
@@ -144,8 +144,8 @@ function MainContent() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-            </div>
-            <div>
+            </Divi>
+            <Divi>
               <Content>Confirm Password</Content>
               <Contents
                 type='password'
@@ -155,7 +155,7 @@ function MainContent() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
-            </div>
+            </Divi>
           </Divide>
           <Error>{message}</Error>
           <Cont>
@@ -175,7 +175,10 @@ const Error = styled.p`
   font-size: 12px;
   color: red;
 `;
-
+const Divi = styled.div`
+display:flex;
+justify-content:center;
+align-items-center;`;
 const Container = styled.form`
   height: 100%;
   width: 100%;
@@ -194,7 +197,7 @@ const Content = styled.div`
   border-bottom: ${(props) => (props.last === 'last' ? 'none' : '1px solid')};
   border-right: 1px solid;
   padding: 3px;
-  width: 40%;
+  width: 50%;
 `;
 
 const Contents = styled.input`

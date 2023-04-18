@@ -12,6 +12,7 @@ import {
   getStudentBilligns,
   getStudentDetails,
 } from '../../../services/request';
+import Download from './components/Download';
 
 function Form() {
   const [userInfo, setUserInfo] = useState(userInitialState);
@@ -40,6 +41,7 @@ function Form() {
   return (
     <FormContainer>
       <FormContent userInfo={userInfo} userBillings={userBillings} />
+      <Download />
     </FormContainer>
   );
 }
