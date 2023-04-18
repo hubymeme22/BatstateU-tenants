@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Loader from '../../../../components/Loader';
-
+import { getTokenCookie } from '../../../../utils/tokenHandler';
 import {
   getStudentDetails,
   updateAccountInfo,
@@ -67,7 +67,7 @@ function MainContent() {
         password: password,
       };
 
-      const response = await updateAccountInfo(data);
+      const response = await updateAccountInfo(userData);
 
       return alert(
         'thankyou for filling up please wait for the admin confirmation!'
