@@ -175,10 +175,7 @@ const Error = styled.p`
   font-size: 12px;
   color: red;
 `;
-const Divi = styled.div`
-display:flex;
-justify-content:center;
-align-items-center;`;
+
 const Container = styled.form`
   height: 100%;
   width: 100%;
@@ -238,4 +235,8 @@ const Divide = styled.div`
 const Name = styled.h2`
   font-weight: bold;
   text-transform: uppercase;
+`;
+const Divi = styled.div`
+  display: flex;
+  justify-content: center;
 `;

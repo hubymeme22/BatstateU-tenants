@@ -23,3 +23,8 @@ export const AccContainer = styled.div`
   align-items: center;
   flex-direction: column;
 `;
+const Divi = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
