@@ -12,7 +12,7 @@ function FormSig() {
     };
     getData();
   }, []);
-  console.log(rgo);
+
   return (
     <Table>
       <Blocks>
