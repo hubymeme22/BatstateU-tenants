@@ -229,7 +229,6 @@ export const forgotPass = async (email) => {
 
 export const enterPin = async (pin) => {
   const retrievedCode = localStorage.getItem('code');
-  console.log(pin, retrievedCode);
 
   return await axios
     .post(`/forgotpass/pin/${retrievedCode}`, { pin })

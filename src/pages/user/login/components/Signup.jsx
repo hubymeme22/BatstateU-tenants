@@ -91,7 +91,7 @@ function Signup({ handle, handleClick }) {
         password: MD5(value.password).toString(),
       });
 
-      alert('thankyou for filling up please wait for the admin confirmation!');
+      alert('YOU HAVE SUCCESSFULLY CREATED YOUR ACCOUNT!');
       return handle();
     }
   };
