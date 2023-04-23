@@ -15,7 +15,7 @@ const appIP = process.env.IP;
 const appPort = process.env.PORT;
 const mongodbURI = process.env.MONGODB_URI;
 const corsOptions = {
-  origin: process.env.ACCEPTED_URIS,
+  origin: process.env.ACCEPTED_URIS.split(','),
   optionsSuccessStatus: 200,
   credentials: true,
 };
