@@ -15,13 +15,13 @@ export const AuthProvider = ({ children }) => {
       username,
       password,
     };
-
     // Do login post request based on type
     if (type == 'admin') {
       userData = {
         email: username,
         password,
       };
+      //AFTER VALIDATING, POST REQUEST ON USER/ADMIN
       response = await loginAdmin(userData);
     } else {
       response = await loginStudent(userData);

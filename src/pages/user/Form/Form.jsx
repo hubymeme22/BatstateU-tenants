@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import FormContent from '../../../components/Form/FormContent';
-import html2pdf from 'html2pdf.js';
+
 import {
   userInitialState,
   billingInitialState,
@@ -11,26 +11,12 @@ import {
   getStudentBilligns,
   getStudentDetails,
 } from '../../../services/request';
+import Download from './components/Download';
 
 function Form() {
   const [userInfo, setUserInfo] = useState(userInitialState);
   const [userBillings, setUserBillings] = useState(billingInitialState);
-  const generatePDF = () => {
-    // Get the component node
-    const componentNode = document.querySelector('#component');
 
-    // Set the PDF options
-    const pdfOptions = {
-      margin: 0,
-      filename: 'my-file.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 5 },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' },
-    };
-
-    // Generate the PDF file
-    html2pdf().set(pdfOptions).from(componentNode).save();
-  };
   // Fetch Student details
   React.useEffect(() => {
     const getData = async () => {
@@ -56,9 +42,7 @@ function Form() {
       <div id='component'>
         <FormContent userInfo={userInfo} userBillings={userBillings} />
       </div>
-      <Con>
-        <Button onClick={generatePDF}>Download PDF</Button>
-      </Con>
+      <Download />
     </FormContainer>
   );
 }
@@ -77,16 +61,4 @@ export const FormContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-`;
-
-const Button = styled.button`
-  padding: 2px;
-  border-radius: 5px;
-  background-color: #651b1b;
-  color: white;
-`;
-const Con = styled.div`
-  width: 90%;
-  display: flex;
-  justify-content: flex-end;
 `;

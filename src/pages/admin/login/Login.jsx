@@ -48,7 +48,7 @@ function AdminLogin() {
       setErrorMsg('All fields are required');
       return;
     }
-
+    //AUTH.LOGIN IS A FUNCTION THAT CONTAINS POST REQUEST OF THE LOGIN
     const credential = await auth.login(username, password, 'admin');
 
     // Destruct credential object
@@ -71,13 +71,13 @@ function AdminLogin() {
         <Title>ADMIN LOG IN</Title>
 
         <Field>
-          <Label htmlFor="username">Username</Label>
+          <Label htmlFor='username'>Username</Label>
 
           <div>
             <Input
-              type="text"
-              id="username"
-              placeholder="Username"
+              type='text'
+              id='username'
+              placeholder='Username'
               {...usernameHandler}
             />
             <FaUserCircle />
@@ -85,17 +85,17 @@ function AdminLogin() {
         </Field>
 
         <Field>
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor='password'>Password</Label>
 
           <div>
             <Input
               type={viewPassword ? 'text' : 'password'}
-              id="password"
-              placeholder="Password"
+              id='password'
+              placeholder='Password'
               {...passwordHandler}
             />
 
-            <ViewButton type="button" onClick={toggleViewPassword}>
+            <ViewButton type='button' onClick={toggleViewPassword}>
               {/*  */}
               {viewPassword ? <FaEyeSlash /> : <FaEye />}
             </ViewButton>
