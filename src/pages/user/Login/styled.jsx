@@ -1,15 +1,17 @@
 import styled from 'styled-components';
 import BgImgPath from '../../../assets/background.webp';
 
-import ReactModal from 'react-modal';
-
 export const Container = styled.div`
   height: 100vh;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url(${BgImgPath});
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
+    url(${BgImgPath});
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -22,10 +24,10 @@ export const ContentContainer = styled.div`
   background-color: #651b1b;
   display: flex;
 
-  transition: all 0.6s ease-in-out;
+  transition: transform 0.6s ease-in-out;
 
   & > div:first-child {
-    transition: all 0.6s ease-in-out;
+    transition: transform 0.6s ease-in-out;
     transform: ${({ isLeftAnimated }) =>
       isLeftAnimated ? 'translateX(0)' : 'translateX(100%)'};
 
@@ -35,7 +37,7 @@ export const ContentContainer = styled.div`
   }
 
   & > div:last-child {
-    transition: all 0.6s ease-in-out;
+    transition: transform 0.6s ease-in-out;
     transform: ${({ isLeftAnimated }) =>
       isLeftAnimated ? 'translateX(0)' : 'translateX(-100%)'};
 
