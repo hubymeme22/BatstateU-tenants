@@ -1,8 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-
-import { FaUserCircle } from 'react-icons/fa';
-import { BsKey } from 'react-icons/bs';
 
 import {
   Field,
@@ -13,12 +10,15 @@ import {
   Message,
 } from './Styled';
 
+import { FaUserCircle } from 'react-icons/fa';
+import { BsKey } from 'react-icons/bs';
+
 import { registerStudent } from '../../../../services/request';
 import { MD5 } from 'crypto-js';
 
 function SignupForm({ handle, handleClick }) {
-  const [message, setMessage] = React.useState('');
-  const [value, setValue] = React.useState({
+  const [message, setMessage] = useState('');
+  const [value, setValue] = useState({
     name: {
       first: '',
       middle: '',
@@ -279,11 +279,12 @@ const Register = styled.div`
 `;
 
 const HaveAcc = styled.p`
-  display: inline;
+  color: white;
   width: auto;
-  cursor: pointer;
-  font-size: 15px;
+  display: inline;
   text-decoration: underline;
+  font-size: 15px;
+  cursor: pointer;
 `;
 
 const Textinline = styled(HaveAcc)`

@@ -31,6 +31,7 @@ export const Left = styled.div`
   background-color: inherit;
   border-radius: 25px;
   width: 50%;
+  padding: 1rem;
 
   @media only screen and (max-width: 768px) {
     width: 100%;
