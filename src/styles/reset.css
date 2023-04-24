@@ -20,6 +20,14 @@
   font-family: 'Poppins', sans-serif;
 }
 
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: bold;
+}
+
 /* min body height */
 
 body {

@@ -16,7 +16,7 @@ import { BsKey } from 'react-icons/bs';
 import { registerStudent } from '../../../../services/request';
 import { MD5 } from 'crypto-js';
 
-function SignupForm({ handle, handleClick }) {
+function SignupForm({ handle, showTerms }) {
   const [message, setMessage] = useState('');
   const [value, setValue] = useState({
     name: {
@@ -216,7 +216,7 @@ function SignupForm({ handle, handleClick }) {
           />
           <label htmlFor="terms">
             <Textinline> I have read the</Textinline>{' '}
-            <HaveAcc onClick={handleClick}>
+            <HaveAcc onClick={showTerms}>
               Terms of Use & Privacy Policy{' '}
             </HaveAcc>
           </label>
