@@ -10,12 +10,12 @@ import { Left, Right } from './styled';
 import LoginForm from './components/Login';
 import SignupForm from './components/Signup';
 
-import useToggle from '../../../hooks/useToggle';
 import { getTokenCookie } from '../../../utils/tokenHandler';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
-  const [isOnLogin, toggleIsOnLogin] = useToggle(true);
+  const [isLeftAnimated, setIsLeftAnimated] = useState(true);
+  const [showLogin, setShowLogin] = useState(true);
   const navigate = useNavigate();
 
   // Redirect to main page if already logged in
@@ -27,14 +27,21 @@ function Login() {
     }
   }, []);
 
+  const toggleShowLogin = () => {
+    setIsLeftAnimated(!isLeftAnimated);
+    setTimeout(() => {
+      setShowLogin(!showLogin);
+    }, 300);
+  };
+
   return (
     <Container>
-      <ContentContainer isOnLogin={isOnLogin}>
+      <ContentContainer isLeftAnimated={isLeftAnimated}>
         <Left>
-          {isOnLogin ? (
-            <LoginForm handle={toggleIsOnLogin} />
+          {showLogin ? (
+            <LoginForm handle={toggleShowLogin} />
           ) : (
-            <SignupForm handle={toggleIsOnLogin} />
+            <SignupForm handle={toggleShowLogin} />
           )}
         </Left>
         <Right>

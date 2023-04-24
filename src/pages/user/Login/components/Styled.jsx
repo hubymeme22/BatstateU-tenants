@@ -97,6 +97,7 @@ export const Form = styled.form`
   flex-direction: column;
   padding: 5px;
   gap: 1.25rem;
+  color: white;
 `;
 
 export const ButtonContainer = styled.div`
