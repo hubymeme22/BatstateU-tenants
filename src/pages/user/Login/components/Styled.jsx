@@ -3,68 +3,6 @@ import styled from 'styled-components';
 import { AiOutlineMail } from 'react-icons/ai';
 import { Link as LinkTag } from 'react-router-dom';
 
-export const Container = styled.div`
-  height: 100vh;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: url(${(props) => props.bg});
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-`;
-
-export const ContentContainer = styled.div`
-  @media screen and (max-width: 767px) {
-    width: 90%;
-  }
-
-  border-radius: 25px;
-  height: 550px;
-  width: 800px;
-  background-color: #651b1b;
-  display: flex;
-`;
-
-export const Wrapper = styled.div`
-  @media screen and (max-width: 767px) {
-    transition: all 0.8s ease-in-out;
-    width: 100%;
-    z-index: 1;
-    ${(props) =>
-      props.switch !== true
-        ? `
-    transform: rotateY(360deg);
-    opacity: 1;
-  `
-        : null}
-  }
-
-  width: 50%;
-  height: 100%;
-  background-color: #651b1b;
-  border-radius: 25px;
-
-  z-index: 1;
-  ${(props) =>
-    props.switch !== true
-      ? `
-    transform: translateX(100%);
-  
-    opacity: 1;
-  `
-      : null}
-`;
-
-export const ComponentContainer = styled.div`
-  transition: all 0.6s ease-in-out;
-  width: 100%;
-  margin: 0;
-  padding: 30px;
-  color: white;
-`;
-
 export const Title = styled.h1`
   font-family: 'Staatliches';
   color: white;

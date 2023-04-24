@@ -1,17 +1,15 @@
-import Index from '../pages/user/login/Index';
+import Login from '../pages/user/Login';
 
 import Main from '../layouts/main';
 import Notification from '../pages/user/Notification/Notification';
 import Form from '../pages/user/Form/Form';
 import Account from '../pages/user/Account/Account';
 import Forgot from '../pages/user/ForgotPass/Forgot';
-import PinInput from '../pages/user/ForgotPass/components/PinInput';
-import ResetPassword from '../pages/user/ForgotPass/components/ResetPassword';
 
 export const userRoutes = [
   {
     path: '/login',
-    element: <Index />,
+    element: <Login />,
   },
   {
     path: '/forgotpass',

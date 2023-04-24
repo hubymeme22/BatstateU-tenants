@@ -16,7 +16,7 @@ import {
 import { registerStudent } from '../../../../services/request';
 import { MD5 } from 'crypto-js';
 
-function Signup({ handle, handleClick }) {
+function SignupForm({ handle, handleClick }) {
   const [message, setMessage] = React.useState('');
   const [value, setValue] = React.useState({
     name: {
@@ -100,151 +100,137 @@ function Signup({ handle, handleClick }) {
   }
 
   return (
-    <ComponentContainer>
-      <Form onSubmit={handleSubmit}>
-        <Title> Sign up</Title>
-        <Field>
-          <Namess>
-            <div>
-              <Input
-                type='text'
-                placeholder='FIRST NAME:'
-                value={value.name.first}
-                name='first'
-                onChange={nameAdd}
-                required
-              />
-              <UserIcon />
-            </div>
-            <div>
-              <Input
-                type='text'
-                placeholder='MID NAME:'
-                value={value.name.middle}
-                name='middle'
-                onChange={nameAdd}
-              />
-              <UserIcon />
-            </div>
-            <div>
-              <Input
-                type='text'
-                placeholder='LAST NAME:'
-                value={value.name.last}
-                name='last'
-                onChange={nameAdd}
-                required
-              />
-              <UserIcon />
-            </div>
-          </Namess>
-        </Field>
-        <Field>
+    <Form onSubmit={handleSubmit}>
+      <Title> Sign up</Title>
+      <Field>
+        <Namess>
           <div>
             <Input
-              type='email'
-              placeholder='EMAIL: eg. juancruz@gmail.com'
-              value={value.email}
-              name='email'
-              onChange={textAdd}
+              type="text"
+              placeholder="FIRST NAME:"
+              value={value.name.first}
+              name="first"
+              onChange={nameAdd}
               required
             />
-            <EmailIcon />
+            <UserIcon />
           </div>
-        </Field>
-        <Field>
           <div>
             <Input
-              type='number'
-              placeholder='CONTACT NUMBER: eg. 09735678935'
-              value={value.contact}
-              name='contact'
-              onChange={textAdd}
-              required
+              type="text"
+              placeholder="MID NAME:"
+              value={value.name.middle}
+              name="middle"
+              onChange={nameAdd}
             />
-            <KeyIcon />
+            <UserIcon />
           </div>
-        </Field>
-        <Field>
           <div>
             <Input
-              type='text'
-              placeholder='SR-CODE: eg. 20-06113'
-              value={value.username}
-              name='username'
-              onChange={textAdd}
+              type="text"
+              placeholder="LAST NAME:"
+              value={value.name.last}
+              name="last"
+              onChange={nameAdd}
               required
             />
-            <SrIcon />
+            <UserIcon />
           </div>
-        </Field>
+        </Namess>
+      </Field>
+      <Field>
+        <div>
+          <Input
+            type="email"
+            placeholder="EMAIL: eg. juancruz@gmail.com"
+            value={value.email}
+            name="email"
+            onChange={textAdd}
+            required
+          />
+          <EmailIcon />
+        </div>
+      </Field>
+      <Field>
+        <div>
+          <Input
+            type="number"
+            placeholder="CONTACT NUMBER: eg. 09735678935"
+            value={value.contact}
+            name="contact"
+            onChange={textAdd}
+            required
+          />
+          <KeyIcon />
+        </div>
+      </Field>
+      <Field>
+        <div>
+          <Input
+            type="text"
+            placeholder="SR-CODE: eg. 20-06113"
+            value={value.username}
+            name="username"
+            onChange={textAdd}
+            required
+          />
+          <SrIcon />
+        </div>
+      </Field>
 
-        <Field>
-          <div>
-            <Input
-              type='password'
-              placeholder='PASSWORD: atleast 8 characters'
-              value={value.password}
-              name='password'
-              onChange={textAdd}
-              required
-            />
-            <KeyIcon />
-          </div>
-        </Field>
-        <Field>
-          <div>
-            <Input
-              type='password'
-              placeholder='CONFIRM PASSWORD: atleast 8 characters'
-              value={value.confirmPassword}
-              name='confirmPassword'
-              onChange={textAdd}
-              required
-            />
-            <KeyIcon />
-          </div>
-        </Field>
-        <Register>
-          <Checkbox>
-            <input
-              type='checkbox'
-              id='terms'
-              value={value.terms}
-              name='terms'
-              onChange={textAdd}
-              required
-            />
-            <label htmlFor='terms'>
-              <Textinline> I have read the</Textinline>{' '}
-              <HaveAcc onClick={handleClick}>
-                Terms of Use & Privacy Policy{' '}
-              </HaveAcc>
-            </label>
-          </Checkbox>
-          <Message> {message}</Message>
-          <HaveAcc onClick={Backbutton}>I already Have an account</HaveAcc>
-          <SignInButton>REGISTER</SignInButton>
-        </Register>
-      </Form>
-    </ComponentContainer>
+      <Field>
+        <div>
+          <Input
+            type="password"
+            placeholder="PASSWORD: atleast 8 characters"
+            value={value.password}
+            name="password"
+            onChange={textAdd}
+            required
+          />
+          <KeyIcon />
+        </div>
+      </Field>
+      <Field>
+        <div>
+          <Input
+            type="password"
+            placeholder="CONFIRM PASSWORD: atleast 8 characters"
+            value={value.confirmPassword}
+            name="confirmPassword"
+            onChange={textAdd}
+            required
+          />
+          <KeyIcon />
+        </div>
+      </Field>
+      <Register>
+        <Checkbox>
+          <input
+            type="checkbox"
+            id="terms"
+            value={value.terms}
+            name="terms"
+            onChange={textAdd}
+            required
+          />
+          <label htmlFor="terms">
+            <Textinline> I have read the</Textinline>{' '}
+            <HaveAcc onClick={handleClick}>
+              Terms of Use & Privacy Policy{' '}
+            </HaveAcc>
+          </label>
+        </Checkbox>
+        <Message> {message}</Message>
+        <HaveAcc onClick={Backbutton}>I already Have an account</HaveAcc>
+        <SignInButton>REGISTER</SignInButton>
+      </Register>
+    </Form>
   );
 }
 
-export default Signup;
+export default SignupForm;
 
-const ComponentContainer = styled.div`
-  transition: all 0.6s ease-in-out;
-  margin: 0;
-  padding: 15px;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 100%;
-  gap: 50px;
-`;
 const Form = styled.form`
   display: flex;
   justify-content: center;
@@ -252,6 +238,7 @@ const Form = styled.form`
   padding: 7px;
   gap: 12px;
 `;
+
 const Title = styled.h1`
   font-family: 'Staatliches';
   color: white;
@@ -260,31 +247,37 @@ const Title = styled.h1`
 `;
 
 const Input = styled.input`
-  @media screen and (max-width: 767px) {
-    padding: 10px;
-  }
   width: 100%;
   padding: 13px;
   border-radius: 5px;
   border: 0;
   font-size: 12px;
   padding-right: 1.7rem;
+
+  @media screen and (max-width: 767px) {
+    padding: 10px;
+  }
 `;
+
 const UserIcon = styled(FaUserCircle)`
   font-size: 100px;
-  width: 17px; ;
+  width: 17px;
 `;
+
 const SrIcon = styled(FaUserCircle)`
   font-size: 100px;
 `;
+
 const KeyIcon = styled(BsKey)`
   transform: rotate(90deg);
 `;
+
 const Register = styled.div`
   gap: 8px;
   display: flex;
   flex-direction: column;
 `;
+
 const HaveAcc = styled.p`
   display: inline;
   width: auto;
@@ -292,9 +285,11 @@ const HaveAcc = styled.p`
   font-size: 15px;
   text-decoration: underline;
 `;
+
 const Textinline = styled(HaveAcc)`
+  text-decoration: none;
+
   @media screen and (max-width: 767px) {
     font-size: 12px;
   }
-  text-decoration: none;
 `;
