@@ -7,7 +7,7 @@ function Utility(props) {
     <Grid>
       <Border>
         <FChild>BALANCE FROM PREVIOUS BILLING</FChild>
-        <SChild>Php: {props.prev}</SChild>
+        <SChild>Php: {props.prev.toFixed(2)}</SChild>
       </Border>
       <Border>
         <Divider>CURRENT ADD</Divider>{' '}
@@ -16,7 +16,7 @@ function Utility(props) {
           <Divider>DUE DATE</Divider>
         </SChild>
         <SChild>
-          <Divider first="first"> ₱ {props.amount}</Divider>
+          <Divider first="first"> ₱ {props.amount.toFixed(2)}</Divider>
           <Divider>
             {' '}
             {props.month}/{props.day}/{props.year}
@@ -25,7 +25,7 @@ function Utility(props) {
       </Border>
       <Border last="last">
         <TChild>AMOUNT DUE</TChild>
-        <FChild top="top"> ₱ {props.total}</FChild>
+        <FChild top="top"> ₱ {props.total.toFixed(2)}</FChild>
       </Border>
     </Grid>
   );

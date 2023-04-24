@@ -7,7 +7,7 @@ function AmountDue(props) {
   return (
     <Blocks>
       <SChild>TOTAL AMOUNT DUE: </SChild>
-      <Child>₱ {spaceTotal + utilityTotal}</Child>
+      <Child>₱ {(spaceTotal + utilityTotal).toFixed(2)}</Child>
     </Blocks>
   );
 }

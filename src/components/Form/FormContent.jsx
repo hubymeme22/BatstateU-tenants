@@ -14,7 +14,7 @@ import Note from './contents/8Note';
 import FormSig from './contents/9FormSig';
 
 function FormContent(props) {
-  const { userInfo, userBillings, rgoNames } = props;
+  const { userInfo, userBillings } = props;
 
   // Destruct user info and billings
   const { first, last } = userInfo.details.name;
@@ -23,7 +23,7 @@ function FormContent(props) {
   const { roomRentalFee, space, utility, dueDate } = userBillings;
 
   return (
-    <Container Id='userForm'>
+    <Container Id="userForm">
       <Header />
       <ControlNum />
       <TenantInfo name={`${first} ${last}`} loc={roomID} rent={roomRentalFee} />
