@@ -102,8 +102,14 @@ const Label = styled.div`
 `;
 const Pirma = styled.div`
   position: absolute;
-  width: 70%;
-  top: -30px; ;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  top: -10px;
+
+  img {
+    width: 30%;
+  }
 `;
 const Line = styled.hr`
   border-top: 1px solid black;
