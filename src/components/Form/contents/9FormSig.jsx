@@ -105,10 +105,11 @@ const Pirma = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+
   top: -10px;
 
   img {
-    width: 30%;
+    width: 25%;
   }
 `;
 const Line = styled.hr`
