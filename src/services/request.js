@@ -40,6 +40,14 @@ export const getRGONames = async () => {
     .catch((error) => error);
 };
 
+export const getBillingHeader = async() => {
+  return await axios
+    // .get('/billing/header')
+    .get('/billing/header')
+    .then((response) => response)
+    .catch((error) => error);
+}
+
 /*############### ADMIN ############### */
 
 export const fetchAsAdmin = async (route) => {
@@ -182,6 +190,41 @@ export const updateSignature = async (img, role) => {
     .catch((error) => {});
 };
 
+
+export const updateBillingHeader = async (updateData, headerData) => {
+  let data = '';
+  switch (headerData) {
+    case 'referenceNumber':
+      data = 'referenceNumber';
+      break;
+    case 'effectivityDate':
+      data = 'effectivityDate';
+      break;
+    case 'revision':
+      data = 'revision';
+      break;
+  }
+
+  return await axios
+    .post(`/billing/header/${data}`, {updateData, token: getTokenCookie() })
+    .then((response) => response)
+    .catch((error) => {});
+};
+
+export const updateBillingLogo = async (img) => {
+  const formData = new FormData();
+
+  formData.append('img', img);
+
+  return await axios
+    .post(`/logo/`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    .then((response) => response)
+    .catch((error) => {});
+};
 /* ############### STUDENTS ############### */
 
 export const getStudentDetails = async () => {

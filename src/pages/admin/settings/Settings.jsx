@@ -6,6 +6,7 @@ import { Container } from './styled';
 import Signatures from './components/Signatures';
 import Left from './components/Left';
 import Right from './components/Right';
+import BillingHeader from './components/BillingHeader';
 
 function Settings() {
   return (
@@ -14,6 +15,7 @@ function Settings() {
         <Left />
         <Right />
         <Signatures />
+        <BillingHeader/>
       </Container>
     </>
   );

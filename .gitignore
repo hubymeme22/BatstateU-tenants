@@ -28,3 +28,5 @@ server/api/routes/sample.js
 
 # build 
 /server/static
+
+*.txt

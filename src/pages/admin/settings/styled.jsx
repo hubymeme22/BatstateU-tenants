@@ -41,6 +41,30 @@ export const SignatureContainer = styled(Common)`
   }
 `;
 
+export const BillingHeaderContainer = styled(Common)`
+grid-column: 1 / 3;
+
+form {
+  display: grid;
+  grid-template-columns: 200px 1fr 1fr 100px;
+  column-gap: 0.50em;
+
+
+  input {
+    padding: 0.25em;
+    
+  }
+
+  button{
+    justify-self: start;
+    width: 10em;
+    // background-color: ${theme.lightRed}
+    
+
+  }
+}
+`;
+
 export const Column3 = styled.div`
   display: grid;
   grid-template-columns: 1fr repeat(2, 2fr);
