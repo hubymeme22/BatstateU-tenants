@@ -45,4 +45,16 @@ getConstants.get('/paymentValues', getRequestPermission, (req, res) => {
     });
 });
 
+getConstants.get('/header/referenceNumber', getRequestPermission, (req, res) => {
+    res.json({ ref: sc.refNumber, error: '' });
+});
+
+getConstants.put('/header/effectivityDate', getRequestPermission, (req, res) => {
+    res.json({ effectivityDate: sc.effectivityDate, error: '' });
+});
+
+getConstants.put('/header/revision', getRequestPermission, (req, res) => {
+    res.json({ revision: sc.revNumber, error: '' });
+});
+
 export default getConstants;
