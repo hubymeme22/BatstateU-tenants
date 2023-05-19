@@ -88,4 +88,28 @@ setConstants.put('/update/roomBill/canteen/:value', getRequestPermission, (req, 
     }
 });
 
+// updates the reference number
+setConstants.put('/header/referenceNumber', getRequestPermission, (req, res) => {
+    const { updateData } = req.body;
+    sc.refNumber = updateData;
+
+    res.json({ updated: true, error: '' });
+});
+
+// updates the effectivity date
+setConstants.put('/header/effectivityDate', getRequestPermission, (req, res) => {
+    const { updateData } = req.body;
+    sc.effectivityDate = updateData;
+
+    res.json({ updated: true, error: '' });
+});
+
+// updates the revision date
+setConstants.put('/header/revision', getRequestPermission, (req, res) => {
+    const { updateData } = req.body;
+    sc.revNumber = updateData;
+
+    res.json({ updated: true, error: '' });
+});
+
 export default setConstants;

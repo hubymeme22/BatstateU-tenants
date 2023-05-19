@@ -9,6 +9,10 @@ export let roomDormPayment = 1000;
 export let waterCanteenPayment = 100;
 export let roomCanteenPayment = 1000;
 
+export let refNumber = 'BatStateU-Fo-RGO-13';
+export let effectivityDate = 'February 06, 2023';
+export let revNumber = '01';
+
 // contains name of personels
 export const names = {
     'prepared': '',
